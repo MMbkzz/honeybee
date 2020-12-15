@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 /**
  * 消息中心表<公告 / 预警>
  * <p>
- * dcp_message
+ * message
  */
 public class Message implements Serializable {
 

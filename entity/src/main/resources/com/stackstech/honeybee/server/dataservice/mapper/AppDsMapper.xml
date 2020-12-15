@@ -17,7 +17,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.dataservice.model.AppDs">
-        INSERT INTO dcp_app_ds
+        INSERT INTO dgp_app_ds
         (app_id,
         dataservice_id,
         seq_num,
@@ -39,29 +39,29 @@
 
     <!--根据id编号删除数据服务APP授权信息-->
     <delete id="delete" parameterType="java.lang.Long">
-        delete from dcp_app_ds
+        delete from dgp_app_ds
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
     <delete id="deleteByServiceIdAndAppId" parameterType="java.lang.String">
-        delete from dcp_app_ds
+        delete from dgp_app_ds
         where dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
         and app_id = #{appId,jdbcType=VARCHAR}
     </delete>
 
     <delete id="deleteByServiceId" parameterType="java.lang.String">
-        delete from dcp_app_ds
+        delete from dgp_app_ds
         where dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
     </delete>
 
     <delete id="deleteByAppId" parameterType="java.lang.String">
-        delete from dcp_app_ds
+        delete from dgp_app_ds
         where app_id = #{appId,jdbcType=VARCHAR}
     </delete>
 
     <!--编辑APP授权字段-->
     <update id="update" parameterType="com.stackstech.honeybee.server.dataservice.model.AppDs">
-        update dcp_app_ds
+        update dgp_app_ds
         <set>
             <if test="appId != null and appId != ''">
                 app_id = #{appId,jdbcType=VARCHAR},
@@ -91,7 +91,7 @@
 
     <!--根据条件查询所有数据服务APP授权信息-->
     <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_app_ds t
+        select * from dgp_app_ds t
         <where>
             <if test="appId != null and appId != ''">
                 app_id = #{appId,jdbcType=VARCHAR}
@@ -105,25 +105,25 @@
 
     <!--根据id查询所有数据服务APP授权信息-->
     <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        select * from dcp_app_ds t
+        select * from dgp_app_ds t
         where t.id = #{id,jdbcType=BIGINT}
     </select>
 
     <!--根据serviceId查询所有数据服务APP授权信息-->
     <select id="queryByServiceId" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_app_ds t
+        select * from dgp_app_ds t
         where t.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
     </select>
 
     <!--根据appid查询所有数据服务APP授权信息-->
     <select id="queryByAppId" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_app_ds t
+        select * from dgp_app_ds t
         where t.app_id = #{appId,jdbcType=VARCHAR}
     </select>
 
     <!--根据id查询所有数据服务APP授权字段信息-->
     <select id="queryByServiceIdAndAppId" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_app_ds t
+        select * from dgp_app_ds t
         where
         t.app_id = #{appId,jdbcType=VARCHAR}
         and t.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
@@ -132,7 +132,7 @@
     <!--根据token查询数据-->
     <select id="queryByToken" resultMap="BaseResultMap"
             parameterType="com.stackstech.honeybee.server.dataservice.model.AppDs">
-        select * from dcp_app_ds
+        select * from dgp_app_ds
         <where>
             <if test="appId != null and appId != ''">
                 app_id = #{appId,jdbcType=VARCHAR}

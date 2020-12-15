@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 /**
  * api访问日志表
  * <p>
- * dcp_access_log
+ * access_log
  */
 public class AccessLog {
 
@@ -15,12 +15,12 @@ public class AccessLog {
     private Integer id;
 
     /**
-     * 关联dcp_app主键ID ，请求用户
+     * 关联app主键ID ，请求用户
      */
     private String appId;
 
     /**
-     * 关联dcp_data_service 主键id
+     * 关联data_service 主键id
      */
     private String dataServiceId;
 

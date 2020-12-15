@@ -5,19 +5,19 @@ import java.sql.Timestamp;
 /**
  * 服务APP授权表
  * <p>
- * dcp_app_ds
+ * app_ds
  */
 public class AppDs {
 
     private Long id;
 
     /**
-     * 关联dcp_api_user主键ID
+     * 关联api_user主键ID
      */
     private String appId;
 
     /**
-     * 关联dcp_data_service 主键id
+     * 关联data_service 主键id
      */
     private String dataServiceId;
 

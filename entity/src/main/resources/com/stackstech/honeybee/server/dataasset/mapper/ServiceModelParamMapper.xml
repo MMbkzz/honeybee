@@ -21,7 +21,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
-        INSERT INTO dcp_service_model_param
+        INSERT INTO dgp_service_model_param
         (service_model_id,
         seq_num,
         param_name,
@@ -51,18 +51,18 @@
 
     <!--根据id编号删除数据模型字段信息-->
     <delete id="delete" parameterType="java.lang.Long">
-        delete from dcp_service_model_param
+        delete from dgp_service_model_param
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <!--根据模型id删除-->
     <delete id="deleteByServiceId" parameterType="java.lang.String">
-        delete from dcp_service_model_param
+        delete from dgp_service_model_param
         where service_model_id = #{serviceModelId,jdbcType=VARCHAR}
     </delete>
 
     <!--编辑模型参数-->
     <update id="update" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
-        update dcp_service_model_param
+        update dgp_service_model_param
         <set>
             <if test="id != null ">
                 id = #{id,jdbcType=BIGINT},
@@ -101,7 +101,7 @@
 
     <!--根据id查询所有数据模型字段信息-->
     <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        select * from dcp_service_model_param t
+        select * from dgp_service_model_param t
         where t.id = #{id,jdbcType=BIGINT}
     </select>
 
@@ -109,7 +109,7 @@
     <select id="queryAll" resultMap="BaseResultMap"
             parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
         select *
-        from dcp_service_model_param
+        from dgp_service_model_param
         <where>
             <if test="serviceModelId != null and serviceModelId != ''">
                 and service_model_id = #{serviceModelId,jdbcType=VARCHAR}
@@ -123,7 +123,7 @@
     <select id="queryByServiceId" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
         select *
-        from dcp_service_model_param
+        from dgp_service_model_param
         <where>
             <if test="serviceModelId != null and serviceModelId != ''">
                 and service_model_id = #{serviceModelId,jdbcType=VARCHAR}

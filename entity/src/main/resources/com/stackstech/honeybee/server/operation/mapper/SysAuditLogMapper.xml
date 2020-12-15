@@ -18,7 +18,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.operations.model.SysAuditLog">
-        INSERT INTO dcp_sys_audit_log
+        INSERT INTO dgp_sys_audit_log
         (user_id,
         ip,
         status,
@@ -42,8 +42,8 @@
 
     <!--根据id查询所有数据服务-->
     <select id="queryAll" resultMap="BaseResultMap" parameterType="java.util.Map">
-        select a.* from dcp_sys_audit_log a
-        left join dcp_auth_user b on a.user_id = b.id
+        select a.* from dgp_sys_audit_log a
+        left join dgp_auth_user b on a.user_id = b.id
         <where>
             <if test="userName != null and userName != ''">
                 and b.login_name like concat('%',#{userName,jdbcType=VARCHAR},'%')
@@ -63,8 +63,8 @@
 
     <!--根据id查询所有数据服务-->
     <select id="countAll" resultType="java.lang.Integer" parameterType="java.util.Map">
-        select count(1) from dcp_sys_audit_log a
-        left join dcp_auth_user b on a.user_id = b.id
+        select count(1) from dgp_sys_audit_log a
+        left join dgp_auth_user b on a.user_id = b.id
         <where>
             <if test="userName != null and userName != ''">
                 and b.login_name like concat('%',#{userName,jdbcType=VARCHAR},'%')
@@ -83,7 +83,7 @@
 
     <!--根据条件查询所有数据服务信息-->
     <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        select * from dcp_sys_audit_log t
+        select * from dgp_sys_audit_log t
         where id = #{id,jdbcType=BIGINT}
     </select>
 

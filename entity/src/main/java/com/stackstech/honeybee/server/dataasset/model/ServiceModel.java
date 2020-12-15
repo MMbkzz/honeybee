@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * <p>
  * <p>
  * <p>
- * dcp_service_model
+ * service_model
  */
 public class ServiceModel {
 
@@ -38,12 +38,12 @@ public class ServiceModel {
     private String typeCode;
 
     /**
-     * 关联dcp_data_model_topic主键ID
+     * 关联data_model_topic主键ID
      */
     private String topicId;
 
     /**
-     * 关联dcp_datasource主键ID
+     * 关联datasource主键ID
      */
     private String serviceSourceId;
 

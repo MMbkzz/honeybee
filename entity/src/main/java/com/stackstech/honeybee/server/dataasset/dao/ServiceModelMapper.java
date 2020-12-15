@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 数据资产模型表Dao
  * <p>
- * 表名 dcp_data_model
+ * 表名 data_model
  */
 @Mapper
 @Repository

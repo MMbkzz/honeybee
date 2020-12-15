@@ -27,7 +27,7 @@
     </sql>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.dataasset.model.DataAssetArea">
-        INSERT INTO dcp_data_assets_area
+        INSERT INTO dgp_data_assets_area
         (id,
         area_name,
         area_desc,
@@ -51,7 +51,7 @@
 
     <!--根据id编号删除数据资产领域信息-->
     <delete id="delete" parameterType="java.util.List">
-        update dcp_data_assets_area
+        update dgp_data_assets_area
         set status_code = 'deleted '
         where id IN
         <foreach collection="list" index="index" item="tag" open="(" separator="," close=")">
@@ -61,7 +61,7 @@
 
     <!--编辑角色-->
     <update id="update" parameterType="com.stackstech.honeybee.server.dataasset.model.DataAssetArea">
-        update dcp_data_assets_area
+        update dgp_data_assets_area
         <set>
             <if test="id != null and id != ''">
                 id = #{id,jdbcType=VARCHAR},
@@ -91,7 +91,7 @@
     <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_data_assets_area t
+        from dgp_data_assets_area t
         where t.id = #{id,jdbcType=VARCHAR}
         and status_code != 'deleted'
     </select>
@@ -100,7 +100,7 @@
     <select id="queryByName" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from dcp_data_assets_area
+        from dgp_data_assets_area
         <where>
             status_code != 'deleted '
             <if test="areaName != null and areaName != ''">
@@ -113,7 +113,7 @@
     <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_data_assets_area
+        from dgp_data_assets_area
         <where>
             <if test="id != null and id != ''">
                 id = #{id,jdbcType=VARCHAR}
@@ -128,7 +128,7 @@
 
     <!--获取记录数-->
     <select id="countAll" resultType="java.lang.Integer" parameterType="java.lang.String">
-        select count(*) from dcp_data_assets_area
+        select count(*) from dgp_data_assets_area
         <where>
             <if test="id != null and id != ''">
                 id = #{id,jdbcType=VARCHAR}
@@ -142,14 +142,14 @@
 
     <!--获取自增ID-->
     <select id="queryPrimaryKey" resultType="java.lang.String">
-        select seq_nextval('dcp_data_assets_area')
+        select seq_nextval('dgp_data_assets_area')
     </select>
 
     <!--全局搜索-->
     <select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_data_assets_area
+        from dgp_data_assets_area
         <where>
             <if test="queryString != null and queryString != ''">
                 and area_name like concat('%',#{queryString,jdbcType=VARCHAR},'%')
@@ -161,7 +161,7 @@
 
     <!--全局搜索记录数-->
     <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
-        select count(1) from dcp_data_assets_area
+        select count(1) from dgp_data_assets_area
         <where>
             <if test="queryString != null and queryString != ''">
                 and area_name like concat('%',#{queryString,jdbcType=VARCHAR},'%')

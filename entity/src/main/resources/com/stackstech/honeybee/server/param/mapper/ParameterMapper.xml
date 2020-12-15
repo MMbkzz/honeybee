@@ -14,7 +14,7 @@
             resultType="com.stackstech.honeybee.server.param.model.Parameter">
         select
         <include refid="Base_Column_List"/>
-        from dcp_parameter
+        from dgp_parameter
         <where>
             <if test="objectType != null and objectType != ''">
                 rel_object_type = #{objectType,jdbcType=VARCHAR}
@@ -31,7 +31,7 @@
             resultType="com.stackstech.honeybee.server.param.model.Parameter">
         select
         <include refid="Base_Column_List"/>
-        from dcp_parameter
+        from dgp_parameter
         where id = #{id,jdbcType=BIGINT}
         order by seq_num asc
     </select>
@@ -41,7 +41,7 @@
             resultType="com.stackstech.honeybee.server.param.model.Parameter">
         select
         <include refid="Base_Column_List"/>
-        from dcp_parameter
+        from dgp_parameter
         <where>
             <if test="objectType != null and objectType != ''">
                 rel_object_type = #{objectType,jdbcType=VARCHAR}
@@ -57,7 +57,7 @@
 
     <!--新增-->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.param.model.Parameter">
-        insert into dcp_parameter
+        insert into dgp_parameter
         (rel_object_type,
         rel_object_id,
         seq_num,
@@ -85,7 +85,7 @@
 
     <!--更新-->
     <update id="update" parameterType="com.stackstech.honeybee.server.param.model.Parameter">
-        update dcp_parameter
+        update dgp_parameter
         <set>
             <if test="paramName != null and paramName !=''">
                 param_name = #{paramName,jdbcType=VARCHAR},
@@ -118,12 +118,12 @@
 
     <!--删除-->
     <delete id="delete" parameterType="java.lang.Long">
-        delete from dcp_parameter
+        delete from dgp_parameter
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
     <delete id="deleteByObjectId" parameterType="java.lang.String">
-        delete from dcp_parameter
+        delete from dgp_parameter
         where rel_object_id = #{objectId,jdbcType=VARCHAR}
     </delete>
 
@@ -132,7 +132,7 @@
         param_name
         , param_value
         from
-        dcp_parameter
+        dgp_parameter
         where
         rel_object_type = #{relObjectType}
         and rel_object_id = #{relObjectId}

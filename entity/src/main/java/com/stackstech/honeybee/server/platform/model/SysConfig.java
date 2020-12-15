@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 /**
  * 系统配置参数实体类
  * <p>
- * dcp_sys_config
+ * dgp_sys_config
  */
 public class SysConfig implements Serializable {
 

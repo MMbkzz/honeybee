@@ -20,7 +20,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.dataservice.model.DataService">
-        INSERT INTO dcp_data_service
+        INSERT INTO dgp_data_service
         (id,
         service_model_id,
         type_code,
@@ -54,18 +54,18 @@
 
     <!--根据id编号删除数据服务-->
     <delete id="delete" parameterType="java.lang.String">
-        update dcp_data_service
+        update dgp_data_service
         set status_code = 'deleted'
         where id = #{id,jdbcType=VARCHAR}
     </delete>
 
     <select id="queryPrimaryKey" resultType="java.lang.String">
-        select seq_nextval('dcp_data_service')
+        select seq_nextval('dgp_data_service')
     </select>
 
     <!--编辑APP用户字段-->
     <update id="update" parameterType="com.stackstech.honeybee.server.dataservice.model.DataService">
-        update dcp_data_service
+        update dgp_data_service
         <set>
             <if test="serviceModelId != null and serviceModelId !=''">
                 service_model_id = #{serviceModelId,jdbcType=VARCHAR},
@@ -105,21 +105,21 @@
 
     <!--根据id查询所有数据服务-->
     <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_data_service
+        select * from dgp_data_service
         where id = #{id,jdbcType=VARCHAR}
         and status_code != 'deleted'
     </select>
 
     <!--根据modelId查询所有数据服务-->
     <select id="queryByModelId" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_data_service
+        select * from dgp_data_service
         where service_model_id = #{serviceModelId,jdbcType=VARCHAR}
         and status_code != 'deleted'
     </select>
 
     <!--根据name查询所有数据服务-->
     <select id="queryByName" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_data_service
+        select * from dgp_data_service
         <where>
             status_code != 'deleted '
             <if test="dataServiceName != null and dataServiceName != ''">
@@ -130,7 +130,7 @@
 
     <!--根据name查询所有数据服务-->
     <select id="query" resultMap="BaseResultMap" parameterType="java.util.List">
-        select * from dcp_data_service
+        select * from dgp_data_service
         where status_code = 'active'
         <if test="list != null and list.size > 0">
             and id not in
@@ -157,7 +157,7 @@
         a.create_by,
         a.update_time,
         a.update_by
-        from dcp_data_service a
+        from dgp_data_service a
         <where>
             a.status_code != 'deleted'
             <if test="typeCode != null and typeCode != ''">
@@ -191,27 +191,27 @@
         a.create_by,
         a.update_time,
         a.update_by
-        from dcp_data_service a
+        from dgp_data_service a
         <foreach collection="roleCodes" item="role" index="index">
             <if test="role == 'data_app'">
-                INNER JOIN dcp_app_ds dad
+                INNER JOIN dgp_app_ds dad
                 ON a.id = dad.dataservice_id
-                INNER JOIN dcp_app da
+                INNER JOIN dgp_app da
                 ON dad.app_id = da.id
-                INNER JOIN dcp_auth_user dau
+                INNER JOIN dgp_auth_user dau
                 ON da.owner = dau.id
             </if>
         </foreach>
         <choose>
             <when test="typeCode == 'ability'">
-                left join dcp_service_model b on a.service_model_id = b.id
-                left join dcp_code c on b.topic_id = c.id
-                left join dcp_code d on c.parent_code = d.code
+                left join dgp_service_model b on a.service_model_id = b.id
+                left join dgp_code c on b.topic_id = c.id
+                left join dgp_code d on c.parent_code = d.code
             </when>
             <otherwise>
-                left join dcp_service_model b on a.service_model_id = b.id
-                left join dcp_data_assets_topic c on b.topic_id = c.id
-                left join dcp_data_assets_area d on c.area_id = d.id
+                left join dgp_service_model b on a.service_model_id = b.id
+                left join dgp_data_assets_topic c on b.topic_id = c.id
+                left join dgp_data_assets_area d on c.area_id = d.id
             </otherwise>
         </choose>
 
@@ -269,12 +269,12 @@
     <!--获取资产主题数量-->
     <select id="queryAssetTopicCount" resultType="java.util.Map">
         select d.area_name as areaName,count(b.topic_id) as areaCount
-        from dcp_data_service a
-        left join dcp_service_model b
+        from dgp_data_service a
+        left join dgp_service_model b
         on a.service_model_id = b.id
-        left join dcp_data_assets_topic c
+        left join dgp_data_assets_topic c
         on c.id = b.topic_id
-        left join dcp_data_assets_area d
+        left join dgp_data_assets_area d
         on d.id = c.area_id
         where a.status_code != 'deleted'
         and b.topic_id is not null
@@ -286,12 +286,12 @@
     <!--获取能力服务主题数量-->
     <select id="queryAbilityTopicCount" resultType="java.util.Map">
         select d.display_name as areaName,count(b.topic_id) as areaCount
-        from dcp_data_service a
-        left join dcp_service_model b
+        from dgp_data_service a
+        left join dgp_service_model b
         on a.service_model_id = b.id
-        left join dcp_code c
+        left join dgp_code c
         on c.id = b.topic_id
-        left join dcp_code d
+        left join dgp_code d
         on c.parent_code = d.code
         where a.status_code != 'deleted'
         and b.topic_id is not null

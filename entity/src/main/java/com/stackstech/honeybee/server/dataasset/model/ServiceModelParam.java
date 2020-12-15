@@ -6,7 +6,7 @@ import java.sql.Timestamp;
  * 服务模型参数实体
  * <p>
  * <p>
- * dcp_service_model_param
+ * service_model_param
  */
 public class ServiceModelParam {
 
@@ -16,7 +16,7 @@ public class ServiceModelParam {
     private Long id;
 
     /**
-     * 关联dcp_data_model主键ID
+     * 关联data_model主键ID
      */
     private String serviceModelId;
 

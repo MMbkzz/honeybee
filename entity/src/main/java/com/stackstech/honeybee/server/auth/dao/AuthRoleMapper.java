@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 角色表dao
- * 表名 dcp_auth_role
+ * 表名 dgp_auth_role
  * 映射 AuthRoleMapper.xml
  */
 @Mapper

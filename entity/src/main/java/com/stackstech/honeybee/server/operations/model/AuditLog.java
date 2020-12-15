@@ -3,7 +3,7 @@ package com.stackstech.honeybee.server.operations.model;
 import java.sql.Timestamp;
 
 /**
- * dcp_audit_log
+ * audit_log
  */
 public class AuditLog {
 

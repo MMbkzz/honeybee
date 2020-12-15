@@ -3,7 +3,7 @@ package com.stackstech.honeybee.server.operations.model;
 import java.sql.Timestamp;
 
 /**
- * dcp_sys_audit_log
+ * sys_audit_log
  */
 public class SysAuditLog {
     private Long id;                            // 主键，自增

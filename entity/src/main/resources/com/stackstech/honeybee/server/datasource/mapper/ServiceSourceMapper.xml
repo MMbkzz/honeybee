@@ -15,7 +15,7 @@
             resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
         select
         *
-        from dcp_service_source
+        from dgp_service_source
         <where>
             status_code != 'deleted '
             <if test="serviceSourceName != null and serviceSourceName != ''">
@@ -35,7 +35,7 @@
             resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
         select
         *
-        from dcp_service_source
+        from dgp_service_source
         <where>
             status_code != 'deleted '
             <if test="null != status">
@@ -64,7 +64,7 @@
         a.create_by as createBy,
         a.update_time as updateTime,
         a.update_by as updateBy
-        from dcp_service_source a left join dcp_service_driver b
+        from dgp_service_source a left join dgp_service_driver b
         on a.driver_id = b.id
         <where>
             a.status_code != 'deleted '
@@ -89,7 +89,7 @@
             resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
         select
         <include refid="Base_Column_List"/>
-        from dcp_service_source
+        from dgp_service_source
         where status_code != 'deleted '
         and id = #{id,jdbcType=VARCHAR}
     </select>
@@ -99,7 +99,7 @@
             resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
         select
         <include refid="Base_Column_List"/>
-        from dcp_service_source
+        from dgp_service_source
         <where>
             status_code != 'deleted '
             <if test="serviceSourceName != null and serviceSourceName != ''">
@@ -110,7 +110,7 @@
 
     <select id="countAll" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(1)
-        from dcp_service_source a left join dcp_service_driver b
+        from dgp_service_source a left join dgp_service_driver b
         on a.driver_id = b.id
         <where>
             a.status_code != 'deleted '
@@ -131,12 +131,12 @@
 
     <!--获取自增ID-->
     <select id="queryPrimaryKey" resultType="java.lang.String">
-        select seq_nextval('dcp_service_source')
+        select seq_nextval('dgp_service_source')
     </select>
 
     <!--新增 -->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
-        insert into dcp_service_source
+        insert into dgp_service_source
         (id,
         driver_id,
         service_source_name,
@@ -168,7 +168,7 @@
 
     <!--更新-->
     <update id="update" parameterType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
-        update dcp_service_source
+        update dgp_service_source
         <set>
             <if test="serviceSourceName != null and serviceSourceName != ''">
                 service_source_name = #{serviceSourceName,jdbcType=VARCHAR},
@@ -201,7 +201,7 @@
 
     <!--删除-->
     <delete id="delete" parameterType="java.lang.String">
-        update dcp_service_source
+        update dgp_service_source
         set status_code = 'deleted '
         where id = #{id,jdbcType=VARCHAR}
     </delete>
@@ -223,7 +223,7 @@
         a.create_by as createBy,
         a.update_time as updateTime,
         a.update_by as updateBy
-        from dcp_service_source a left join dcp_service_driver b
+        from dgp_service_source a left join dgp_service_driver b
         on a.driver_id = b.id
         <where>
             a.status_code != 'deleted '
@@ -238,7 +238,7 @@
     <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
         select
         count(1)
-        from dcp_service_source a left join dcp_service_driver b
+        from dgp_service_source a left join dgp_service_driver b
         on a.driver_id = b.id
         <where>
             a.status_code != 'deleted '

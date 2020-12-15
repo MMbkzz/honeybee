@@ -80,12 +80,12 @@
         date_format(cms.UPDATE_TIME,'%Y-%m-%d %T') as UPDATE_TIME,
         (cms.UPDATE_BY) as UPDATE_BY,
         (cms.LDAP_USER) as LDAP_USER
-        from dcp_auth_user cms)
+        from dgp_auth_user cms)
     </sql>
 
     <!--新增用户-->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
-        insert into dcp_auth_user (
+        insert into dgp_auth_user (
         ID, LOGIN_NAME, PASSWORD, PASSWD_SALT, LAST_PASSWD_CHANGE, PREVIOUS_LOGIN,
         NAME, SEX, MOBILE, EMAIL, STATUS, USER_SOURCE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, LDAP_USER
         ) values (
@@ -100,13 +100,13 @@
 
     <!--根据用户编号删除用户-->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from dcp_auth_user
+        delete from dgp_auth_user
         where ID = #{id,jdbcType=DECIMAL}
     </delete>
 
     <!--编辑用户-->
     <update id="updateByUserId" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
-        update dcp_auth_user
+        update dgp_auth_user
         <set>
             UPDATE_TIME = current_date(),
             <if test="loginName != null">
@@ -148,7 +148,7 @@
 
     <!-- 用户启用停用 -->
     <update id="startStopUser" parameterType="java.util.HashMap">
-        update dcp_auth_user
+        update dgp_auth_user
         <set>
             <if test="status != null">
                 STATUS = #{status,jdbcType=DECIMAL}
@@ -161,7 +161,7 @@
     <select id="selectByloginId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user
+        from dgp_auth_user
         where id = #{loginId,jdbcType=VARCHAR}
     </select>
 
@@ -169,7 +169,7 @@
     <select id="selectByOrgId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List_u"/>
-        from dcp_auth_user u order by u.create_time desc
+        from dgp_auth_user u order by u.create_time desc
     </select>
 
     <!-- 用户查询列表 -->
@@ -214,14 +214,14 @@
     <select id="getUserInfo" resultMap="BaseResultMapUserVo" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user
+        from dgp_auth_user
         where
         id = #{userId,jdbcType=DECIMAL}
     </select>
 
     <!-- 更新登录时间 -->
     <update id="updateLoginDate" parameterType="java.lang.Long">
-        update dcp_auth_user
+        update dgp_auth_user
         set
         PREVIOUS_LOGIN = CURRENT_DATE()
         where
@@ -230,7 +230,7 @@
 
     <!--修改密码-->
     <update id="updatePassword" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
-        update dcp_auth_user
+        update dgp_auth_user
         <set>
             <if test="password != null">
                 PASSWORD = #{password,jdbcType=VARCHAR},
@@ -249,7 +249,7 @@
             parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user
+        from dgp_auth_user
         <where>
             LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
         </where>
@@ -260,7 +260,7 @@
             parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user
+        from dgp_auth_user
         <where>
             LDAP_USER= #{ldapUser,jdbcType=VARCHAR}
         </where>
@@ -269,7 +269,7 @@
     <select id="selectByName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user
+        from dgp_auth_user
         <where>
             name= #{name,jdbcType=VARCHAR}
             <if test="id != null">
@@ -283,7 +283,7 @@
             parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user
+        from dgp_auth_user
         <where>
             email = #{name,jdbcType=VARCHAR}
             <if test="id != null">
@@ -296,7 +296,7 @@
             parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user
+        from dgp_auth_user
         <where>
             mobile = #{mobile,jdbcType=VARCHAR}
             <if test="id != null">
@@ -333,12 +333,12 @@
     <select id="getMenuByUserId" resultMap="MenuVoMap" parameterType="java.util.HashMap">
         SELECT
         <include refid="Resource_Columns_List_d"/>
-        FROM dcp_auth_user a
-        LEFT JOIN dcp_auth_user_role b ON b.user_id = a.id
-        LEFT JOIN dcp_auth_role b1 ON b1.id = b.role_id
-        LEFT JOIN dcp_auth_permission c ON c.role_id = b.role_id
-        LEFT JOIN dcp_auth_resource d ON d.id = c.resource_id
-        LEFT JOIN dcp_auth_resource_category e ON e.id = d.category_id
+        FROM dgp_auth_user a
+        LEFT JOIN dgp_auth_user_role b ON b.user_id = a.id
+        LEFT JOIN dgp_auth_role b1 ON b1.id = b.role_id
+        LEFT JOIN dgp_auth_permission c ON c.role_id = b.role_id
+        LEFT JOIN dgp_auth_resource d ON d.id = c.resource_id
+        LEFT JOIN dgp_auth_resource_category e ON e.id = d.category_id
         <where>
             AND a.status != '0' AND b1.status != '0' AND d.status != '0'
             <if test="userId != null and userId != ''">
@@ -354,9 +354,9 @@
     <select id="selectByRoleCode" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         SELECT
         users.id,users.login_name,users.name,users.sex,users.mobile,users.email
-        FROM dcp_auth_user users
-        LEFT JOIN dcp_auth_user_role user_role ON user_role.user_id = users.id
-        LEFT JOIN dcp_auth_role role ON role.id = user_role.role_id
+        FROM dgp_auth_user users
+        LEFT JOIN dgp_auth_user_role user_role ON user_role.user_id = users.id
+        LEFT JOIN dgp_auth_role role ON role.id = user_role.role_id
         <where>
             AND users.status != '0' AND role.status != '0'
             and role.code = #{roleCode,jdbcType=VARCHAR}

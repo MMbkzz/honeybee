@@ -23,7 +23,7 @@
             parameterType="com.stackstech.honeybee.server.platform.model.Instance">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance
+        from dgp_instance
         <where>
             <if test="name != null and name != ''">
                 and name like concat('%',#{name,jdbcType=VARCHAR},'%')
@@ -41,7 +41,7 @@
     <select id="countAll" parameterType="com.stackstech.honeybee.server.platform.model.Instance"
             resultType="java.lang.Integer">
         select count(1)
-        from dcp_instance
+        from dgp_instance
         <where>
             <if test="name != null and name != ''">
                 and name like concat('%',#{name,jdbcType=VARCHAR},'%')
@@ -56,7 +56,7 @@
     </select>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.Instance" keyProperty="id">
-        insert into dcp_instance (
+        insert into dgp_instance (
         id
         , name
         , host
@@ -88,7 +88,7 @@
     </insert>
 
     <update id="update" parameterType="com.stackstech.honeybee.server.platform.model.Instance">
-        update dcp_instance
+        update dgp_instance
         set
         update_time = SYSDATE()
         , update_by = #{ updateBy ,jdbcType=BIGINT}
@@ -121,14 +121,14 @@
     </update>
 
     <delete id="delete" parameterType="java.lang.String">
-        delete from dcp_instance where id = #{ id }
+        delete from dgp_instance where id = #{ id }
     </delete>
 
     <select id="queryByStatus" resultType="com.stackstech.honeybee.server.platform.model.Instance"
             parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance
+        from dgp_instance
         <where>
             <if test="null != status">
                 status_code in
@@ -148,7 +148,7 @@
     <!--重名校验-->
     <select id="queryByName" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.platform.model.Instance">
-        select * from dcp_instance
+        select * from dgp_instance
         where name = #{name,jdbcType=VARCHAR}
     </select>
 
@@ -156,7 +156,7 @@
             resultType="com.stackstech.honeybee.server.platform.model.Instance">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance
+        from dgp_instance
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
@@ -165,7 +165,7 @@
             parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance
+        from dgp_instance
         where host = #{ host } and port = #{ port }
         <if test="null != id">
             and id = #{id}
@@ -177,14 +177,14 @@
             parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance
+        from dgp_instance
         <where>
             <if test="null != serviceSourceId and '' != serviceSourceId">
                 exists (
-                select * from dcp_instance_resource
+                select * from dgp_instance_resource
                 where
-                dcp_instance_resource.service_source_id = #{ serviceSourceId }
-                and dcp_instance_resource.instance_id = dcp_instance.id
+                dgp_instance_resource.service_source_id = #{ serviceSourceId }
+                and dgp_instance_resource.instance_id = dgp_instance.id
                 )
             </if>
         </where>
@@ -195,7 +195,7 @@
             parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance
+        from dgp_instance
         <where>
             <if test="queryString != null and queryString != ''">
                 and concat(name,host_user) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
@@ -208,7 +208,7 @@
     <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
         select
         count(1)
-        from dcp_instance
+        from dgp_instance
         <where>
             <if test="queryString != null and queryString != ''">
                 and concat(name,host_user) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')

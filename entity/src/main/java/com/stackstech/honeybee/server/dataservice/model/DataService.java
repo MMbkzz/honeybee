@@ -16,7 +16,7 @@ public class DataService {
     private String id;
 
     /**
-     * 关联dcp_service_model主键ID
+     * 关联service_model主键ID
      */
     private String serviceModelId;
 

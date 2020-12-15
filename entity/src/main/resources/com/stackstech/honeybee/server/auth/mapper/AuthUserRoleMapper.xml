@@ -29,7 +29,7 @@
 
     <!--添加用户角色关系-->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.auth.model.AuthUserRole">
-        insert into dcp_auth_user_role (
+        insert into dgp_auth_user_role (
         USER_ID, ROLE_ID, create_time,create_by, update_time,update_by
         ) values (
         #{userId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
@@ -39,7 +39,7 @@
 
     <!--根据用户编号删除用户角色关系-->
     <delete id="deleteByUserId" parameterType="java.lang.Long">
-        delete from dcp_auth_user_role
+        delete from dgp_auth_user_role
         where USER_ID = #{userId,jdbcType=DECIMAL}
     </delete>
 
@@ -47,7 +47,7 @@
     <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user_role
+        from dgp_auth_user_role
         where ROLE_ID = #{roleId,jdbcType=DECIMAL}
     </select>
 
@@ -55,7 +55,7 @@
     <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_user_role
+        from dgp_auth_user_role
         where user_id = #{userId,jdbcType=DECIMAL}
     </select>
 
@@ -63,8 +63,8 @@
     <select id="getRoleByUser" resultMap="RoleMap" parameterType="java.lang.Long">
         select
         <include refid="role_list"/>
-        from dcp_auth_user_role ur
-        left join dcp_auth_role r on ur.role_id=r.id
+        from dgp_auth_user_role ur
+        left join dgp_auth_role r on ur.role_id=r.id
         where
         r.STATUS='1'
         and ur.USER_ID = #{userId,jdbcType=DECIMAL}

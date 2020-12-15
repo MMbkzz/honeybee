@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 /**
  * 驱动管理实体类
  * <p>
- * dcp_service_driver
+ * service_driver
  */
 public class ServiceDriver implements Serializable {
 

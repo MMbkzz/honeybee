@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 用户
- * 表名：dcp_auth_user
+ * 表名：dgp_auth_user
  */
 @Data
 public class AuthUser {

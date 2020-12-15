@@ -27,7 +27,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.dataservice.model.AccessLog">
-        INSERT INTO dcp_access_log
+        INSERT INTO dgp_access_log
         (app_id,
         dataservice_id,
         request_params,
@@ -69,13 +69,13 @@
 
     <!--根据id编号删除数据服务API访问日志-->
     <delete id="delete" parameterType="java.lang.Integer">
-        delete from dcp_access_log
+        delete from dgp_access_log
         where id = #{id,jdbcType=INTEGER}
     </delete>
 
     <!--编辑APP用户字段-->
     <update id="update" parameterType="com.stackstech.honeybee.server.dataservice.model.AccessLog">
-        update dcp_access_log
+        update dgp_access_log
         <set>
             <if test="appId != null and appId != ''">
                 app_id = #{appId,jdbcType=VARCHAR},
@@ -135,14 +135,14 @@
 
     <!--根据id查询所有数据服务API访问日志-->
     <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select * from dcp_access_log t
+        select * from dgp_access_log t
         where t.id = #{id}
     </select>
 
     <!--根据条件查询所有数据服务APi访问日志信息-->
     <select id="queryAll" resultMap="BaseResultMap" parameterType="java.util.Map">
         select a.*
-        from dcp_access_log a
+        from dgp_access_log a
         <where>
             <if test="appId != null and appId != ''">
                 and a.app_id = #{appId,jdbcType=VARCHAR}
@@ -172,7 +172,7 @@
     <!--根据条件查询所有数据服务APi访问日志信息-->
     <select id="countAll" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(1)
-        from dcp_access_log a
+        from dgp_access_log a
         <where>
             <if test="appId != null and appId != ''">
                 and a.app_id = #{appId,jdbcType=VARCHAR}
@@ -201,15 +201,15 @@
     <!--获取服务日志-->
     <select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
         select a.*
-        from dcp_access_log a
+        from dgp_access_log a
         where a.id = #{id}
     </select>
 
     <!--获取服务访问数量排名-->
     <select id="queryServiceCount" resultType="java.util.Map" parameterType="java.util.Map">
         select b.data_service_name as serviceName,count(1) as serviceCount
-        from dcp_access_log a
-        left join dcp_data_service b on a.dataservice_id = b.id
+        from dgp_access_log a
+        left join dgp_data_service b on a.dataservice_id = b.id
         <where>
             <if test="startTime != null and startTime != ''">
                 and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
@@ -225,8 +225,8 @@
     <!--获取app访问数量排名-->
     <select id="queryAppCount" resultType="java.util.Map" parameterType="java.util.Map">
         select b.name as appName,count(1) as appCount
-        from dcp_access_log a
-        left join dcp_app b on a.app_id = b.id
+        from dgp_access_log a
+        left join dgp_app b on a.app_id = b.id
         <where>
             <if test="startTime != null and startTime != ''">
                 and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
@@ -244,8 +244,8 @@
         select
         b.data_service_name as serviceName,
         sum(a.access_end_time - a.access_start_time) as serviceTime
-        from dcp_access_log a
-        left join dcp_data_service b on a.dataservice_id = b.id
+        from dgp_access_log a
+        left join dgp_data_service b on a.dataservice_id = b.id
         <where>
             <if test="startTime != null and startTime != ''">
                 and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
@@ -263,8 +263,8 @@
         select
         b.name as appName,
         sum(a.db_end_time - a.db_start_time) as appTime
-        from dcp_access_log a
-        left join dcp_app b on a.app_id = b.id
+        from dgp_access_log a
+        left join dgp_app b on a.app_id = b.id
         <where>
             <if test="startTime != null and startTime != ''">
                 and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
@@ -283,8 +283,8 @@
         select
         b.data_service_name as serviceName,
         sum(a.access_end_time - a.access_start_time) / count(1) as serviceAvg
-        from dcp_access_log a
-        left join dcp_data_service b on a.dataservice_id = b.id
+        from dgp_access_log a
+        left join dgp_data_service b on a.dataservice_id = b.id
         <where>
             <if test="startTime != null and startTime != ''">
                 and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
@@ -302,8 +302,8 @@
         select
         b.name as appName,
         sum(a.db_end_time - a.db_start_time) / count(1) as appAvg
-        from dcp_access_log a
-        left join dcp_app b on a.app_id = b.id
+        from dgp_access_log a
+        left join dgp_app b on a.app_id = b.id
         <where>
             <if test="startTime != null and startTime != ''">
                 and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
@@ -319,9 +319,9 @@
     <!--全局搜索-->
     <select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
         select a.*
-        from dcp_access_log a
-        left join dcp_data_service b on a.dataservice_id = b.id
-        left join dcp_app c on a.app_id = c.id
+        from dgp_access_log a
+        left join dgp_data_service b on a.dataservice_id = b.id
+        left join dgp_app c on a.app_id = c.id
         <where>
             <if test="queryString != null and queryString != ''">
                 and CONCAT(b.data_service_name,c.name,a.app_id,a.dataservice_id)
@@ -334,9 +334,9 @@
     <!--根据条件查询所有数据服务APi访问日志信息-->
     <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
         select count(1)
-        from dcp_access_log a
-        left join dcp_data_service b on a.dataservice_id = b.id
-        left join dcp_app c on a.app_id = c.id
+        from dgp_access_log a
+        left join dgp_data_service b on a.dataservice_id = b.id
+        left join dgp_app c on a.app_id = c.id
         <where>
             <if test="queryString != null and queryString != ''">
                 and CONCAT(b.data_service_name,c.name,a.app_id,a.dataservice_id)

@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 /**
  * 参数表<driver / datasource>实体类
  * <p>
- * dcp_parameter
+ * parameter
  */
 @Data
 public class Parameter {

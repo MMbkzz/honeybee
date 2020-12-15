@@ -18,7 +18,7 @@
             parameterType="com.stackstech.honeybee.server.platform.model.MessageObject">
         select
         <include refid="Base_Column_List"/>
-        from dcp_message_object
+        from dgp_message_object
         <where>
             <if test="messageId != null">
                 and message_id = #{messageId,jdbcType=BIGINT}
@@ -37,7 +37,7 @@
             parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from dcp_message_object
+        from dgp_message_object
         where id = #{id}
     </select>
 
@@ -45,7 +45,7 @@
             resultType="java.lang.Integer">
         select
         count(1)
-        from dcp_message_object
+        from dgp_message_object
         <where>
             <if test="messageId != null">
                 and message_id = #{messageId,jdbcType=BIGINT}
@@ -60,7 +60,7 @@
     </select>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.MessageObject">
-        insert into dcp_message_object (
+        insert into dgp_message_object (
         message_id
         , user_id
         , status_code
@@ -76,7 +76,7 @@
     </insert>
 
     <update id="update" parameterType="com.stackstech.honeybee.server.platform.model.MessageObject">
-        update dcp_message_object
+        update dgp_message_object
         set
         update_time = SYSDATE()
         , update_by = #{ updateBy ,jdbcType=BIGINT}
@@ -94,12 +94,12 @@
     </update>
 
     <delete id="delete" parameterType="java.lang.Long">
-        delete from dcp_message_object where id = #{ id }
+        delete from dgp_message_object where id = #{ id }
     </delete>
 
     <!--批量删除-->
     <delete id="deletes" parameterType="java.util.List">
-        delete from dcp_message_object where
+        delete from dgp_message_object where
         id in
         <foreach collection="list" index="index" item="tag" open="("
                  separator="," close=")">

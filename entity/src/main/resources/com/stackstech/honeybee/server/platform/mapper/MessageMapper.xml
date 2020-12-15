@@ -21,8 +21,8 @@
         b.id as id,b.title as title,b.context as context,
         a.status_code as statusCode, a.id as objectId,
         b.expire_time as expireTime,b.create_time as createTime
-        from dcp_message_object a
-        right join dcp_message b on a.message_id=b.id
+        from dgp_message_object a
+        right join dgp_message b on a.message_id=b.id
         <where>
             <if test="userId != null">
                 and a.user_id = #{userId,jdbcType=BIGINT}
@@ -40,8 +40,8 @@
     <!--获取未读预警数量-->
     <select id="queryWarnCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(1)
-        from dcp_message a
-        left join dcp_message_object b on b.message_id = a.id
+        from dgp_message a
+        left join dgp_message_object b on b.message_id = a.id
         <where>
             <if test="userId != null">
                 and b.user_id = #{userId,jdbcType=BIGINT}
@@ -58,8 +58,8 @@
         b.id as id,b.title as title,b.context as context,
         a.status_code as statusCode, a.id as objectId,
         b.expire_time as expireTime,b.create_time as createTime
-        from dcp_message b
-        left join dcp_message_object a
+        from dgp_message b
+        left join dgp_message_object a
         on b.id = a.message_id
         <where>
             <if test="userId != null">
@@ -75,8 +75,8 @@
     <select id="countNotice" parameterType="java.util.Map" resultType="java.lang.Integer">
         select
         count(1)
-        from dcp_message b
-        left join dcp_message_object a
+        from dgp_message b
+        left join dgp_message_object a
         on b.id = a.message_id
         <where>
             <if test="userId != null">
@@ -89,7 +89,7 @@
     </select>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.Message">
-        insert into dcp_message (
+        insert into dgp_message (
         message_level
         , title
         , context
@@ -112,7 +112,7 @@
             parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from dcp_message
+        from dgp_message
         where id = #{id,jdbcType=BIGINT}
     </select>
 
@@ -120,8 +120,8 @@
     <!--获取Message数量-->
     <select id="countAll" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(1)
-        from dcp_message_object a
-        right join dcp_message b on a.message_id=b.id
+        from dgp_message_object a
+        right join dgp_message b on a.message_id=b.id
         <where>
             <if test="userId != null">
                 and a.user_id = #{userId,jdbcType=BIGINT}
@@ -138,12 +138,12 @@
 
     <!--根据id删除Message-->
     <delete id="delete" parameterType="java.lang.Long">
-        delete from dcp_message where id = #{ id }
+        delete from dgp_message where id = #{ id }
     </delete>
 
     <!--批量删除Message-->
     <delete id="deletes" parameterType="java.util.List">
-        delete from dcp_message where
+        delete from dgp_message where
         id in
         <foreach collection="list" index="index" item="tag" open="("
                  separator="," close=")">

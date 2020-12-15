@@ -49,7 +49,7 @@
 
     <!--添加资源-->
     <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.auth.model.AuthResource">
-        insert into dcp_auth_resource
+        insert into dgp_auth_resource
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -148,13 +148,13 @@
 
     <!--删除资源-->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from dcp_auth_resource
+        delete from dgp_auth_resource
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
     <!--更新资源-->
     <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.auth.model.AuthResource">
-        update dcp_auth_resource
+        update dgp_auth_resource
         <set>
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR},
@@ -215,8 +215,8 @@
     <select id="selectListByCondition" resultMap="AuthResourceMap" parameterType="java.util.HashMap">
         SELECT
         p.code as category_code, p.name as category_name, r.*
-        FROM dcp_auth_resource_category p
-        LEFT JOIN dcp_auth_resource r ON p.id = r.category_id
+        FROM dgp_auth_resource_category p
+        LEFT JOIN dgp_auth_resource r ON p.id = r.category_id
         <where>
             <if test="resource_id != null">
                 AND r.id = #{resource_id}
@@ -234,7 +234,7 @@
     <select id="selectByCondition" parameterType="java.util.HashMap" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_resource
+        from dgp_auth_resource
         <where>
             <if test="code != null">
                 code = #{code}
@@ -249,7 +249,7 @@
     <select id="getResourcesByCondition" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_resource
+        from dgp_auth_resource
         <where>
             <if test="id != null and id !=0">
                 and id = #{id}

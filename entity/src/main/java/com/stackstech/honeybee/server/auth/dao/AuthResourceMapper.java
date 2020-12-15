@@ -11,7 +11,7 @@ import java.util.Map;
  * 资源
  * <p>
  * <p>
- * 表名 dcp_AUTH_RESOURCE
+ * 表名 dgp_AUTH_RESOURCE
  */
 @Mapper
 @Repository

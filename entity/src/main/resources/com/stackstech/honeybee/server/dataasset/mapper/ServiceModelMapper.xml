@@ -23,7 +23,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
-        INSERT INTO dcp_service_model
+        INSERT INTO dgp_service_model
         (id,
         parent_id,
         model_name,
@@ -63,14 +63,14 @@
 
     <!--根据id编号删除数据资产模型信息-->
     <delete id="delete" parameterType="java.lang.String">
-        update dcp_service_model
+        update dgp_service_model
         set status_code = 'deleted'
         where id = #{id,jdbcType=VARCHAR}
     </delete>
 
     <!--编辑角色-->
     <update id="update" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
-        update dcp_service_model
+        update dgp_service_model
         <set>
             <if test="id != null and id != ''">
                 id = #{id,jdbcType=VARCHAR},
@@ -123,7 +123,7 @@
 
     <!--根据id查询所有数据资产模型信息-->
     <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from dcp_service_model t
+        select * from dgp_service_model t
         where t.id = #{id,jdbcType=VARCHAR}
         and status_code != 'deleted'
     </select>
@@ -132,7 +132,7 @@
     <select id="queryByName" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
         select *
-        from dcp_service_model
+        from dgp_service_model
         <where>
             status_code != 'deleted '
             <if test="modelName != null and modelName != ''">
@@ -145,7 +145,7 @@
     <select id="queryByTopicId" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
         select *
-        from dcp_service_model
+        from dgp_service_model
         where status_code != 'deleted' and topic_id = #{topicId,jdbcType=VARCHAR}
     </select>
 
@@ -153,7 +153,7 @@
     <select id="queryBySourceId" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
         select *
-        from dcp_service_model
+        from dgp_service_model
         where status_code != 'deleted' and service_source_id = #{serviceSourceId,jdbcType=VARCHAR}
     </select>
 
@@ -161,7 +161,7 @@
     <select id="queryAllParent" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
         select *
-        from dcp_service_model
+        from dgp_service_model
         <where>
             parent_id is null
             and status_code != 'deleted'
@@ -191,10 +191,10 @@
         a.create_by,
         a.update_time,
         a.update_by
-        from dcp_service_model a
-        left join dcp_data_assets_topic b on a.topic_id = b.id
-        left join dcp_data_assets_area c on b.area_id = c.id
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted'
             <if test="areaName != null and areaName != ''">
@@ -245,10 +245,10 @@
         a.create_by,
         a.update_time,
         a.update_by
-        from dcp_service_model a
-        left join dcp_data_assets_topic b on a.topic_id = b.id
-        left join dcp_data_assets_area c on b.area_id = c.id
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted'
             <if test="areaName != null and areaName != ''">
@@ -299,10 +299,10 @@
         a.create_by,
         a.update_time,
         a.update_by
-        from dcp_service_model a
-        left join dcp_code b on a.topic_id = b.id
-        left join dcp_code c on b.parent_code = c.code
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted'
             <if test="areaName != null and areaName != ''">
@@ -336,10 +336,10 @@
     <!--获取记录数-->
     <select id="countAll" resultType="java.lang.Integer" parameterType="java.lang.String">
         select count(1)
-        from dcp_service_model a
-        left join dcp_data_assets_topic b on a.topic_id = b.id
-        left join dcp_data_assets_area c on b.area_id = c.id
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted'
             <if test="areaName != null and areaName != ''">
@@ -369,10 +369,10 @@
     <select id="countAssetsModel" resultType="java.lang.Integer" parameterType="java.lang.String">
         select
         count(1)
-        from dcp_service_model a
-        left join dcp_data_assets_topic b on a.topic_id = b.id
-        left join dcp_data_assets_area c on b.area_id = c.id
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted'
             <if test="areaName != null and areaName != ''">
@@ -405,10 +405,10 @@
     <select id="countAbilityModel" resultType="java.lang.Integer" parameterType="java.lang.String">
         select
         count(1)
-        from dcp_service_model a
-        left join dcp_code b on a.topic_id = b.id
-        left join dcp_code c on b.parent_code = c.code
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted'
             <if test="areaName != null and areaName != ''">
@@ -439,7 +439,7 @@
     </select>
 
     <select id="queryPrimaryKey" resultType="java.lang.String">
-        select seq_nextval('dcp_service_model')
+        select seq_nextval('dgp_service_model')
     </select>
 
     <!--全局搜索-->
@@ -462,10 +462,10 @@
         a.create_by,
         a.update_time,
         a.update_by
-        from dcp_service_model a
-        left join dcp_data_assets_topic b on a.topic_id = b.id
-        left join dcp_data_assets_area c on b.area_id = c.id
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted' and a.type_code = 'asset'
             <if test="queryString != null and queryString != ''">
@@ -483,10 +483,10 @@
     <select id="countAssetByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
         select
         count(1)
-        from dcp_service_model a
-        left join dcp_data_assets_topic b on a.topic_id = b.id
-        left join dcp_data_assets_area c on b.area_id = c.id
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted' and a.type_code = 'asset'
             <if test="queryString != null and queryString != ''">
@@ -519,10 +519,10 @@
         a.create_by,
         a.update_time,
         a.update_by
-        from dcp_service_model a
-        left join dcp_code b on a.topic_id = b.id
-        left join dcp_code c on b.parent_code = c.code
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted' and a.type_code = 'ability'
             <if test="queryString != null and queryString != ''">
@@ -535,10 +535,10 @@
     <select id="countAbilityByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
         select
         count(1)
-        from dcp_service_model a
-        left join dcp_code b on a.topic_id = b.id
-        left join dcp_code c on b.parent_code = c.code
-        left join dcp_service_source d on a.service_source_id = d.id
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
         <where>
             a.status_code != 'deleted' and a.type_code = 'ability'
             <if test="queryString != null and queryString != ''">

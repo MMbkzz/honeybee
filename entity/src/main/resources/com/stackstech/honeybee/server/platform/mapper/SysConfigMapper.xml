@@ -23,7 +23,7 @@
             parameterType="com.stackstech.honeybee.server.platform.model.SysConfig">
         select
         <include refid="Base_Column_List"/>
-        from dcp_sys_config
+        from dgp_sys_config
         <where>
             <if test="configType != null and configType != ''">
                 and config_type = #{configType,jdbcType=VARCHAR}
@@ -39,13 +39,13 @@
             resultType="com.stackstech.honeybee.server.platform.model.SysConfig">
         select
         <include refid="Base_Column_List"/>
-        from dcp_sys_config
+        from dgp_sys_config
         where id = #{id,jdbcType=BIGINT}
     </select>
 
     <!--新增参数配置-->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.SysConfig">
-        insert into dcp_sys_config (
+        insert into dgp_sys_config (
         config_type
         , config_subtype
         , config_name
@@ -71,7 +71,7 @@
     </insert>
 
     <update id="update" parameterType="com.stackstech.honeybee.server.platform.model.SysConfig">
-        update dcp_sys_config
+        update dgp_sys_config
         set
         update_time = SYSDATE()
         , update_by = #{ updateBy ,jdbcType=BIGINT}
@@ -104,7 +104,7 @@
     </update>
 
     <delete id="delete" parameterType="java.lang.Long">
-        delete from dcp_sys_config where id = #{id,jdbcType=BIGINT}
+        delete from dgp_sys_config where id = #{id,jdbcType=BIGINT}
     </delete>
 
 </mapper>

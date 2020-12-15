@@ -313,7 +313,7 @@ public class ServiceSourceServiceImpl implements ServiceSourceService {
      */
     @Override
     public ResponseEntity<?> delete(String id) throws Exception {
-        //query dcp_data_model by datasourceId
+        //query dgp_data_model by datasourceId
         if (serviceModelMapper.queryBySourceId(id) != null && serviceModelMapper.queryBySourceId(id).size() > 0) {
             ServiceModel model = serviceModelMapper.queryBySourceId(id).get(0);
             return ResponseError.create(500, "删除数据源失败!模型" + model.getModelName() + "正在使用中");

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 /**
  * 服务APP用户表
  * <p>
- * dcp_app
+ * app
  */
 public class AppUser {
 

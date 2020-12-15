@@ -6,7 +6,7 @@
     <select id="queryAll" parameterType="java.util.Map"
             resultType="com.stackstech.honeybee.server.dataasset.model.ModelCode">
         select *
-        from dcp_code
+        from dgp_code
         <where>
             type in
             ('mode_type','ability_type','component_type','solution_type','api_type','cluster_sub_type','gateway_sub_type')
@@ -18,7 +18,7 @@
     <select id="queryByPrimaryKey" parameterType="java.lang.Long"
             resultType="com.stackstech.honeybee.server.dataasset.model.ModelCode">
         select *
-        from dcp_code
+        from dgp_code
         where id = #{id,jdbcType=BIGINT}
     </select>
 
@@ -26,7 +26,7 @@
     <select id="queryByCode" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ModelCode">
         select *
-        from dcp_code
+        from dgp_code
         <where>
             <if test="code != null">
                 and code = #{code,jdbcType=VARCHAR}
@@ -39,14 +39,14 @@
     <select id="queryByType" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ModelCode">
         select *
-        from dcp_code
+        from dgp_code
         where type = #{type,jdbcType=VARCHAR}
     </select>
 
     <select id="queryByParentCode" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ModelCode">
         select *
-        from dcp_code
+        from dgp_code
         where parent_code = #{parentCode,jdbcType=VARCHAR}
     </select>
 
@@ -54,7 +54,7 @@
     <select id="queryCode" parameterType="java.lang.String"
             resultType="com.stackstech.honeybee.server.dataasset.model.ModelCode">
         select *
-        from dcp_code
+        from dgp_code
         <where>
             <if test="type != null">
                 and type = #{type,jdbcType=VARCHAR}

@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 /**
  * 数据资产领域Model
  * <p>
- * dcp_data_assets_area
+ * data_assets_area
  */
 public class DataAssetArea {
 

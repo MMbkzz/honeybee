@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * 角色对象
- * 表名 dcp_auth_role
+ * 表名 dgp_auth_role
  * 映射 AuthRoleMapper.xml
  */
 @Data

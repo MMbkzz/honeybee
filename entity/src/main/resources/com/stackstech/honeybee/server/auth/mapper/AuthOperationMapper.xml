@@ -17,7 +17,7 @@
     </sql>
     <!--新增操作-->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.auth.model.AuthOperation">
-        insert into dcp_auth_resource_operation (
+        insert into dgp_auth_resource_operation (
         <include refid="Base_Column_List"/>
         ) values (
         #{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{descr,jdbcType=VARCHAR},
@@ -26,7 +26,7 @@
         )
     </insert>
     <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.auth.model.AuthOperation">
-        insert into dcp_auth_resource_operation
+        insert into dgp_auth_resource_operation
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -88,12 +88,12 @@
     </insert>
     <!--删除操作-->
     <delete id="deleteByPrimaryKey" parameterType="Long">
-        delete from dcp_auth_resource_operation
+        delete from dgp_auth_resource_operation
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <!--修改操作-->
     <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.auth.model.AuthOperation">
-        update dcp_auth_resource_operation
+        update dgp_auth_resource_operation
         <set>
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR},
@@ -128,7 +128,7 @@
             parameterType="com.stackstech.honeybee.server.auth.model.AuthOperation">
         select
         <include refid="Base_Column_List"/>
-        from dcp_auth_resource_operation
+        from dgp_auth_resource_operation
         <where>
             <if test="id != null">
                 and id = #{id,jdbcType=VARCHAR},

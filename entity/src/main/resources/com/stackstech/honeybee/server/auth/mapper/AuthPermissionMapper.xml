@@ -63,7 +63,7 @@
     <select id="getResources" resultMap="ResourceResultMap">
         SELECT
         <include refid="Resource_Columns_rsrc"/>
-        FROM dcp_auth_resource rsrc
+        FROM dgp_auth_resource rsrc
     </select>
 
     <!--获取该资源的操作-->
@@ -71,7 +71,7 @@
             parameterType="com.stackstech.honeybee.server.auth.model.AuthResource">
         SELECT
         <include refid="Operation_Columns_op"/>
-        FROM dcp_auth_resource_operation op
+        FROM dgp_auth_resource_operation op
         <where>
             <if test="category_id != null and category_id != ''">
                 op.CATEGORY_ID = #{category_id,jdbcType=NUMERIC}
@@ -81,7 +81,7 @@
 
     <!--批量插入权限-->
     <insert id="insertPermissionBatch" parameterType="java.util.List">
-        insert into dcp_auth_permission (
+        insert into dgp_auth_permission (
         ROLE_ID, RESOURCE_ID, OPERATION_ID,create_time,create_by,update_time,update_by
         ) values
         <foreach item="item" index="index" collection="list" separator=",">
@@ -98,7 +98,7 @@
             parameterType="com.stackstech.honeybee.server.auth.model.AuthRole">
         select
         <include refid="Permission_Columns_pmsn"/>
-        from dcp_auth_permission pmsn
+        from dgp_auth_permission pmsn
         <where>
             <if test="id != null and id != ''">
                 pmsn.role_id = #{id,jdbcType=BIGINT}
@@ -108,12 +108,12 @@
 
     <!--根据角色编号删除角色权限关系-->
     <delete id="deletePermissions" parameterType="com.stackstech.honeybee.server.auth.model.AuthRole">
-        delete from dcp_auth_permission where ROLE_ID = #{id,jdbcType=BIGINT}
+        delete from dgp_auth_permission where ROLE_ID = #{id,jdbcType=BIGINT}
     </delete>
 
     <!-- 新增角色权限关系 -->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.auth.model.AuthPermission">
-        insert into dcp_auth_permission (
+        insert into dgp_auth_permission (
         role_id, resource_id, operation_id,create_time,create_by
         ) values (
         #{roleId,jdbcType=BIGINT}, #{operationId,jdbcType=BIGINT}, #{create_time,jdbcType=TIMESTAMP},
@@ -126,7 +126,7 @@
             parameterType="java.util.List">
         select
         role_id, resource_id, operation_id,create_time,create_by,update_time,update_by
-        from dcp_auth_permission where resource_id in
+        from dgp_auth_permission where resource_id in
         <foreach collection="list" index="index" item="permission" open="(" separator="," close=")">
             #{permission.resourceId}
         </foreach>
@@ -137,19 +137,19 @@
             parameterType="java.lang.Long">
         select
         role_id, resource_id, operation_id,create_time,create_by,update_time,update_by
-        from dcp_auth_permission
+        from dgp_auth_permission
         where resource_id = #{resourceId,jdbcType=NUMERIC}
     </select>
 
 
     <!-- 删除权限 -->
     <delete id="deletePermission">
-        delete from dcp_auth_permission where resource_id = #{id}
+        delete from dgp_auth_permission where resource_id = #{id}
     </delete>
 
     <!-- 批量删除权限 -->
     <delete id="deletePermissionList" parameterType="java.util.List">
-        delete from dcp_auth_permission where resource_id in
+        delete from dgp_auth_permission where resource_id in
         <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>

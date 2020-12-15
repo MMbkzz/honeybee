@@ -14,7 +14,7 @@
             resultType="com.stackstech.honeybee.server.platform.model.ServiceDriver">
         select
         <include refid="Base_Column_List"/>
-        from dcp_service_driver
+        from dgp_service_driver
         <where>
             status_code != 'deleted '
             <if test="driverName != null and driverName != ''">
@@ -35,7 +35,7 @@
             resultType="com.stackstech.honeybee.server.platform.model.ServiceDriver">
         select
         <include refid="Base_Column_List"/>
-        FROM dcp_service_driver
+        FROM dgp_service_driver
         <where>
             status_code != 'deleted '
             <if test="driverName != null and driverName != ''">
@@ -49,14 +49,14 @@
             resultType="com.stackstech.honeybee.server.platform.model.ServiceDriver">
         select
         <include refid="Base_Column_List"/>
-        FROM dcp_service_driver
+        FROM dgp_service_driver
         where status_code != 'deleted ' and id = #{id,jdbcType=VARCHAR}
     </select>
 
 
     <select id="countAll" resultType="java.lang.Integer"
             parameterType="com.stackstech.honeybee.server.platform.model.ServiceDriver">
-        select count(*) from dcp_service_driver
+        select count(*) from dgp_service_driver
         <where>
             status_code != 'deleted '
             <if test="driverName != null and driverName != ''">
@@ -67,12 +67,12 @@
 
     <!--获取驱动主键-->
     <select id="queryPrimaryKey" resultType="java.lang.String">
-        select seq_nextval('dcp_service_driver')
+        select seq_nextval('dgp_service_driver')
     </select>
 
     <!--新增数据驱动-->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.ServiceDriver">
-        insert into dcp_service_driver
+        insert into dgp_service_driver
         (id,
         driver_name,
         version,
@@ -100,7 +100,7 @@
 
     <!--更新数据驱动-->
     <update id="update" parameterType="com.stackstech.honeybee.server.platform.model.ServiceDriver">
-        update dcp_service_driver
+        update dgp_service_driver
         <set>
             <if test="driverName != null and driverName != ''">
                 driver_name = #{driverName,jdbcType=VARCHAR},
@@ -127,7 +127,7 @@
 
     <!--删除数据驱动-->
     <delete id="delete" parameterType="java.util.List">
-        update dcp_service_driver
+        update dgp_service_driver
         set status_code = 'deleted '
         where id in
         <foreach collection="list" index="index" item="tag" open="(" separator="," close=")">
@@ -141,7 +141,7 @@
             parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
-        from dcp_service_driver
+        from dgp_service_driver
         <where>
             status_code != 'deleted '
             <if test="queryString != null and queryString != ''">
@@ -155,7 +155,7 @@
     <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
         select
         count(1)
-        from dcp_service_driver
+        from dgp_service_driver
         <where>
             status_code != 'deleted '
             <if test="queryString != null and queryString != ''">

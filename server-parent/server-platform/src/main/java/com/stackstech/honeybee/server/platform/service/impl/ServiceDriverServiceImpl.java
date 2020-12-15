@@ -245,7 +245,7 @@ public class ServiceDriverServiceImpl implements ServiceDriverService {
     @Override
     public ResponseEntity<?> delete(List<String> ids) throws Exception {
         List<ServiceDriver> list = new ArrayList<ServiceDriver>();
-        //query dcp_datasource by driverId
+        //query dgp_datasource by driverId
         Map<String, Object> map = new HashMap<>();
         for (String id : ids) {
             map.put("driverId", id);

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 用户角色关系表Dao
  * <p>
- * 表名 dcp_auth_user_role
+ * 表名 dgp_auth_user_role
  */
 @Mapper
 @Repository

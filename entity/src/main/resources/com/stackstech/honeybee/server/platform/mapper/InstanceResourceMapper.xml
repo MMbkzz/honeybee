@@ -20,7 +20,7 @@
             resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance_resource
+        from dgp_instance_resource
         where id = #{id,jdbcType=BIGINT}
     </select>
 
@@ -29,7 +29,7 @@
             resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance_resource
+        from dgp_instance_resource
         where service_source_id = #{serviceSourceId,jdbcType=VARCHAR}
     </select>
 
@@ -38,18 +38,18 @@
             resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
         select
         <include refid="Base_Column_List"/>
-        from dcp_instance_resource
+        from dgp_instance_resource
         where instance_id = #{instanceId,jdbcType=VARCHAR}
     </select>
 
     <!--获取资源ID-->
     <select id="queryServiceSourceId" resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
-        select DISTINCT service_source_id from dcp_instance_resource
+        select DISTINCT service_source_id from dgp_instance_resource
     </select>
 
     <!-- 写入数据 -->
     <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.InstanceResource">
-        insert into dcp_instance_resource (
+        insert into dgp_instance_resource (
         instance_id
         , service_source_id
         , seq_num
@@ -68,14 +68,14 @@
 
     <!-- 删除数据 -->
     <delete id="delete" parameterType="java.lang.String">
-        delete from dcp_instance_resource
+        delete from dgp_instance_resource
         where
         instance_id = #{ instanceId }
         and service_source_id = #{ serviceSourceId }
     </delete>
 
     <delete id="deleteByInstanceId" parameterType="java.lang.String">
-        delete from dcp_instance_resource
+        delete from dgp_instance_resource
         where instance_id = #{ instanceId }
     </delete>
 </mapper>

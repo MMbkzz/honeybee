@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 数据资产领域表Dao
  * <p>
- * 表名 dcp_data_model_area
+ * 表名 dgp_data_model_area
  */
 @Mapper
 @Repository

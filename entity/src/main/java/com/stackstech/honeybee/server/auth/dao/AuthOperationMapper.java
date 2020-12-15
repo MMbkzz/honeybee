@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 操作
  * <p>
- * 表名 dcp_auth_resource_operation
+ * 表名 dgp_auth_resource_operation
  */
 @Mapper
 @Repository

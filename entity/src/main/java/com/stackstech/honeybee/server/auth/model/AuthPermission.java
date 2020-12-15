@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * 权限
- * 表名：dcp_AUTH_PERMISSION
+ * 表名：dgp_AUTH_PERMISSION
  */
 @Data
 public class AuthPermission {
