@@ -34,7 +34,7 @@ public class DataSourceConfig {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/stackstech/dcp/server/*/mapper/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/stackstech/honeybee/server/*/mapper/*.xml"));
         // 加载mybatis核心配置
         bean.setConfigLocation(new DefaultResourceLoader().getResource("classpath:mybatis-config.xml"));
         return bean.getObject();
