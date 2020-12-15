@@ -89,7 +89,7 @@ public class DataServiceImpl implements ApiDataService {
 
     @Override
     public boolean valid(RequestData requestData) throws ServiceAccessException {
-        log.info("com.stackstech.dcp.apiserver.service.impl.DataServiceImpl.valid：" + "验证数据有效性开始");
+        log.info("com.stackstech.honeybee.apiserver.service.impl.DataServiceImpl.valid：" + "验证数据有效性开始");
         //  1. 数据有效性校验
         //  1.1. 必须参数有效性校验
         //  1.2. 用户有效性校验
@@ -104,7 +104,7 @@ public class DataServiceImpl implements ApiDataService {
                 validAppDs(requestData) && validField(requestData)) {
             return false;
         }
-        log.info("com.stackstech.dcp.apiserver.service.impl.DataServiceImpl.valid：" + "验证数据有效性结束");
+        log.info("com.stackstech.honeybee.apiserver.service.impl.DataServiceImpl.valid：" + "验证数据有效性结束");
 
         return true;
     }

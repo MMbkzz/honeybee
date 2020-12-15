@@ -30,7 +30,7 @@ public class RedisServerInterceptor {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @Pointcut("@annotation(com.stackstech.dcp.server.system.annotation.ServerCache)")
+    @Pointcut("@annotation(com.stackstech.honeybee.server.system.annotation.ServerCache)")
     public void pointCut() {
     }
 

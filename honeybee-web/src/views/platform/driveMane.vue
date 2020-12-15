@@ -224,7 +224,7 @@
               <el-input size="medium" v-model="driveModelForm.driverClass" :disabled="dialogStatus == 'view'"></el-input>
               <cr-help-popver styleText="position:absolute;right:-20px;top:12px;" popverWidth="400">
                 <div slot="popver-content">
-                  主类入口为驱动中实现ResourceSessionFactory接口的类，写法如<br/>com.stackstech.dcp.driver.Mysql.MysqlSessionFactory，您可以链接到
+                  主类入口为驱动中实现ResourceSessionFactory接口的类，写法如<br/>com.stackstech.honeybee.driver.Mysql.MysqlSessionFactory，您可以链接到
                   <a href="./dsp-help/dsp-help.html#wow78" target="_blank">
                     <el-button type="text" style="padding:0">驱动开发</el-button>
                   </a>

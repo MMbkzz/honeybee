@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthcAspect {
 
-    @Pointcut("@annotation(com.stackstech.dcp.server.auth.annotation.Authc)")
+    @Pointcut("@annotation(com.stackstech.honeybee.server.auth.annotation.Authc)")
     public void pointCut() {
     }
 

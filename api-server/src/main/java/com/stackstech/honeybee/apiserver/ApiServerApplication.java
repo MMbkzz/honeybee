@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableAutoConfiguration
-@ComponentScan({"com.stackstech.dcp"})
+@ComponentScan({"com.stackstech.honeybee"})
 public class ApiServerApplication {
 
 //    @Autowired

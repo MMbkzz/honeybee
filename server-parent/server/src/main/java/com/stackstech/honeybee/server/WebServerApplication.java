@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @EnableAutoConfiguration
 @ImportResource({"classpath*:shiro.xml"})
-@ComponentScan({"com.stackstech.dcp"})
+@ComponentScan({"com.stackstech.honeybee"})
 @ServletComponentScan
 @EnableDiscoveryClient
 public class WebServerApplication {

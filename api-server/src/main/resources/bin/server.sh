@@ -50,7 +50,7 @@ JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home"
 
 #-----------------------------------------------------------------------
 # Process Entrance class
-MAIN_CLASS="com.stackstech.dcp.apiserver.ApiServerApplication"
+MAIN_CLASS="com.stackstech.honeybee.apiserver.ApiServerApplication"
 #-----------------------------------------------------------------------
 
 #-----------------------------------------------------------------------

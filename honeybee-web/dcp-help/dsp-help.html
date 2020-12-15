@@ -1659,7 +1659,7 @@ Support business with data.
 在pom文件配置驱动依赖
 <blockquote>
 <pre><code> &lt;dependency&gt;
-    &lt;groupId&gt;com.stackstech.dcp&lt;/groupId&gt;
+    &lt;groupId&gt;com.stackstech.honeybee&lt;/groupId&gt;
     &lt;artifactId&gt;dsp-driver-api&lt;/artifactId&gt;
     &lt;version&gt;1.0&lt;/version&gt;
  &lt;/dependency&gt;
@@ -1669,7 +1669,9 @@ Support business with data.
 </li>
 <li>创建驱动的Session类 和SessionFactory类，例如：HttpSession  ,HttpSessionFactory；</li>
 <li>HttpSession 继承AbstractDspPoolSession类 实现ResourceSession接口；</li>
-<li>HttpSessionFactory实现ResourceSessionFactory接口；此类为驱动的主类入口，主类入口写法带包名全称，例如：com.stackstech.dcp.driver.Mysql.MysqlSessionFactory</li>
+  <li>
+    HttpSessionFactory实现ResourceSessionFactory接口；此类为驱动的主类入口，主类入口写法带包名全称，例如：com.stackstech.honeybee.driver.Mysql.MysqlSessionFactory
+  </li>
 <li>
 <pre><code>    public class HttpSession extends AbstractDspPoolSession implements ResourceSession {
 

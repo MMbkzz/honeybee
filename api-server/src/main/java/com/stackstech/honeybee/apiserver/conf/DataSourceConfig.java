@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  * 数据源配置
  */
 @Configuration
-@MapperScan(basePackages = "com.stackstech.dcp.**.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = "com.stackstech.honeybee.**.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
 @Component("DataSourceConfig")
 public class DataSourceConfig {
     @Bean(name = "dataSource")
