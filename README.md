@@ -1,3 +1,3 @@
-# dcp
+# Honeybee
 
-data platform
+Data governance platform
