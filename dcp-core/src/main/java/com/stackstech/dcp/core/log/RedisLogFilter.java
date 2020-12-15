@@ -1,0 +1,22 @@
+package com.stackstech.dcp.core.log;
+
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.filter.Filter;
+import ch.qos.logback.core.spi.FilterReply;
+import org.slf4j.Marker;
+
+public class RedisLogFilter extends Filter<ILoggingEvent> {
+
+    private final String markerName = "redis";
+
+    @Override
+    public FilterReply decide(ILoggingEvent event) {
+        Marker marker = event.getMarker();
+        if (marker != null && markerName.equals(marker.getName())) {
+            return FilterReply.ACCEPT;
+        } else {
+            return FilterReply.DENY;
+        }
+    }
+
+}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.dcp.server.operations.dao.SysAuditLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.operations.model.SysAuditLog">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="api" property="api" jdbcType="VARCHAR"/>
+        <result column="api_desc" property="apiDesc" jdbcType="VARCHAR"/>
+        <result column="request_time" property="requestTime" jdbcType="TIMESTAMP"/>
+        <result column="response_time" property="responseTime" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.stackstech.dcp.server.operations.model.SysAuditLog">
+        INSERT INTO dcp_sys_audit_log
+        (user_id,
+        ip,
+        status,
+        api,
+        api_desc,
+        request_time,
+        response_time,
+        create_time,
+        create_by)
+        VALUES
+        (#{userId,jdbcType=BIGINT},
+        #{ip,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR},
+        #{api,jdbcType=VARCHAR},
+        #{apiDesc,jdbcType=VARCHAR},
+        #{requestTime,jdbcType=TIMESTAMP},
+        #{responseTime,jdbcType=BIGINT},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--根据id查询所有数据服务-->
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select a.* from dcp_sys_audit_log a
+        left join dcp_auth_user b on a.user_id = b.id
+        <where>
+            <if test="userName != null and userName != ''">
+                and b.login_name like concat('%',#{userName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="status != null and status != ''">
+                and a.status = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and a.create_time &lt;= #{endTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <!--根据id查询所有数据服务-->
+    <select id="countAll" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from dcp_sys_audit_log a
+        left join dcp_auth_user b on a.user_id = b.id
+        <where>
+            <if test="userName != null and userName != ''">
+                and b.login_name like concat('%',#{userName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="status != null and status != ''">
+                and a.status = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and a.create_time &gt;= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and a.create_time &lt;= #{endTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--根据条件查询所有数据服务信息-->
+    <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select * from dcp_sys_audit_log t
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+</mapper>

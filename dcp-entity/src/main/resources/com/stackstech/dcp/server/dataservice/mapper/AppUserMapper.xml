@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.dcp.server.dataservice.dao.AppUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.dataservice.model.AppUser">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="app_desc" property="appDesc" jdbcType="VARCHAR"/>
+        <result column="owner" property="appOwner" jdbcType="VARCHAR"/>
+        <result column="status_code" property="statusCode" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.stackstech.dcp.server.dataservice.model.AppUser">
+        INSERT INTO dcp_app
+        (id,
+        name,
+        app_desc,
+        owner,
+        status_code,
+        create_time,
+        create_by,
+        update_time,
+        update_by)
+        VALUES
+        (#{id,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+        #{appDesc,jdbcType=VARCHAR},
+        #{appOwner,jdbcType=VARCHAR},
+        #{statusCode,jdbcType=VARCHAR},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT},
+        SYSDATE(),
+        #{updateBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--根据id编号删除数据服务APP用户信息-->
+    <delete id="delete" parameterType="java.lang.String">
+        update dcp_app
+        set status_code = 'deleted'
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!--编辑APP用户字段-->
+    <update id="update" parameterType="com.stackstech.dcp.server.dataservice.model.AppUser">
+        update dcp_app
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="appDesc != null ">
+                app_desc = #{appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="appOwner != null ">
+                owner = #{appOwner,jdbcType=VARCHAR},
+            </if>
+            <if test="statusCode != null ">
+                status_code = #{statusCode,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            update_time = SYSDATE()
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!--根据id查询所有数据服务APP用户信息-->
+    <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from dcp_app
+        where status_code != 'deleted' and id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据id查询所有数据服务APP用户信息-->
+    <select id="queryByPrimaryKeyAndOwner" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from dcp_app app
+        left join dcp_auth_user users on app.owner = users.id
+        where app.status_code != 'deleted' and app.owner = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据id查询所有数据服务APP用户信息-->
+    <select id="queryByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from dcp_app
+        where status_code != 'deleted' and name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据name查询所有数据服务-->
+    <select id="query" resultMap="BaseResultMap" parameterType="java.util.List">
+        select * from dcp_app
+        where status_code != 'deleted'
+        <if test="list != null and list.size > 0">
+            and id not in
+            <foreach collection="list" item="tag" open="(" separator="," close=")" index="index">
+                #{tag,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+    </select>
+
+    <!--根据条件查询所有数据服务APP用户信息-->
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="com.stackstech.dcp.server.dataservice.model.AppUser">
+        select app.*,users.name appOwnerName from dcp_app app
+        LEFT JOIN dcp_auth_user users ON app.owner = users.id
+        <where>
+            app.status_code != 'deleted'
+            <if test="name != null and name != ''">
+                and app.name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="appOwner != null and appOwner != ''">
+                and app.owner like CONCAT('%',#{appOwner,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and app.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by app.update_time desc
+    </select>
+
+    <!--根据条件查询所有数据服务APP用户信息-->
+    <select id="countAll" resultType="java.lang.Integer"
+            parameterType="com.stackstech.dcp.server.dataservice.model.AppUser">
+        select count(1) from dcp_app
+        <where>
+            status_code != 'deleted'
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="appOwner != null and appOwner != ''">
+                and owner like CONCAT('%',#{appOwner,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPrimaryKey" resultType="java.lang.String">
+        select seq_nextval('app_user')
+    </select>
+
+    <!--全局搜索-->
+    <select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select app.*,users.name appOwnerName from dcp_app app
+        LEFT JOIN dcp_auth_user users ON app.owner = users.id
+        <where>
+            app.status_code != 'deleted'
+            <if test="queryString != null and queryString != ''">
+                and concat(app.name,app.owner) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by app.update_time desc
+    </select>
+
+    <!--根据条件查询所有数据服务APi访问日志信息-->
+    <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1) from dcp_app
+        <where>
+            status_code != 'deleted'
+            <if test="queryString != null and queryString != ''">
+                and concat(name,owner) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

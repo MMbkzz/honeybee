@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.dcp.server.dataasset.dao.DataAssetAreaMapper">
+
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.dataasset.model.DataAssetArea">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="area_name" property="areaName" jdbcType="VARCHAR"/>
+        <result column="area_desc" property="areaDesc" jdbcType="VARCHAR"/>
+        <result column="pic_path" property="picPath" jdbcType="VARCHAR"/>
+        <result column="status_code" property="statusCode" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        area_name,
+        area_desc,
+        pic_path,
+        status_code,
+        create_time,
+        create_by,
+        update_time,
+        update_by
+    </sql>
+
+    <insert id="insert" parameterType="com.stackstech.dcp.server.dataasset.model.DataAssetArea">
+        INSERT INTO dcp_data_assets_area
+        (id,
+        area_name,
+        area_desc,
+        pic_path,
+        status_code,
+        create_time,
+        create_by,
+        update_time,
+        update_by)
+        VALUES
+        (#{id,jdbcType=VARCHAR},
+        #{areaName,jdbcType=VARCHAR},
+        #{areaDesc,jdbcType=VARCHAR},
+        #{picPath,jdbcType=VARCHAR},
+        #{statusCode,jdbcType=VARCHAR},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT},
+        SYSDATE(),
+        #{updateBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--根据id编号删除数据资产领域信息-->
+    <delete id="delete" parameterType="java.util.List">
+        update dcp_data_assets_area
+        set status_code = 'deleted '
+        where id IN
+        <foreach collection="list" index="index" item="tag" open="(" separator="," close=")">
+            #{tag,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <!--编辑角色-->
+    <update id="update" parameterType="com.stackstech.dcp.server.dataasset.model.DataAssetArea">
+        update dcp_data_assets_area
+        <set>
+            <if test="id != null and id != ''">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="areaName != null and areaName != ''">
+                area_name = #{areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="areaDesc != null and areaDesc != ''">
+                area_desc = #{areaDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="picPath != null">
+                pic_path = #{picPath,jdbcType=VARCHAR},
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                status_code = #{statusCode,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            update_time = SYSDATE(),
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+        and status_code != 'deleted'
+    </update>
+
+    <!--根据id查询所有数据资产领域信息-->
+    <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_data_assets_area t
+        where t.id = #{id,jdbcType=VARCHAR}
+        and status_code != 'deleted'
+    </select>
+
+    <!--查询名称-->
+    <select id="queryByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_data_assets_area
+        <where>
+            status_code != 'deleted '
+            <if test="areaName != null and areaName != ''">
+                and area_name = #{areaName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--根据条件查询所有数据资产领域信息-->
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_data_assets_area
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="areaName != null and areaName != ''">
+                and area_name like concat('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            and status_code != 'deleted'
+        </where>
+        order by update_time desc
+    </select>
+
+    <!--获取记录数-->
+    <select id="countAll" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*) from dcp_data_assets_area
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="areaName != null and areaName != ''">
+                and area_name like concat('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            and status_code != 'deleted'
+        </where>
+    </select>
+
+    <!--获取自增ID-->
+    <select id="queryPrimaryKey" resultType="java.lang.String">
+        select seq_nextval('dcp_data_assets_area')
+    </select>
+
+    <!--全局搜索-->
+    <select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_data_assets_area
+        <where>
+            <if test="queryString != null and queryString != ''">
+                and area_name like concat('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            and status_code != 'deleted'
+        </where>
+        order by update_time desc
+    </select>
+
+    <!--全局搜索记录数-->
+    <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1) from dcp_data_assets_area
+        <where>
+            <if test="queryString != null and queryString != ''">
+                and area_name like concat('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            and status_code != 'deleted'
+        </where>
+    </select>
+
+</mapper>

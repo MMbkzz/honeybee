@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>dsp帮助手册</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child,
+ol li > :first-child,
+ul li ul:first-of-type,
+ol li ol:first-of-type,
+ul li ol:first-of-type,
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+<!--重要代码-->
+<script>
+<!--重要代码-->
+<!--重要代码-->
+//标题序号计数器
+var hCount=[0,0,0,0,0,0];
+//设置计数器
+function setHCount(number)
+{
+    //当前计数器加一
+    hCount[number-1]++;
+    for(var i=number,length=hCount.length;i<length;i++)
+    {
+        //子目录计数器全部置零
+        hCount[i]=0;
+    }
+}
+//重命名目录名称
+function setHTagValue(item,number)
+{
+    //获取标题名
+    var text=$(item).get(0).innerHTML;
+    //初始化空字符串
+    var before="";
+    //生成序号
+    for(var i=0,length=hCount.length;i<number;i++)
+    {
+        if(i<number-1)
+            before+=hCount[i]+".";
+        else
+            before+=hCount[i]+" ";
+    }
+//  $(item).get(0).innerHTML=(h1Count)+"."+(h2Count)+"."+(h3Count)+"."+(h4Count)+"."+(h5Count)+"."+(h6Count)+" "+text;
+    //在标题前面加上序号
+    $(item).get(0).innerHTML=before+text;
+}
+function renameHTag(item)
+{
+    var tag = $(item).get(0).localName;
+    if(tag==="h1")
+    {
+        setHCount(1);
+        console.log("捕获到标签:%s",tag);
+        setHTagValue(item,1);
+    }
+    if(tag==="h2")
+    {
+        setHCount(2);
+        console.log("捕获到标签:%s",tag);
+        setHTagValue(item,2);
+    }
+    if(tag==="h3")
+    {
+        setHCount(3);
+        console.log("捕获到标签:%s",tag);
+        setHTagValue(item,3);
+    }
+    if(tag==="h4")
+    {
+        setHCount(4);
+        console.log("捕获到标签:%s",tag);
+        setHTagValue(item,4);
+    }
+    if(tag==="h5")
+    {
+        setHCount(5);
+        console.log("捕获到标签:%s",tag);
+        setHTagValue(item,5);
+    }
+    if(tag==="h6")
+    {
+        setHCount(6);
+        console.log("捕获到标签:%s",tag);
+        setHTagValue(item,6)
+    }
+}
+$(document).ready(function()
+{
+    $("h1,h2,h3,h4,h5,h6").each(function(i,item)
+    {
+        //给<H>类标签编号
+        renameHTag(item);
+        //获取标签的名字,h1,还是h2
+        var tag = $(item).get(0).localName;
+
+        //为该标签设置id属性
+        $(item).attr("id","wow"+i);
+        //添加一个页内超链接,并设置class选择器
+//      $("#category").append('<a class="new'+tag+'" href="#wow'+i+'">'+$(this).text()+'</a></br>');
+        $("#category").append('<a class="new'+tag+'" href="#wow'+i+'">'+$(item).text()+'</a></br>');
+        //为每一个标题超链接的class属性设置左边距
+        $(".newh1").css("margin-left",0);
+        $(".newh2").css("margin-left",20);
+        $(".newh3").css("margin-left",40);
+        $(".newh4").css("margin-left",60);
+        $(".newh5").css("margin-left",80);
+        $(".newh6").css("margin-left",100);
+    });
+    //设置class选择器为.book-body的html内容
+    $(".book-body").html($(".book-body").nextAll())
+});
+
+</script>
+
+<style type="text/css">
+
+@media (max-width: 1600px) {
+    .book-body {
+       padding-left:200px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .book-body {
+       padding-left:200px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .book-body {
+       padding-left:300px;
+    }
+}
+@media (max-width: 700px) {
+    .book-body {
+       padding-left:0px;
+    }
+}
+@media (min-width: 600px) {
+    #category{
+        position: fixed;
+        left: 20px;
+        top:0;
+        height: 100%;
+        overflow-y: scroll;
+    }
+}
+
+@media (-webkit-max-device-pixel-ratio: 1) {
+    ::-webkit-scrollbar-track-piece {
+        background-color:#FFF
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #c2c2c2;
+        background-clip: padding-box;
+        min-height: 28px
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #A0A0A0
+    }
+}
+
+</style>
+<!--返回顶部-->
+<a href="javascript:scroll(0,0)" style="position:fixed;float:right;right:32px;top:70%">返回顶部</a>
+<!--目录栏，设置占用宽度为20%可以根据实际情况设置-->
+<div style="width:20%;" id="category" class="book-summary"></div>
+<!--文章主体部分-->
+<div class="book-body">
+</div>
+</head>
+<body>
+<h1>产品简介</h1>
+<p>华润置地进入 DT时代 ，
+数据成为新生产要素，技术成为创新驱动力
+Data becomes the new factors of production.
+Technology is the driving force innovation.
+华润置地十三五规划目标：建设 “数据化置地”
+数据化交互
+数据化运营
+数据化洞洞察决策<br />
+一切业务 数据化
+一切数据 业务化
+Digitalize business.
+Support business with data.
+用科学精神，建设 “数据化置地”
+推动信息化组织重塑与构建
+以客户为导向进行流程再造  ，以科学精神进行数据管理 </p>
+<pre><code>同时基于数字化转型的时代背景，以及建设 “数据化置地”的⼗十三五信息化建设核心使命对数据平台
+提出了新的挑战与机遇，技术团队确定的 “数据” + “技术” + “服务” 三维度的运营策略略旨在
+将数据意识和数据思维渗透到信息化建设的各个领域与环节；数据服务平台(DSP)即是“服
+务”维度的核心解决方案，借助置地 技术中台PAAS平台能力构建 数据服务化体系的数据中
+台，同时填补业界在数据共享与资产监管等领域的产品空白。
+</code></pre>
+
+<h2>功能概述</h2>
+<p>平台基于微服务架构集成各种数据能力和大数据组件进行开发，通过规范数据管理、发布、审计等流程。打造企业统一的数据发布平台，并对外提供开放接口，争取做到一份数据一个服务，万人使用，平台主要包括数据源管理、服务模型管理、数据资产管理、数据服务管理、安全管理和平台管理等，为企业用户提供数据访问、发布等功能。该平台还提供数据处理和分析功能，可直接和BI工具进行无缝对接，基于平台和业务需求，用户可以实现自己想要的功能或场景。</p>
+<h2>使用范围</h2>
+<p>本文档适用于数据应用用户、平台管理用户、数据工程师、数据架构师操作人员。</p>
+<h2>使用步骤</h2>
+<ul>
+<li>新增服务用户(要调用服务者)</li>
+<li>新增数据源</li>
+<li>新增服务模型</li>
+<li>授权服务用户</li>
+<li>验证服务发布</li>
+<li>调用者调用服务。</li>
+</ul>
+<h1>用户指南</h1>
+<h2>数据源管理</h2>
+<h3>新增</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的数据源管理，导航至数据源管理页面。</li>
+<li>单击新增，滑出新增数据源窗口。</li>
+<li>在新增数据源窗口中，你可以选择可使用的驱动名称（Hive、MySQL、Oracle、Postgresql、SqlServer等）,例如mysql数据源。输入数据源名称、最大连接数据。</li>
+<li>例如配置该Mysql数据源的参数信息。如下图所示：</li>
+<li><img src="imggif/服务源新增.gif" /></li>
+<li>配置参数：根据选择的驱动名称会自动加载驱动中的参数，每种驱动的具体配置参考<a href="#驱动帮助">驱动配置帮助</a></li>
+<li>单击测试连通性。</li>
+<li>测试成功，连接状态显示绿色后，单击“保存”。</li>
+</ol>
+<p>tips：</p>
+<pre><code>- 数据源名称：可由英文字母、数字、汉字、下划线组成，长度不超过 60 个字符。
+
+- 最大连接数：根据实际情况合理配置，此值会均匀分配到各个服务实例上。
+</code></pre>
+
+<h3>修改</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的数据源管理，导航至数据源管理页面。</li>
+<li>单击修改按钮，滑出修改数据源窗口。
+<img src="img/服务源修改.png" /></li>
+</ol>
+<h3>删除</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的数据源管理，导航至数据源管理页面。</li>
+<li>单击删除按钮。使用中的数据源无法删除，所以在删除之前确认没有任何模型使用此数据源了。
+<img src="img/服务源删除.png" /></li>
+</ol>
+<h3>禁用/启用</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的数据源管理，导航至数据源管理页面。</li>
+<li>单击启用/禁用按钮
+禁用数据源之后，此数据源下的所有服务都无法访问。
+<img src="img/服务源启用.png" /></li>
+</ol>
+<h3>阶段说明</h3>
+<ol>
+<li>新建成功的数据源默认为未激活状态；</li>
+<li>主服务实例获取未激活状态分配数量给服务实例更改已激活状态；</li>
+<li>服务实例获取主服务实例分配的数量初始化、注册更改状态为已上线；</li>
+<li>数据源禁用之后，主服务重新分配资源给服务实例；</li>
+<li>服务实例取消注册、释放资源更改状态下线，下线时间约5分钟左右；
+<img src="img/服务源阶段变迁.png" /></li>
+</ol>
+<h2>服务模型管理</h2>
+<h3>新增</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务模型管理，导航至服务模型管理页面。</li>
+<li>单击新增，滑出新增数据源窗口。</li>
+<li>在新增服务模型窗口中，你可以选择可使用的模型类型(资产模型、能力模型)、资产模型发布包括的数据源有Hive、MySQL、Oracle、Postgresql、SqlServer、redis、hbase等，能力模型发布包括的数据源有kafka、http等。具体配置参考模型新增样例。</li>
+<li>名称、资产领域、资产主题、和数据源信息。</li>
+<li>属性列表：根据选择的数据源自动加载属性，内存数据库redis需手动输入，参考模型新增样例。</li>
+<li>测试成功，连接状态显示绿色后，单击“保存”。
+<img src="imggif/服务模型管理新增.gif" /></li>
+</ol>
+<h4>模型新增样例</h4>
+<p><strong>关系型数据库MySQL：</strong></p>
+<blockquote>
+<ul>
+<li>选择模型类型:资产模型;</li>
+<li>选择所属资产领域、资产主题;</li>
+<li>模型名称：例如：模型销售明细数据MDM</li>
+<li>数据源：选择已存在的数据源。</li>
+<li>是否发布：是</li>
+<li>发布类型：post</li>
+<li>表达式类型：数据源表</li>
+<li>数据源表：选择需要发布表名称</li>
+<li>属性列表：剔除不需要发布的属性字段(默认选择所有表属性，最终用户能访问的属性由数据服务管理功能授权确定，参考数据服务管理功能授权)。</li>
+<li>参数列表：选择需要过滤的条件属性，取个好的参数名(建议不要和属性名一致，因为同一属性名多次条件过滤会冲突)。 选择类型、操作符等，确认是否必填。</li>
+<li>验证测试通过，点击“保存”按钮。</li>
+</ul>
+</blockquote>
+<p><strong>redis：</strong></p>
+<blockquote>
+<ul>
+<li>选择模型类型:资产模型;</li>
+<li>选择所属资产领域、资产主题;</li>
+<li>模型名称：例如：模型销售明细数据MDM</li>
+<li>数据源：选择已存在的数据源。</li>
+<li>是否发布：是</li>
+<li>发布类型：post</li>
+<li>表达式类型：空</li>
+<li>数据源表：空</li>
+<li>属性列表：新增两属性key,value，类型都是string</li>
+<li>参数列表：新增两参数名key,value，选择属性名：key、value, 选择类型string、选择操作符“等于”、必填。</li>
+<li>验证测试通过，点击“保存”按钮。</li>
+</ul>
+</blockquote>
+<p><strong>hbase：</strong></p>
+<blockquote>
+<ul>
+<li>选择模型类型:资产模型;</li>
+<li>选择所属资产领域、资产主题;</li>
+<li>模型名称：例如：模型销售明细数据MDM</li>
+<li>数据源：选择已存在的数据源。</li>
+<li>是否发布：是</li>
+<li>发布类型：post</li>
+<li>表达式类型：数据源表</li>
+<li>数据源表：选择需要发布表名称(列族+列),</li>
+<li>属性列表：新增属性rowkey，类型都是string</li>
+<li>参数列表：新增参数名rowkey，选择属性名：rowkey, 选择类型string、选择操作符“等于”、必填。</li>
+<li>验证测试通过，点击“保存”按钮。</li>
+</ul>
+</blockquote>
+<p><strong>kafka：</strong></p>
+<blockquote>
+<ul>
+<li>选择模型类型:能力模型;</li>
+<li>选择大类：组件;</li>
+<li>选择子类：消息队列</li>
+<li>模型名称：实时大屏消费队列</li>
+<li>数据源：选择已存在的数据源。</li>
+<li>是否发布：是</li>
+<li>发布类型：post</li>
+<li>topicName：（已存在的topic）</li>
+<li>参数列表：新增参数名message，参数位置：无, 选择类型string、选择操作符“等于”、必填。</li>
+<li>验证测试通过，点击“保存”按钮。</li>
+</ul>
+</blockquote>
+<p><strong>http：</strong></p>
+<blockquote>
+<ul>
+<li>注：post请求的header信息需提前在数据源中配置，具体配置请参考驱动配置帮助部分。</li>
+<li>选择模型类型:能力模型;</li>
+<li>选择大类：应用接口;</li>
+<li>选择子类：数据采集</li>
+<li>模型名称：</li>
+<li>数据源：选择已存在的数据源。</li>
+<li>是否发布：是</li>
+<li>发布类型：post</li>
+<li>url: URL地址</li>
+<li>参数列表：新增参数名body，参数位置：body, 选择类型string、选择操作符“等于”、必填。</li>
+<li>验证测试通过，点击“保存”按钮。</li>
+</ul>
+</blockquote>
+<h4>表达式语法</h4>
+<ol>
+<li>查询表达式仅支持关系型数据库，如：ORACLE、MYSQL、SQL SERVER、GREENPLUM、HIVE等；</li>
+<li>SQL语法基本支持SQL92标准，但查询属性不支持带“*”查询，需具体指定属性;</li>
+<li>
+必填参数直接用“${参数名}”语法，可选参数需用&lt;#if name??&gt;&lt;/#if&gt;语法，如:
+<ul>
+<li>&lt;#if 参数名??&gt;</li>
+<li>and bill_date = ${参数名} </li>
+<li>&lt;/#if&gt;</li>
+</ul>
+</li>
+<li>
+表达式样例：
+<ul>
+<li>select header_id,project_number,tenant_number,premise_number,contact_person,</li>
+<li>bill_number,balance_period, email,bill_date,bill_type,description,bill_title,vat_flag </li>
+<li>from jep.tnnt_fin_bill_headers where 1 = 1 </li>
+<li>and project_number = ${ project_number} </li>
+<li>&lt;#if bill_date_from??&gt;</li>
+<li>and bill_date = ${ bill_date_from} </li>
+<li>&lt;/#if&gt;</li>
+<li>&lt;#if bill_date_to??&gt;</li>
+<li>and bill_date &lt; = ${ bill_date_to} </li>
+<li>&lt;/#if&gt;</li>
+</ul>
+</li>
+</ol>
+<h3>修改</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务模型管理，导航至服务模型管理页面。</li>
+<li>单击修改按钮，滑出领域修改窗口。</li>
+<li>在修改领域窗口中，填写相关信息</li>
+<li>单击“保存”</li>
+</ol>
+<h3>删除</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务模型管理，导航至服务模型管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功为真正删除。</li>
+</ol>
+<h2>数据资产管理</h2>
+<h3>资产领域管理</h3>
+<p><img src="img/数据资产管理/资产领域管理.png" /></p>
+<h4>新增</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的资产领域管理，导航至资产领域管理页面。</li>
+<li>单击新增，滑出领域新增窗口。</li>
+<li>在新增领域窗口中，填写相关名称信息</li>
+<li>单击“保存”</li>
+</ol>
+<h4>修改</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的资产领域管理，导航至资产领域管理页面。</li>
+<li>单击修改按钮，滑出领域修改窗口。</li>
+<li>在修改领域窗口中，填写相关信息</li>
+<li>单击“保存”</li>
+</ol>
+<h4>删除</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的资产领域管理，导航至资产领域管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功为真正删除。</li>
+</ol>
+<h3>资产主题管理</h3>
+<p><img src="img/数据资产管理/资产主题管理.png" /></p>
+<h4>新增</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的资产主题管理，导航至资产主题管理页面。</li>
+<li>单击新增，滑出主题新增窗口。</li>
+<li>在新增主题窗口中，填写相关名称信息</li>
+<li>单击“保存”</li>
+</ol>
+<h4>修改</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的资产领域管理，导航至资产领域管理页面。</li>
+<li>单击修改按钮，滑出领域修改窗口。</li>
+<li>在修改领域窗口中，填写相关信息</li>
+<li>单击“保存”</li>
+</ol>
+<h4>删除</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的资产领域管理，导航至资产领域管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功。</li>
+</ol>
+<h3>数据资产地图</h3>
+<p><img src="img/数据资产管理/数据资产地图.png" /></p>
+<h2>数据服务管理</h2>
+<p><span id="数据服务管理"></span> </p>
+<h3>查看详情</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的数据服务管理，导航至数据服务管理页面。</li>
+<li>单击服务数据栏目，滑出查看服务窗口。</li>
+<li>选择对应用户、显示对应用户拥有属性
+<img src="imggif/数据服务管理查看.gif" /></li>
+</ol>
+<h3>验证</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的数据服务管理，导航至数据服务管理页面。</li>
+<li>单击服务数据栏目，滑出验证服务窗口。</li>
+<li>选择对应用户、选择对应用户拥有属性。</li>
+<li>根据情况填入具体参数依赖值。</li>
+<li>点击“验证”按钮，查看返回信息。</li>
+<li>此用户的样例详情点击“样例下载”，查看下载文档。
+<img src="imggif/数据服务管理验证.gif" /></li>
+</ol>
+<h4>样例说明</h4>
+<p><strong>参数样例：</strong></p>
+<table>
+<thead>
+<tr>
+	<th>请求参数</th>
+	<th align="center">参数类型</th>
+	<th>参数说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>token</td>
+	<td align="center">String</td>
+	<td>服务授权时生成</td>
+</tr>
+<tr>
+	<td>appid</td>
+	<td align="center">String</td>
+	<td>服务用户Id</td>
+</tr>
+<tr>
+	<td>content-type</td>
+	<td align="center">String</td>
+	<td>使用post请求，请选择 application/json</td>
+</tr>
+<tr>
+	<td>dataServiceId</td>
+	<td align="center">String</td>
+	<td>数据服务Id</td>
+</tr>
+<tr>
+	<td>data</td>
+	<td align="center">List</td>
+	<td>参数数据体</td>
+</tr>
+<tr>
+	<td>fields</td>
+	<td align="center">List</td>
+	<td>属性列表</td>
+</tr>
+<tr>
+	<td>fieldName</td>
+	<td align="center">String</td>
+	<td>属性名</td>
+</tr>
+<tr>
+	<td>params</td>
+	<td align="center">List</td>
+	<td>参数列表</td>
+</tr>
+<tr>
+	<td>name</td>
+	<td align="center">String</td>
+	<td>参数名</td>
+</tr>
+<tr>
+	<td>value</td>
+	<td align="center">String</td>
+	<td>参数值</td>
+</tr>
+</tbody>
+</table>
+<p>请求示例：</p>
+<ul>
+<li>content-type：application/json</li>
+<li>token:6f1e67e01839e9bac9775ef793903152</li>
+<li>appid:APP_000002</li>
+<li>
+<p>body:</p>
+<pre><code>{
+    &quot;dataServiceId&quot;: &quot;API_000053&quot;,
+    &quot;data&quot;: {
+        &quot;fields&quot;: [{
+                &quot;fieldName&quot;: &quot;project_number&quot;
+            },
+            {
+                &quot;fieldName&quot;: &quot;tenant_number&quot;
+            }
+        ],
+        &quot;params&quot;: [{
+            &quot;name&quot;: &quot; project_number&quot;,
+            &quot;value&quot;: &quot;1111&quot;
+        }]
+    }
+}
+</code></pre>
+
+</li>
+</ul>
+<p>返回参数：</p>
+<table>
+<thead>
+<tr>
+	<th>请求参数</th>
+	<th align="center">参数类型</th>
+	<th>参数说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>code</td>
+	<td align="center">int</td>
+	<td>200:成功，400失败</td>
+</tr>
+<tr>
+	<td>message</td>
+	<td align="center">String</td>
+	<td>返回状态，成功或者失败</td>
+</tr>
+<tr>
+	<td>data</td>
+	<td align="center">List</td>
+	<td>结果体</td>
+</tr>
+<tr>
+	<td>result</td>
+	<td align="center">Array</td>
+	<td>结果数组列表</td>
+</tr>
+</tbody>
+</table>
+<p>返回示例：</p>
+<pre><code>    {
+        &quot;code&quot;: 200,
+        &quot;message&quot;: &quot;success&quot;,
+        &quot;data&quot;: {
+            &quot;result&quot;: &quot;[{rowkey=11, cf1:photo_id=, cf1:photoStream=}]&quot;
+        }
+    }
+</code></pre>
+
+<h3>授权</h3>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的数据服务管理，导航至数据服务管理页面。</li>
+<li>单击授权，滑出授权服务窗口。</li>
+<li>选择对应用户、给对应用户授权属性
+<img src="imggif/数据服务管理授权.gif" /></li>
+</ol>
+<h2>运维监控</h2>
+<h3>数据服务监控</h3>
+<p><img src="img/运维监控/数据服务监控.png" /></p>
+<h3>数据源监控</h3>
+<p><img src="img/运维监控/服务源监控.png" />
+<img src="img/运维监控/服务源监控2.png" /></p>
+<h3>服务访问日志</h3>
+<p><img src="img/运维监控/服务访问日志.png" /></p>
+<h3>服务审计日志</h3>
+<p><img src="img/运维监控/集群审计日志.png" /></p>
+<h3>平台操作日志</h3>
+<p><img src="img/运维监控/平台操作日志.png" /></p>
+<h2>平台管理</h2>
+<h3>服务驱动管理</h3>
+<p><img src="img/平台管理/服务驱动管理.png" /></p>
+<h3>服务运维管理</h3>
+<p><img src="img/平台管理/集群运维管理.png" /></p>
+<h4>新增</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务运维管理，导航至服务运维管理页面。</li>
+<li>单击新增，滑出集群运维新增窗口。</li>
+<li>在新增集群运维窗口中，填写相关名称信息</li>
+<li>单击“保存”</li>
+</ol>
+<h4>修改</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务运维管理，导航至服务运维管理页面。</li>
+<li>单击修改按钮，滑出集群运维修改窗口。</li>
+<li>在修改集群运维窗口中，填写相关信息。</li>
+<li>单击“保存”</li>
+</ol>
+<h4>删除</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务运维管理，导航至服务运维管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功。</li>
+</ol>
+<h4>启用/禁用</h4>
+<h3>缓存管理</h3>
+<p><img src="img/平台管理/缓存管理.png" /></p>
+<h4>删除</h4>
+<h2>安全管理</h2>
+<h3>平台用户管理</h3>
+<p><img src="img/安全管理/平台用户管理.png" /></p>
+<h4>新增</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台用户管理，导航至平台用户管理页面。</li>
+<li>单击新增，滑出平台用户新增窗口。</li>
+<li>在新增平台用户窗口中，填写相关名称信息</li>
+<li>单击“保存”</li>
+</ol>
+<h4>修改</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台用户管理，导航至平台用户管理页面。</li>
+<li>单击修改按钮，滑出平台用户修改窗口。</li>
+<li>在修改平台用户窗口中，填写相关信息。</li>
+<li>单击“保存”</li>
+</ol>
+<h4>删除</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台用户管理，导航至平台用户管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功。</li>
+</ol>
+<h4>启用/禁用</h4>
+<h3>平台角色管理</h3>
+<p><img src="img/安全管理/平台角色管理.png" /></p>
+<h4>新增</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台角色管理，导航至平台角色管理页面。</li>
+<li>单击新增，滑出平台角色新增窗口。</li>
+<li>在新增平台角色窗口中，填写相关名称信息。</li>
+<li>单击“保存”。</li>
+</ol>
+<h4>修改</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台角色管理，导航至平台角色管理页面。</li>
+<li>单击修改按钮，滑出平台角色修改窗口。</li>
+<li>在修改平台角色窗口中，填写相关信息。</li>
+<li>单击“保存”。</li>
+</ol>
+<h4>删除</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台角色管理，导航至平台角色管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功。</li>
+</ol>
+<h4>启用/禁用</h4>
+<h3>平台资源管理</h3>
+<p><img src="img/安全管理/平台资源管理.png" />
+1. 登陆平台之后，单击对应菜单操作进入工作区。
+1. 单击左边菜单栏中的平台资源管理，导航至平台资源管理页面。
+1. 单击新增，滑出平台资源新增窗口。
+1. 在新增平台资源窗口中，填写相关名称信息
+1. 单击“保存”。</p>
+<h4>修改</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台资源管理，导航至平台资源管理页面。</li>
+<li>单击修改按钮，滑出平台资源修改窗口。</li>
+<li>在修改平台资源窗口中，填写相关信息。</li>
+<li>单击“保存”</li>
+</ol>
+<h4>删除</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的平台资源管理，导航至平台资源管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功。</li>
+</ol>
+<h4>启用/禁用</h4>
+<h3>服务用户管理</h3>
+<p><img src="img/安全管理/服务用户管理.png" /></p>
+<h4>新增</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务用户管理，导航至服务用户管理页面。</li>
+<li>单击新增，滑出服务用户新增窗口。</li>
+<li>在新增服务用户窗口中，填写相关名称信息</li>
+<li>单击“保存”</li>
+</ol>
+<h4>修改</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务用户管理，导航至服务用户管理页面。</li>
+<li>单击修改按钮，滑出服务用户修改窗口。</li>
+<li>在修改服务用户窗口中，填写相关信息。</li>
+<li>单击“保存”</li>
+</ol>
+<h4>删除</h4>
+<ol>
+<li>登陆平台之后，单击对应菜单操作进入工作区。</li>
+<li>单击左边菜单栏中的服务用户管理，导航至服务用户管理页面。</li>
+<li>单击删除按钮。</li>
+<li>提示删除成功。</li>
+</ol>
+<h4>启用/禁用</h4>
+<h2>系统参数配置</h2>
+<p><img src="img/系统参数配置.png" /></p>
+<p><span id="驱动帮助"></span></p>
+<h1>驱动配置帮助</h1>
+<h2>MYSQL驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>MysqlSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mysql.datasource.driver-class-name</td>
+	<td align="center">驱动类</td>
+	<td>com.mysql.jdbc.Driver</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mysql.datasource.url</td>
+	<td align="center">URL</td>
+	<td>jdbc:mysql://10.0.52.9:3306/dsp? charset=UTF8&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mysql.datasource.username</td>
+	<td align="center">用户名</td>
+	<td>root</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mysql.datasource.password</td>
+	<td align="center">密码</td>
+	<td>admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mysql.datasource.query-timeout</td>
+	<td align="center">查询超时(s)</td>
+	<td>15</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mysql.datasource.maxwait</td>
+	<td align="center">连接等待(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mysql.datasource.max-limit</td>
+	<td align="center">最大限制</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>ORACLE驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>OracleSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>oracle.datasource.driver-class-name</td>
+	<td align="center">驱动类</td>
+	<td>oracle.jdbc.driver.OracleDriver</td>
+	<td></td>
+</tr>
+<tr>
+	<td>oracle.datasource.url</td>
+	<td align="center">URL</td>
+	<td>jdbc:oracle:thin:@10.72.1.76:1521/MIXCRMDB</td>
+	<td></td>
+</tr>
+<tr>
+	<td>oracle.datasource.username</td>
+	<td align="center">用户名</td>
+	<td>root</td>
+	<td></td>
+</tr>
+<tr>
+	<td>oracle.datasource.password</td>
+	<td align="center">密码</td>
+	<td>admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>oracle.datasource.query-timeout</td>
+	<td align="center">查询超时(s)</td>
+	<td>15</td>
+	<td></td>
+</tr>
+<tr>
+	<td>oracle.datasource.maxwait</td>
+	<td align="center">连接等待(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>oracle.datasource.max-limit</td>
+	<td align="center">最大限制</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>SQL SERVER 驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>SqlServerSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sqlserver.datasource.driver-class-name</td>
+	<td align="center">驱动类</td>
+	<td>com.microsoft.sqlserver.jdbc.SQLServerDriver</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sqlserver.datasource.url</td>
+	<td align="center">URL</td>
+	<td>jdbc:sqlserver://10.72.1.201:1433;DatabaseName=dotnet_erp25_20170714</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sqlserver.datasource.username</td>
+	<td align="center">用户名</td>
+	<td>mysoft</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sqlserver.datasource.password</td>
+	<td align="center">密码</td>
+	<td>95938</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sqlserver.datasource.query-timeout</td>
+	<td align="center">查询超时(s)</td>
+	<td>15</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sqlserver.datasource.maxwait</td>
+	<td align="center">连接等待(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sqlserver.datasource.max-limit</td>
+	<td align="center">最大限制</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>HIVE 驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>HiveSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hive.datasource.driver-class-name</td>
+	<td align="center">驱动类</td>
+	<td>org.apache.hive.jdbc.HiveDriver</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hive.datasource.url</td>
+	<td align="center">URL</td>
+	<td>jdbc:hive2://zdhdpvdca04.crhd0a.crc.hk:10000/test</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hive.datasource.username</td>
+	<td align="center">用户名</td>
+	<td>hive</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hive.datasource.password</td>
+	<td align="center">密码</td>
+	<td>hive</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hive.datasource.query-timeout</td>
+	<td align="center">查询超时(s)</td>
+	<td>15</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hive.datasource.maxwait</td>
+	<td align="center">连接等待(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>HBASE 驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>HbaseSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hbase.datasource.rootdir</td>
+	<td align="center">根目录</td>
+	<td>hdfs://zdhdpvdca02.crhd0a.crc.hk:8020/apps/hbase/data</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hbase.datasource.zookeeper.quorum</td>
+	<td align="center">zk集群</td>
+	<td>zdhdpvdca03.crhd0a.crc.hk,zdhdpvdca02.crhd0a.crc.hk,zdhdpvdca01.crhd0a.crc.hk</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hbase.datasource.zookeeper.znode.parent</td>
+	<td align="center">znode.parent</td>
+	<td>/hbase-unsecure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hbase.datasource.max-total</td>
+	<td align="center">最大连接数</td>
+	<td>100</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hbase.datasource.max-idle</td>
+	<td align="center">最大空闲数</td>
+	<td>8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hbase.datasource.min-idle</td>
+	<td align="center">最小空闲数</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hbase.datasource.maxwait</td>
+	<td align="center">连接等待(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>POSTGRESQL驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>PostgreSQLSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>postgresql.datasource.driver-class-name</td>
+	<td align="center">驱动类</td>
+	<td>org.postgresql.Driver</td>
+	<td></td>
+</tr>
+<tr>
+	<td>postgresql.datasource.url</td>
+	<td align="center">URL</td>
+	<td>jdbc:postgresql://10.0.96.56:5432/CRLAND_EDB</td>
+	<td></td>
+</tr>
+<tr>
+	<td>postgresql.datasource.username</td>
+	<td align="center">用户名</td>
+	<td>root</td>
+	<td></td>
+</tr>
+<tr>
+	<td>postgresql.datasource.password</td>
+	<td align="center">密码</td>
+	<td>admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>postgresql.datasource.query-timeout</td>
+	<td align="center">查询超时(s)</td>
+	<td>15</td>
+	<td></td>
+</tr>
+<tr>
+	<td>postgresql.datasource.maxwait</td>
+	<td align="center">连接等待(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>postgresql.datasource.max-limit</td>
+	<td align="center">最大限制</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>REDIS 驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>RedisSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.host</td>
+	<td align="center">主机</td>
+	<td>10.0.52.8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.port</td>
+	<td align="center">端口</td>
+	<td>6379</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.password</td>
+	<td align="center">密码</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.database</td>
+	<td align="center">数据库ID</td>
+	<td>15</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.max-total</td>
+	<td align="center">最大连接数</td>
+	<td>6</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.maxwait</td>
+	<td align="center">连接等待(s)</td>
+	<td>18</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.min-idle</td>
+	<td align="center">最小空闲数</td>
+	<td>4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.timeout</td>
+	<td align="center">超时时间</td>
+	<td>1000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>redis.datasource.max-idle</td>
+	<td align="center">最大空闲数</td>
+	<td>8</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>KAFKA驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>KafkaSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.producer.servers</td>
+	<td align="center">集群地址</td>
+	<td>10.0.52.215:6667</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.producer.retries</td>
+	<td align="center">生产者重试次数</td>
+	<td>5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.batch.size</td>
+	<td align="center">每次生产大小</td>
+	<td>4096</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.producer.linger</td>
+	<td align="center">生产者延迟</td>
+	<td>5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.producer.buffer.memory</td>
+	<td align="center">生产者缓存大小</td>
+	<td>40960</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.consumer.bootstrap.servers</td>
+	<td align="center">消费者客户端</td>
+	<td>10.0.52.215:6667</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.consumer.enable.auto.commit</td>
+	<td align="center">消费者是否自动提交</td>
+	<td>TRUE</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.consumer.session.timeout.ms</td>
+	<td align="center">消费者超时时间</td>
+	<td>6000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.consumer.auto.commit.interval.ms</td>
+	<td align="center">消费者提交间隔</td>
+	<td>100</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.consumer.auto.offset.reset</td>
+	<td align="center">offset</td>
+	<td>latest/earliest</td>
+	<td>二选其一</td>
+</tr>
+<tr>
+	<td>kafka.datasource.max-total</td>
+	<td align="center">最大连接数</td>
+	<td>10</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.max-idle</td>
+	<td align="center">最大空闲数</td>
+	<td>8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.min-idle</td>
+	<td align="center">最小空闲数</td>
+	<td>1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>kafka.datasource.maxwait</td>
+	<td align="center">连接超时(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+<h2>HTTP 驱动</h2>
+<table>
+<thead>
+<tr>
+	<th>参数名</th>
+	<th align="center">显示名字</th>
+	<th>参数值(样例)</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td></td>
+	<td align="center">主类入口</td>
+	<td>HttpSessionFactory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>http.datasource.max-total</td>
+	<td align="center">最大连接数</td>
+	<td>24</td>
+	<td></td>
+</tr>
+<tr>
+	<td>http.datasource.max-idle</td>
+	<td align="center">最大空闲数</td>
+	<td>8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>http.datasource.min-idle</td>
+	<td align="center">最小空闲数</td>
+	<td>4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>http.datasource.Content-Type</td>
+	<td align="center">请求类型</td>
+	<td>application/json</td>
+	<td></td>
+</tr>
+<tr>
+	<td>http.datasource.maxwait</td>
+	<td align="center">连接超时(s)</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>http.datasource.proxy.hostname</td>
+	<td align="center">代理地址</td>
+	<td>10.0.248.64</td>
+	<td>可选，此参数在数据源时配置</td>
+</tr>
+<tr>
+	<td>http.datasource.proxy.port</td>
+	<td align="center">端口</td>
+	<td>3128</td>
+	<td>可选 此参数在数据源时配置</td>
+</tr>
+<tr>
+	<td>http.datasource.head.[name]</td>
+	<td align="center">请求头部名字</td>
+	<td>例如：http.datasource.head.token:******</td>
+	<td>可选， name就是实际头部的参数，此参数在数据源时配置</td>
+</tr>
+</tbody>
+</table>
+<h1>驱动开发流程步骤</h1>
+<ol>
+<li>创建maven工程</li>
+<li>
+在pom文件配置驱动依赖
+<blockquote>
+<pre><code> &lt;dependency&gt;
+    &lt;groupId&gt;com.stackstech.dcp&lt;/groupId&gt;
+    &lt;artifactId&gt;dsp-driver-api&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+ &lt;/dependency&gt;
+</code></pre>
+
+</blockquote>
+</li>
+<li>创建驱动的Session类 和SessionFactory类，例如：HttpSession  ,HttpSessionFactory；</li>
+<li>HttpSession 继承AbstractDspPoolSession类 实现ResourceSession接口；</li>
+<li>HttpSessionFactory实现ResourceSessionFactory接口；此类为驱动的主类入口，主类入口写法带包名全称，例如：com.stackstech.dcp.driver.Mysql.MysqlSessionFactory</li>
+<li>
+<pre><code>    public class HttpSession extends AbstractDspPoolSession implements ResourceSession {
+
+    private HttpHost proxy = null;
+    private CloseableHttpClient httpclient = HttpClients.createDefault();
+
+    private Map&lt;String,Object&gt; paramHead = new HashMap&lt;&gt;() ;
+
+    private HttpSession(ClassLoader classLoader) {
+        this.classLoader = classLoader;
+    }
+
+    public static HttpSession getInstance(ClassLoader classLoader) {
+        return new HttpSession(classLoader);
+    }
+
+    //初始化驱动需要依赖的配置参数。
+    public HttpSession initialize(Map&lt;String, Object&gt; config) {
+        pool = new GenericObjectPool(new DriverPoolFactory());
+        pool.setMaxTotal( Integer.valueOf((String) config.get(&quot;http.datasource.max-total&quot;)));
+        pool.setMaxIdle( Integer.valueOf((String) config.get(&quot;http.datasource.max-idle&quot;)));
+        pool.setMinIdle( Integer.valueOf((String) config.get(&quot;http.datasource.min-idle&quot;)));
+        ........
+
+        return this;
+    }
+
+    @Override
+    public List&lt;Map&lt;String, Object&gt;&gt; get(String statement) {
+        return null;
+    }
+
+    @Override
+    public DriverMetaData get(DriverModel driverModel) {
+
+        DriverModel driverModel = driverModel;
+
+        try{
+            borrow =  pool.borrowObject();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            pool.returnObject(borrow);
+        }
+
+        return new DriverMetaData(MetaDataTypeEnum.NOSQL,execute);
+    }
+
+    @Override
+    public DriverMetaData put(DriverModel driverModel) {
+        return null;
+    }
+
+    @Override
+    public boolean valid() {
+        return true;
+    }
+
+    @Override
+    public void close() {
+        try {
+            httpclient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+</code></pre>
+
+<p>}</p>
+</li>
+</ol>
+<p>Sessionfactory类，</p>
+<pre><code>public class HttpSessionFactory implements ResourceSessionFactory {
+    private HttpSession httpSession;
+
+    private Map&lt;String, Object&gt; config = null;
+    @Override
+    public ResourceSessionFactory openSession(ClassLoader classLoader, Map&lt;String, Object&gt; config) {
+        openSessionFromDataSource(classLoader, config);
+        return this;
+    }
+
+    @Override
+    public ResourceSessionFactory reconfigure(ClassLoader classLoader, Map&lt;String, Object&gt; config) {
+        openSessionFromDataSource(classLoader, config);
+        return this;
+    }
+
+    @Override
+    public ResourceSession getSession() {
+        return httpSession;
+    }
+
+    @Override
+    public Map&lt;String, Object&gt; getConfiguration() {
+        return this.config;
+    }
+
+    @Override
+    public void close() {
+    }
+
+    @Override
+    public void resetPoolSize(Integer poolSize) {
+
+        this.getSession().resetPoolSize(poolSize);
+    }
+
+    @Override
+    public Integer getPoolSize() {
+        return this.getSession().getPoolSize();
+    }
+
+    private ResourceSession openSessionFromDataSource(ClassLoader classLoader, Map&lt;String, Object&gt; config) {
+        try {
+            return httpSession = HttpSession.getInstance(classLoader).initialize(config);
+        } catch (Exception e) {
+        } finally {
+        }
+        return null;
+    }
+    @Override
+    public PoolInfo getPoolInfo() {
+        return httpSession.getPoolInfo();
+    }
+}
+</code></pre>
+
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

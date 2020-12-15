@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.dcp.server.dataasset.dao.ModelCodeMapper">
+
+    <!--根据条件获取ModelCode-->
+    <select id="queryAll" parameterType="java.util.Map"
+            resultType="com.stackstech.dcp.server.dataasset.model.ModelCode">
+        select *
+        from dcp_code
+        <where>
+            type in
+            ('mode_type','ability_type','component_type','solution_type','api_type','cluster_sub_type','gateway_sub_type')
+            and parent_code = #{parentCode,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <!--根据主键获取ModelCode-->
+    <select id="queryByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.stackstech.dcp.server.dataasset.model.ModelCode">
+        select *
+        from dcp_code
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--根据Code获取ModelCode-->
+    <select id="queryByCode" parameterType="java.lang.String"
+            resultType="com.stackstech.dcp.server.dataasset.model.ModelCode">
+        select *
+        from dcp_code
+        <where>
+            <if test="code != null">
+                and code = #{code,jdbcType=VARCHAR}
+            </if>
+            and type in ('mode_type','ability_type','component_type','solution_type','api_type')
+        </where>
+    </select>
+
+    <!--根据type获取所有状态-->
+    <select id="queryByType" parameterType="java.lang.String"
+            resultType="com.stackstech.dcp.server.dataasset.model.ModelCode">
+        select *
+        from dcp_code
+        where type = #{type,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryByParentCode" parameterType="java.lang.String"
+            resultType="com.stackstech.dcp.server.dataasset.model.ModelCode">
+        select *
+        from dcp_code
+        where parent_code = #{parentCode,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据type和Code确定状态码-->
+    <select id="queryCode" parameterType="java.lang.String"
+            resultType="com.stackstech.dcp.server.dataasset.model.ModelCode">
+        select *
+        from dcp_code
+        <where>
+            <if test="type != null">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="code != null">
+                and code = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>dcp-server-parent</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>dcp-server-parent</name>
+
+    <parent>
+        <groupId>com.stackstech.dcp</groupId>
+        <artifactId>dcp</artifactId>
+        <version>1.0</version>
+        <relativePath><![CDATA[../pom.xml]]></relativePath>
+    </parent>
+
+    <modules>
+        <module>dcp-server</module>
+        <module>dcp-server-auth</module>
+        <module>dcp-server-auth-shiro</module>
+        <module>dcp-server-dataasset</module>
+        <module>dcp-server-dataservice</module>
+        <module>dcp-server-datasource</module>
+        <module>dcp-server-operations</module>
+        <module>dcp-server-param</module>
+        <module>dcp-server-platform</module>
+        <module>dcp-server-system</module>
+    </modules>
+</project>

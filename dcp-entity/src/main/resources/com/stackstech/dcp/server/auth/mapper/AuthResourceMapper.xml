@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stackstech.dcp.server.auth.dao.AuthResourceMapper">
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.auth.model.AuthResource">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="descr" jdbcType="VARCHAR" property="descr"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="category_id" jdbcType="BIGINT" property="categoryId"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="BIGINT" property="createBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="attr1" jdbcType="VARCHAR" property="attr1"/>
+        <result column="attr2" jdbcType="VARCHAR" property="attr2"/>
+        <result column="attr3" jdbcType="VARCHAR" property="attr3"/>
+        <result column="attr4" jdbcType="VARCHAR" property="attr4"/>
+        <result column="attr5" jdbcType="VARCHAR" property="attr5"/>
+    </resultMap>
+    <resultMap id="AuthResourceMap" type="com.stackstech.dcp.server.auth.model.AuthResource">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="descr" jdbcType="VARCHAR" property="descr"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="category_id" jdbcType="BIGINT" property="categoryId"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="BIGINT" property="createBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="attr1" jdbcType="VARCHAR" property="attr1"/>
+        <result column="attr2" jdbcType="VARCHAR" property="attr2"/>
+        <result column="attr3" jdbcType="VARCHAR" property="attr3"/>
+        <result column="attr4" jdbcType="VARCHAR" property="attr4"/>
+        <result column="attr5" jdbcType="VARCHAR" property="attr5"/>
+        <!--        <result column="category_code" jdbcType="VARCHAR" property="category.code"/>-->
+        <!--        <result column="category_name" jdbcType="VARCHAR" property="category.name"/>-->
+        <!--        <result column="category_id" jdbcType="BIGINT" property="category.id"/>-->
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, code, name, descr, parent_id, status, category_id,sort, create_time,create_by, update_time,update_by
+        attr1, attr2, attr3, attr4, attr5
+    </sql>
+
+    <!--添加资源-->
+    <insert id="insertSelective" parameterType="com.stackstech.dcp.server.auth.model.AuthResource">
+        insert into dcp_auth_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="descr != null">
+                descr,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="attr1 != null">
+                attr1,
+            </if>
+            <if test="attr2 != null">
+                attr2,
+            </if>
+            <if test="attr3 != null">
+                attr3,
+            </if>
+            <if test="attr4 != null">
+                attr4,
+            </if>
+            <if test="attr5 != null">
+                attr5,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="descr != null">
+                #{descr,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=BIGINT},
+            </if>
+            <if test="attr1 != null">
+                #{attr1,jdbcType=VARCHAR},
+            </if>
+            <if test="attr2 != null">
+                #{attr2,jdbcType=VARCHAR},
+            </if>
+            <if test="attr3 != null">
+                #{attr3,jdbcType=VARCHAR},
+            </if>
+            <if test="attr4 != null">
+                #{attr4,jdbcType=VARCHAR},
+            </if>
+            <if test="attr5 != null">
+                #{attr5,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--删除资源-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from dcp_auth_resource
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!--更新资源-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.dcp.server.auth.model.AuthResource">
+        update dcp_auth_resource
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="descr != null">
+                descr = #{descr,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="attr1 != null">
+                attr1 = #{attr1,jdbcType=VARCHAR},
+            </if>
+            <if test="attr2 != null">
+                attr2 = #{attr2,jdbcType=VARCHAR},
+            </if>
+            <if test="attr3 != null">
+                attr3 = #{attr3,jdbcType=VARCHAR},
+            </if>
+            <if test="attr4 != null">
+                attr4 = #{attr4,jdbcType=VARCHAR},
+            </if>
+            <if test="attr5 != null">
+                attr5 = #{attr5,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--指定条件查询资源-->
+    <select id="selectListByCondition" resultMap="AuthResourceMap" parameterType="java.util.HashMap">
+        SELECT
+        p.code as category_code, p.name as category_name, r.*
+        FROM dcp_auth_resource_category p
+        LEFT JOIN dcp_auth_resource r ON p.id = r.category_id
+        <where>
+            <if test="resource_id != null">
+                AND r.id = #{resource_id}
+            </if>
+            <if test="parent_id != null">
+                AND r.parent_id = #{parent_id}
+            </if>
+            <if test="name != null and name != ''">
+                AND r.name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--指定条件查询-->
+    <select id="selectByCondition" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_auth_resource
+        <where>
+            <if test="code != null">
+                code = #{code}
+            </if>
+            <if test="id != null">
+                AND id != #{id}
+            </if>
+        </where>
+    </select>
+
+    <!--根据 条件 查询得到 资源集合-->
+    <select id="getResourcesByCondition" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_auth_resource
+        <where>
+            <if test="id != null and id !=0">
+                and id = #{id}
+            </if>
+            <if test="parent_id != null">
+                and parent_id = #{parent_id}
+            </if>
+            <if test="code != null">
+                and code = #{code}
+            </if>
+            <if test="category_id != null">
+                and category_id = #{category_id}
+            </if>
+        </where>
+    </select>
+
+</mapper>

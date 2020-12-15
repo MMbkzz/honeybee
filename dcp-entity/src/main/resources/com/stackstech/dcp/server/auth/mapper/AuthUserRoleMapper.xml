@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.dcp.server.auth.dao.AuthUserRoleMapper">
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.auth.model.AuthUserRole">
+        <result column="USER_ID" property="userId" jdbcType="DECIMAL"/>
+        <result column="ROLE_ID" property="roleId" jdbcType="DECIMAL"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="BIGINT" property="createBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+    </resultMap>
+    <resultMap id="RoleMap" type="com.stackstech.dcp.server.auth.model.AuthRole">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="DESCR" property="descr" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="BIGINT" property="createBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        USER_ID, ROLE_ID, CREATE_TIME, create_time,create_by, update_time,update_by
+    </sql>
+    <sql id="role_list">
+        r.ID, r.CODE, r.NAME, r.DESCR, r.STATUS, r.create_time,r.create_by, r.update_time,r.update_by
+    </sql>
+
+    <!--添加用户角色关系-->
+    <insert id="insert" parameterType="com.stackstech.dcp.server.auth.model.AuthUserRole">
+        insert into dcp_auth_user_role (
+        USER_ID, ROLE_ID, create_time,create_by, update_time,update_by
+        ) values (
+        #{userId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+        #{createBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}
+        )
+    </insert>
+
+    <!--根据用户编号删除用户角色关系-->
+    <delete id="deleteByUserId" parameterType="java.lang.Long">
+        delete from dcp_auth_user_role
+        where USER_ID = #{userId,jdbcType=DECIMAL}
+    </delete>
+
+    <!--根据角色编号查询用户角色-->
+    <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_auth_user_role
+        where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+    </select>
+
+    <!--根据角色编号查询用户角色-->
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_auth_user_role
+        where user_id = #{userId,jdbcType=DECIMAL}
+    </select>
+
+    <!-- 查询用户角色 -->
+    <select id="getRoleByUser" resultMap="RoleMap" parameterType="java.lang.Long">
+        select
+        <include refid="role_list"/>
+        from dcp_auth_user_role ur
+        left join dcp_auth_role r on ur.role_id=r.id
+        where
+        r.STATUS='1'
+        and ur.USER_ID = #{userId,jdbcType=DECIMAL}
+    </select>
+
+</mapper>

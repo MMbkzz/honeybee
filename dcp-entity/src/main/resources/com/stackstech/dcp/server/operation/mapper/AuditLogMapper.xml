@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.dcp.server.operations.dao.AuditLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.operations.model.AuditLog">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="task_name" property="taskName" jdbcType="VARCHAR"/>
+        <result column="host" property="host" jdbcType="VARCHAR"/>
+        <result column="port" property="port" jdbcType="VARCHAR"/>
+        <result column="thread" property="thread" jdbcType="VARCHAR"/>
+        <result column="status_code" property="statusCode" jdbcType="VARCHAR"/>
+        <result column="message" property="message" jdbcType="VARCHAR"/>
+        <result column="context" property="context" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.stackstech.dcp.server.operations.model.AuditLog">
+        INSERT INTO dcp_audit_log
+        (task_name,
+        host,
+        port,
+        thread,
+        status_code,
+        message,
+        context,
+        create_time,
+        create_by)
+        VALUES
+        (#{taskName,jdbcType=VARCHAR},
+        #{host,jdbcType=VARCHAR},
+        #{port,jdbcType=VARCHAR},
+        #{thread,jdbcType=VARCHAR},
+        #{statusCode,jdbcType=VARCHAR},
+        #{message,jdbcType=VARCHAR},
+        #{context,jdbcType=VARCHAR},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--根据id查询所有数据服务-->
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from dcp_audit_log
+        <where>
+            <if test="taskName != null and taskName != ''">
+                and task_name like concat('%',#{taskName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and create_time &gt;= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and create_time &lt;= #{endTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <!--根据id查询所有数据服务-->
+    <select id="countAll" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from dcp_audit_log
+        <where>
+            <if test="taskName != null and taskName != ''">
+                and task_name like concat('%',#{taskName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and create_time &gt;= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and create_time &lt;= #{endTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--根据条件查询所有数据服务信息-->
+    <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from dcp_audit_log t
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+</mapper>

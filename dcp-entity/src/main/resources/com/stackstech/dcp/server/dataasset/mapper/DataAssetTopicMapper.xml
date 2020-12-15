@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.dcp.server.dataasset.dao.DataAssetTopicMapper">
+
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.dataasset.model.DataAssetTopic">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="area_id" property="areaId" jdbcType="VARCHAR"/>
+        <result column="topic_name" property="topicName" jdbcType="VARCHAR"/>
+        <result column="topic_desc" property="topicDesc" jdbcType="VARCHAR"/>
+        <result column="status_code" property="statusCode" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="owner" property="owner" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        area_id,
+        topic_name,
+        topic_desc,
+        status_code,
+        create_time,
+        create_by,
+        update_time,
+        update_by,
+        owner
+    </sql>
+
+    <insert id="insert" parameterType="com.stackstech.dcp.server.dataasset.model.DataAssetTopic">
+        INSERT INTO dcp_data_assets_topic
+        (id,
+        area_id,
+        topic_name,
+        topic_desc,
+        status_code,
+        create_time,
+        create_by,
+        update_time,
+        update_by,owner)
+        VALUES
+        (#{id,jdbcType=VARCHAR},
+        #{areaId,jdbcType=VARCHAR},
+        #{topicName,jdbcType=VARCHAR},
+        #{topicDesc,jdbcType=VARCHAR},
+        #{statusCode,jdbcType=VARCHAR},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT},
+        SYSDATE(),
+        #{updateBy,jdbcType=BIGINT},
+        #{owner,jdbcType=BIGINT})
+    </insert>
+
+    <!--根据id编号删除数据资产主题信息-->
+    <delete id="delete" parameterType="java.util.List">
+        update dcp_data_assets_topic
+        set status_code = 'deleted '
+        where id IN
+        <foreach collection="list" index="index" item="tag" open="(" separator="," close=")">
+            #{tag,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <!--编辑主题-->
+    <update id="update" parameterType="com.stackstech.dcp.server.dataasset.model.DataAssetTopic">
+        update dcp_data_assets_topic
+        <set>
+            <if test="id != null and id != ''">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="areaId != null and areaId != ''">
+                area_id = #{areaId,jdbcType=VARCHAR},
+            </if>
+            <if test="topicName != null and topicName != ''">
+                topic_name = #{topicName,jdbcType=VARCHAR},
+            </if>
+            <if test="topicDesc != null and topicDesc != ''">
+                topic_desc = #{topicDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                status_code = #{statusCode,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="owner != null">
+                owner = #{owner,jdbcType=BIGINT},
+            </if>
+            update_time = SYSDATE(),
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+        and status_code != 'deleted'
+    </update>
+
+    <!--根据id查询所有数据资产主题信息-->
+    <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_data_assets_topic t
+        where t.id = #{id,jdbcType=VARCHAR}
+        and status_code != 'deleted'
+    </select>
+
+    <!--查询名称-->
+    <select id="queryByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_data_assets_topic
+        <where>
+            status_code != 'deleted '
+            <if test="topicName != null and topicName != ''">
+                and topic_name = #{topicName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--根据areaId获取数据Topic-->
+    <select id="queryByAreaId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_data_assets_topic
+        where status_code != 'deleted ' and area_id = #{areaId,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据条件查询所有数据资产主题信息-->
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        a.id,
+        a.area_id,
+        a.topic_name,
+        a.topic_desc,
+        a.status_code,
+        a.create_time,
+        a.create_by,
+        a.update_time,
+        a.update_by,
+        a.owner
+        from dcp_data_assets_topic a left join dcp_data_assets_area b
+        on a.area_id = b.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="topicName != null and topicName != ''">
+                and a.topic_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="areaName != null and areaName !=''">
+                and b.area_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userId != '' and userId != null">
+                and a.owner = #{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--获取记录数-->
+    <select id="countAll" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1)
+        from dcp_data_assets_topic a left join dcp_data_assets_area b
+        on a.area_id = b.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="topicName != null and topicName != ''">
+                and a.topic_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="areaName != null and areaName !=''">
+                and b.area_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userId != '' and userId != null">
+                and a.owner = #{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPrimaryKey" resultType="java.lang.String">
+        select seq_nextval('dcp_data_assets_topic')
+    </select>
+
+    <!--全局搜索-->
+    <select id="queryByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        a.id,
+        a.area_id,
+        a.topic_name,
+        a.topic_desc,
+        a.status_code,
+        a.create_time,
+        a.create_by,
+        a.update_time,
+        a.update_by,
+        a.owner
+        from dcp_data_assets_topic a
+        left join dcp_data_assets_area b on a.area_id = b.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="queryString != null and queryString != ''">
+                and CONCAT(a.topic_name,b.area_name)
+                like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userId != '' and userId != null">
+                and a.owner = #{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--全局搜索记录数-->
+    <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(1)
+        from dcp_data_assets_topic a left join dcp_data_assets_area b
+        on a.area_id = b.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="queryString != null and queryString != ''">
+                and CONCAT(a.topic_name,b.area_name) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userId != '' and userId != null">
+                and a.owner = #{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+</mapper>

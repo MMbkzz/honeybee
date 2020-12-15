@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stackstech.dcp.server.auth.dao.AuthOrganizationMapper">
+    <resultMap id="BaseResultMap" type="com.stackstech.dcp.server.auth.model.AuthOrganization">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="descr" jdbcType="VARCHAR" property="descr"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, descr, parent_id, create_time
+    </sql>
+
+    <!--新增组织结构-->
+    <insert id="insert" parameterType="com.stackstech.dcp.server.auth.model.AuthOrganization">
+        insert into auth_organization (
+        <include refid="Base_Column_List"/>
+        ) values (
+        #{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{descr,jdbcType=VARCHAR},
+        #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!--删除组织结构-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from auth_organization
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+
+    <!--修改组织结构-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.dcp.server.auth.model.AuthOrganization">
+        update AUTH_ORGANIZATION
+        <set>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="descr != null and descr != ''">
+                DESCR = #{descr,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null and parentId != ''">
+                PARENT_ID = #{parentId,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_organization
+        where NAME = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_organization
+        where PARENT_ID = #{parentId,jdbcType=DECIMAL}
+        order by CREATE_TIME DESC
+    </select>
+
+    <select id="getOrganizationTreeList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from auth_organization where FIND_IN_SET(id, get_organization_tree(#{id}));
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        org.ID, org.NAME, org.DESCR, org.PARENT_ID, org.CREATE_TIME
+        FROM auth_organization org
+        LEFT JOIN auth_org_user ou ON ou.ORG_ID = org.ID
+        WHERE ou.USER_ID = #{userId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>
