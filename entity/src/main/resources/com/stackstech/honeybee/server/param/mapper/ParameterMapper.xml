@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.param.dao.ParameterMapper">
+
+    <sql id="Base_Column_List">
+        id as id,rel_object_type as objectType,rel_object_id as objectId,seq_num as seqNum,param_name as
+        paramName,param_value as paramValue,
+        display_name as displayName,param_desc as paramDesc,check_regexp as checkRegexp,is_required as isRequired,
+        create_time as createTime,create_by as createBy,update_time as updateTime,update_by as updateBy
+    </sql>
+
+    <!--获取参数列表-->
+    <select id="queryAll" parameterType="com.stackstech.honeybee.server.param.model.Parameter"
+            resultType="com.stackstech.honeybee.server.param.model.Parameter">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_parameter
+        <where>
+            <if test="objectType != null and objectType != ''">
+                rel_object_type = #{objectType,jdbcType=VARCHAR}
+            </if>
+            <if test="objectId != null and objectId != ''">
+                and rel_object_id = #{objectId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by seq_num asc
+    </select>
+
+    <!--获取参数-->
+    <select id="queryByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.stackstech.honeybee.server.param.model.Parameter">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_parameter
+        where id = #{id,jdbcType=BIGINT}
+        order by seq_num asc
+    </select>
+
+    <!--根据paramName参数-->
+    <select id="queryByParamName" parameterType="com.stackstech.honeybee.server.param.model.Parameter"
+            resultType="com.stackstech.honeybee.server.param.model.Parameter">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_parameter
+        <where>
+            <if test="objectType != null and objectType != ''">
+                rel_object_type = #{objectType,jdbcType=VARCHAR}
+            </if>
+            <if test="objectId != null and objectId != ''">
+                and rel_object_id = #{objectId,jdbcType=VARCHAR}
+            </if>
+            <if test="paramName != null and paramName != ''">
+                and param_name = #{paramName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--新增-->
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.param.model.Parameter">
+        insert into dcp_parameter
+        (rel_object_type,
+        rel_object_id,
+        seq_num,
+        param_name,
+        param_value,
+        display_name,
+        param_desc,
+        check_regexp,
+        is_required,
+        create_time,
+        create_by)
+        VALUES
+        (#{objectType,jdbcType=VARCHAR},
+        #{objectId,jdbcType=VARCHAR},
+        #{seqNum,jdbcType=INTEGER},
+        #{paramName,jdbcType=VARCHAR},
+        #{paramValue,jdbcType=VARCHAR},
+        #{displayName,jdbcType=VARCHAR},
+        #{paramDesc,jdbcType=VARCHAR},
+        #{checkRegexp,jdbcType=VARCHAR},
+        #{isRequired,jdbcType=VARCHAR},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--更新-->
+    <update id="update" parameterType="com.stackstech.honeybee.server.param.model.Parameter">
+        update dcp_parameter
+        <set>
+            <if test="paramName != null and paramName !=''">
+                param_name = #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null and paramValue !=''">
+                param_value = #{paramValue,jdbcType=VARCHAR},
+            </if>
+            <if test="paramDesc != null and paramDesc !=''">
+                param_desc = #{paramDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="displayName != null and displayName !=''">
+                display_name = #{displayName,jdbcType=VARCHAR},
+            </if>
+            <if test="checkRegexp != null and checkRegexp != ''">
+                check_regexp = #{checkRegexp,jdbcType=VARCHAR},
+            </if>
+            <if test="isRequired != null and isRequired != ''">
+                is_required = #{isRequired,jdbcType=VARCHAR},
+            </if>
+            <if test="seqNum != null ">
+                seq_num = #{seqNum,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null ">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            update_time = SYSDATE(),
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--删除-->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from dcp_parameter
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByObjectId" parameterType="java.lang.String">
+        delete from dcp_parameter
+        where rel_object_id = #{objectId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="queryParams" parameterType="java.lang.String" resultType="map">
+        select
+        param_name
+        , param_value
+        from
+        dcp_parameter
+        where
+        rel_object_type = #{relObjectType}
+        and rel_object_id = #{relObjectId}
+    </select>
+</mapper>

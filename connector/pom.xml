@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>connector</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>connector</name>
+
+    <parent>
+        <groupId>com.stackstech.honeybee</groupId>
+        <artifactId>honeybee</artifactId>
+        <version>1.0</version>
+        <relativePath><![CDATA[../pom.xml]]></relativePath>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- global dependencies version  -->
+        <!--        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>-->
+        <!--        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>-->
+        <!--        <mybatis.starter.version>2.1.3</mybatis.starter.version>-->
+        <!--        <log4j.version>2.13.3</log4j.version>-->
+        <!--        <gson.version>2.8.6</gson.version>-->
+        <!--        <guava.version>29.0-jre</guava.version>-->
+        <!--        <commons-lang3.version>3.11</commons-lang3.version>-->
+        <!--        <pagehelper.version>5.2.0</pagehelper.version>-->
+        <!--        <jackson.version>2.11.2</jackson.version>-->
+        <!--        <mysql.java.version>5.1.49</mysql.java.version>-->
+        <!--        <common-dbcp2.version>2.7.0</common-dbcp2.version>-->
+        <!--        <druid.version>1.0.27</druid.version>-->
+        <!--        <jedis.version>3.3.0</jedis.version>-->
+        <!--        <jwt.version>3.10.3</jwt.version>-->
+        <!--        <jexl.version>2.1.1</jexl.version>-->
+        <!--        <freemarker.version>2.3.30</freemarker.version>-->
+        <!--        <jsqlparser.version>3.1</jsqlparser.version>-->
+        <!--        <commons-io.version>2.7</commons-io.version>-->
+        <!--        <maven-compiler.version>3.8.1</maven-compiler.version>-->
+        <!--        <lombok.version>1.18.6</lombok.version>-->
+        <!--        <fastjson.version>1.2.73</fastjson.version>-->
+        <!--        <jjwt.version>0.9.1</jjwt.version>-->
+        <!--        <hikaricp.version>3.4.5</hikaricp.version>-->
+        <!--        <snakeyaml.version>1.26</snakeyaml.version>-->
+        <!--        <shiro-spring.version>1.5.3</shiro-spring.version>-->
+        <!--        <mapper.version>4.1.5</mapper.version>-->
+        <!--        <ognl.version>3.2.14</ognl.version>-->
+        <!--        <commons-pool2.version>2.8.0</commons-pool2.version>-->
+    </properties>
+
+    <modules>
+        <module>connector-core</module>
+        <module>connector-hbase</module>
+        <module>connector-hive</module>
+        <module>connector-http</module>
+        <module>connector-kafka</module>
+        <module>connector-mysql</module>
+        <module>connector-redis</module>
+        <module>connector-oracle</module>
+        <module>connector-sqlserver</module>
+        <module>connector-postgresql</module>
+    </modules>
+
+
+</project>

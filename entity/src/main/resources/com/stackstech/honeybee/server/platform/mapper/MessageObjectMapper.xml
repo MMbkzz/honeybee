@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.platform.dao.MessageObjectMapper">
+
+    <sql id="Base_Column_List">
+        id as id
+        , message_id as messageId
+        , user_id as userId
+        , status_code as statusCode
+        , create_time as createTime
+        , create_by as createBy
+        , update_time as updateTime
+        , update_by as updateBy
+    </sql>
+
+    <!--获取消息对象列表-->
+    <select id="queryAll" resultType="com.stackstech.honeybee.server.platform.model.MessageObject"
+            parameterType="com.stackstech.honeybee.server.platform.model.MessageObject">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_message_object
+        <where>
+            <if test="messageId != null">
+                and message_id = #{messageId,jdbcType=BIGINT}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="queryByPrimaryKey" resultType="com.stackstech.honeybee.server.platform.model.MessageObject"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_message_object
+        where id = #{id}
+    </select>
+
+    <select id="countAll" parameterType="com.stackstech.honeybee.server.platform.model.MessageObject"
+            resultType="java.lang.Integer">
+        select
+        count(1)
+        from dcp_message_object
+        <where>
+            <if test="messageId != null">
+                and message_id = #{messageId,jdbcType=BIGINT}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.MessageObject">
+        insert into dcp_message_object (
+        message_id
+        , user_id
+        , status_code
+        , create_time
+        , create_by
+        ) values (
+        #{ messageId ,jdbcType=BIGINT}
+        , #{ userId ,jdbcType=BIGINT}
+        , #{ statusCode ,jdbcType=VARCHAR}
+        ,SYSDATE()
+        , #{ createBy ,jdbcType=BIGINT}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.stackstech.honeybee.server.platform.model.MessageObject">
+        update dcp_message_object
+        set
+        update_time = SYSDATE()
+        , update_by = #{ updateBy ,jdbcType=BIGINT}
+        <if test="messageId != null">
+            ,message_id = #{messageId,jdbcType=BIGINT}
+        </if>
+        <if test="userId != null">
+            ,user_id = #{userId,jdbcType=BIGINT}
+        </if>
+        <if test="statusCode != null and statusCode != ''">
+            ,status_code = #{statusCode,jdbcType=VARCHAR}
+        </if>
+        where
+        id = #{ id }
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from dcp_message_object where id = #{ id }
+    </delete>
+
+    <!--批量删除-->
+    <delete id="deletes" parameterType="java.util.List">
+        delete from dcp_message_object where
+        id in
+        <foreach collection="list" index="index" item="tag" open="("
+                 separator="," close=")">
+            #{tag.objectId,jdbcType=BIGINT}
+        </foreach>
+    </delete>
+
+</mapper>

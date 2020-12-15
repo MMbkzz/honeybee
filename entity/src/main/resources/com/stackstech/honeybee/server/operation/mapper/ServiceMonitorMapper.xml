@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.operations.dao.ServiceMonitorMapper">
+
+    <sql id="App_Base_SQL">
+        id as id,access_time as accessTime,app_id as appId,status_code as statusCode,
+        total_access_num as totalAccessNum, total_access_time as totalAccessTime, total_execute_time as totalExecuteTime
+    </sql>
+
+    <sql id="Service_Base_SQL">
+        id as id,access_time as accessTime,dataservice_id as dataServiceId,status_code as statusCode,
+        total_access_num as totalAccessNum, total_access_time as totalAccessTime, total_execute_time as totalExecuteTime
+    </sql>
+
+    <!--查询APP用户指标-->
+    <select id="queryAppDay" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.operations.model.AppAccessKpi">
+        select
+        <include refid="App_Base_SQL"/>
+        from dcp_monitor_kpi_appuser_day
+        <where>
+            <if test="startTime != null">
+                access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <select id="queryAppHour" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.operations.model.AppAccessKpi">
+        select
+        <include refid="App_Base_SQL"/>
+        from dcp_monitor_kpi_appuser_hour
+        <where>
+            <if test="startTime != null">
+                access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryServiceDay" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.operations.model.ServiceAccessKpi">
+        select
+        <include refid="Service_Base_SQL"/>
+        from dcp_monitor_kpi_dataservice_day
+        <where>
+            <if test="startTime != null">
+                access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryServiceHour" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.operations.model.ServiceAccessKpi">
+        select
+        <include refid="Service_Base_SQL"/>
+        from dcp_monitor_kpi_dataservice_hour
+        <where>
+            <if test="startTime != null">
+                access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
+    <!--获取当前服务平均访问时间<资产地图>-->
+    <select id="queryAccessTime" resultType="java.util.Map" parameterType="java.lang.String">
+        select sum(a.total_access_num) as accessNum,
+        ROUND(
+        sum(a.total_access_time) / sum(a.total_access_num),2
+        ) as accessTime
+        from dcp_monitor_kpi_dataservice_day a
+        <where>
+            a.dataservice_id is not null and a.dataservice_id != 'null'
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and a.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--访问日指标-->
+    <select id="queryAccessApiByDay" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from
+        (
+        select access_time as accessTime,
+        sum(total_access_num) as accessCount,
+        round(sum(total_access_time) / sum(total_access_num),2) as accessAvg,
+        round(sum(total_execute_time) / sum(total_access_num),2) as executeAvg
+        from dcp_monitor_kpi_dataservice_day
+        <where>
+            dataservice_id is not null and dataservice_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY access_time
+        ) a
+        ,
+        (
+        select count(DISTINCT app_id) as appCount,access_time as recordTime
+        from dcp_monitor_kpi_appuser_day
+        <where>
+            app_id is not null and app_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY access_time
+        ) b
+        where a.accessTime=b.recordTime
+    </select>
+
+    <!--访问小时指标-->
+    <select id="queryAccessApiByHour" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from
+        (
+        select substr(access_time,12,2) as accessTime,
+        sum(total_access_num) as accessCount,
+        round(sum(total_access_time) / sum(total_access_num),2) as accessAvg,
+        round(sum(total_execute_time) / sum(total_access_num),2) as executeAvg
+        from dcp_monitor_kpi_dataservice_hour
+        <where>
+            dataservice_id is not null and dataservice_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY SUBSTR(access_time,12,2)
+        ) a
+        ,
+        (
+        select count(DISTINCT app_id) as appCount,substr(access_time,12,2) as recordTime
+        from dcp_monitor_kpi_appuser_hour
+        <where>
+            app_id is not null and app_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY substr(access_time,12,2)
+        ) b
+        where a.accessTime=b.recordTime
+    </select>
+
+    <!--获取访客数量-->
+    <select id="queryAppKpi" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(DISTINCT app_id)
+        from dcp_monitor_kpi_appuser_day
+        <where>
+            app_id is not null and app_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--获取访问时间各项指标-->
+    <select id="queryAccessKpi" parameterType="java.util.Map" resultType="java.util.Map">
+        select sum(a.total_access_num) as accessCount,
+        round(sum(a.total_access_time) / sum(a.total_access_num),2) as accessAvg,
+        round(sum(a.total_execute_time) / sum(a.total_access_num),2) as executeAvg,
+        sum(case when a.status_code = '200' then a.total_access_num else 0 end) as accessOkCount,
+        sum(case when a.status_code = '400' then a.total_access_num else 0 end) as accessErrorCount
+        from dcp_monitor_kpi_dataservice_day a
+        <where>
+            a.dataservice_id is not null and a.dataservice_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and a.access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and a.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--获取服务访问数量排名-->
+    <select id="queryServiceCountRank" resultType="java.util.Map" parameterType="java.lang.String">
+        select a.dataservice_id as serviceName,
+        ROUND(sum(a.total_access_num) * 100 /
+        (select sum(total_access_num) from dcp_monitor_kpi_dataservice_day
+        <where>
+            dataservice_id is not null and dataservice_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ),2
+        )as serviceCount
+        from dcp_monitor_kpi_dataservice_day a
+        <where>
+            a.dataservice_id is not null and a.dataservice_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and a.access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and a.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY a.dataservice_id
+        order by sum(a.total_access_num) desc
+    </select>
+
+    <!--获取app访问数量排名-->
+    <select id="queryAppCountRank" resultType="java.util.Map" parameterType="java.lang.String">
+        select a.app_id as appName,
+        ROUND(sum(a.total_access_num) * 100 /
+        (select sum(total_access_num) from dcp_monitor_kpi_appuser_day
+        where access_time >= #{startTime,jdbcType=VARCHAR}
+        and app_id is not null and app_id != 'null'
+        ),2
+        ) as appCount
+        from dcp_monitor_kpi_appuser_day a
+        <where>
+            a.app_id is not null and a.app_id != 'null'
+            and a.access_time >= #{startTime,jdbcType=VARCHAR}
+        </where>
+        GROUP BY a.app_id
+        order by sum(a.total_access_num) desc
+    </select>
+
+    <!--服务访问时长排名-->
+    <select id="queryAccessTimeRank" resultType="java.util.Map" parameterType="java.util.Map">
+        select
+        a.dataservice_id as serviceName,a.access_start_time as accessTime,
+        a.access_times as serviceTime
+        from dcp_access_log a
+        <where>
+            a.dataservice_id is not null and a.dataservice_id != 'null'
+            and a.access_times is not null and a.access_times != 'null'
+            <if test="startTime != null and startTime != ''">
+                and a.access_start_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and a.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by serviceTime desc
+        limit 0,5
+    </select>
+
+    <!--服务平均访问时长排名-->
+    <select id="queryAccessAvgRank" resultType="java.util.Map" parameterType="java.util.Map">
+        select a.dataservice_id as serviceName,
+        ROUND(
+        sum(a.total_access_time) / sum(a.total_access_num), 2
+        ) as serviceAvg
+        from dcp_monitor_kpi_dataservice_day a
+        <where>
+            a.dataservice_id is not null and a.dataservice_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and a.access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and a.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY a.dataservice_id
+        order by serviceAvg desc
+    </select>
+
+    <!--DB访问时长排名-->
+    <select id="queryExecuteTimeRank" resultType="java.util.Map" parameterType="java.util.Map">
+        select
+        a.dataservice_id as serviceName,
+        a.access_start_time as accessTime,
+        a.exec_times as executeTime
+        from dcp_access_log a
+        <where>
+            a.dataservice_id is not null and a.dataservice_id != 'null'
+            and a.exec_times is not null and a.exec_times != 'null'
+            <if test="startTime != null and startTime != ''">
+                and a.access_start_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and a.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by executeTime desc
+        limit 0,5
+    </select>
+
+    <!--DB平均访问时长排名-->
+    <select id="queryExecuteAvgRank" resultType="java.util.Map" parameterType="java.util.Map">
+        select a.dataservice_id as serviceName,
+        ROUND(
+        sum(a.total_execute_time) / sum(a.total_access_num), 2
+        ) as executeAvg
+        from dcp_monitor_kpi_dataservice_day a
+        <where>
+            a.dataservice_id is not null and a.dataservice_id != 'null'
+            <if test="startTime != null and startTime != ''">
+                and a.access_time >= #{startTime,jdbcType=VARCHAR}
+            </if>
+            <if test="dataServiceId != null and dataServiceId !=''">
+                and a.dataservice_id = #{dataServiceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY a.dataservice_id
+        order by executeAvg desc
+    </select>
+
+</mapper>

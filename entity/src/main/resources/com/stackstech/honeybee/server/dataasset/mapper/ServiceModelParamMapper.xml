@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.dataasset.dao.ServiceModelParamMapper">
+
+    <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="service_model_id" property="serviceModelId" jdbcType="VARCHAR"/>
+        <result column="seq_num" property="seqNum" jdbcType="INTEGER"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="field_name" property="fieldName" jdbcType="VARCHAR"/>
+        <result column="param_type" property="paramType" jdbcType="VARCHAR"/>
+        <result column="operate_type" property="operateType" jdbcType="VARCHAR"/>
+        <result column="default_value" property="defaultValue" jdbcType="VARCHAR"/>
+        <result column="param_desc" property="paramDesc" jdbcType="VARCHAR"/>
+        <result column="param_type_code" property="paramTypeCode" jdbcType="VARCHAR"/>
+        <result column="is_required" property="isRequired" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
+        INSERT INTO dcp_service_model_param
+        (service_model_id,
+        seq_num,
+        param_name,
+        field_name,
+        param_type,
+        operate_type,
+        default_value,
+        param_desc,
+        param_type_code,
+        is_required,
+        create_time,
+        create_by)
+        VALUES
+        (#{serviceModelId,jdbcType=VARCHAR},
+        #{seqNum,jdbcType=INTEGER},
+        #{paramName,jdbcType=VARCHAR},
+        #{fieldName,jdbcType=VARCHAR},
+        #{paramType,jdbcType=VARCHAR},
+        #{operateType,jdbcType=BIGINT},
+        #{defaultValue,jdbcType=VARCHAR},
+        #{paramDesc,jdbcType=VARCHAR},
+        #{paramTypeCode,jdbcType=VARCHAR},
+        #{isRequired,jdbcType=VARCHAR},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--根据id编号删除数据模型字段信息-->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from dcp_service_model_param
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <!--根据模型id删除-->
+    <delete id="deleteByServiceId" parameterType="java.lang.String">
+        delete from dcp_service_model_param
+        where service_model_id = #{serviceModelId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--编辑模型参数-->
+    <update id="update" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
+        update dcp_service_model_param
+        <set>
+            <if test="id != null ">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="serviceModelId != null and serviceModelId != ''">
+                service_model_id = #{serviceModelId,jdbcType=VARCHAR},
+            </if>
+            <if test="paramName != null and paramName != ''">
+                param_name = #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldName != null and fieldName != ''">
+                field_name = #{fieldName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramType != null and paramType != ''">
+                param_type = #{paramType,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultValue != null and defaultValue != ''">
+                default_Value = #{defaultValue,jdbcType=VARCHAR},
+            </if>
+            <if test="paramDesc != null and paramDesc != ''">
+                param_desc = #{paramDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="paramTypeCode != null and paramTypeCode != ''">
+                param_type_code = #{paramTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isRequired != null and isRequired != ''">
+                is_required = #{isRequired,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            update_time = SYSDATE(),
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--根据id查询所有数据模型字段信息-->
+    <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select * from dcp_service_model_param t
+        where t.id = #{id,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="queryAll" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
+        select *
+        from dcp_service_model_param
+        <where>
+            <if test="serviceModelId != null and serviceModelId != ''">
+                and service_model_id = #{serviceModelId,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldName != null and fieldName != ''">
+                and field_name = #{fieldName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByServiceId" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModelParam">
+        select *
+        from dcp_service_model_param
+        <where>
+            <if test="serviceModelId != null and serviceModelId != ''">
+                and service_model_id = #{serviceModelId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+</mapper>

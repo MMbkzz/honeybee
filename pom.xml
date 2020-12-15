@@ -2,11 +2,11 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.stackstech.dcp</groupId>
-    <artifactId>dcp</artifactId>
+    <groupId>com.stackstech.honeybee</groupId>
+    <artifactId>honeybee</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>dcp</name>
+    <name>honeybee</name>
 
     <properties>
         <java.version>1.8</java.version>
@@ -115,11 +115,11 @@
     </dependencies>
 
     <modules>
-        <module>dcp-core</module>
-        <module>dcp-entity</module>
-        <module>dcp-connector</module>
-        <module>dcp-api-server</module>
-        <module>dcp-server-parent</module>
+        <module>core</module>
+        <module>entity</module>
+        <module>connector</module>
+        <module>api-server</module>
+        <module>server-parent</module>
     </modules>
 
 

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.platform.dao.MessageMapper">
+
+    <sql id="Base_Column_List">
+        id as id
+        , message_level as messageLevel
+        , title as title
+        , context as context
+        , expire_time as expireTime
+        , create_time as createTime
+        , create_by as createBy
+        , update_time as updateTime
+        , update_by as updateBy
+    </sql>
+
+    <!--获取消息列表-->
+    <select id="queryAll" resultType="com.stackstech.honeybee.server.platform.model.Message" parameterType="java.util.Map">
+        select
+        b.id as id,b.title as title,b.context as context,
+        a.status_code as statusCode, a.id as objectId,
+        b.expire_time as expireTime,b.create_time as createTime
+        from dcp_message_object a
+        right join dcp_message b on a.message_id=b.id
+        <where>
+            <if test="userId != null">
+                and a.user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="messageLevel != null and messageLevel != ''">
+                and b.message_level = #{messageLevel,jdbcType=VARCHAR}
+            </if>
+            <if test="queryString != null and queryString != ''">
+                and concat(b.title,b.context) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <!--获取未读预警数量-->
+    <select id="queryWarnCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from dcp_message a
+        left join dcp_message_object b on b.message_id = a.id
+        <where>
+            <if test="userId != null">
+                and b.user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            and a.message_level = 'warning'
+            and b.status_code = 'unread'
+        </where>
+    </select>
+
+    <!--获取公告列表-->
+    <select id="queryNotice" parameterType="java.util.Map"
+            resultType="com.stackstech.honeybee.server.platform.model.Message">
+        select
+        b.id as id,b.title as title,b.context as context,
+        a.status_code as statusCode, a.id as objectId,
+        b.expire_time as expireTime,b.create_time as createTime
+        from dcp_message b
+        left join dcp_message_object a
+        on b.id = a.message_id
+        <where>
+            <if test="userId != null">
+                and a.user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            and b.message_level = 'notice'
+            and a.status_code = 'unread'
+        </where>
+        limit 0,5
+    </select>
+
+    <!--获取公告数量-->
+    <select id="countNotice" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+        count(1)
+        from dcp_message b
+        left join dcp_message_object a
+        on b.id = a.message_id
+        <where>
+            <if test="userId != null">
+                and a.user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            and b.message_level = 'notice'
+            and a.status_code = 'unread'
+        </where>
+        limit 0,5
+    </select>
+
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.Message">
+        insert into dcp_message (
+        message_level
+        , title
+        , context
+        , expire_time
+        , create_time
+        , create_by
+        ) values (
+        #{messageLevel,jdbcType=VARCHAR}
+        , #{title,jdbcType=VARCHAR}
+        , #{context,jdbcType=VARCHAR}
+        , #{expireTime,jdbcType=TIMESTAMP}
+        ,SYSDATE()
+        , #{createBy,jdbcType=BIGINT}
+        )
+    </insert>
+
+
+    <!--根据主键查询消息-->
+    <select id="queryByPrimaryKey" resultType="com.stackstech.honeybee.server.platform.model.Message"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_message
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+
+    <!--获取Message数量-->
+    <select id="countAll" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1)
+        from dcp_message_object a
+        right join dcp_message b on a.message_id=b.id
+        <where>
+            <if test="userId != null">
+                and a.user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="messageLevel != null and messageLevel != ''">
+                and b.message_level = #{messageLevel,jdbcType=VARCHAR}
+            </if>
+            <if test="queryString != null and queryString != ''">
+                and concat(b.title,b.context) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <!--根据id删除Message-->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from dcp_message where id = #{ id }
+    </delete>
+
+    <!--批量删除Message-->
+    <delete id="deletes" parameterType="java.util.List">
+        delete from dcp_message where
+        id in
+        <foreach collection="list" index="index" item="tag" open="("
+                 separator="," close=")">
+            #{tag.id,jdbcType=BIGINT}
+        </foreach>
+    </delete>
+</mapper>
