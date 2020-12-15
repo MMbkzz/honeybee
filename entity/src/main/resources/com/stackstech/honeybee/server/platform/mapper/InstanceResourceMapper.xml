@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.platform.dao.InstanceResourceMapper">
+
+    <sql id="Base_Column_List">
+        id as id,
+        instance_id as instanceId,
+        service_source_id as serviceSourceId,
+        seq_num as seqNum,
+        resource_type_code as resourceTypeCode,
+        expect_number as expectNumber,
+        create_time as createTime,
+        create_by as createBy,
+        update_time as updateTime,
+        update_by as updateBy
+    </sql>
+
+    <!--根据主键获取-->
+    <select id="queryByPrimaryKey" parameterType="java.lang.Long"
+            resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_instance_resource
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--根据数据源Id获取-->
+    <select id="queryBySourceId" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_instance_resource
+        where service_source_id = #{serviceSourceId,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据资源Id获取-->
+    <select id="queryByInstanceId" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
+        select
+        <include refid="Base_Column_List"/>
+        from dcp_instance_resource
+        where instance_id = #{instanceId,jdbcType=VARCHAR}
+    </select>
+
+    <!--获取资源ID-->
+    <select id="queryServiceSourceId" resultType="com.stackstech.honeybee.server.platform.model.InstanceResource">
+        select DISTINCT service_source_id from dcp_instance_resource
+    </select>
+
+    <!-- 写入数据 -->
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.InstanceResource">
+        insert into dcp_instance_resource (
+        instance_id
+        , service_source_id
+        , seq_num
+        , resource_type_code
+        , expect_number
+        , create_time
+        ) values (
+        #{ instanceId }
+        , #{ serviceSourceId }
+        , #{ seqNum }
+        , #{ resourceTypeCode }
+        , #{ expectNumber }
+        , sysdate()
+        )
+    </insert>
+
+    <!-- 删除数据 -->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from dcp_instance_resource
+        where
+        instance_id = #{ instanceId }
+        and service_source_id = #{ serviceSourceId }
+    </delete>
+
+    <delete id="deleteByInstanceId" parameterType="java.lang.String">
+        delete from dcp_instance_resource
+        where instance_id = #{ instanceId }
+    </delete>
+</mapper>
