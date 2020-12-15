@@ -2,7 +2,7 @@ server:
   port: 18082
 spring:
   application:
-    name: dcp-web-server
+    name: honeybee-web-server
   cloud:
     nacos:
       discovery:
@@ -12,7 +12,7 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        prefix: dcp
+        prefix: honeybee
         group: DEFAULT_GROUP
 management:
   endpoints:

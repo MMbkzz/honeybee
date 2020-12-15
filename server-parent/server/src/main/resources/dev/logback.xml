@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration debug="false">
-    <contextName>dcp</contextName>
-    <property name="LOG_NAME" value="dcp-server"/>
+    <contextName>honeybee</contextName>
+    <property name="LOG_NAME" value="honeybee-server"/>
     <property name="LOG_HOME" value="log"/>
 
     <!-- console setting -->

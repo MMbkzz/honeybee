@@ -4,7 +4,7 @@ server:
   id: ASP_008
 spring:
   application:
-    name: dcp-api-server
+    name: honeybee-api-server
   cloud:
     sentinel:
       transport:
@@ -17,7 +17,7 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
-        prefix: dcp
+        prefix: honeybee
         group: DEFAULT_GROUP
 management:
   endpoints:

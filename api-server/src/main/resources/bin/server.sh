@@ -10,7 +10,7 @@ SERVER_DIR=$(
 # Process Tag to identify
 # Use this tag should identify the process.
 # The command is :  ps -ef | grep -w $PROC_TAG
-PROC_TAG="dcp-api-server"
+PROC_TAG="honeybee-api-server"
 #-----------------------------------------------------------------------
 
 #-----------------------------------------------------------------------
@@ -26,7 +26,7 @@ PROC_OPTS="-Djmx.port=$JMX_PORT"
 
 #-----------------------------------------------------------------------
 # Process log file
-LOG_FILE="$SERVER_DIR/log/dcp-api-server.out"
+LOG_FILE="$SERVER_DIR/log/honeybee-api-server.out"
 #-----------------------------------------------------------------------
 
 #-----------------------------------------------------------------------
@@ -46,7 +46,7 @@ LOADER_PATH="$SERVER_DIR/lib/*.jar $SERVER_DIR/conf/"
 # if it has JAVA_HOME environment argument,specify to it,
 # else change it to correct java path
 #-----------------------------------------------------------------------
-JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home"
+# JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home"
 
 #-----------------------------------------------------------------------
 # Process Entrance class

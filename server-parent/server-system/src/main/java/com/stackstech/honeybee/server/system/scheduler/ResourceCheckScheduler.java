@@ -42,7 +42,7 @@ public class ResourceCheckScheduler {
 
     @Scheduled(cron = CronConstant.MAIN_RESOURCE_CHECK)
     public void schedule() {
-        if (!ClientIPUtil.ipCompare(serviceUrl("dcp-server"))) {
+        if (!ClientIPUtil.ipCompare(serviceUrl("honeybee-server"))) {
             return;
         }
         resourceCheckTask.run();
