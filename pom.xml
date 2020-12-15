@@ -116,6 +116,7 @@
 
     <modules>
         <module>core</module>
+        <module>bees</module>
         <module>entity</module>
         <module>connector</module>
         <module>api-server</module>

@@ -1,4 +1,3 @@
-
 package com.stackstech.honeybee.bees.utils
 
 import java.util.concurrent._
@@ -13,7 +12,7 @@ import scala.util.control.NonFatal
 
 import com.google.common.util.concurrent.{MoreExecutors, ThreadFactoryBuilder}
 
-private[griffin] object ThreadUtils {
+private[honeybee] object ThreadUtils {
 
   private val sameThreadExecutionContext =
     ExecutionContext.fromExecutorService(MoreExecutors.sameThreadExecutor())
