@@ -15,11 +15,14 @@
 - Redis 3.x
 - Nacos
 - MySQL 5.7
+- Spark 2.2.1
+- Scala 2.11.8
 
 #### 模块说明
 
 - api-server：提供通用数据服务的接口服务。
-- honeybee-web：前端界面。
+- web：前端界面。
+- bees：数据质量检查服务。
 - server-parent：后台服务，按功能模块进行拆分。
   - server-auth： 用户身份认证。
   - server-auth-shiro：用户权限认证。
@@ -33,19 +36,3 @@
 - core：核心业务模块。
 - entity：全局实体对象模块。
 - connector：数据源连接器，基于标准的API实现对不同数据库的接入支持。
-
-## 快速开始
-
-#### Run on Docker
-> TODO
-
-#### 构建
-> TODO
-
-#### 启动
-
-1.启动Nacos服务实例。
-
-2.启动Honeybee web。
-
-3.启动Honeybee api server。
