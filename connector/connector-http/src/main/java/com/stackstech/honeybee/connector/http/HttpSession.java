@@ -1,13 +1,13 @@
 package com.stackstech.honeybee.connector.http;
 
 
-import com.stackstech.dcp.connector.core.AbstractPoolSession;
-import com.stackstech.dcp.connector.core.DriverPoolFactory;
-import com.stackstech.dcp.connector.core.ResourceSession;
-import com.stackstech.dcp.connector.core.entity.DriverApiModel;
-import com.stackstech.dcp.connector.core.entity.DriverMetaData;
-import com.stackstech.dcp.connector.core.entity.DriverModel;
-import com.stackstech.dcp.connector.core.enums.MetaDataTypeEnum;
+import com.stackstech.honeybee.connector.core.AbstractPoolSession;
+import com.stackstech.honeybee.connector.core.DriverPoolFactory;
+import com.stackstech.honeybee.connector.core.ResourceSession;
+import com.stackstech.honeybee.connector.core.entity.DriverApiModel;
+import com.stackstech.honeybee.connector.core.entity.DriverMetaData;
+import com.stackstech.honeybee.connector.core.entity.DriverModel;
+import com.stackstech.honeybee.connector.core.enums.MetaDataTypeEnum;
 import com.stackstech.honeybee.connector.http.execute.HttpAdapter;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.http.HttpHost;

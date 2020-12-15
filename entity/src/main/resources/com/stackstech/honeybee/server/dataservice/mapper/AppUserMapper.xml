@@ -100,7 +100,8 @@
     </select>
 
     <!--根据条件查询所有数据服务APP用户信息-->
-    <select id="queryAll" resultMap="BaseResultMap" parameterType="com.stackstech.honeybee.server.dataservice.model.AppUser">
+    <select id="queryAll" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.dataservice.model.AppUser">
         select app.*,users.name appOwnerName from dcp_app app
         LEFT JOIN dcp_auth_user users ON app.owner = users.id
         <where>

@@ -1,13 +1,14 @@
 package com.stackstech.honeybee.connector.hbase;
 
-import com.stackstech.dcp.connector.core.AbstractPoolSession;
-import com.stackstech.dcp.connector.core.DriverPoolFactory;
-import com.stackstech.dcp.connector.core.ResourceSession;
-import com.stackstech.dcp.connector.core.entity.DriverDataModel;
-import com.stackstech.dcp.connector.core.entity.DriverMetaData;
-import com.stackstech.dcp.connector.core.entity.DriverModel;
-import com.stackstech.dcp.connector.core.enums.MetaDataTypeEnum;
-import com.stackstech.dcp.connector.core.util.SqlTemplateUtil;
+
+import com.stackstech.honeybee.connector.core.AbstractPoolSession;
+import com.stackstech.honeybee.connector.core.DriverPoolFactory;
+import com.stackstech.honeybee.connector.core.ResourceSession;
+import com.stackstech.honeybee.connector.core.entity.DriverDataModel;
+import com.stackstech.honeybee.connector.core.entity.DriverMetaData;
+import com.stackstech.honeybee.connector.core.entity.DriverModel;
+import com.stackstech.honeybee.connector.core.enums.MetaDataTypeEnum;
+import com.stackstech.honeybee.connector.core.util.SqlTemplateUtil;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;

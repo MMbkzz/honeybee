@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.connector.redis.execute;
 
-import com.stackstech.dcp.connector.core.entity.DriverModel;
+import com.stackstech.honeybee.connector.core.entity.DriverModel;
 import redis.clients.jedis.Jedis;
 
 public interface RedisExecute {

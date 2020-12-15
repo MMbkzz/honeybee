@@ -30,7 +30,7 @@ public class ResourceTaskExecutor implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
-        scheduledTaskRegistrar.addTriggerTask(() ->{
+        scheduledTaskRegistrar.addTriggerTask(() -> {
             auditLogService.logBegin(TaskEnum.instanceResource.toString());
             try {
                 resourceService.configResource();

@@ -1,15 +1,15 @@
 package com.stackstech.honeybee.connector.hive;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.stackstech.dcp.connector.core.AbstractDruidDataSourceSession;
-import com.stackstech.dcp.connector.core.ResourceSession;
-import com.stackstech.dcp.connector.core.entity.DriverDataModel;
-import com.stackstech.dcp.connector.core.entity.DriverMetaData;
-import com.stackstech.dcp.connector.core.entity.DriverModel;
-import com.stackstech.dcp.connector.core.enums.MetaDataTypeEnum;
-import com.stackstech.dcp.connector.core.exception.DriverExecutorException;
-import com.stackstech.dcp.connector.core.util.SqlParser;
-import com.stackstech.dcp.connector.core.util.SqlTemplateUtil;
+import com.stackstech.honeybee.connector.core.AbstractDruidDataSourceSession;
+import com.stackstech.honeybee.connector.core.ResourceSession;
+import com.stackstech.honeybee.connector.core.entity.DriverDataModel;
+import com.stackstech.honeybee.connector.core.entity.DriverMetaData;
+import com.stackstech.honeybee.connector.core.entity.DriverModel;
+import com.stackstech.honeybee.connector.core.enums.MetaDataTypeEnum;
+import com.stackstech.honeybee.connector.core.exception.DriverExecutorException;
+import com.stackstech.honeybee.connector.core.util.SqlParser;
+import com.stackstech.honeybee.connector.core.util.SqlTemplateUtil;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -279,7 +279,8 @@
     </select>
 
     <!--根据登录名查询用户-->
-    <select id="selectByEmail" resultMap="BaseResultMap" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+    <select id="selectByEmail" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
         select
         <include refid="Base_Column_List"/>
         from dcp_auth_user
@@ -291,7 +292,8 @@
         </where>
     </select>
 
-    <select id="selectByPhone" resultMap="BaseResultMap" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+    <select id="selectByPhone" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
         select
         <include refid="Base_Column_List"/>
         from dcp_auth_user

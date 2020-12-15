@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.connector.http.execute;
 
-import com.stackstech.dcp.connector.core.entity.DriverModel;
+import com.stackstech.honeybee.connector.core.entity.DriverModel;
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.CloseableHttpClient;
 

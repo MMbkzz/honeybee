@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.connector.sqlserver;
-
-import com.stackstech.dcp.connector.core.ResourceSession;
-import com.stackstech.dcp.connector.core.ResourceSessionFactory;
-import com.stackstech.dcp.connector.core.entity.PoolInfo;
+ 
+import com.stackstech.honeybee.connector.core.ResourceSession;
+import com.stackstech.honeybee.connector.core.ResourceSessionFactory;
+import com.stackstech.honeybee.connector.core.entity.PoolInfo;
 
 import java.util.Map;
 

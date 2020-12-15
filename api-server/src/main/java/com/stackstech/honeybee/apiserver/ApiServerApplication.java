@@ -22,7 +22,6 @@ public class ApiServerApplication {
 //    }
 
 
-
     public static void main(String[] args) throws ParseException {
 
         SpringApplication.run(ApiServerApplication.class, args);

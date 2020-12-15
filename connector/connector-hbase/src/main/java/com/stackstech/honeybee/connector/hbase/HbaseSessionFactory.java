@@ -1,9 +1,9 @@
 package com.stackstech.honeybee.connector.hbase;
 
 import com.google.common.collect.Maps;
-import com.stackstech.dcp.connector.core.ResourceSession;
-import com.stackstech.dcp.connector.core.ResourceSessionFactory;
-import com.stackstech.dcp.connector.core.entity.PoolInfo;
+import com.stackstech.honeybee.connector.core.ResourceSession;
+import com.stackstech.honeybee.connector.core.ResourceSessionFactory;
+import com.stackstech.honeybee.connector.core.entity.PoolInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

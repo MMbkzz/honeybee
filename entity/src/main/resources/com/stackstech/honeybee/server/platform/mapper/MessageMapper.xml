@@ -15,7 +15,8 @@
     </sql>
 
     <!--获取消息列表-->
-    <select id="queryAll" resultType="com.stackstech.honeybee.server.platform.model.Message" parameterType="java.util.Map">
+    <select id="queryAll" resultType="com.stackstech.honeybee.server.platform.model.Message"
+            parameterType="java.util.Map">
         select
         b.id as id,b.title as title,b.context as context,
         a.status_code as statusCode, a.id as objectId,
