@@ -23,7 +23,7 @@
 - api-server：提供通用数据服务的接口服务。
 - web：前端界面。
 - bees：数据质量检查服务。
-- server-parent：后台服务，按功能模块进行拆分。
+- web-server：后台服务，按功能模块进行拆分。
   - server-auth： 用户身份认证。
   - server-auth-shiro：用户权限认证。
   - server-dataasset：数据资产管理。
