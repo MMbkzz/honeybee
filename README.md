@@ -8,13 +8,13 @@
 
 #### 技术栈
 
-- JAVA 1.8
+- Java 1.8
 - VUE 2.x
 - Spring boot 2.2.0.RELEASE
 - Spring cloud alibaba 2.2.0.RELEASE
-- Redis 3.x
 - Nacos
 - MySQL 5.7
+- Redis 3.x
 - Spark 2.2.1
 - Scala 2.11.8
 
