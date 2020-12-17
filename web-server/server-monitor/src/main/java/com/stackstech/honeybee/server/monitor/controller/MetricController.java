@@ -1,26 +1,8 @@
-/*
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
-*/
-
-package com.stackstech.honeybee.server.monitor;
+package com.stackstech.honeybee.server.monitor.controller;
 
 import com.stackstech.honeybee.server.monitor.model.Metric;
 import com.stackstech.honeybee.server.monitor.model.MetricValue;
+import com.stackstech.honeybee.server.monitor.service.MetricService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,27 +25,27 @@ public class MetricController {
 
     @RequestMapping(value = "/metrics/values", method = RequestMethod.GET)
     public List<MetricValue> getMetricValues(@RequestParam("metricName")
-                                                 String metricName,
+                                                     String metricName,
                                              @RequestParam("size") int size,
                                              @RequestParam(value = "offset",
-                                                 defaultValue = "0")
-                                                 int offset,
+                                                     defaultValue = "0")
+                                                     int offset,
                                              @RequestParam(value = "tmst",
-                                                 defaultValue = "0")
-                                                 long tmst) {
+                                                     defaultValue = "0")
+                                                     long tmst) {
         return metricService.getMetricValues(metricName, offset, size, tmst);
     }
 
     @RequestMapping(value = "/metrics/values", method = RequestMethod.POST)
     public ResponseEntity<?> addMetricValues(@RequestBody List<MetricValue>
-                                                 values) {
+                                                     values) {
         return metricService.addMetricValues(values);
     }
 
     @RequestMapping(value = "/metrics/values", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> deleteMetricValues(@RequestParam("metricName")
-                                                    String metricName) {
+                                                        String metricName) {
         return metricService.deleteMetricValues(metricName);
     }
 
