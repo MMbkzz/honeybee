@@ -1,4 +1,3 @@
-
 package com.stackstech.honeybee.bees.sink
 
 import org.apache.spark.rdd.RDD

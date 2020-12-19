@@ -1,4 +1,3 @@
-
 package com.stackstech.honeybee.bees.sink
 
 import scala.concurrent.Future

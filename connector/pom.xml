@@ -51,12 +51,12 @@
 
     <modules>
         <module>connector-core</module>
-        <module>connector-hbase</module>
+<!--        <module>connector-hbase</module>-->
         <module>connector-hive</module>
-        <module>connector-http</module>
+<!--        <module>connector-http</module>-->
         <module>connector-kafka</module>
         <module>connector-mysql</module>
-        <module>connector-redis</module>
+<!--        <module>connector-redis</module>-->
         <module>connector-oracle</module>
         <module>connector-sqlserver</module>
         <module>connector-postgresql</module>

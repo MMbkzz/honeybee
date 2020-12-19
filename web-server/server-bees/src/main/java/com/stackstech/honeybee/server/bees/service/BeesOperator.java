@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.bees.service.impl;
+package com.stackstech.honeybee.server.bees.service;
 
 
 import com.stackstech.honeybee.server.bees.entity.Bees;

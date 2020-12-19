@@ -8,6 +8,7 @@ import com.stackstech.honeybee.server.bees.exception.BeesException;
 import com.stackstech.honeybee.server.bees.repo.BeesRepo;
 import com.stackstech.honeybee.server.bees.repo.BeesRepoService;
 import com.stackstech.honeybee.server.bees.repo.ExternalBeesRepo;
+import com.stackstech.honeybee.server.bees.service.BeesOperator;
 import com.stackstech.honeybee.server.bees.service.BeesService;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
