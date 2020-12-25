@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.auth.dao.AuthRoleMapper">
+    <resultMap id="RoleResultMap" type="com.stackstech.honeybee.server.auth.model.AuthRole">
+        <result column="ID" property="id" jdbcType="NUMERIC"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="DESCR" property="descr" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="BIGINT"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="RolePermissionResultMap" type="com.stackstech.honeybee.server.auth.model.vo.RolePermissionVo">
+        <result column="ID" property="id" jdbcType="NUMERIC"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="DESCR" property="descr" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="BIGINT"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Columns">
+        id, code, name, descr, status, create_time,create_by, update_time,update_by
+    </sql>
+    <sql id="Base_Columns_r">
+        r.id, r.code, r.name, r.descr, r.status, r.create_time,r.create_by, r.update_time,r.update_by
+    </sql>
+
+    <!--查询是否有该角色-->
+    <select id="selectByName" resultMap="RoleResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Columns"/>
+        from dgp_auth_role
+        where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <!--新增角色-->
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.auth.model.AuthRole">
+        insert into dgp_auth_role(
+        <include refid="Base_Columns"/>
+        ) values (
+        #{id,jdbcType=NUMERIC}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{descr,jdbcType=VARCHAR},
+        #{status,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},#{createBy,jdbcType=BIGINT},
+        #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}
+        )
+    </insert>
+
+    <!--根据角色编号删除角色-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from dgp_auth_role
+        where id = #{id,jdbcType=NUMERIC}
+    </delete>
+
+    <!--编辑角色-->
+    <update id="updateByRoleId" parameterType="com.stackstech.honeybee.server.auth.model.AuthRole">
+        update dgp_auth_role
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="descr != null and descr != ''">
+                descr = #{descr,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
+
+    <!--根据用户编号查询所属角色-->
+    <select id="getRoles" resultMap="RoleResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Columns_r"/>
+        from dgp_auth_role r
+        left join dgp_auth_user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId,jdbcType=NUMERIC}
+    </select>
+
+    <!--角色启用停用-->
+    <update id="startStopRole" parameterType="com.stackstech.honeybee.server.auth.model.AuthRole">
+        update dgp_auth_role
+        <set>
+            <if test="status != null and status != ''">
+                status = #{status,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where ID = #{id,jdbcType=NUMERIC}
+    </update>
+
+    <!-- 角色查询列表接口 -->
+    <select id="getPageRoles" resultMap="RolePermissionResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.RolePermissionVo">
+        select
+        <include refid="Base_Columns_r"/>
+        from dgp_auth_role r
+        <where>
+            <if test="queryString != null and queryString != ''">
+                and concat(r.name,r.code) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and (
+                r.code like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+                or r.name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+                or r.descr like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+                )
+            </if>
+            <if test="status != null and status != ''">
+                and r.status = #{status,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by r.update_time desc
+    </select>
+
+    <!--角色详情-->
+    <select id="getRoleInfo" resultMap="RoleResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Columns"/>
+        from dgp_auth_role
+        where
+        id = #{roleId,jdbcType=NUMERIC}
+    </select>
+
+    <!-- 根据用户编号查询角色 -->
+    <select id="getRoleByUser" resultMap="RoleResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Columns_r"/>
+        from dgp_auth_user_role ur
+        , dgp_auth_role r
+        where
+        r.id = ur.role_id
+        <!-- 判断角色是否启用 -->
+        <!--
+        and  r.STATUS = '1'
+        -->
+        and ur.user_id = #{userId,jdbcType=NUMERIC}
+    </select>
+
+    <!--根据状态查询所有角色信息-->
+    <select id="selectAllRole" resultMap="RoleResultMap" parameterType="java.lang.String">
+        select * from dgp_auth_role t
+        where 1=1
+        <if test="status != null">
+            and t.status = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--校验角色是否存在-->
+    <select id="verifyRoleExists" resultMap="RoleResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.AuthRole">
+        select
+        <include refid="Base_Columns_r"/>
+        from dgp_auth_role r
+        <where>
+            <if test="code != null and code != ''">
+                and r.code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                and r.name = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+</mapper>

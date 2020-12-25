@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.platform.dao.InstanceMapper">
+
+    <sql id="Base_Column_List">
+        id as id
+        , name as name
+        , host as host
+        , host_user as hostUser
+        , host_password as hostPassword
+        , port as port
+        , instance_path as instancePath
+        , status_code as statusCode
+        , stage_code as stageCode
+        , create_time as createTime
+        , create_by as createBy
+        , update_time as updateTime
+        , update_by as updateBy
+    </sql>
+
+    <!--获取驱动列表-->
+    <select id="queryAll" resultType="com.stackstech.honeybee.server.platform.model.Instance"
+            parameterType="com.stackstech.honeybee.server.platform.model.Instance">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_instance
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="hostUser != null and hostUser != ''">
+                and host_user like concat('%',#{hostUser,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+    <select id="countAll" parameterType="com.stackstech.honeybee.server.platform.model.Instance"
+            resultType="java.lang.Integer">
+        select count(1)
+        from dgp_instance
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="hostUser != null and hostUser != ''">
+                and host_user like concat('%',#{hostUser,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.platform.model.Instance" keyProperty="id">
+        insert into dgp_instance (
+        id
+        , name
+        , host
+        , host_user
+        , host_password
+        , port
+        , instance_path
+        , status_code
+        , stage_code
+        , create_time
+        , create_by
+        ,update_time
+        ,update_by
+        ) values (
+        #{ id ,jdbcType=VARCHAR}
+        , #{ name ,jdbcType=VARCHAR}
+        , #{ host ,jdbcType=VARCHAR}
+        , #{ hostUser ,jdbcType=VARCHAR}
+        , #{ hostPassword ,jdbcType=VARCHAR}
+        , #{ port ,jdbcType=INTEGER}
+        , #{ instancePath ,jdbcType=VARCHAR}
+        , #{ statusCode ,jdbcType=VARCHAR}
+        , #{ stageCode ,jdbcType=VARCHAR}
+        ,SYSDATE()
+        , #{ createBy ,jdbcType=BIGINT}
+        ,SYSDATE()
+        ,#{updateBy,jdbcType=BIGINT}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.stackstech.honeybee.server.platform.model.Instance">
+        update dgp_instance
+        set
+        update_time = SYSDATE()
+        , update_by = #{ updateBy ,jdbcType=BIGINT}
+        <if test="null != name">
+            , name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="null != host">
+            , port = #{port,jdbcType=INTEGER}
+        </if>
+        <if test="null != host">
+            , host = #{host,jdbcType=VARCHAR}
+        </if>
+        <if test="null != hostUser">
+            , host_user = #{hostUser,jdbcType=VARCHAR}
+        </if>
+        <if test="null != hostPassword">
+            , host_password = #{hostPassword,jdbcType=VARCHAR}
+        </if>
+        <if test="null != instancePath">
+            , instance_path = #{instancePath,jdbcType=VARCHAR}
+        </if>
+        <if test="null != statusCode">
+            , status_code = #{ statusCode  ,jdbcType=VARCHAR}
+        </if>
+        <if test="null != stageCode">
+            , stage_code = #{ stageCode,jdbcType=VARCHAR }
+        </if>
+        where
+        id = #{ id }
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from dgp_instance where id = #{ id }
+    </delete>
+
+    <select id="queryByStatus" resultType="com.stackstech.honeybee.server.platform.model.Instance"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_instance
+        <where>
+            <if test="null != status">
+                status_code in
+                <foreach collection="status" open="(" close=")" separator="," item="item">
+                    #{ item }
+                </foreach>
+            </if>
+            <if test="null != stage">
+                and stage_code in
+                <foreach collection="stage" open="(" close=")" separator="," item="item">
+                    #{ item }
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--重名校验-->
+    <select id="queryByName" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.platform.model.Instance">
+        select * from dgp_instance
+        where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryByPrimaryKey" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.platform.model.Instance">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_instance
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--实例-->
+    <select id="queryByHost" resultType="com.stackstech.honeybee.server.platform.model.Instance"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_instance
+        where host = #{ host } and port = #{ port }
+        <if test="null != id">
+            and id = #{id}
+        </if>
+    </select>
+
+    <!--实例-->
+    <select id="queryByServiceSourceId" resultType="com.stackstech.honeybee.server.platform.model.Instance"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_instance
+        <where>
+            <if test="null != serviceSourceId and '' != serviceSourceId">
+                exists (
+                select * from dgp_instance_resource
+                where
+                dgp_instance_resource.service_source_id = #{ serviceSourceId }
+                and dgp_instance_resource.instance_id = dgp_instance.id
+                )
+            </if>
+        </where>
+    </select>
+
+    <!--全局搜索-->
+    <select id="queryByCondition" resultType="com.stackstech.honeybee.server.platform.model.Instance"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_instance
+        <where>
+            <if test="queryString != null and queryString != ''">
+                and concat(name,host_user) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+    <!--根据条件查询所有数据服务APi访问日志信息-->
+    <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(1)
+        from dgp_instance
+        <where>
+            <if test="queryString != null and queryString != ''">
+                and concat(name,host_user) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

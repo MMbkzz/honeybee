@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.auth.dao.AuthUserMapper">
+    <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.auth.model.AuthUser">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
+        <result column="PASSWD_SALT" property="passwdSalt" jdbcType="VARCHAR"/>
+        <result column="LAST_PASSWD_CHANGE" property="lastPasswdChange" jdbcType="VARCHAR"/>
+        <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+        <result column="MOBILE" property="mobile" jdbcType="VARCHAR"/>
+        <result column="PREVIOUS_LOGIN" property="previousLogin" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="BIGINT"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="BIGINT"/>
+        <result column="USER_SOURCE" property="userSource" jdbcType="VARCHAR"/>
+        <result column="LDAP_USER" property="ldapUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="BaseResultMapUserVo" type="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        <result column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
+        <result column="PASSWD_SALT" property="passwdSalt" jdbcType="VARCHAR"/>
+        <result column="LAST_PASSWD_CHANGE" property="lastPasswdChange" jdbcType="VARCHAR"/>
+        <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+        <result column="MOBILE" property="mobile" jdbcType="VARCHAR"/>
+        <result column="PREVIOUS_LOGIN" property="previousLogin" jdbcType="VARCHAR"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="BIGINT"/>
+        <result column="USER_SOURCE" property="userSource" jdbcType="VARCHAR"/>
+        <result column="UPDATE_BY" property="createBy" jdbcType="BIGINT"/>
+        <result column="LDAP_USER" property="ldapUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        ,login_name
+        ,password
+        ,passwd_salt
+        ,last_passwd_change
+        ,previous_login
+        ,name
+        ,sex
+        ,mobile
+        ,email
+        ,status
+        ,user_source
+        ,create_time
+        ,create_by
+        ,update_time
+        ,update_by
+        ,ldap_user
+    </sql>
+    <sql id="Base_Column_List_u">
+        u.ID, u.LOGIN_NAME, u.PASSWD_SALT, u.LAST_PASSWD_CHANGE, u.PREVIOUS_LOGIN,
+        u.NAME, u.SEX, u.MOBILE, u.EMAIL, u.STATUS,
+        u.CREATE_TIME,u.CREATE_BY, u.UPDATE_TIME, u.UPDATE_BY, u.LDAP_USER
+    </sql>
+    <!-- 查询cms用户和gt用户合集以cms用户为准 -->
+    <sql id="AllUserList">
+        (select (cms.ID) as ID,
+        cms.LOGIN_NAME as LOGIN_NAME,
+        cms.NAME as NAME,
+        cms.SEX as SEX,
+        date_format(cms.LAST_PASSWD_CHANGE,'%Y-%m-%d %T') as LAST_PASSWD_CHANGE,
+        cms.EMAIL as EMAIL,
+        cms.MOBILE as MOBILE,
+        date_format(cms.PREVIOUS_LOGIN,'%Y-%m-%d %T') as PREVIOUS_LOGIN,
+        date_format(cms.PREVIOUS_LOGIN,'%Y%m%d') as PREVIOUS_LOGIN_YY,
+        date_format(cms.CREATE_TIME,'%Y-%m-%d %T') as CREATE_TIME,
+        (cms.CREATE_BY) as CREATE_BY,
+        (cms.STATUS) as STATUS,
+        date_format(cms.UPDATE_TIME,'%Y-%m-%d %T') as UPDATE_TIME,
+        (cms.UPDATE_BY) as UPDATE_BY,
+        (cms.LDAP_USER) as LDAP_USER
+        from dgp_auth_user cms)
+    </sql>
+
+    <!--新增用户-->
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        insert into dgp_auth_user (
+        ID, LOGIN_NAME, PASSWORD, PASSWD_SALT, LAST_PASSWD_CHANGE, PREVIOUS_LOGIN,
+        NAME, SEX, MOBILE, EMAIL, STATUS, USER_SOURCE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, LDAP_USER
+        ) values (
+        #{id,jdbcType=DECIMAL}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{passwdSalt,jdbcType=VARCHAR}, current_date(), current_date(), #{name,jdbcType=VARCHAR},
+        #{sex,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+        #{status,jdbcType=DECIMAL}, #{userSource,jdbcType=VARCHAR},
+        current_date(), #{createBy,jdbcType=BIGINT}, current_date(), #{updateBy,jdbcType=BIGINT},
+        #{ldapUser,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--根据用户编号删除用户-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from dgp_auth_user
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+
+    <!--编辑用户-->
+    <update id="updateByUserId" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        update dgp_auth_user
+        <set>
+            UPDATE_TIME = current_date(),
+            <if test="loginName != null">
+                LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                SEX = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                PASSWORD = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="passwdSalt != null">
+                PASSWD_SALT = #{passwdSalt,jdbcType=VARCHAR},
+            </if>
+            <if test="lastPasswdChange != null">
+                LAST_PASSWD_CHANGE = #{lastPasswdChange,jdbcType=TIMESTAMP},
+            </if>
+            <if test="email != null">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                MOBILE = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="ldapUser != null">
+                LDAP_USER = #{ldapUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- 用户启用停用 -->
+    <update id="startStopUser" parameterType="java.util.HashMap">
+        update dgp_auth_user
+        <set>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=DECIMAL}
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!--根据用户编号查询用户-->
+    <select id="selectByloginId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_auth_user
+        where id = #{loginId,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据组织编号查询用户-->
+    <select id="selectByOrgId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List_u"/>
+        from dgp_auth_user u order by u.create_time desc
+    </select>
+
+    <!-- 用户查询列表 -->
+    <select id="getPageUsers" resultMap="BaseResultMapUserVo"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        select
+        u.ID, u.LOGIN_NAME, u.LAST_PASSWD_CHANGE, u.PREVIOUS_LOGIN,
+        u.NAME, u.SEX, u.MOBILE, u.EMAIL,u.STATUS,
+        u.CREATE_TIME, u.CREATE_BY, u.UPDATE_TIME,u.UPDATE_BY,u.LDAP_USER
+        from
+        <include refid="AllUserList"/>
+        u
+        <where>
+            <if test="queryString != null and queryString != ''">
+                and concat(u.name,u.login_name) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="username != null and username != ''">
+                and (
+                u.name like CONCAT('%',#{username,jdbcType=VARCHAR},'%')
+                or u.login_name like CONCAT('%',#{username,jdbcType=VARCHAR},'%')
+                )
+            </if>
+            <if test="sex != null and sex != ''">
+                and u.SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null and status != ''">
+                and u.STATUS = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="stratPreviousLogin != null and stratPreviousLogin != ''">
+                <![CDATA[ and PREVIOUS_LOGIN_YY >=
+			 #{stratPreviousLogin}]]>
+            </if>
+            <if test="endPreviousLogin != null and endPreviousLogin != ''">
+                <![CDATA[ and	PREVIOUS_LOGIN_YY <=
+			 #{endPreviousLogin} ]]>
+            </if>
+        </where>
+        order by u.PREVIOUS_LOGIN desc
+    </select>
+
+    <!--用户详情查询-->
+    <select id="getUserInfo" resultMap="BaseResultMapUserVo" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_auth_user
+        where
+        id = #{userId,jdbcType=DECIMAL}
+    </select>
+
+    <!-- 更新登录时间 -->
+    <update id="updateLoginDate" parameterType="java.lang.Long">
+        update dgp_auth_user
+        set
+        PREVIOUS_LOGIN = CURRENT_DATE()
+        where
+        ID = #{userId,jdbcType=DECIMAL}
+    </update>
+
+    <!--修改密码-->
+    <update id="updatePassword" parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        update dgp_auth_user
+        <set>
+            <if test="password != null">
+                PASSWORD = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="passwdSalt != null">
+                PASSWD_SALT = #{passwdSalt,jdbcType=VARCHAR},
+            </if>
+            LAST_PASSWD_CHANGE = CURRENT_DATE(),
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+
+    <!--根据登录名查询用户-->
+    <select id="selectByLoginName" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_auth_user
+        <where>
+            LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <!--根据ldap名查询用户-->
+    <select id="selectByLdapName" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_auth_user
+        <where>
+            LDAP_USER= #{ldapUser,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_auth_user
+        <where>
+            name= #{name,jdbcType=VARCHAR}
+            <if test="id != null">
+                AND id != #{id}
+            </if>
+        </where>
+    </select>
+
+    <!--根据登录名查询用户-->
+    <select id="selectByEmail" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_auth_user
+        <where>
+            email = #{name,jdbcType=VARCHAR}
+            <if test="id != null">
+                AND id != #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPhone" resultMap="BaseResultMap"
+            parameterType="com.stackstech.honeybee.server.auth.model.vo.UserVo">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_auth_user
+        <where>
+            mobile = #{mobile,jdbcType=VARCHAR}
+            <if test="id != null">
+                AND id != #{id}
+            </if>
+        </where>
+    </select>
+
+
+    <!--菜单资源相关-->
+    <resultMap id="MenuVoMap" type="com.stackstech.honeybee.server.auth.model.vo.MenuVo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="descr" jdbcType="VARCHAR" property="descr"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parent_id"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="category_id" jdbcType="BIGINT" property="category_id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+        <result column="attr1" jdbcType="VARCHAR" property="attr1"/>
+        <result column="attr2" jdbcType="VARCHAR" property="attr2"/>
+        <result column="attr3" jdbcType="VARCHAR" property="attr3"/>
+        <result column="attr4" jdbcType="VARCHAR" property="attr4"/>
+        <result column="attr5" jdbcType="VARCHAR" property="attr5"/>
+    </resultMap>
+    <sql id="Resource_Columns_List_d">
+        d.id, d.code, d.name, d.descr, d.parent_id, d.status, d.category_id, d.create_time, d.create_by, d.update_time,
+        d.update_by,
+        d.attr1, d.attr2, d.attr3, d.attr4, d.attr5, CAST(GROUP_CONCAT(c.operation_id) AS CHAR(10000) CHARACTER SET
+        utf8) operationIds
+    </sql>
+    <!--根据用户 id 获取该用户的菜单资源-->
+    <select id="getMenuByUserId" resultMap="MenuVoMap" parameterType="java.util.HashMap">
+        SELECT
+        <include refid="Resource_Columns_List_d"/>
+        FROM dgp_auth_user a
+        LEFT JOIN dgp_auth_user_role b ON b.user_id = a.id
+        LEFT JOIN dgp_auth_role b1 ON b1.id = b.role_id
+        LEFT JOIN dgp_auth_permission c ON c.role_id = b.role_id
+        LEFT JOIN dgp_auth_resource d ON d.id = c.resource_id
+        LEFT JOIN dgp_auth_resource_category e ON e.id = d.category_id
+        <where>
+            AND a.status != '0' AND b1.status != '0' AND d.status != '0'
+            <if test="userId != null and userId != ''">
+                and a.ID = #{userId,jdbcType=DECIMAL}
+            </if>
+            <if test="name != null and name != ''">
+                and e.code = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+        group by d.id
+        order by d.sort asc
+    </select>
+    <select id="selectByRoleCode" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        SELECT
+        users.id,users.login_name,users.name,users.sex,users.mobile,users.email
+        FROM dgp_auth_user users
+        LEFT JOIN dgp_auth_user_role user_role ON user_role.user_id = users.id
+        LEFT JOIN dgp_auth_role role ON role.id = user_role.role_id
+        <where>
+            AND users.status != '0' AND role.status != '0'
+            and role.code = #{roleCode,jdbcType=VARCHAR}
+        </where>
+    </select>
+</mapper>

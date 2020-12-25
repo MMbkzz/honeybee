@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.dataasset.dao.ServiceModelMapper">
+
+    <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+        <result column="model_name" property="modelName" jdbcType="VARCHAR"/>
+        <result column="model_desc" property="modelDesc" jdbcType="VARCHAR"/>
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
+        <result column="topic_id" property="topicId" jdbcType="VARCHAR"/>
+        <result column="service_source_id" property="serviceSourceId" jdbcType="VARCHAR"/>
+        <result column="status_code" property="statusCode" jdbcType="VARCHAR"/>
+        <result column="request_method" property="requestMethod" jdbcType="VARCHAR"/>
+        <result column="expression_type" property="expressionType" jdbcType="VARCHAR"/>
+        <result column="expression" property="expression" jdbcType="VARCHAR"/>
+        <result column="cache_duration" property="cacheDuration" jdbcType="INTEGER"/>
+        <result column="body_pattern" property="bodyPattern" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
+        INSERT INTO dgp_service_model
+        (id,
+        parent_id,
+        model_name,
+        model_desc,
+        type_code,
+        topic_id,
+        service_source_id,
+        status_code,
+        request_method,
+        expression_type,
+        expression,
+        cache_duration,
+        body_pattern,
+        create_time,
+        create_by,
+        update_time,
+        update_by)
+        VALUES
+        (#{id,jdbcType=VARCHAR},
+        #{parentId,jdbcType=VARCHAR},
+        #{modelName,jdbcType=VARCHAR},
+        #{modelDesc,jdbcType=VARCHAR},
+        #{typeCode,jdbcType=VARCHAR},
+        #{topicId,jdbcType=VARCHAR},
+        #{serviceSourceId,jdbcType=VARCHAR},
+        #{statusCode,jdbcType=VARCHAR},
+        #{requestMethod,jdbcType=VARCHAR},
+        #{expressionType,jdbcType=VARCHAR},
+        #{expression,jdbcType=VARCHAR},
+        #{cacheDuration,jdbcType=INTEGER},
+        #{bodyPattern,jdbcType=VARCHAR},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT},
+        SYSDATE(),
+        #{updateBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--根据id编号删除数据资产模型信息-->
+    <delete id="delete" parameterType="java.lang.String">
+        update dgp_service_model
+        set status_code = 'deleted'
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!--编辑角色-->
+    <update id="update" parameterType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
+        update dgp_service_model
+        <set>
+            <if test="id != null and id != ''">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+            <!--<if test="parentId != null and parentId != ''">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>-->
+            parent_id = #{parentId,jdbcType=VARCHAR},
+            <if test="modelName != null and modelName != ''">
+                model_name = #{modelName,jdbcType=VARCHAR},
+            </if>
+            <if test="modelDesc != null ">
+                model_desc = #{modelDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                type_code = #{typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="topicId != null and topicId != ''">
+                topic_id = #{topicId,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceSourceId != null and serviceSourceId != ''">
+                service_source_id = #{serviceSourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                status_code = #{statusCode,jdbcType=VARCHAR},
+            </if>
+            <if test="requestMethod != null and requestMethod != ''">
+                request_method = #{requestMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="expressionType != null and expressionType != ''">
+                expression_type = #{expressionType,jdbcType=VARCHAR},
+            </if>
+            <if test="expression != null and expression != ''">
+                expression = #{expression,jdbcType=VARCHAR},
+            </if>
+            <if test="cacheDuration != null ">
+                cache_duration = #{cacheDuration,jdbcType=INTEGER},
+            </if>
+            <if test="bodyPattern != null and bodyPattern != ''">
+                body_pattern = #{bodyPattern,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            update_time = SYSDATE(),
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+        and status_code != 'deleted'
+    </update>
+
+    <!--根据id查询所有数据资产模型信息-->
+    <select id="queryByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from dgp_service_model t
+        where t.id = #{id,jdbcType=VARCHAR}
+        and status_code != 'deleted'
+    </select>
+
+    <!--查询名称-->
+    <select id="queryByName" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
+        select *
+        from dgp_service_model
+        <where>
+            status_code != 'deleted '
+            <if test="modelName != null and modelName != ''">
+                and model_name = #{modelName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--根据areaId获取数据Topic-->
+    <select id="queryByTopicId" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
+        select *
+        from dgp_service_model
+        where status_code != 'deleted' and topic_id = #{topicId,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据areaId获取数据Topic-->
+    <select id="queryBySourceId" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
+        select *
+        from dgp_service_model
+        where status_code != 'deleted' and service_source_id = #{serviceSourceId,jdbcType=VARCHAR}
+    </select>
+
+    <!--获取所有的父model-->
+    <select id="queryAllParent" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.dataasset.model.ServiceModel">
+        select *
+        from dgp_service_model
+        <where>
+            parent_id is null
+            and status_code != 'deleted'
+            <if test="topicId != null">
+                and topic_id = #{topicId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--根据条件查询所有数据资产模型信息-->
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        a.id as id,
+        a.parent_id,
+        a.model_name,
+        a.model_desc,
+        a.type_code,
+        a.topic_id,
+        a.service_source_id,
+        a.status_code,
+        a.request_method,
+        a.expression_type,
+        a.expression,
+        a.cache_duration,
+        a.body_pattern,
+        a.create_time,
+        a.create_by,
+        a.update_time,
+        a.update_by
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="areaName != null and areaName != ''">
+                and c.area_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="topicName != null and topicName != ''">
+                and b.topic_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and d.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modelName != null and modelName !=  ''">
+                and a.model_name like CONCAT('%',#{modelName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                and a.type_code = #{typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and a.parent_id = #{parentId,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--获取资产模型-->
+    <select id="queryAssetsModel" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        a.id as id,
+        a.parent_id,
+        a.model_name,
+        a.model_desc,
+        a.type_code,
+        a.topic_id,
+        a.service_source_id,
+        a.status_code,
+        a.request_method,
+        a.expression_type,
+        a.expression,
+        a.cache_duration,
+        a.body_pattern,
+        a.create_time,
+        a.create_by,
+        a.update_time,
+        a.update_by
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="areaName != null and areaName != ''">
+                and c.area_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="topicName != null and topicName != ''">
+                and b.topic_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and d.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modelName != null and modelName !=  ''">
+                and a.model_name like CONCAT('%',#{modelName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                and a.type_code = #{typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="requestMethod != null and requestMethod != ''">
+                and a.request_method = #{requestMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--获取能力模型-->
+    <select id="queryAbilityModel" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        a.id as id,
+        a.parent_id,
+        a.model_name,
+        a.model_desc,
+        a.type_code,
+        a.topic_id,
+        a.service_source_id,
+        a.status_code,
+        a.request_method,
+        a.expression_type,
+        a.expression,
+        a.cache_duration,
+        a.body_pattern,
+        a.create_time,
+        a.create_by,
+        a.update_time,
+        a.update_by
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="areaName != null and areaName != ''">
+                and c.display_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="topicName != null and topicName != ''">
+                and b.display_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and d.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modelName != null and modelName !=  ''">
+                and a.model_name like CONCAT('%',#{modelName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                and a.type_code = #{typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="requestMethod != null and requestMethod != ''">
+                and a.request_method = #{requestMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--获取记录数-->
+    <select id="countAll" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1)
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="areaName != null and areaName != ''">
+                and c.area_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="topicName != null and topicName != ''">
+                and b.topic_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and d.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modelName != null and modelName != ''">
+                and a.model_name like CONCAT('%',#{modelName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                and a.type_code = #{typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAssetsModel" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(1)
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="areaName != null and areaName != ''">
+                and c.area_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="topicName != null and topicName != ''">
+                and b.topic_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and d.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modelName != null and modelName !=  ''">
+                and a.model_name like CONCAT('%',#{modelName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                and a.type_code = #{typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="requestMethod != null and requestMethod != ''">
+                and a.request_method = #{requestMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAbilityModel" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(1)
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted'
+            <if test="areaName != null and areaName != ''">
+                and c.display_name like CONCAT('%',#{areaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="topicName != null and topicName != ''">
+                and b.display_name like CONCAT('%',#{topicName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and d.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="modelName != null and modelName !=  ''">
+                and a.model_name like CONCAT('%',#{modelName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                and a.type_code = #{typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="requestMethod != null and requestMethod != ''">
+                and a.request_method = #{requestMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPrimaryKey" resultType="java.lang.String">
+        select seq_nextval('dgp_service_model')
+    </select>
+
+    <!--全局搜索-->
+    <select id="queryAssetByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        a.id,
+        a.parent_id,
+        a.model_name,
+        a.model_desc,
+        a.type_code,
+        a.topic_id,
+        a.service_source_id,
+        a.status_code,
+        a.request_method,
+        a.expression_type,
+        a.expression,
+        a.cache_duration,
+        a.body_pattern,
+        a.create_time,
+        a.create_by,
+        a.update_time,
+        a.update_by
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted' and a.type_code = 'asset'
+            <if test="queryString != null and queryString != ''">
+                and CONCAT(c.area_name,b.topic_name,d.service_source_name,a.model_name)
+                like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--全局搜索记录数-->
+    <select id="countAssetByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(1)
+        from dgp_service_model a
+        left join dgp_data_assets_topic b on a.topic_id = b.id
+        left join dgp_data_assets_area c on b.area_id = c.id
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted' and a.type_code = 'asset'
+            <if test="queryString != null and queryString != ''">
+                and CONCAT(c.area_name,b.topic_name,d.service_source_name,a.model_name)
+                like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="userId != '' and userId != null">
+                and b.owner =#{userId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <!--获取能力模型-->
+    <select id="queryAbilityByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        a.id as id,
+        a.parent_id,
+        a.model_name,
+        a.model_desc,
+        a.type_code,
+        a.topic_id,
+        a.service_source_id,
+        a.status_code,
+        a.request_method,
+        a.expression_type,
+        a.expression,
+        a.cache_duration,
+        a.body_pattern,
+        a.create_time,
+        a.create_by,
+        a.update_time,
+        a.update_by
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted' and a.type_code = 'ability'
+            <if test="queryString != null and queryString != ''">
+                and CONCAT(c.display_name,b.display_name,d.service_source_name,a.model_name)
+                like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+    <select id="countAbilityByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(1)
+        from dgp_service_model a
+        left join dgp_code b on a.topic_id = b.id
+        left join dgp_code c on b.parent_code = c.code
+        left join dgp_service_source d on a.service_source_id = d.id
+        <where>
+            a.status_code != 'deleted' and a.type_code = 'ability'
+            <if test="queryString != null and queryString != ''">
+                and CONCAT(c.display_name,b.display_name,d.service_source_name,a.model_name)
+                like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

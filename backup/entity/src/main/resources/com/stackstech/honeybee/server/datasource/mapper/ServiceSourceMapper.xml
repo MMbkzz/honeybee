@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stackstech.honeybee.server.datasource.dao.ServiceSourceMapper">
+
+    <sql id="Base_Column_List">
+        id as id,driver_id as driverId,service_source_name as serviceSourceName,service_source_desc as
+        serviceSourceDesc,status_code as statusCode,
+        stage_code as stageCode,max_connections as maxConnections,query_timeout as queryTimeout,conn_timeout as
+        connTimeout,
+        create_time as createTime,create_by as createBy,update_time as updateTime,update_by as updateBy
+    </sql>
+
+    <!--获取数据源列表-->
+    <select id="query" parameterType="com.stackstech.honeybee.server.datasource.model.ServiceSource"
+            resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
+        select
+        *
+        from dgp_service_source
+        <where>
+            status_code != 'deleted '
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="driverId != null and driverId != ''">
+                and driver_id = #{driverId,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode !=null and statusCode!=''">
+                and status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--获取数据源列表-->
+    <select id="queryByStatus" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
+        select
+        *
+        from dgp_service_source
+        <where>
+            status_code != 'deleted '
+            <if test="null != status">
+                and status_code in
+                <foreach collection="status" open="(" close=")" separator="," item="item">
+                    #{ item }
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--获取数据源列表-->
+    <select id="queryAll" parameterType="java.util.Map"
+            resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
+        select
+        a.id as id,
+        a.driver_id as driverId,
+        a.service_source_name as serviceSourceName,
+        a.service_source_desc as serviceSourceDesc,
+        a.status_code as statusCode,
+        a.stage_code as stageCode,
+        a.max_connections as maxConnections,
+        a.query_timeout as queryTimeout,
+        a.conn_timeout as connTimeout,
+        a.create_time as createTime,
+        a.create_by as createBy,
+        a.update_time as updateTime,
+        a.update_by as updateBy
+        from dgp_service_source a left join dgp_service_driver b
+        on a.driver_id = b.id
+        <where>
+            a.status_code != 'deleted '
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and a.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="driverName != null and driverName != ''">
+                and b.driver_name like CONCAT('%',#{driverName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="driverId != null and driverId != ''">
+                and a.driver_id = #{driverId,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode !=null and statusCode!=''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--获取数据源参数-->
+    <select id="queryByPrimaryKey" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_service_source
+        where status_code != 'deleted '
+        and id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据名称获取数据源-->
+    <select id="queryByName" parameterType="java.lang.String"
+            resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
+        select
+        <include refid="Base_Column_List"/>
+        from dgp_service_source
+        <where>
+            status_code != 'deleted '
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and service_source_name = #{serviceSourceName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1)
+        from dgp_service_source a left join dgp_service_driver b
+        on a.driver_id = b.id
+        <where>
+            a.status_code != 'deleted '
+            <if test="driverName != null and driverName != ''">
+                and b.driver_name like CONCAT('%',#{driverName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                and a.service_source_name like CONCAT('%',#{serviceSourceName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="driverId != null and driverId != ''">
+                and a.driver_id = #{driverId,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCode !=null and statusCode!=''">
+                and a.status_code = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--获取自增ID-->
+    <select id="queryPrimaryKey" resultType="java.lang.String">
+        select seq_nextval('dgp_service_source')
+    </select>
+
+    <!--新增 -->
+    <insert id="insert" parameterType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
+        insert into dgp_service_source
+        (id,
+        driver_id,
+        service_source_name,
+        service_source_desc,
+        status_code,
+        stage_code,
+        max_connections,
+        query_timeout,
+        conn_timeout,
+        create_time,
+        create_by,
+        update_time,
+        update_by)
+        VALUES
+        (#{id,jdbcType=VARCHAR},
+        #{driverId,jdbcType=VARCHAR},
+        #{serviceSourceName,jdbcType=VARCHAR},
+        #{serviceSourceDesc,jdbcType=VARCHAR},
+        #{statusCode,jdbcType=VARCHAR},
+        #{stageCode,jdbcType=VARCHAR},
+        #{maxConnections,jdbcType=INTEGER},
+        #{queryTimeout,jdbcType=INTEGER},
+        #{connTimeout,jdbcType=INTEGER},
+        SYSDATE(),
+        #{createBy,jdbcType=BIGINT},
+        SYSDATE(),
+        #{updateBy,jdbcType=BIGINT})
+    </insert>
+
+    <!--更新-->
+    <update id="update" parameterType="com.stackstech.honeybee.server.datasource.model.ServiceSource">
+        update dgp_service_source
+        <set>
+            <if test="serviceSourceName != null and serviceSourceName != ''">
+                service_source_name = #{serviceSourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceSourceDesc != null and serviceSourceDesc !=''">
+                service_source_desc = #{serviceSourceDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="statusCode != null and statusCode !=''">
+                status_code = #{statusCode,jdbcType=VARCHAR},
+            </if>
+            <if test="stageCode != null and stageCode !=''">
+                stage_code = #{stageCode,jdbcType=VARCHAR},
+            </if>
+            <if test="maxConnections != null">
+                max_connections = #{maxConnections,jdbcType=INTEGER},
+            </if>
+            <if test="queryTimeout != null ">
+                query_timeout = #{queryTimeout,jdbcType=INTEGER},
+            </if>
+            <if test="connTimeout != null ">
+                conn_timeout = #{connTimeout,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null ">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            update_time = SYSDATE(),
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!--删除-->
+    <delete id="delete" parameterType="java.lang.String">
+        update dgp_service_source
+        set status_code = 'deleted '
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!--全局搜索-->
+    <select id="queryByCondition" resultType="com.stackstech.honeybee.server.datasource.model.ServiceSource"
+            parameterType="java.lang.String">
+        select
+        a.id as id,
+        a.driver_id as driverId,
+        a.service_source_name as serviceSourceName,
+        a.service_source_desc as serviceSourceDesc,
+        a.status_code as statusCode,
+        a.stage_code as stageCode,
+        a.max_connections as maxConnections,
+        a.query_timeout as queryTimeout,
+        a.conn_timeout as connTimeout,
+        a.create_time as createTime,
+        a.create_by as createBy,
+        a.update_time as updateTime,
+        a.update_by as updateBy
+        from dgp_service_source a left join dgp_service_driver b
+        on a.driver_id = b.id
+        <where>
+            a.status_code != 'deleted '
+            <if test="queryString != null and queryString != ''">
+                and concat(a.service_source_name,b.driver_name) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by a.update_time desc
+    </select>
+
+    <!--根据条件查询所有数据服务APi访问日志信息-->
+    <select id="countByCondition" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(1)
+        from dgp_service_source a left join dgp_service_driver b
+        on a.driver_id = b.id
+        <where>
+            a.status_code != 'deleted '
+            <if test="queryString != null and queryString != ''">
+                and concat(a.service_source_name,b.driver_name) like CONCAT('%',#{queryString,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
