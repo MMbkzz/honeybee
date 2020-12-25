@@ -144,7 +144,7 @@
         <module>entity</module>
         <module>connector</module>
         <module>api-server</module>
-        <module>web-server</module>
+
     </modules>
 
 
