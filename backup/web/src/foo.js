@@ -1,0 +1,59 @@
+var foo = [{
+  'component': object,
+  'hidden': true,
+  'path': '/login'
+}, {
+  'component': object,
+  'hidden': true,
+  'path': '/authredireect'
+}, {
+  'component': object,
+  'hidden': true,
+  'path': '/404'
+}, {
+  'component': object,
+  'hidden': true,
+  'path': '/401'
+}, {
+  'children': [{
+    'component': object,
+    'hidden': true,
+    'path': 'sourcedetails/:id'
+  }],
+  'component': object,
+  'hidden': true,
+  'path': "",
+  'redirect': "sourcedetails"
+}, {
+  'children': [{
+    'component': object,
+    'hidden': '',
+    'name': '数据源管理',
+    'path': "datasource",
+  }],
+  'component': object,
+  'hidden': '',
+  'path': "",
+  'redirect': "datasource"
+}, {
+  'children': [{
+    'component': object,
+    'hidden': "",
+    'name': '数据资产主题管理',
+    'path': 'assetheme'
+  }, {
+    'component': object,
+    'hidden': "",
+    'name': '数据资产分类管理',
+    'path': 'assetclassifi'
+  }, {
+    'component': object,
+    'hidden': "",
+    'name': '模型管理',
+    'path': 'modelmana'
+  }],
+  'component': object,
+  'hidden': '',
+  'path': "",
+  'redirect': "datasource"
+}]
