@@ -23,16 +23,17 @@
 - api-server：提供通用数据服务的接口服务。
 - web：前端界面。
 - bees：数据质量检查服务。
-- web-server：后台服务，按功能模块进行拆分。
-  - server-auth： 用户身份认证。
-  - server-auth-shiro：用户权限认证。
-  - server-dataasset：数据资产管理。
-  - server-dataservice：数据服务管理。
-  - server-datasource：数据源管理。
-  - server-operations：监控审计管理。
-  - server-param：系统参数管理。
-  - server-platform：平台管理。
-  - server-system：系统管理。
-- core：核心业务模块。
-- entity：全局实体对象模块。
-- connector：数据源连接器，基于标准的API实现对不同数据库的接入支持。
+- web-server：
+  - connector：数据源连接器，基于标准的API实现对不同数据库的接入支持。
+  - server：后端服务。
+    - apiserver
+    - assets
+    - audit
+    - common
+    - exception
+    - quality
+    - report
+    - security
+    - system
+    - utils
+  
