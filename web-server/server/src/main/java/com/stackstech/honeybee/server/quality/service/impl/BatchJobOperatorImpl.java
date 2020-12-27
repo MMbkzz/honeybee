@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.*;
 import com.stackstech.honeybee.server.quality.repo.BatchJobRepo;
 import com.stackstech.honeybee.server.quality.repo.JobInstanceRepo;
@@ -20,7 +20,7 @@ import org.springframework.util.StringUtils;
 import java.util.*;
 
 import static com.stackstech.honeybee.server.quality.entity.HoneyBees.ProcessType.BATCH;
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.*;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.*;
 import static org.quartz.CronExpression.isValidExpression;
 import static org.quartz.JobKey.jobKey;
 import static org.quartz.Trigger.TriggerState;

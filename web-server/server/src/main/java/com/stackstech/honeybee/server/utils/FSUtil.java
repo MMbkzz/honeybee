@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.utils;
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.HDFS_FILE_NOT_EXIST;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.HDFS_FILE_NOT_EXIST;
 
 @Component
 public class FSUtil {

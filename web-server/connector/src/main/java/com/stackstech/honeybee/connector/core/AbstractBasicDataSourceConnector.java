@@ -3,7 +3,7 @@ package com.stackstech.honeybee.connector.core;
 import com.stackstech.honeybee.connector.core.entity.PoolInfo;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public abstract class AbstractBasicDataSourceSession extends AbstractRessourceSession implements ResourceConfig {
+public abstract class AbstractBasicDataSourceConnector extends AbstractRessourceSession implements ResourceConfig {
 
     protected BasicDataSource dataSource = null;
 

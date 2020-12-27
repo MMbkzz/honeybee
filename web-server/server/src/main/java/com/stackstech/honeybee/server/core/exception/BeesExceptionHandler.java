@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.exception;
+package com.stackstech.honeybee.server.core.exception;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;

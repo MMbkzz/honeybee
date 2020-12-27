@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.*;
 import com.stackstech.honeybee.server.quality.event.BeesEventManager;
 import com.stackstech.honeybee.server.quality.event.JobEvent;
@@ -41,7 +41,7 @@ import static com.stackstech.honeybee.server.quality.entity.HoneyBees.ProcessTyp
 import static com.stackstech.honeybee.server.quality.entity.HoneyBees.ProcessType.STREAMING;
 import static com.stackstech.honeybee.server.quality.entity.LivySessionStates.State.*;
 import static com.stackstech.honeybee.server.quality.entity.LivySessionStates.isActive;
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.*;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.*;
 import static java.util.TimeZone.getTimeZone;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;

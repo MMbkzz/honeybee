@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.connector.hive;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.stackstech.honeybee.connector.core.AbstractDruidDataSourceSession;
+import com.stackstech.honeybee.connector.core.AbstractDruidDataSourceConnector;
 import com.stackstech.honeybee.connector.core.ResourceSession;
 import com.stackstech.honeybee.connector.core.entity.DriverDataModel;
 import com.stackstech.honeybee.connector.core.entity.DriverMetaData;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class HiveConnector extends AbstractDruidDataSourceSession implements ResourceSession {
+public class HiveConnector extends AbstractDruidDataSourceConnector implements ResourceSession {
 
     private static final Logger logger = LoggerFactory.getLogger(HiveConnector.class);
 

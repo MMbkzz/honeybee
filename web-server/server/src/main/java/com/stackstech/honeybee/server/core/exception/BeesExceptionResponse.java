@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.exception;
+package com.stackstech.honeybee.server.core.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;

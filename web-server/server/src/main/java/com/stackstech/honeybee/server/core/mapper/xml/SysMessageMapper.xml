@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stackstech.honeybee.server.core.mapper.SysMessageMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="message_title" jdbcType="VARCHAR" property="messageTitle" />
+    <result column="message_type" jdbcType="VARCHAR" property="messageType" />
+    <result column="message_content" jdbcType="VARCHAR" property="messageContent" />
+    <result column="message_receiver" jdbcType="BIGINT" property="messageReceiver" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="owner" jdbcType="BIGINT" property="owner" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, message_title, message_type, message_content, message_receiver, status, owner, 
+    updatetime, createtime, desc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hb_sys_message
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hb_sys_message
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
+    insert into hb_sys_message (id, message_title, message_type, 
+      message_content, message_receiver, status, 
+      owner, updatetime, createtime, 
+      desc)
+    values (#{id,jdbcType=BIGINT}, #{messageTitle,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, 
+      #{messageContent,jdbcType=VARCHAR}, #{messageReceiver,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
+      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{desc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
+    insert into hb_sys_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="messageTitle != null">
+        message_title,
+      </if>
+      <if test="messageType != null">
+        message_type,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+      <if test="messageReceiver != null">
+        message_receiver,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="owner != null">
+        owner,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="desc != null">
+        desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="messageTitle != null">
+        #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageReceiver != null">
+        #{messageReceiver,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
+    update hb_sys_message
+    <set>
+      <if test="messageTitle != null">
+        message_title = #{messageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="messageType != null">
+        message_type = #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageReceiver != null">
+        message_receiver = #{messageReceiver,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        owner = #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
+    update hb_sys_message
+    set message_title = #{messageTitle,jdbcType=VARCHAR},
+      message_type = #{messageType,jdbcType=VARCHAR},
+      message_content = #{messageContent,jdbcType=VARCHAR},
+      message_receiver = #{messageReceiver,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      owner = #{owner,jdbcType=BIGINT},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      desc = #{desc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

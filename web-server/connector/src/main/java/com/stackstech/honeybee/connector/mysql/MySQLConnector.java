@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.connector.mysql;
 
-import com.stackstech.honeybee.connector.core.AbstractBasicDataSourceSession;
+import com.stackstech.honeybee.connector.core.AbstractBasicDataSourceConnector;
 import com.stackstech.honeybee.connector.core.ResourceSession;
 import com.stackstech.honeybee.connector.core.entity.DriverMetaData;
 import com.stackstech.honeybee.connector.core.entity.DriverModel;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class MySQLConnector extends AbstractBasicDataSourceSession implements ResourceSession {
+public class MySQLConnector extends AbstractBasicDataSourceConnector implements ResourceSession {
 
     private JdbcTemplate jdbcTemplate;
 

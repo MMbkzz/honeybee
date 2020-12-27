@@ -4,7 +4,7 @@ import com.stackstech.honeybee.connector.core.entity.PoolInfo;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-public abstract class AbstractJedisDataSourceSession extends AbstractRessourceSession implements ResourceConfig {
+public abstract class AbstractJedisDataSourceConnector extends AbstractRessourceSession implements ResourceConfig {
 
     protected JedisPool dataSource = null;
 

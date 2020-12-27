@@ -19,7 +19,7 @@ under the License.
 
 package com.stackstech.honeybee.server.quality.service.impl;
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.*;
 import com.stackstech.honeybee.server.quality.repo.BeesRepo;
 import com.stackstech.honeybee.server.quality.repo.JobInstanceRepo;
@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.*;
 
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.QUARTZ_JOB_ALREADY_EXIST;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.QUARTZ_JOB_ALREADY_EXIST;
 import static com.stackstech.honeybee.server.quality.entity.HoneyBees.ProcessType.BATCH;
 import static com.stackstech.honeybee.server.quality.entity.HoneyBees.ProcessType.STREAMING;
 import static com.stackstech.honeybee.server.quality.entity.LivySessionStates.State.FINDING;

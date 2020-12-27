@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.connector.oracle;
 
 
-import com.stackstech.honeybee.connector.core.AbstractBasicDataSourceSession;
+import com.stackstech.honeybee.connector.core.AbstractBasicDataSourceConnector;
 import com.stackstech.honeybee.connector.core.ResourceSession;
 import com.stackstech.honeybee.connector.core.entity.DriverDataModel;
 import com.stackstech.honeybee.connector.core.entity.DriverMetaData;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class OracleConnector extends AbstractBasicDataSourceSession implements ResourceSession {
+public class OracleConnector extends AbstractBasicDataSourceConnector implements ResourceSession {
 
     private JdbcTemplate jdbcTemplate;
 

@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.*;
 import com.stackstech.honeybee.server.quality.repo.JobInstanceRepo;
 import com.stackstech.honeybee.server.quality.repo.StreamingJobRepo;
@@ -30,8 +30,8 @@ import static com.stackstech.honeybee.server.quality.entity.HoneyBees.ProcessTyp
 import static com.stackstech.honeybee.server.quality.entity.LivySessionStates.State;
 import static com.stackstech.honeybee.server.quality.entity.LivySessionStates.State.STOPPED;
 import static com.stackstech.honeybee.server.quality.entity.LivySessionStates.convert2QuartzState;
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.INVALID_JOB_NAME;
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.STREAMING_JOB_IS_RUNNING;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.INVALID_JOB_NAME;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.STREAMING_JOB_IS_RUNNING;
 import static com.stackstech.honeybee.server.quality.service.impl.JobServiceImpl.START;
 import static com.stackstech.honeybee.server.quality.service.impl.JobServiceImpl.STOP;
 import static org.quartz.TriggerKey.triggerKey;

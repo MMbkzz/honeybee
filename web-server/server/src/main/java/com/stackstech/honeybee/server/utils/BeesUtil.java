@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.utils;
 
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.*;
 import com.stackstech.honeybee.server.quality.factory.PredicatorFactory;
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.*;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.*;
 
 public class BeesUtil {
     private static final Logger LOGGER = LoggerFactory

@@ -3,7 +3,7 @@ package com.stackstech.honeybee.connector.core;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.stackstech.honeybee.connector.core.entity.PoolInfo;
 
-public abstract class AbstractDruidDataSourceSession extends AbstractRessourceSession implements ResourceConfig {
+public abstract class AbstractDruidDataSourceConnector extends AbstractRessourceSession implements ResourceConfig {
 
     protected DruidDataSource dataSource = null;
 

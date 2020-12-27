@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.connector.mssql;
 
-import com.stackstech.honeybee.connector.core.AbstractBasicDataSourceSession;
+import com.stackstech.honeybee.connector.core.AbstractBasicDataSourceConnector;
 import com.stackstech.honeybee.connector.core.ResourceSession;
 import com.stackstech.honeybee.connector.core.entity.DriverDataModel;
 import com.stackstech.honeybee.connector.core.entity.DriverMetaData;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class MsSQLConnector extends AbstractBasicDataSourceSession implements ResourceSession {
+public class MsSQLConnector extends AbstractBasicDataSourceConnector implements ResourceSession {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -38,12 +38,12 @@ public class MsSQLConnector extends AbstractBasicDataSourceSession implements Re
             dataSource.setDefaultQueryTimeout(Integer.valueOf((String) config.get("sqlserver.datasource.query-timeout")));
         }
         if (config.get("sqlserver.datasource.maxwait") != null) {
-            dataSource.setMaxWaitMillis(Integer.valueOf((String) config.get("sqlserver.datasource.maxwait")) * 1000);
+            dataSource.setMaxWaitMillis(Integer.parseInt((String) config.get("sqlserver.datasource.maxwait")) * 1000);
         }
         if (null != classLoader) {
             dataSource.setDriverClassLoader(classLoader);
         }
-        maxLimit = Integer.valueOf((String) config.get("sqlserver.datasource.max-limit"));
+        maxLimit = Integer.parseInt((String) config.get("sqlserver.datasource.max-limit"));
         jdbcTemplate = new JdbcTemplate(dataSource);
         return this;
     }

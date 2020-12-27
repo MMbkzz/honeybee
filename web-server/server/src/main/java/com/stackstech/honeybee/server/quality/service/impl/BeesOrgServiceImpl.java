@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.Bees;
 import com.stackstech.honeybee.server.quality.entity.HoneyBees;
 import com.stackstech.honeybee.server.quality.repo.BeesRepo;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.ORGANIZATION_NAME_DOES_NOT_EXIST;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.ORGANIZATION_NAME_DOES_NOT_EXIST;
 
 @Service
 public class BeesOrgServiceImpl implements BeesOrgService {

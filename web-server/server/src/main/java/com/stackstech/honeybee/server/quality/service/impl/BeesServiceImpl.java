@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.Bees;
 import com.stackstech.honeybee.server.quality.entity.ExternalBees;
 import com.stackstech.honeybee.server.quality.entity.HoneyBees;
@@ -20,7 +20,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.*;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.*;
 
 @Service
 public class BeesServiceImpl implements BeesService {

@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.quality.event;
 
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 
 /**
  * The Hook interface for receiving internal events.

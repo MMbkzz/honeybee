@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.quality.factory;
 
-import com.stackstech.honeybee.server.exception.BeesException;
+import com.stackstech.honeybee.server.core.exception.BeesException;
 import com.stackstech.honeybee.server.quality.entity.SegmentPredicate;
 import com.stackstech.honeybee.server.quality.service.Predicator;
 import com.stackstech.honeybee.server.quality.service.impl.FileExistPredicator;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import static com.stackstech.honeybee.server.exception.BeesExceptionMessage.PREDICATE_TYPE_NOT_FOUND;
+import static com.stackstech.honeybee.server.core.exception.BeesExceptionMessage.PREDICATE_TYPE_NOT_FOUND;
 
 public class PredicatorFactory {
     private static final Logger LOGGER = LoggerFactory

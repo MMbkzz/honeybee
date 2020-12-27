@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.common;
+package com.stackstech.honeybee.server.core.common;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
