@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stackstech.honeybee.server.core.mapper.QualityRuleConfigEntityMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.QualityRuleConfigEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="rule_id" jdbcType="BIGINT" property="ruleId" />
+    <result column="rule_config_type" jdbcType="VARCHAR" property="ruleConfigType" />
+    <result column="rule_config_key" jdbcType="VARCHAR" property="ruleConfigKey" />
+    <result column="rule_config_value" jdbcType="VARCHAR" property="ruleConfigValue" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="owner" jdbcType="BIGINT" property="owner" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, rule_id, rule_config_type, rule_config_key, rule_config_value, status, owner, 
+    updatetime, createtime, desc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hb_quality_rule_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hb_quality_rule_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.QualityRuleConfigEntity">
+    insert into hb_quality_rule_config (id, rule_id, rule_config_type, 
+      rule_config_key, rule_config_value, status, 
+      owner, updatetime, createtime, 
+      desc)
+    values (#{id,jdbcType=BIGINT}, #{ruleId,jdbcType=BIGINT}, #{ruleConfigType,jdbcType=VARCHAR}, 
+      #{ruleConfigKey,jdbcType=VARCHAR}, #{ruleConfigValue,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{desc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityRuleConfigEntity">
+    insert into hb_quality_rule_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ruleId != null">
+        rule_id,
+      </if>
+      <if test="ruleConfigType != null">
+        rule_config_type,
+      </if>
+      <if test="ruleConfigKey != null">
+        rule_config_key,
+      </if>
+      <if test="ruleConfigValue != null">
+        rule_config_value,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="owner != null">
+        owner,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="desc != null">
+        desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ruleId != null">
+        #{ruleId,jdbcType=BIGINT},
+      </if>
+      <if test="ruleConfigType != null">
+        #{ruleConfigType,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleConfigKey != null">
+        #{ruleConfigKey,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleConfigValue != null">
+        #{ruleConfigValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityRuleConfigEntity">
+    update hb_quality_rule_config
+    <set>
+      <if test="ruleId != null">
+        rule_id = #{ruleId,jdbcType=BIGINT},
+      </if>
+      <if test="ruleConfigType != null">
+        rule_config_type = #{ruleConfigType,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleConfigKey != null">
+        rule_config_key = #{ruleConfigKey,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleConfigValue != null">
+        rule_config_value = #{ruleConfigValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        owner = #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.QualityRuleConfigEntity">
+    update hb_quality_rule_config
+    set rule_id = #{ruleId,jdbcType=BIGINT},
+      rule_config_type = #{ruleConfigType,jdbcType=VARCHAR},
+      rule_config_key = #{ruleConfigKey,jdbcType=VARCHAR},
+      rule_config_value = #{ruleConfigValue,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      owner = #{owner,jdbcType=BIGINT},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      desc = #{desc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

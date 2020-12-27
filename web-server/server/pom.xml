@@ -308,14 +308,14 @@
 
         <resources>
             <resource>
-                <directory>src/main/resources/${env}</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <excludes>
                     <exclude>application.yml</exclude>
-                    <exclude>bootstrap.yml</exclude>
+                    <exclude>generatorConfig.xml</exclude>
                     <exclude>logback.xml</exclude>
                 </excludes>
             </resource>
@@ -330,24 +330,24 @@
         </resources>
     </build>
 
-    <profiles>
-        <!-- Development Config -->
-        <profile>
-            <id>dev</id>
-            <properties>
-                <env>dev</env>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>product</id>
-            <properties>
-                <env>product</env>
-            </properties>
-        </profile>
-    </profiles>
+<!--    <profiles>-->
+<!--        &lt;!&ndash; Development Config &ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>dev</id>-->
+<!--            <properties>-->
+<!--                <env>dev</env>-->
+<!--            </properties>-->
+<!--            <activation>-->
+<!--                <activeByDefault>true</activeByDefault>-->
+<!--            </activation>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>product</id>-->
+<!--            <properties>-->
+<!--                <env>product</env>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--    </profiles>-->
 
 
 </project>
