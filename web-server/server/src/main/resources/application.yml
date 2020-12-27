@@ -2,7 +2,7 @@ app:
   datasource:
     db:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/honeybee?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+      jdbcUrl: jdbc:mysql://127.0.0.1:3306/honeybee?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
       username: dcp
       password: dcp
       type: com.zaxxer.hikari.HikariDataSource
