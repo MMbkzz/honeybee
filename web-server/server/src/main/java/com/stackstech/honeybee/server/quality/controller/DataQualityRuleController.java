@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.apiserver.controller;
+package com.stackstech.honeybee.server.quality.controller;
 
 import com.stackstech.honeybee.server.apiserver.service.DataService;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
@@ -15,43 +15,33 @@ import org.springframework.web.bind.annotation.RestController;
 //TODO WJ
 @RestController
 @RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT)
-public class DataServiceController {
+public class DataQualityRuleController {
 
     @Autowired
     private DataService dataService;
 
-    @PostMapping(value = "/data/service/get")
+    @PostMapping(value = "/quality/rule/get")
     public ResponseMap<?> get() {
         return ResponseMap.success(dataService.getDataService(1L));
     }
 
-    @PostMapping(value = "/data/service/delete")
+    @PostMapping(value = "/quality/rule/delete")
     public ResponseMap<?> delete() {
         return null;
     }
 
-    @PostMapping(value = "/data/service/update")
+    @PostMapping(value = "/quality/rule/update")
     public ResponseMap<?> update() {
         return null;
     }
 
-    @PostMapping(value = "/data/service/add")
+    @PostMapping(value = "/quality/rule/add")
     public ResponseMap<?> add() {
         return null;
     }
 
-    @PostMapping(value = "/data/service/query")
+    @PostMapping(value = "/quality/rule/query")
     public ResponseMap<?> query() {
-        return null;
-    }
-
-    @PostMapping(value = "/data/service/online")
-    public ResponseMap<?> online() {
-        return null;
-    }
-
-    @PostMapping(value = "/data/service/offline")
-    public ResponseMap<?> offline() {
         return null;
     }
 

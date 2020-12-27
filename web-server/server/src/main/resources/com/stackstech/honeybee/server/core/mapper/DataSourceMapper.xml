@@ -23,8 +23,7 @@
     where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hb_datasource
-    where `id` = #{id,jdbcType=BIGINT}
+    update hb_datasource set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.DataSourceEntity">
     insert into hb_datasource (`id`, `datasource_name`, `datasource_code`, 

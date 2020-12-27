@@ -24,8 +24,7 @@
     where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hb_data_service_node
-    where `id` = #{id,jdbcType=BIGINT}
+    delete from hb_data_service_node where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceNodeEntity">
     insert into hb_data_service_node (`id`, `service_node_name`, `service_node_code`, 

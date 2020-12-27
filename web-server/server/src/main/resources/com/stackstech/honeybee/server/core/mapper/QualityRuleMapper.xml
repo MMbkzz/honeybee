@@ -25,8 +25,7 @@
     where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hb_quality_rule
-    where `id` = #{id,jdbcType=BIGINT}
+    update hb_quality_rule set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.QualityRuleEntity">
     insert into hb_quality_rule (`id`, `rule_name`, `rule_code`, 

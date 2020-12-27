@@ -6,6 +6,9 @@ import com.stackstech.honeybee.server.core.mapper.DataServiceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * DataServiceImpl
  *
@@ -20,5 +23,20 @@ public class DataServiceImpl implements DataService {
     @Override
     public DataServiceEntity getDataService(Long id) {
         return mapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<DataServiceEntity> getDataServices(Map<String, Object> parameter) {
+        return null;
+    }
+
+    @Override
+    public Boolean deleteDataService(Long id) {
+        return mapper.deleteByPrimaryKey(id) > 0;
+    }
+
+    @Override
+    public Boolean updateDataService(DataServiceEntity entity) {
+        return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 }

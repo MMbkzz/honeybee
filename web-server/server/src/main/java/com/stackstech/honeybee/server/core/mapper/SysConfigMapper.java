@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface SysConfigMapper {
-    int deleteByPrimaryKey(Long id);
 
     int insert(SysConfigEntity record);
 

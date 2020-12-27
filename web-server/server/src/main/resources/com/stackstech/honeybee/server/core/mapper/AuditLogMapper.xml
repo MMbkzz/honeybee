@@ -24,8 +24,7 @@
     where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hb_audit_log
-    where `id` = #{id,jdbcType=BIGINT}
+    update hb_audit_log set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
     insert into hb_audit_log (`id`, `log_title`, `log_audit`, 

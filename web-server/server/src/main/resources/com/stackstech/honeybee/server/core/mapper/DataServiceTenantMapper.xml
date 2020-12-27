@@ -22,8 +22,7 @@
     where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hb_data_service_tenant
-    where `id` = #{id,jdbcType=BIGINT}
+    update hb_data_service_tenant set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity">
     insert into hb_data_service_tenant (`id`, `tenant_name`, `tenant_code`, 

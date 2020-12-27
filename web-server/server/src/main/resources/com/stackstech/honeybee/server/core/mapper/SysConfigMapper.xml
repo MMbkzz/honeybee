@@ -19,10 +19,6 @@
     from hb_sys_config
     where `id` = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hb_sys_config
-    where `id` = #{id,jdbcType=BIGINT}
-  </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.SysConfigEntity">
     insert into hb_sys_config (`id`, `config_key`, `config_value`, 
       `owner`, `updatetime`, `createtime`, 

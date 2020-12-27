@@ -28,8 +28,7 @@
     where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from hb_assets_model
-    where `id` = #{id,jdbcType=BIGINT}
+    update hb_assets_model set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.AssetsModelEntity">
     insert into hb_assets_model (`id`, `assets_model_name`, `assets_model_code`, 
