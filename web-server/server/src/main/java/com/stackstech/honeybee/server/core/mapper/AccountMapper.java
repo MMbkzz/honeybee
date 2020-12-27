@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 
-public interface AccountEntityMapper {
+public interface AccountMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(AccountEntity record);

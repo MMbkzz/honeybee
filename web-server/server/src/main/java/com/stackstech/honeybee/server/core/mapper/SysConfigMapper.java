@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.SysConfigEntity;
 
-public interface SysConfigEntityMapper {
+public interface SysConfigMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(SysConfigEntity record);

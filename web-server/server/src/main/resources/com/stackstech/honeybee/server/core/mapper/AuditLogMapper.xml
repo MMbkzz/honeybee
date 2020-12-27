@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.core.mapper.AuditLogEntityMapper">
+<mapper namespace="com.stackstech.honeybee.server.core.mapper.AuditLogMapper">
   <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="log_title" jdbcType="VARCHAR" property="logTitle" />
@@ -14,24 +14,24 @@
     <result column="desc" jdbcType="VARCHAR" property="desc" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, log_title, log_audit, log_type, log_content, status, owner, updatetime, createtime, 
-    desc
+    `id`, `log_title`, `log_audit`, `log_type`, `log_content`, `status`, `owner`, `updatetime`, 
+    `createtime`, `desc`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_audit_log
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from hb_audit_log
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
-    insert into hb_audit_log (id, log_title, log_audit, 
-      log_type, log_content, status, 
-      owner, updatetime, createtime, 
-      desc)
+    insert into hb_audit_log (`id`, `log_title`, `log_audit`, 
+      `log_type`, `log_content`, `status`, 
+      `owner`, `updatetime`, `createtime`, 
+      `desc`)
     values (#{id,jdbcType=BIGINT}, #{logTitle,jdbcType=VARCHAR}, #{logAudit,jdbcType=VARCHAR}, 
       #{logType,jdbcType=VARCHAR}, #{logContent,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
@@ -41,34 +41,34 @@
     insert into hb_audit_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        id,
+        `id`,
       </if>
       <if test="logTitle != null">
-        log_title,
+        `log_title`,
       </if>
       <if test="logAudit != null">
-        log_audit,
+        `log_audit`,
       </if>
       <if test="logType != null">
-        log_type,
+        `log_type`,
       </if>
       <if test="logContent != null">
-        log_content,
+        `log_content`,
       </if>
       <if test="status != null">
-        status,
+        `status`,
       </if>
       <if test="owner != null">
-        owner,
+        `owner`,
       </if>
       <if test="updatetime != null">
-        updatetime,
+        `updatetime`,
       </if>
       <if test="createtime != null">
-        createtime,
+        `createtime`,
       </if>
       <if test="desc != null">
-        desc,
+        `desc`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -108,46 +108,46 @@
     update hb_audit_log
     <set>
       <if test="logTitle != null">
-        log_title = #{logTitle,jdbcType=VARCHAR},
+        `log_title` = #{logTitle,jdbcType=VARCHAR},
       </if>
       <if test="logAudit != null">
-        log_audit = #{logAudit,jdbcType=VARCHAR},
+        `log_audit` = #{logAudit,jdbcType=VARCHAR},
       </if>
       <if test="logType != null">
-        log_type = #{logType,jdbcType=VARCHAR},
+        `log_type` = #{logType,jdbcType=VARCHAR},
       </if>
       <if test="logContent != null">
-        log_content = #{logContent,jdbcType=VARCHAR},
+        `log_content` = #{logContent,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+        `status` = #{status,jdbcType=INTEGER},
       </if>
       <if test="owner != null">
-        owner = #{owner,jdbcType=BIGINT},
+        `owner` = #{owner,jdbcType=BIGINT},
       </if>
       <if test="updatetime != null">
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
-        desc = #{desc,jdbcType=VARCHAR},
+        `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
     update hb_audit_log
-    set log_title = #{logTitle,jdbcType=VARCHAR},
-      log_audit = #{logAudit,jdbcType=VARCHAR},
-      log_type = #{logType,jdbcType=VARCHAR},
-      log_content = #{logContent,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      owner = #{owner,jdbcType=BIGINT},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      desc = #{desc,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    set `log_title` = #{logTitle,jdbcType=VARCHAR},
+      `log_audit` = #{logAudit,jdbcType=VARCHAR},
+      `log_type` = #{logType,jdbcType=VARCHAR},
+      `log_content` = #{logContent,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      `owner` = #{owner,jdbcType=BIGINT},
+      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
+      `createtime` = #{createtime,jdbcType=TIMESTAMP},
+      `desc` = #{desc,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

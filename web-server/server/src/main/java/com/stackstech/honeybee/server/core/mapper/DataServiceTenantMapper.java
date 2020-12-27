@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
 
-public interface DataServiceTenantEntityMapper {
+public interface DataServiceTenantMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(DataServiceTenantEntity record);

@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
 
-public interface AssetsModelEntityMapper {
+public interface AssetsModelMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(AssetsModelEntity record);

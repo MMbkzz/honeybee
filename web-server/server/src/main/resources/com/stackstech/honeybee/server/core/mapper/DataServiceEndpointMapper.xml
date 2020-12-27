@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.core.mapper.DataServiceEndpointEntityMapper">
+<mapper namespace="com.stackstech.honeybee.server.core.mapper.DataServiceEndpointMapper">
   <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.DataServiceEndpointEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="data_service_endpoint_code" jdbcType="VARCHAR" property="dataServiceEndpointCode" />
@@ -14,24 +14,24 @@
     <result column="desc" jdbcType="VARCHAR" property="desc" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, data_service_endpoint_code, service_node_id, data_service_id, data_service_resource, 
-    data_service_endpoint, data_service_status, updatetime, createtime, desc
+    `id`, `data_service_endpoint_code`, `service_node_id`, `data_service_id`, `data_service_resource`, 
+    `data_service_endpoint`, `data_service_status`, `updatetime`, `createtime`, `desc`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_data_service_endpoint
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from hb_data_service_endpoint
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEndpointEntity">
-    insert into hb_data_service_endpoint (id, data_service_endpoint_code, service_node_id, 
-      data_service_id, data_service_resource, data_service_endpoint, 
-      data_service_status, updatetime, createtime, 
-      desc)
+    insert into hb_data_service_endpoint (`id`, `data_service_endpoint_code`, `service_node_id`, 
+      `data_service_id`, `data_service_resource`, `data_service_endpoint`, 
+      `data_service_status`, `updatetime`, `createtime`, 
+      `desc`)
     values (#{id,jdbcType=BIGINT}, #{dataServiceEndpointCode,jdbcType=VARCHAR}, #{serviceNodeId,jdbcType=BIGINT}, 
       #{dataServiceId,jdbcType=BIGINT}, #{dataServiceResource,jdbcType=INTEGER}, #{dataServiceEndpoint,jdbcType=VARCHAR}, 
       #{dataServiceStatus,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
@@ -41,34 +41,34 @@
     insert into hb_data_service_endpoint
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        id,
+        `id`,
       </if>
       <if test="dataServiceEndpointCode != null">
-        data_service_endpoint_code,
+        `data_service_endpoint_code`,
       </if>
       <if test="serviceNodeId != null">
-        service_node_id,
+        `service_node_id`,
       </if>
       <if test="dataServiceId != null">
-        data_service_id,
+        `data_service_id`,
       </if>
       <if test="dataServiceResource != null">
-        data_service_resource,
+        `data_service_resource`,
       </if>
       <if test="dataServiceEndpoint != null">
-        data_service_endpoint,
+        `data_service_endpoint`,
       </if>
       <if test="dataServiceStatus != null">
-        data_service_status,
+        `data_service_status`,
       </if>
       <if test="updatetime != null">
-        updatetime,
+        `updatetime`,
       </if>
       <if test="createtime != null">
-        createtime,
+        `createtime`,
       </if>
       <if test="desc != null">
-        desc,
+        `desc`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -108,46 +108,46 @@
     update hb_data_service_endpoint
     <set>
       <if test="dataServiceEndpointCode != null">
-        data_service_endpoint_code = #{dataServiceEndpointCode,jdbcType=VARCHAR},
+        `data_service_endpoint_code` = #{dataServiceEndpointCode,jdbcType=VARCHAR},
       </if>
       <if test="serviceNodeId != null">
-        service_node_id = #{serviceNodeId,jdbcType=BIGINT},
+        `service_node_id` = #{serviceNodeId,jdbcType=BIGINT},
       </if>
       <if test="dataServiceId != null">
-        data_service_id = #{dataServiceId,jdbcType=BIGINT},
+        `data_service_id` = #{dataServiceId,jdbcType=BIGINT},
       </if>
       <if test="dataServiceResource != null">
-        data_service_resource = #{dataServiceResource,jdbcType=INTEGER},
+        `data_service_resource` = #{dataServiceResource,jdbcType=INTEGER},
       </if>
       <if test="dataServiceEndpoint != null">
-        data_service_endpoint = #{dataServiceEndpoint,jdbcType=VARCHAR},
+        `data_service_endpoint` = #{dataServiceEndpoint,jdbcType=VARCHAR},
       </if>
       <if test="dataServiceStatus != null">
-        data_service_status = #{dataServiceStatus,jdbcType=VARCHAR},
+        `data_service_status` = #{dataServiceStatus,jdbcType=VARCHAR},
       </if>
       <if test="updatetime != null">
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
-        desc = #{desc,jdbcType=VARCHAR},
+        `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEndpointEntity">
     update hb_data_service_endpoint
-    set data_service_endpoint_code = #{dataServiceEndpointCode,jdbcType=VARCHAR},
-      service_node_id = #{serviceNodeId,jdbcType=BIGINT},
-      data_service_id = #{dataServiceId,jdbcType=BIGINT},
-      data_service_resource = #{dataServiceResource,jdbcType=INTEGER},
-      data_service_endpoint = #{dataServiceEndpoint,jdbcType=VARCHAR},
-      data_service_status = #{dataServiceStatus,jdbcType=VARCHAR},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      desc = #{desc,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    set `data_service_endpoint_code` = #{dataServiceEndpointCode,jdbcType=VARCHAR},
+      `service_node_id` = #{serviceNodeId,jdbcType=BIGINT},
+      `data_service_id` = #{dataServiceId,jdbcType=BIGINT},
+      `data_service_resource` = #{dataServiceResource,jdbcType=INTEGER},
+      `data_service_endpoint` = #{dataServiceEndpoint,jdbcType=VARCHAR},
+      `data_service_status` = #{dataServiceStatus,jdbcType=VARCHAR},
+      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
+      `createtime` = #{createtime,jdbcType=TIMESTAMP},
+      `desc` = #{desc,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

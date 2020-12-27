@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
 
-public interface DataRecyclerEntityMapper {
+public interface DataRecyclerMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(DataRecyclerEntity record);

@@ -3,6 +3,8 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <context id="context_ds" targetRuntime="MyBatis3">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
         <commentGenerator>
             <property name="suppressDate" value="true"/>
             <property name="suppressAllComments" value="true"/>
@@ -12,80 +14,80 @@
         <sqlMapGenerator targetPackage="com.stackstech.honeybee.server.core.mapper" targetProject="src/main/resources"/>
         <javaClientGenerator targetPackage="com.stackstech.honeybee.server.core.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
 
-        <table tableName="hb_account" domainObjectName="AccountEntity" enableCountByExample="false"
+        <table tableName="hb_account" domainObjectName="Account" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
-        <table tableName="hb_assets_model" domainObjectName="AssetsModelEntity" enableCountByExample="false"
+        <table tableName="hb_assets_model" domainObjectName="AssetsModel" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="datasource_meta" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <columnOverride column="expression" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="hb_assets_catalog" domainObjectName="AssetsCatalogEntity" enableCountByExample="false"
+        <table tableName="hb_assets_catalog" domainObjectName="AssetsCatalog" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
-        <table tableName="hb_audit_log" domainObjectName="AuditLogEntity" enableCountByExample="false"
+        <table tableName="hb_audit_log" domainObjectName="AuditLog" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="log_content" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="hb_data_recycler" domainObjectName="DataRecyclerEntity" enableCountByExample="false"
+        <table tableName="hb_data_recycler" domainObjectName="DataRecycler" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
-        <table tableName="hb_data_service" domainObjectName="DataServiceEntity" enableCountByExample="false"
+        <table tableName="hb_data_service" domainObjectName="DataService" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="datasource_meta" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <columnOverride column="service_meta" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <columnOverride column="expression" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
         <table tableName="hb_data_service_authority" domainObjectName="DataServiceAuthority" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="authority_data" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="hb_data_service_endpoint" domainObjectName="DataServiceEndpointEntity" enableCountByExample="false"
+        <table tableName="hb_data_service_endpoint" domainObjectName="DataServiceEndpoint" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
-        <table tableName="hb_data_service_node" domainObjectName="DataServiceNodeEntity" enableCountByExample="false"
+        <table tableName="hb_data_service_node" domainObjectName="DataServiceNode" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
-        <table tableName="hb_data_service_tenant" domainObjectName="DataServiceTenantEntity" enableCountByExample="false"
+        <table tableName="hb_data_service_tenant" domainObjectName="DataServiceTenant" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
-        <table tableName="hb_datasource" domainObjectName="DataSourceEntity" enableCountByExample="false"
+        <table tableName="hb_datasource" domainObjectName="DataSource" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="datasource_config" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="hb_quality_job" domainObjectName="QualityJobEntity" enableCountByExample="false"
+        <table tableName="hb_quality_job" domainObjectName="QualityJob" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
-        <table tableName="hb_quality_rule" domainObjectName="QualityRuleEntity" enableCountByExample="false"
+        <table tableName="hb_quality_rule" domainObjectName="QualityRule" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="rule_config_yaml" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="hb_quality_rule_config" domainObjectName="QualityRuleConfigEntity" enableCountByExample="false"
+        <table tableName="hb_quality_rule_config" domainObjectName="QualityRuleConfig" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="rule_config_value" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="hb_sys_config" domainObjectName="SysConfigEntity" enableCountByExample="false"
+        <table tableName="hb_sys_config" domainObjectName="SysConfig" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
             <columnOverride column="config_value" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
-        <table tableName="hb_sys_message" domainObjectName="SysMessageEntity" enableCountByExample="false"
+        <table tableName="hb_sys_message" domainObjectName="SysMessage" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false" delimitAllColumns="true">
         </table>
     </context>
 </generatorConfiguration>

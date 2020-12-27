@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.QualityRuleEntity;
 
-public interface QualityRuleEntityMapper {
+public interface QualityRuleMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(QualityRuleEntity record);

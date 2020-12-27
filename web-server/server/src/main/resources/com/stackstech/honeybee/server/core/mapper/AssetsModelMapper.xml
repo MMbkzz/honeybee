@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.core.mapper.AssetsModelEntityMapper">
+<mapper namespace="com.stackstech.honeybee.server.core.mapper.AssetsModelMapper">
   <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.AssetsModelEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="assets_model_name" jdbcType="VARCHAR" property="assetsModelName" />
@@ -17,26 +17,26 @@
     <result column="desc" jdbcType="VARCHAR" property="desc" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, assets_model_name, assets_model_code, assets_catalog_domain, assets_catalog_topic, 
-    datasource_id, datasource_meta, expression, status, owner, updatetime, createtime, 
-    desc
+    `id`, `assets_model_name`, `assets_model_code`, `assets_catalog_domain`, `assets_catalog_topic`, 
+    `datasource_id`, `datasource_meta`, `expression`, `status`, `owner`, `updatetime`, 
+    `createtime`, `desc`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_assets_model
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from hb_assets_model
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.AssetsModelEntity">
-    insert into hb_assets_model (id, assets_model_name, assets_model_code, 
-      assets_catalog_domain, assets_catalog_topic, 
-      datasource_id, datasource_meta, expression, 
-      status, owner, updatetime, 
-      createtime, desc)
+    insert into hb_assets_model (`id`, `assets_model_name`, `assets_model_code`, 
+      `assets_catalog_domain`, `assets_catalog_topic`, 
+      `datasource_id`, `datasource_meta`, `expression`, 
+      `status`, `owner`, `updatetime`, 
+      `createtime`, `desc`)
     values (#{id,jdbcType=BIGINT}, #{assetsModelName,jdbcType=VARCHAR}, #{assetsModelCode,jdbcType=VARCHAR}, 
       #{assetsCatalogDomain,jdbcType=BIGINT}, #{assetsCatalogTopic,jdbcType=BIGINT}, 
       #{datasourceId,jdbcType=BIGINT}, #{datasourceMeta,jdbcType=VARCHAR}, #{expression,jdbcType=VARCHAR}, 
@@ -47,43 +47,43 @@
     insert into hb_assets_model
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        id,
+        `id`,
       </if>
       <if test="assetsModelName != null">
-        assets_model_name,
+        `assets_model_name`,
       </if>
       <if test="assetsModelCode != null">
-        assets_model_code,
+        `assets_model_code`,
       </if>
       <if test="assetsCatalogDomain != null">
-        assets_catalog_domain,
+        `assets_catalog_domain`,
       </if>
       <if test="assetsCatalogTopic != null">
-        assets_catalog_topic,
+        `assets_catalog_topic`,
       </if>
       <if test="datasourceId != null">
-        datasource_id,
+        `datasource_id`,
       </if>
       <if test="datasourceMeta != null">
-        datasource_meta,
+        `datasource_meta`,
       </if>
       <if test="expression != null">
-        expression,
+        `expression`,
       </if>
       <if test="status != null">
-        status,
+        `status`,
       </if>
       <if test="owner != null">
-        owner,
+        `owner`,
       </if>
       <if test="updatetime != null">
-        updatetime,
+        `updatetime`,
       </if>
       <if test="createtime != null">
-        createtime,
+        `createtime`,
       </if>
       <if test="desc != null">
-        desc,
+        `desc`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -132,58 +132,58 @@
     update hb_assets_model
     <set>
       <if test="assetsModelName != null">
-        assets_model_name = #{assetsModelName,jdbcType=VARCHAR},
+        `assets_model_name` = #{assetsModelName,jdbcType=VARCHAR},
       </if>
       <if test="assetsModelCode != null">
-        assets_model_code = #{assetsModelCode,jdbcType=VARCHAR},
+        `assets_model_code` = #{assetsModelCode,jdbcType=VARCHAR},
       </if>
       <if test="assetsCatalogDomain != null">
-        assets_catalog_domain = #{assetsCatalogDomain,jdbcType=BIGINT},
+        `assets_catalog_domain` = #{assetsCatalogDomain,jdbcType=BIGINT},
       </if>
       <if test="assetsCatalogTopic != null">
-        assets_catalog_topic = #{assetsCatalogTopic,jdbcType=BIGINT},
+        `assets_catalog_topic` = #{assetsCatalogTopic,jdbcType=BIGINT},
       </if>
       <if test="datasourceId != null">
-        datasource_id = #{datasourceId,jdbcType=BIGINT},
+        `datasource_id` = #{datasourceId,jdbcType=BIGINT},
       </if>
       <if test="datasourceMeta != null">
-        datasource_meta = #{datasourceMeta,jdbcType=VARCHAR},
+        `datasource_meta` = #{datasourceMeta,jdbcType=VARCHAR},
       </if>
       <if test="expression != null">
-        expression = #{expression,jdbcType=VARCHAR},
+        `expression` = #{expression,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+        `status` = #{status,jdbcType=INTEGER},
       </if>
       <if test="owner != null">
-        owner = #{owner,jdbcType=BIGINT},
+        `owner` = #{owner,jdbcType=BIGINT},
       </if>
       <if test="updatetime != null">
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
-        desc = #{desc,jdbcType=VARCHAR},
+        `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.AssetsModelEntity">
     update hb_assets_model
-    set assets_model_name = #{assetsModelName,jdbcType=VARCHAR},
-      assets_model_code = #{assetsModelCode,jdbcType=VARCHAR},
-      assets_catalog_domain = #{assetsCatalogDomain,jdbcType=BIGINT},
-      assets_catalog_topic = #{assetsCatalogTopic,jdbcType=BIGINT},
-      datasource_id = #{datasourceId,jdbcType=BIGINT},
-      datasource_meta = #{datasourceMeta,jdbcType=VARCHAR},
-      expression = #{expression,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      owner = #{owner,jdbcType=BIGINT},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      desc = #{desc,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    set `assets_model_name` = #{assetsModelName,jdbcType=VARCHAR},
+      `assets_model_code` = #{assetsModelCode,jdbcType=VARCHAR},
+      `assets_catalog_domain` = #{assetsCatalogDomain,jdbcType=BIGINT},
+      `assets_catalog_topic` = #{assetsCatalogTopic,jdbcType=BIGINT},
+      `datasource_id` = #{datasourceId,jdbcType=BIGINT},
+      `datasource_meta` = #{datasourceMeta,jdbcType=VARCHAR},
+      `expression` = #{expression,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      `owner` = #{owner,jdbcType=BIGINT},
+      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
+      `createtime` = #{createtime,jdbcType=TIMESTAMP},
+      `desc` = #{desc,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

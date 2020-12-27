@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.entity;
 
 import java.util.Date;
 
-public class QualityRuleConfigEntity {
+public class QualityRuleConfig {
     private Long id;
 
     private Long ruleId;

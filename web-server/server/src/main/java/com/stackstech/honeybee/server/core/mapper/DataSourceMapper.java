@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
 
-public interface DataSourceEntityMapper {
+public interface DataSourceMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(DataSourceEntity record);

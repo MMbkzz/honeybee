@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
 
-public interface QualityJobEntityMapper {
+public interface QualityJobMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(QualityJobEntity record);

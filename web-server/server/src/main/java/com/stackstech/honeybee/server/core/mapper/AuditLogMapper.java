@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
 
-public interface AuditLogEntityMapper {
+public interface AuditLogMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(AuditLogEntity record);
