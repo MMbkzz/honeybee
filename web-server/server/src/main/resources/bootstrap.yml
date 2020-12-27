@@ -14,8 +14,11 @@ spring:
         file-extension: yaml
         prefix: honeybee
         group: DEFAULT_GROUP
+mybatis:
+  mapper-locations: classpath:com/stackstech/honeybee/server/core/mapper/xml/*Mapper.xml
+  type-aliases-package: com.stackstech.honeybee.server.core.entity
 management:
   endpoints:
     web:
       exposure:
-        include: *
+        include: "*"

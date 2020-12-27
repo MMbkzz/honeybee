@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 public class DataServiceImpl implements DataService {
 
     @Autowired
-    private DataServiceMapper mapper;
+    private DataServiceMapper dataServiceMapper;
 
     @Override
     public DataServiceEntity getDataService(Long id) {
-        return mapper.selectByPrimaryKey(id);
+        return dataServiceMapper.selectByPrimaryKey(id);
     }
 }

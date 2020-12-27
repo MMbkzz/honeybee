@@ -2,7 +2,7 @@ app:
   datasource:
     db:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/dcp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://127.0.0.1:3306/honeybee?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
       username: dcp
       password: dcp
       type: com.zaxxer.hikari.HikariDataSource
@@ -28,3 +28,8 @@ app:
       - http://localhost:9527
       - http://127.0.0.1:9527
       - http://127.0.0.1:18082
+  external:
+    config:
+      location: /Users/william/Downloads
+    env:
+      location: /Users/william/Downloads
