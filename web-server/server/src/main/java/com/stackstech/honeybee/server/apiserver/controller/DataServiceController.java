@@ -20,7 +20,7 @@ public class DataServiceController {
     private DataService dataService;
 
     @PostMapping(value = "/dataservice")
-    public ResponseMap<?> getAllAliveMeasures() {
+    public ResponseMap<?> getDataService() {
         return ResponseMap.success(dataService.getDataService(1L));
     }
 }

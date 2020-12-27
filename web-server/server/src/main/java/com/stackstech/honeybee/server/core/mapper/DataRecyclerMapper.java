@@ -1,7 +1,11 @@
 package com.stackstech.honeybee.server.core.mapper;
 
 import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+@Mapper
+@Repository
 public interface DataRecyclerMapper {
     int deleteByPrimaryKey(Long id);
 
