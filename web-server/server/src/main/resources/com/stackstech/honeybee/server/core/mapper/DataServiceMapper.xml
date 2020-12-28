@@ -54,7 +54,7 @@
     select 
     <include refid="Base_Column_List" />
     from hb_data_service
-    where `id` = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_data_service set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
