@@ -19,7 +19,6 @@ import java.util.Map;
  *
  * @author william
  */
-//TODO WJ
 @RestController
 @RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT)
 public class DataServiceController {

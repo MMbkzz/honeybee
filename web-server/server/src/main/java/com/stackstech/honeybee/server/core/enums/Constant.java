@@ -1,8 +1,3 @@
-/**
- * Copyright 2019 the original author.
- *
- * @author William
- */
 package com.stackstech.honeybee.server.core.enums;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,24 +22,6 @@ public class Constant {
 	public static final String LOG_PATH = "logs";
 	/** 资源目录 */
 	public static final String RESOURCE_PATH = StringUtils.join(DATA_PATH, File.separatorChar, "resources");
-	/** 图片目录名称 */
-	public static final String IMAGE_PATH_NAME = "images";
-	/** 图片目录 */
-	public static final String IMAGE_PATH = StringUtils.join(RESOURCE_PATH, File.separatorChar, IMAGE_PATH_NAME);
-	/** 封面图片地址 */
-	public static final String COVER_IMG_URI = StringUtils.join(IMAGE_PATH_NAME, URL_SEPARATOR, "cover");
-	/** 用户头像图片地址 */
-	public static final String HEAD_IMG_URI = StringUtils.join(IMAGE_PATH_NAME, URL_SEPARATOR, "head");
-	/** 临时文件目录 */
-	public static final String TEMPFILE_PATH = StringUtils.join(DATA_PATH, File.separatorChar, "temp");
-	/** 数据备份目录 */
-	public static final String BACKUP_PATH = StringUtils.join(DATA_PATH, File.separatorChar, "backup");
-	/** 索引数据目录 */
-	public static final String INDEX_PATH = StringUtils.join(DATA_PATH, File.separatorChar, "index");
-	/** 默认的图片扩展名{@code JPG} */
-	public static final String DEFAULT_EXT = "jpg";
-	/** GIF的图片扩展名{@code JPG} */
-	public static final String GIF_EXT = "gif";
 	/** 默认时区 GMT+8 */
 	public static final String TIME_ZONE = "GMT+8";
 	/** 0 */
@@ -71,7 +48,7 @@ public class Constant {
 	public static final String ACCESS_CONTROL_MAX_AGE_TIME = "7200";
 	/** Default JMX port */
 	public static final String DEFAULT_JMX_PORT = "6666";
-	/** Qike club name */
-	public static final String QIKE_CLUB_NAME = "奇客圈";
+	/** app server name */
+	public static final String QIKE_CLUB_NAME = "Honeybee";
 
 }

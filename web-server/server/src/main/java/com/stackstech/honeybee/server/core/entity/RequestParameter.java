@@ -41,7 +41,7 @@ public class RequestParameter {
     /**
      * query by types
      */
-    private Integer type;
+    private String type;
     /**
      * query by status
      */
@@ -67,10 +67,6 @@ public class RequestParameter {
 
     public Long getEndTime() {
         return Optional.ofNullable(endTime).orElse(0L);
-    }
-
-    public Integer getType() {
-        return Optional.ofNullable(type).orElse(0);
     }
 
     public String getKeywords() {
