@@ -25,12 +25,9 @@
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
     <include refid="Base_Column_List" />
-    from hb_data_service where 1=1
+    from hb_data_service where `status` != -1
     <if test="status != null">
       and `status` = #{status}
-    </if>
-    <if test="status == null">
-      and `status` != -1
     </if>
     <if test="keywords != null">
       and (`data_service_name` like #{keywords} or `desc` like #{keywords})
@@ -44,12 +41,9 @@
   </select>
 
   <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
-    select count(1) from hb_data_service where 1=1
+    select count(1) from hb_data_service where `status` != -1
     <if test="status != null">
       and `status` = #{status}
-    </if>
-    <if test="status == null">
-      and `status` != -1
     </if>
     <if test="keywords != null">
       and (`data_service_name` like #{keywords} or `desc` like #{keywords})
