@@ -14,11 +14,9 @@
     <packaging>pom</packaging>
     <artifactId>web-server</artifactId>
 
-
     <modules>
         <module>server</module>
         <module>connector</module>
     </modules>
-
 
 </project>
