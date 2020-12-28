@@ -14,7 +14,6 @@ import org.springframework.context.annotation.ImportResource;
  * @author william
  */
 @SpringBootApplication
-@EnableAutoConfiguration
 @ImportResource({"classpath*:shiro.xml"})
 @ComponentScan({"com.stackstech.honeybee"})
 @ServletComponentScan
