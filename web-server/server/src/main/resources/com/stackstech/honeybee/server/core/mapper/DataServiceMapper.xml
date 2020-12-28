@@ -52,7 +52,7 @@
       and `status` != -1
     </if>
     <if test="keywords != null">
-      and `data_service_name` like #{keywords} or `desc` like #{keywords}
+      and (`data_service_name` like #{keywords} or `desc` like #{keywords})
     </if>
   </select>
 
