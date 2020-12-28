@@ -43,18 +43,18 @@ public class DataServiceController {
 
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@RequestBody DataServiceEntity entity) {
-        if (entity != null) {
-            entity.setId(-1L);
-        }
         boolean flag = dataService.updateDataService(entity);
         if (!flag) {
             return ResponseMap.failed("update data service failed.");
         }
-        return ResponseMap.success(entity);
+        return ResponseMap.success(true);
     }
 
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@RequestBody DataServiceEntity entity) {
+        if (entity != null) {
+            entity.setId(null);
+        }
         boolean flag = dataService.updateDataService(entity);
         if (!flag) {
             return ResponseMap.failed("insert data service failed.");

@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface DataServiceTenantMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(DataServiceTenantEntity record);
-
     int insertSelective(DataServiceTenantEntity record);
 
     DataServiceTenantEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(DataServiceTenantEntity record);
 
-    int updateByPrimaryKey(DataServiceTenantEntity record);
 }

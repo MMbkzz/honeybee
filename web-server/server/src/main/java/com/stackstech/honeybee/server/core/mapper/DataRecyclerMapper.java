@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface DataRecyclerMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(DataRecyclerEntity record);
-
     int insertSelective(DataRecyclerEntity record);
 
     DataRecyclerEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(DataRecyclerEntity record);
 
-    int updateByPrimaryKey(DataRecyclerEntity record);
 }

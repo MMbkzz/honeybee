@@ -26,17 +26,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_quality_job set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.QualityJobEntity">
-    insert into hb_quality_job (`id`, `job_name`, `job_code`, 
-      `job_expression`, `job_order`, `status`, 
-      `owner`, `updatetime`, `createtime`, 
-      `desc`)
-    values (#{id,jdbcType=BIGINT}, #{jobName,jdbcType=VARCHAR}, #{jobCode,jdbcType=VARCHAR}, 
-      #{jobExpression,jdbcType=VARCHAR}, #{jobOrder,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{desc,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityJobEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityJobEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_quality_job
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,19 +124,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.QualityJobEntity">
-    update hb_quality_job
-    set `job_name` = #{jobName,jdbcType=VARCHAR},
-      `job_code` = #{jobCode,jdbcType=VARCHAR},
-      `job_expression` = #{jobExpression,jdbcType=VARCHAR},
-      `job_order` = #{jobOrder,jdbcType=INTEGER},
-      `status` = #{status,jdbcType=INTEGER},
-      `owner` = #{owner,jdbcType=BIGINT},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

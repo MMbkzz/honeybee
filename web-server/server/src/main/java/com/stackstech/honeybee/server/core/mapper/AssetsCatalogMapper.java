@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface AssetsCatalogMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(AssetsCatalogEntity record);
-
     int insertSelective(AssetsCatalogEntity record);
 
     AssetsCatalogEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(AssetsCatalogEntity record);
 
-    int updateByPrimaryKey(AssetsCatalogEntity record);
 }

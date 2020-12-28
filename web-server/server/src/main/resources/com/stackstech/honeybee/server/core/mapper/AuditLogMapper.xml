@@ -26,17 +26,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_audit_log set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
-    insert into hb_audit_log (`id`, `log_title`, `log_audit`, 
-      `log_type`, `log_content`, `status`, 
-      `owner`, `updatetime`, `createtime`, 
-      `desc`)
-    values (#{id,jdbcType=BIGINT}, #{logTitle,jdbcType=VARCHAR}, #{logAudit,jdbcType=VARCHAR}, 
-      #{logType,jdbcType=VARCHAR}, #{logContent,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{desc,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity"  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_audit_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,19 +124,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
-    update hb_audit_log
-    set `log_title` = #{logTitle,jdbcType=VARCHAR},
-      `log_audit` = #{logAudit,jdbcType=VARCHAR},
-      `log_type` = #{logType,jdbcType=VARCHAR},
-      `log_content` = #{logContent,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=INTEGER},
-      `owner` = #{owner,jdbcType=BIGINT},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -42,6 +42,9 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public Boolean updateDataService(DataServiceEntity entity) {
-        return mapper.updateByPrimaryKeySelective(entity) > 0;
+        if (entity.getId() != null) {
+            return mapper.updateByPrimaryKeySelective(entity) > 0;
+        }
+        return mapper.insertSelective(entity) > 0;
     }
 }

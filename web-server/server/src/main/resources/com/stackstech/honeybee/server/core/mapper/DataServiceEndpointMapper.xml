@@ -26,17 +26,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from hb_data_service_endpoint where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEndpointEntity">
-    insert into hb_data_service_endpoint (`id`, `data_service_endpoint_code`, `service_node_id`, 
-      `data_service_id`, `data_service_resource`, `data_service_endpoint`, 
-      `data_service_status`, `updatetime`, `createtime`, 
-      `desc`)
-    values (#{id,jdbcType=BIGINT}, #{dataServiceEndpointCode,jdbcType=VARCHAR}, #{serviceNodeId,jdbcType=BIGINT}, 
-      #{dataServiceId,jdbcType=BIGINT}, #{dataServiceResource,jdbcType=INTEGER}, #{dataServiceEndpoint,jdbcType=VARCHAR}, 
-      #{dataServiceStatus,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{desc,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEndpointEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEndpointEntity"  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_data_service_endpoint
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,19 +124,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEndpointEntity">
-    update hb_data_service_endpoint
-    set `data_service_endpoint_code` = #{dataServiceEndpointCode,jdbcType=VARCHAR},
-      `service_node_id` = #{serviceNodeId,jdbcType=BIGINT},
-      `data_service_id` = #{dataServiceId,jdbcType=BIGINT},
-      `data_service_resource` = #{dataServiceResource,jdbcType=INTEGER},
-      `data_service_endpoint` = #{dataServiceEndpoint,jdbcType=VARCHAR},
-      `data_service_status` = #{dataServiceStatus,jdbcType=VARCHAR},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

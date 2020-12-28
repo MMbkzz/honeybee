@@ -30,19 +30,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_account set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.AccountEntity">
-    insert into hb_account (`id`, `account_name`, `account_password`, 
-      `account_role`, `account_realname`, `account_gender`, 
-      `account_email`, `account_phone`, `status`, 
-      `owner`, `updatetime`, `createtime`, 
-      `desc`)
-    values (#{id,jdbcType=BIGINT}, #{accountName,jdbcType=VARCHAR}, #{accountPassword,jdbcType=VARCHAR}, 
-      #{accountRole,jdbcType=BIGINT}, #{accountRealname,jdbcType=VARCHAR}, #{accountGender,jdbcType=INTEGER}, 
-      #{accountEmail,jdbcType=VARCHAR}, #{accountPhone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{desc,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AccountEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AccountEntity"  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -167,22 +155,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.AccountEntity">
-    update hb_account
-    set `account_name` = #{accountName,jdbcType=VARCHAR},
-      `account_password` = #{accountPassword,jdbcType=VARCHAR},
-      `account_role` = #{accountRole,jdbcType=BIGINT},
-      `account_realname` = #{accountRealname,jdbcType=VARCHAR},
-      `account_gender` = #{accountGender,jdbcType=INTEGER},
-      `account_email` = #{accountEmail,jdbcType=VARCHAR},
-      `account_phone` = #{accountPhone,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=INTEGER},
-      `owner` = #{owner,jdbcType=BIGINT},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

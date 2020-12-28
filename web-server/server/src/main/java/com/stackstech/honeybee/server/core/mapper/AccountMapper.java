@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface AccountMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(AccountEntity record);
-
     int insertSelective(AccountEntity record);
 
     AccountEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(AccountEntity record);
 
-    int updateByPrimaryKey(AccountEntity record);
 }

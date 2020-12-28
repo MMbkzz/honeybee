@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface DataServiceAuthorityMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(DataServiceAuthority record);
-
     int insertSelective(DataServiceAuthority record);
 
     DataServiceAuthority selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(DataServiceAuthority record);
 
-    int updateByPrimaryKey(DataServiceAuthority record);
 }

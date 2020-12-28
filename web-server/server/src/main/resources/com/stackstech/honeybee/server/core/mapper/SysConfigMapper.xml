@@ -19,15 +19,7 @@
     from hb_sys_config
     where `id` = #{id,jdbcType=BIGINT}
   </select>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.SysConfigEntity">
-    insert into hb_sys_config (`id`, `config_key`, `config_value`, 
-      `owner`, `updatetime`, `createtime`, 
-      `desc`)
-    values (#{id,jdbcType=BIGINT}, #{configKey,jdbcType=VARCHAR}, #{configValue,jdbcType=VARCHAR}, 
-      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{desc,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.SysConfigEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.SysConfigEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_sys_config
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -98,16 +90,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.SysConfigEntity">
-    update hb_sys_config
-    set `config_key` = #{configKey,jdbcType=VARCHAR},
-      `config_value` = #{configValue,jdbcType=VARCHAR},
-      `owner` = #{owner,jdbcType=BIGINT},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

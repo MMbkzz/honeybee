@@ -26,17 +26,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_sys_message set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
-    insert into hb_sys_message (`id`, `message_title`, `message_type`, 
-      `message_content`, `message_receiver`, `status`, 
-      `owner`, `updatetime`, `createtime`, 
-      `desc`)
-    values (#{id,jdbcType=BIGINT}, #{messageTitle,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, 
-      #{messageContent,jdbcType=VARCHAR}, #{messageReceiver,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
-      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{desc,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_sys_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,19 +124,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.SysMessageEntity">
-    update hb_sys_message
-    set `message_title` = #{messageTitle,jdbcType=VARCHAR},
-      `message_type` = #{messageType,jdbcType=VARCHAR},
-      `message_content` = #{messageContent,jdbcType=VARCHAR},
-      `message_receiver` = #{messageReceiver,jdbcType=BIGINT},
-      `status` = #{status,jdbcType=INTEGER},
-      `owner` = #{owner,jdbcType=BIGINT},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

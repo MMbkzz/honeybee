@@ -7,11 +7,9 @@ import com.stackstech.honeybee.server.core.enums.StatusCode;
 public class ResponseMap<T> {
     public static final String SUCCESS = "success";
 
-    private Integer status;
-    private String message;
+    private final Integer status;
+    private final String message;
     private Integer total;
-    private String praise;
-    private Long uv;
     private T result;
 
     private ResponseMap() {
@@ -35,13 +33,11 @@ public class ResponseMap<T> {
         this.message = SUCCESS;
     }
 
-    private ResponseMap(T result, Integer total, String praise, Long uv) {
+    private ResponseMap(T result, Integer total) {
         this.status = StatusCode.SUCCESS.getStatus();
         this.message = SUCCESS;
         this.result = result;
         this.total = total;
-        this.praise = praise;
-        this.uv = uv;
     }
 
     public static <T> ResponseMap<T> success(T data) {
@@ -56,16 +52,9 @@ public class ResponseMap<T> {
         return new ResponseMap<T>(message);
     }
 
-    public static <T> ResponseMap<T> setUv(Long uv) {
-        return new ResponseMap<T>(null, null, null, uv);
-    }
 
     public static <T> ResponseMap<T> setTotal(T data, Integer total) {
-        return new ResponseMap<T>(data, total, null, null);
-    }
-
-    public static <T> ResponseMap<T> setPraise(String praise) {
-        return new ResponseMap<T>(null, null, praise, null);
+        return new ResponseMap<T>(data, total);
     }
 
     public static <T> ResponseMap<T> failed(String message) {
@@ -86,14 +75,6 @@ public class ResponseMap<T> {
 
     public Integer getTotal() {
         return total;
-    }
-
-    public String getPraise() {
-        return praise;
-    }
-
-    public Long getUv() {
-        return uv;
     }
 
     public T getResult() {

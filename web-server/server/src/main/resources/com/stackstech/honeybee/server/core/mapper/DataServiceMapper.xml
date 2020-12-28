@@ -30,19 +30,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_data_service set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEntity">
-    insert into hb_data_service (`id`, `data_service_name`, `data_service_code`, 
-      `assets_model_id`, `datasource_meta`, `service_meta`, 
-      `cache_expire`, `expression`, `status`, 
-      `owner`, `updatetime`, `createtime`, 
-      `desc`)
-    values (#{id,jdbcType=BIGINT}, #{dataServiceName,jdbcType=VARCHAR}, #{dataServiceCode,jdbcType=VARCHAR}, 
-      #{assetsModelId,jdbcType=BIGINT}, #{datasourceMeta,jdbcType=VARCHAR}, #{serviceMeta,jdbcType=VARCHAR}, 
-      #{cacheExpire,jdbcType=INTEGER}, #{expression,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{owner,jdbcType=BIGINT}, #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{desc,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_data_service
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -167,22 +155,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceEntity">
-    update hb_data_service
-    set `data_service_name` = #{dataServiceName,jdbcType=VARCHAR},
-      `data_service_code` = #{dataServiceCode,jdbcType=VARCHAR},
-      `assets_model_id` = #{assetsModelId,jdbcType=BIGINT},
-      `datasource_meta` = #{datasourceMeta,jdbcType=VARCHAR},
-      `service_meta` = #{serviceMeta,jdbcType=VARCHAR},
-      `cache_expire` = #{cacheExpire,jdbcType=INTEGER},
-      `expression` = #{expression,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=INTEGER},
-      `owner` = #{owner,jdbcType=BIGINT},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

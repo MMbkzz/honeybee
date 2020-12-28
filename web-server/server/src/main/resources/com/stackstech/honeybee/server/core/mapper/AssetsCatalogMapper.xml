@@ -28,19 +28,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_assets_catalog set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity">
-    insert into hb_assets_catalog (`id`, `isroot`, `catalog_name`, 
-      `catalog_code`, `catalog_parent_id`, `catalog_type`, 
-      `catalog_order`, `status`, `owner`, 
-      `updatetime`, `createtime`, `desc`
-      )
-    values (#{id,jdbcType=BIGINT}, #{isroot,jdbcType=INTEGER}, #{catalogName,jdbcType=VARCHAR}, 
-      #{catalogCode,jdbcType=VARCHAR}, #{catalogParentId,jdbcType=BIGINT}, #{catalogType,jdbcType=VARCHAR}, 
-      #{catalogOrder,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{owner,jdbcType=BIGINT}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{desc,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity"  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_assets_catalog
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -156,21 +144,6 @@
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
     </set>
-    where `id` = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity">
-    update hb_assets_catalog
-    set `isroot` = #{isroot,jdbcType=INTEGER},
-      `catalog_name` = #{catalogName,jdbcType=VARCHAR},
-      `catalog_code` = #{catalogCode,jdbcType=VARCHAR},
-      `catalog_parent_id` = #{catalogParentId,jdbcType=BIGINT},
-      `catalog_type` = #{catalogType,jdbcType=VARCHAR},
-      `catalog_order` = #{catalogOrder,jdbcType=INTEGER},
-      `status` = #{status,jdbcType=INTEGER},
-      `owner` = #{owner,jdbcType=BIGINT},
-      `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      `createtime` = #{createtime,jdbcType=TIMESTAMP},
-      `desc` = #{desc,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface AuditLogMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(AuditLogEntity record);
-
     int insertSelective(AuditLogEntity record);
 
     AuditLogEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(AuditLogEntity record);
 
-    int updateByPrimaryKey(AuditLogEntity record);
 }

@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface QualityJobMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(QualityJobEntity record);
-
     int insertSelective(QualityJobEntity record);
 
     QualityJobEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(QualityJobEntity record);
 
-    int updateByPrimaryKey(QualityJobEntity record);
 }

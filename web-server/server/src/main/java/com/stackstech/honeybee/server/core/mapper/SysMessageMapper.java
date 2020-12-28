@@ -9,13 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface SysMessageMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(SysMessageEntity record);
-
     int insertSelective(SysMessageEntity record);
 
     SysMessageEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(SysMessageEntity record);
 
-    int updateByPrimaryKey(SysMessageEntity record);
 }
