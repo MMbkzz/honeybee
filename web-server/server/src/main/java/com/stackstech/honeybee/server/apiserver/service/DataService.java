@@ -16,6 +16,8 @@ public interface DataService {
 
     List<DataServiceEntity> getDataServices(Map<String, Object> parameter);
 
+    Integer getDataServiceCount(Map<String, Object> parameter);
+
     Boolean deleteDataService(Long id);
 
     Boolean updateDataService(DataServiceEntity entity);

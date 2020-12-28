@@ -31,6 +31,11 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
+    public Integer getDataServiceCount(Map<String, Object> parameter) {
+        return null;
+    }
+
+    @Override
     public Boolean deleteDataService(Long id) {
         return mapper.deleteByPrimaryKey(id) > 0;
     }
