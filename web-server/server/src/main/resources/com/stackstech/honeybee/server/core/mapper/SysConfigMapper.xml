@@ -13,6 +13,21 @@
   <sql id="Base_Column_List">
     `id`, `config_key`, `config_value`, `owner`, `updatetime`, `createtime`, `desc`
   </sql>
+
+  <select id="selectByConfigKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from hb_sys_config
+    where `config_key` = #{configKey,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateByConfigKey" parameterType="java.lang.String">
+    update hb_sys_config
+    set `config_value` = #{configValue,jdbcType=VARCHAR}, `updatetime` = NOW()
+    where `config_key` = #{configKey,jdbcType=VARCHAR}
+  </update>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
