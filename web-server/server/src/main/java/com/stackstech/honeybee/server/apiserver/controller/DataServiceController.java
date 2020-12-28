@@ -67,8 +67,10 @@ public class DataServiceController {
         Map<String, Object> params = Maps.newHashMap();
         params.put("pageStart", parameters.getPageStart());
         params.put("pageSize", parameters.getPageSize());
-        params.put("order", parameters.getOrder());
+        params.put("status", parameters.getStatus());
         params.put("keywords", parameters.getKeywords());
+        //TODO maybe not used ?!
+        params.put("order", parameters.getOrder());
 
         List<DataServiceEntity> data = dataService.getDataServices(params);
         if (data != null && data.size() > 0) {

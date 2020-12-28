@@ -27,12 +27,12 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public List<DataServiceEntity> getDataServices(Map<String, Object> parameter) {
-        return null;
+        return mapper.selectByParameter(parameter);
     }
 
     @Override
     public Integer getDataServiceCount(Map<String, Object> parameter) {
-        return null;
+        return mapper.selectTotalCount(parameter);
     }
 
     @Override

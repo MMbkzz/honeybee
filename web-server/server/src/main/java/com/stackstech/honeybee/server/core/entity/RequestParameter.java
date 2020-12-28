@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.core.entity;
 
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
@@ -41,6 +42,10 @@ public class RequestParameter {
      * query by types
      */
     private Integer type;
+    /**
+     * query by status
+     */
+    private Integer status;
 
 
     public String getOrder() {
@@ -66,6 +71,13 @@ public class RequestParameter {
 
     public Integer getType() {
         return Optional.ofNullable(type).orElse(0);
+    }
+
+    public String getKeywords() {
+        if (StringUtils.isNotEmpty(keywords)) {
+            return StringUtils.join("%", keywords.trim(), "%");
+        }
+        return null;
     }
 
 }

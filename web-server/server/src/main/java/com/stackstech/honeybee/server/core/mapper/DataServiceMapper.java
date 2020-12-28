@@ -4,6 +4,9 @@ import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 @Repository
 public interface DataServiceMapper {
@@ -14,5 +17,9 @@ public interface DataServiceMapper {
     DataServiceEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(DataServiceEntity record);
+
+    List<DataServiceEntity> selectByParameter(Map<String, Object> parameter);
+
+    int selectTotalCount(Map<String, Object> parameter);
 
 }
