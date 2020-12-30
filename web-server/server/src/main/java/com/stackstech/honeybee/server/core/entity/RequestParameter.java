@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.core.entity;
 
 
+import com.stackstech.honeybee.server.core.enums.Constant;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,9 +36,15 @@ public class RequestParameter {
      */
     private Long endTime;
     /**
-     * query by order
+     * query by order filed name
+     *
+     * @see import com.stackstech.honeybee.server.core.enums.Constant.SORTS
      */
-    private String order;
+    private String orderField;
+    /**
+     * query by order type
+     */
+    private boolean orderType;
     /**
      * query by types
      */
@@ -49,7 +56,15 @@ public class RequestParameter {
 
 
     public String getOrder() {
-        return Optional.ofNullable(order).orElse("`createtime` desc");
+        String orders = null;
+        if (Constant.SORTS.contains(orderField)) {
+            if (orderType) {
+                orders = StringUtils.join("`", orderField, "`", " ASC");
+            } else {
+                orders = StringUtils.join("`", orderField, "`", " DESC");
+            }
+        }
+        return orders;
     }
 
     public Integer getPageStart() {

@@ -1,8 +1,10 @@
 package com.stackstech.honeybee.server.core.enums;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * 全局常量定义
@@ -50,5 +52,7 @@ public class Constant {
 	public static final String DEFAULT_JMX_PORT = "6666";
 	/** app server name */
 	public static final String QIKE_CLUB_NAME = "Honeybee";
+	/** database sort field list */
+	public static final List<String> SORTS =Lists.newArrayList("id","status","updatetime","createtime");
 
 }
