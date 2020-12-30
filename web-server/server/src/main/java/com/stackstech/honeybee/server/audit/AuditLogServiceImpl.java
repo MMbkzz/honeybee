@@ -22,12 +22,12 @@ public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
 
     @Override
     public boolean update(AuditLogEntity entity) {
-        return false;
+        return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
     public boolean delete(Long recordId) {
-        return false;
+        return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     @Override
