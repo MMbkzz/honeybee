@@ -9,6 +9,7 @@ import java.util.Map;
 
 @Service
 public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity> {
+
     @Override
     public boolean add(AssetsCatalogEntity entity) {
         return false;

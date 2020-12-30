@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * DataServiceController
@@ -42,8 +43,7 @@ public class DataServiceController {
 
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@RequestBody DataServiceEntity entity) {
-        boolean flag = service.update(entity);
-        if (!flag) {
+        if (!service.update(entity)) {
             return ResponseMap.failed("update data service failed.");
         }
         return ResponseMap.success(true);
@@ -51,11 +51,10 @@ public class DataServiceController {
 
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@RequestBody DataServiceEntity entity) {
-        if (entity != null) {
+        Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
-        }
-        boolean flag = service.add(entity);
-        if (!flag) {
+        });
+        if (!service.add(entity)) {
             return ResponseMap.failed("insert data service failed.");
         }
         return ResponseMap.success(entity);
