@@ -1,11 +1,11 @@
-package com.stackstech.honeybee.server.audit.controller;
+package com.stackstech.honeybee.server.audit;
 
 import com.google.common.collect.Maps;
-import com.stackstech.honeybee.server.audit.service.AuditLogService;
 import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.service.DataService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +27,11 @@ public class AuditController {
     private final Logger log = LoggerFactory.getLogger(AuditController.class);
 
     @Autowired
-    private AuditLogService service;
+    private DataService<AuditLogEntity> service;
 
     @RequestMapping(value = "/audit/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> get(@PathVariable("id") long id) {
-        return ResponseMap.success(service.getAuditLog(id));
+        return ResponseMap.success(service.getSingle(id));
     }
 
     @RequestMapping(value = "/audit/{auditType}/query", method = RequestMethod.POST)
@@ -46,9 +46,9 @@ public class AuditController {
         params.put("keywords", parameters.getKeywords());
         params.put("order", parameters.getOrder());
 
-        List<AuditLogEntity> data = service.getAuditLogs(params);
+        List<AuditLogEntity> data = service.get(params);
         if (data != null && data.size() > 0) {
-            int total = service.getAuditLogCount(params);
+            int total = service.getTotalCount(params);
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
         }

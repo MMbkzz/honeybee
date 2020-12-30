@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.system.service;
+package com.stackstech.honeybee.server.system;
 
 import com.stackstech.honeybee.server.core.entity.SysConfigEntity;
 

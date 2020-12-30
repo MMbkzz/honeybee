@@ -1,6 +1,5 @@
 package com.stackstech.honeybee.server.report.controller;
 
-import com.stackstech.honeybee.server.apiserver.service.DataService;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
