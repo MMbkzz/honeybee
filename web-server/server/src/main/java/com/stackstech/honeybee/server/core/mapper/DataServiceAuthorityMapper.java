@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.core.mapper;
 
-import com.stackstech.honeybee.server.core.entity.DataServiceAuthority;
+import com.stackstech.honeybee.server.core.entity.DataServiceAuthorityEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 public interface DataServiceAuthorityMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insertSelective(DataServiceAuthority record);
+    int insertSelective(DataServiceAuthorityEntity record);
 
-    DataServiceAuthority selectByPrimaryKey(Long id);
+    DataServiceAuthorityEntity selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(DataServiceAuthority record);
+    int updateByPrimaryKeySelective(DataServiceAuthorityEntity record);
 
 }

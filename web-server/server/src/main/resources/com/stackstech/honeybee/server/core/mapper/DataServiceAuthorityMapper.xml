@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stackstech.honeybee.server.core.mapper.DataServiceAuthorityMapper">
-  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.DataServiceAuthority">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.DataServiceAuthorityEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
     <result column="data_service_id" jdbcType="BIGINT" property="dataServiceId" />
@@ -27,7 +27,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_data_service_authority set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceAuthority"  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceAuthorityEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_data_service_authority
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -100,7 +100,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceAuthority">
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.DataServiceAuthorityEntity">
     update hb_data_service_authority
     <set>
       <if test="tenantId != null">

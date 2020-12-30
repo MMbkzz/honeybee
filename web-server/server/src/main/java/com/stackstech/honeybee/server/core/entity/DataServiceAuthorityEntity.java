@@ -7,20 +7,22 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataServiceEndpointEntity {
+public class DataServiceAuthorityEntity {
     private Long id;
 
-    private String dataServiceEndpointCode;
-
-    private Long serviceNodeId;
+    private Long tenantId;
 
     private Long dataServiceId;
 
-    private Integer dataServiceResource;
+    private String authorityToken;
 
-    private String dataServiceEndpoint;
+    private Long authorityExpire;
 
-    private String dataServiceStatus;
+    private String authorityData;
+
+    private Integer status;
+
+    private Long owner;
 
     private Date updatetime;
 

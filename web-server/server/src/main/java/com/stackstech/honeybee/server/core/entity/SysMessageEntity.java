@@ -1,7 +1,12 @@
 package com.stackstech.honeybee.server.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SysMessageEntity {
     private Long id;
 
@@ -23,83 +28,4 @@ public class SysMessageEntity {
 
     private String desc;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getMessageTitle() {
-        return messageTitle;
-    }
-
-    public void setMessageTitle(String messageTitle) {
-        this.messageTitle = messageTitle;
-    }
-
-    public String getMessageType() {
-        return messageType;
-    }
-
-    public void setMessageType(String messageType) {
-        this.messageType = messageType;
-    }
-
-    public String getMessageContent() {
-        return messageContent;
-    }
-
-    public void setMessageContent(String messageContent) {
-        this.messageContent = messageContent;
-    }
-
-    public Long getMessageReceiver() {
-        return messageReceiver;
-    }
-
-    public void setMessageReceiver(Long messageReceiver) {
-        this.messageReceiver = messageReceiver;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Long getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Long owner) {
-        this.owner = owner;
-    }
-
-    public Date getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
 }
