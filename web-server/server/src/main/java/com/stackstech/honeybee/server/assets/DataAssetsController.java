@@ -1,6 +1,5 @@
 package com.stackstech.honeybee.server.assets;
 
-import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
 import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -64,16 +62,9 @@ public class DataAssetsController {
 
     @RequestMapping(value = "/data/assets/model/query", method = RequestMethod.POST)
     public ResponseMap<?> queryModel(@RequestBody RequestParameter parameters) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("pageStart", parameters.getPageStart());
-        params.put("pageSize", parameters.getPageSize());
-        params.put("status", parameters.getStatus());
-        params.put("keywords", parameters.getKeywords());
-        params.put("order", parameters.getOrder());
-
-        List<AssetsModelEntity> data = assetsModelService.get(params);
+        List<AssetsModelEntity> data = assetsModelService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
-            int total = assetsModelService.getTotalCount(params);
+            int total = assetsModelService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
         }
@@ -111,16 +102,9 @@ public class DataAssetsController {
 
     @RequestMapping(value = "/data/assets/catalog/query", method = RequestMethod.POST)
     public ResponseMap<?> queryCatalog(@RequestBody RequestParameter parameters) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("pageStart", parameters.getPageStart());
-        params.put("pageSize", parameters.getPageSize());
-        params.put("status", parameters.getStatus());
-        params.put("keywords", parameters.getKeywords());
-        params.put("order", parameters.getOrder());
-
-        List<AssetsCatalogEntity> data = assetsCatalogService.get(params);
+        List<AssetsCatalogEntity> data = assetsCatalogService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
-            int total = assetsCatalogService.getTotalCount(params);
+            int total = assetsCatalogService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
         }

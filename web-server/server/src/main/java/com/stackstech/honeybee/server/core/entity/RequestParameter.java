@@ -2,72 +2,34 @@ package com.stackstech.honeybee.server.core.entity;
 
 
 import com.stackstech.honeybee.server.core.enums.Constant;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Optional;
+import java.util.Map;
 
 /**
- * 请求的参数实体，包含所有服务接口的请求参数定义
+ * 请求的参数实体
  *
  * @author William
  */
-@Data
-public class RequestParameter {
+public class RequestParameter extends RequestParameterMap<String, Object> {
+
+    public static final String PAGE_START = "pageStart";
+    public static final String PAGE_SIZE = "pageSize";
+    public static final String KEYWORDS = "keywords";
+    public static final String ORDER = "order";
+    public static final String ORDER_FIELD = "orderField";
+    public static final String ORDER_TYPE = "orderType";
+    public static final String STATUS = "status";
 
     /**
-     * page limit start index
-     */
-    private Integer pageStart = 0;
-    /**
-     * page limit record size
-     */
-    private Integer pageSize = 0;
-    /**
-     * search keywords
-     */
-    private String keywords;
-    /**
-     * query start time
-     */
-    private Long startTime;
-    /**
-     * query end time
-     */
-    private Long endTime;
-    /**
-     * query by order filed name
+     * query record limit start index, by default PageStart is 0.
      *
-     * @see import com.stackstech.honeybee.server.core.enums.Constant.SORTS
+     * @return Integer
      */
-    private String orderField;
-    /**
-     * query by order type
-     */
-    private boolean orderType;
-    /**
-     * query by types
-     */
-    private String type;
-    /**
-     * query by status
-     */
-    private Integer status;
-
-
-    public String getOrder() {
-        String orders = null;
-        if (Constant.SORTS.contains(orderField)) {
-            if (orderType) {
-                orders = StringUtils.join("`", orderField, "`", " ASC");
-            } else {
-                orders = StringUtils.join("`", orderField, "`", " DESC");
-            }
-        }
-        return orders;
-    }
-
     public Integer getPageStart() {
+        Integer pageStart = getInteger(PAGE_START);
+        Integer pageSize = getInteger(PAGE_SIZE);
+
         if (pageStart != null && pageStart > 1) {
             pageStart = (pageStart - 1) * pageSize;
         } else {
@@ -76,19 +38,63 @@ public class RequestParameter {
         return pageStart;
     }
 
-    public Long getStartTime() {
-        return Optional.ofNullable(startTime).orElse(0L);
+    /**
+     * query record limit size, by default PageSize is 0.
+     *
+     * @return Integer
+     */
+    public Integer getPageSize() {
+        return getInteger(PAGE_SIZE);
     }
 
-    public Long getEndTime() {
-        return Optional.ofNullable(endTime).orElse(0L);
+
+    /**
+     * query by order filed name, by default sort type is `desc`
+     *
+     * @return String
+     * @see import com.stackstech.honeybee.server.core.enums.Constant.SORTS
+     */
+    public String getOrder() {
+        String orders = null;
+        if (Constant.SORTS.contains(getString(ORDER_FIELD))) {
+            if (getBoolean(ORDER_TYPE)) {
+                orders = StringUtils.join("`", getString(ORDER_FIELD), "`", " ASC");
+            } else {
+                orders = StringUtils.join("`", getString(ORDER_FIELD), "`", " DESC");
+            }
+        }
+        return orders;
     }
 
+    /**
+     * query by keyword
+     *
+     * @return String
+     */
     public String getKeywords() {
-        if (StringUtils.isNotEmpty(keywords)) {
-            return StringUtils.join("%", keywords.trim(), "%");
+        if (StringUtils.isNotEmpty(getString(KEYWORDS))) {
+            return StringUtils.join("%", getString(KEYWORDS).trim(), "%");
         }
         return null;
     }
 
+    /**
+     * query by status
+     *
+     * @return Integer
+     */
+    public Integer getStatus() {
+        return getInteger(STATUS);
+    }
+
+
+    @Override
+    public Map<String, Object> getParameter() {
+        Map<String, Object> p = super.getParameter();
+        p.put(PAGE_START, getPageStart());
+        p.put(PAGE_SIZE, getPageSize());
+        p.put(ORDER, getOrder());
+        p.put(KEYWORDS, getKeywords());
+        return p;
+    }
 }

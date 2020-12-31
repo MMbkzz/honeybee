@@ -1,6 +1,5 @@
 package com.stackstech.honeybee.server.apiserver;
 
-import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -62,17 +60,9 @@ public class DataServiceController {
 
     @RequestMapping(value = "/data/service/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@RequestBody RequestParameter parameters) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("pageStart", parameters.getPageStart());
-        params.put("pageSize", parameters.getPageSize());
-        params.put("status", parameters.getStatus());
-        params.put("keywords", parameters.getKeywords());
-        //TODO maybe not used ?!
-        params.put("order", parameters.getOrder());
-
-        List<DataServiceEntity> data = service.get(params);
+        List<DataServiceEntity> data = service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
-            int total = service.getTotalCount(params);
+            int total = service.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
         }

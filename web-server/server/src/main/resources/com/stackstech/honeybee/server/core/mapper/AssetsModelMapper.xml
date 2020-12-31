@@ -21,11 +21,58 @@
     `datasource_id`, `datasource_meta`, `expression`, `status`, `owner`, `updatetime`, 
     `createtime`, `desc`
   </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from hb_assets_model where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="assetsCatalogDomain != null">
+      and `assets_catalog_domain` = #{assetsCatalogDomain}
+    </if>
+    <if test="assetsCatalogTopic != null">
+      and `assets_catalog_topic` = #{assetsCatalogTopic}
+    </if>
+    <if test="datasourceId != null">
+      and `datasource_id` = #{datasourceId}
+    </if>
+    <if test="keywords != null">
+      and (`assets_model_name` like #{keywords} or `assets_model_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="order != null">
+      order by ${order}
+    </if>
+    <if test="pageStart != null and pageSize != null and pageStart gt -1">
+      limit ${pageStart}, ${pageSize}
+    </if>
+  </select>
+
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from hb_assets_model where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="assetsCatalogDomain != null">
+      and `assets_catalog_domain` = #{assetsCatalogDomain}
+    </if>
+    <if test="assetsCatalogTopic != null">
+      and `assets_catalog_topic` = #{assetsCatalogTopic}
+    </if>
+    <if test="datasourceId != null">
+      and `datasource_id` = #{datasourceId}
+    </if>
+    <if test="keywords != null">
+      and (`assets_model_name` like #{keywords} or `assets_model_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_assets_model
-    where `id` = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_assets_model set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
