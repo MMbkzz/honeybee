@@ -29,11 +29,8 @@
     - apiserver
     - assets
     - audit
-    - common
-    - exception
+    - core
     - quality
     - report
     - security
     - system
-    - utils
-  
