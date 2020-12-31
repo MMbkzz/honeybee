@@ -30,7 +30,6 @@ public class SystemController {
 
     private final Logger log = LoggerFactory.getLogger(SystemController.class);
 
-
     @Autowired
     private SystemConfigService service;
     @Autowired
@@ -82,6 +81,23 @@ public class SystemController {
         return ResponseMap.failed("nothing found");
     }
 
+    @RequestMapping(value = "/system/datacache/get/{key}", method = RequestMethod.GET)
+    public ResponseMap<?> getDataCache(@PathVariable("key") String key) {
+        //TODO
+        return null;
+    }
+
+    @RequestMapping(value = "/system/datacache/delete/{key}", method = RequestMethod.DELETE)
+    public ResponseMap<?> deleteDataCache(@PathVariable("key") String key) {
+        //TODO
+        return null;
+    }
+
+    @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
+    public ResponseMap<?> queryDataCache(@RequestBody RequestParameter parameters) {
+        //TODO
+        return null;
+    }
 
     @RequestMapping(value = "/system/config/get", method = RequestMethod.GET)
     public ResponseMap<?> getConfig() {
@@ -97,7 +113,12 @@ public class SystemController {
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateConfig(@RequestBody String config) {
         if (StringUtils.isNotEmpty(config)) {
-            return ResponseMap.success(service.updateSysConfig(config));
+            //TODO check config yaml code style
+            boolean flag = service.updateSysConfig(config);
+            if (flag) {
+                //TODO flush nacos global config
+                return ResponseMap.success(flag);
+            }
         }
         return ResponseMap.failed("update system config failed.");
     }

@@ -25,6 +25,7 @@
         <mysql.java.version>5.1.49</mysql.java.version>
         <common-dbcp2.version>2.7.0</common-dbcp2.version>
         <druid.version>1.0.27</druid.version>
+        <redis.starter.version>2.4.0</redis.starter.version>
         <jedis.version>3.3.0</jedis.version>
         <jwt.version>3.10.3</jwt.version>
         <jexl.version>2.1.1</jexl.version>
@@ -62,6 +63,10 @@
     </properties>
 
     <repositories>
+        <repository>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
         <repository>
             <id>confluent</id>
             <url>http://packages.confluent.io/maven/</url>

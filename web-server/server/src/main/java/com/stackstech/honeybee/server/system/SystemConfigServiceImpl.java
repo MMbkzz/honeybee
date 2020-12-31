@@ -24,7 +24,6 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
     @Override
     public Boolean updateSysConfig(String config) {
-        //TODO check config yaml code style
         return mapper.updateByConfigKey(SysConfigMap.APP_HONEYBEE_SERVER_CONFIG, config) > 0;
     }
 }
