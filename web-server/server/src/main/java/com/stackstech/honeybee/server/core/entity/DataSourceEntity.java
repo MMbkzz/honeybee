@@ -14,6 +14,8 @@ public class DataSourceEntity {
 
     private String datasourceCode;
 
+    private String datasourceType;
+
     private String datasourceConfig;
 
     private Integer status;

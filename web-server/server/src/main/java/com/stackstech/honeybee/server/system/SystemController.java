@@ -1,14 +1,23 @@
 package com.stackstech.honeybee.server.system;
 
 import com.google.common.collect.Maps;
+import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
+import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
+import com.stackstech.honeybee.server.core.service.DataService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * SystemController
@@ -19,8 +28,60 @@ import java.util.Map;
 @RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT)
 public class SystemController {
 
+    private final Logger log = LoggerFactory.getLogger(SystemController.class);
+
+
     @Autowired
     private SystemConfigService service;
+    @Autowired
+    private DataService<DataSourceEntity> dataSourceService;
+
+    @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
+    public ResponseMap<?> getDataSource(@PathVariable("id") long id) {
+        return ResponseMap.success(dataSourceService.getSingle(id));
+    }
+
+    @RequestMapping(value = "/system/datasource/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseMap<?> deleteDataSource(@PathVariable("id") long id) {
+        return ResponseMap.success(dataSourceService.delete(id));
+    }
+
+    @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
+    public ResponseMap<?> updateDataSource(@RequestBody DataSourceEntity entity) {
+        Optional.ofNullable(entity).ifPresent(u -> {
+            entity.setUpdatetime(new Date());
+        });
+        if (!dataSourceService.update(entity)) {
+            return ResponseMap.failed("update data source failed.");
+        }
+        return ResponseMap.success(true);
+    }
+
+    @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
+    public ResponseMap<?> addDataSource(@RequestBody DataSourceEntity entity) {
+        Optional.ofNullable(entity).ifPresent(u -> {
+            entity.setId(null);
+            entity.setStatus(EntityStatusType.ENABLE.getStatus());
+            entity.setUpdatetime(new Date());
+            entity.setCreatetime(new Date());
+        });
+        if (!dataSourceService.add(entity)) {
+            return ResponseMap.failed("insert data source failed.");
+        }
+        return ResponseMap.success(entity);
+    }
+
+    @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
+    public ResponseMap<?> queryDataSource(@RequestBody RequestParameter parameters) {
+        List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
+        if (data != null && data.size() > 0) {
+            int total = dataSourceService.getTotalCount(parameters.getParameter());
+            log.debug("query data record size {}", total);
+            return ResponseMap.setTotal(data, total);
+        }
+        return ResponseMap.failed("nothing found");
+    }
+
 
     @RequestMapping(value = "/system/config/get", method = RequestMethod.GET)
     public ResponseMap<?> getConfig() {

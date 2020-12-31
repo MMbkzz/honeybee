@@ -190,6 +190,7 @@ CREATE TABLE `hb_datasource` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `datasource_name` varchar(50) NOT NULL COMMENT '数据源名称',
   `datasource_code` varchar(50) NOT NULL COMMENT '数据源编码',
+  `datasource_type` varchar(50) NOT NULL COMMENT '数据源类型',
   `datasource_config` text NOT NULL COMMENT '数据源参数配置（JSON）',
   `status` int(2) NOT NULL COMMENT '状态',
   `owner` bigint(20) NOT NULL COMMENT '操作人',

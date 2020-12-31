@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="datasource_name" jdbcType="VARCHAR" property="datasourceName" />
     <result column="datasource_code" jdbcType="VARCHAR" property="datasourceCode" />
+    <result column="datasource_type" jdbcType="VARCHAR" property="datasourceType" />
     <result column="datasource_config" jdbcType="VARCHAR" property="datasourceConfig" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="owner" jdbcType="BIGINT" property="owner" />
@@ -13,14 +14,49 @@
     <result column="desc" jdbcType="VARCHAR" property="desc" />
   </resultMap>
   <sql id="Base_Column_List">
-    `id`, `datasource_name`, `datasource_code`, `datasource_config`, `status`, `owner`, 
+    `id`, `datasource_name`, `datasource_code`, `datasource_type`, `datasource_config`, `status`, `owner`,
     `updatetime`, `createtime`, `desc`
   </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from hb_datasource where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="datasourceType != null">
+      and `datasource_type` = #{datasourceType}
+    </if>
+    <if test="keywords != null">
+      and (`datasource_name` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="order != null">
+      order by ${order}
+    </if>
+    <if test="pageStart != null and pageSize != null and pageStart gt -1">
+      limit ${pageStart}, ${pageSize}
+    </if>
+  </select>
+
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from hb_datasource where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="datasourceType != null">
+      and `datasource_type` = #{datasourceType}
+    </if>
+    <if test="keywords != null">
+      and (`datasource_name` like #{keywords} or `desc` like #{keywords})
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_datasource
-    where `id` = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_datasource set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
@@ -36,6 +72,9 @@
       </if>
       <if test="datasourceCode != null">
         `datasource_code`,
+      </if>
+      <if test="datasourceType != null">
+        `datasource_type`,
       </if>
       <if test="datasourceConfig != null">
         `datasource_config`,
@@ -66,6 +105,9 @@
       <if test="datasourceCode != null">
         #{datasourceCode,jdbcType=VARCHAR},
       </if>
+      <if test="datasourceType != null">
+        #{datasourceType,jdbcType=VARCHAR},
+      </if>
       <if test="datasourceConfig != null">
         #{datasourceConfig,jdbcType=VARCHAR},
       </if>
@@ -94,6 +136,9 @@
       </if>
       <if test="datasourceCode != null">
         `datasource_code` = #{datasourceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="datasourceType != null">
+        `datasource_type` = #{datasourceType,jdbcType=VARCHAR},
       </if>
       <if test="datasourceConfig != null">
         `datasource_config` = #{datasourceConfig,jdbcType=VARCHAR},
