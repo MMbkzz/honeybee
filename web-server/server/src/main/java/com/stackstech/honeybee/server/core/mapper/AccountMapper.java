@@ -4,6 +4,9 @@ import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 @Repository
 public interface AccountMapper {
@@ -15,4 +18,7 @@ public interface AccountMapper {
 
     int updateByPrimaryKeySelective(AccountEntity record);
 
+    List<AccountEntity> selectByParameter(Map<String, Object> parameter);
+
+    int selectTotalCount(Map<String, Object> parameter);
 }

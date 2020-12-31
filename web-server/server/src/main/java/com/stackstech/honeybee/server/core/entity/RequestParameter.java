@@ -95,6 +95,7 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
         p.put(PAGE_SIZE, getPageSize());
         p.put(ORDER, getOrder());
         p.put(KEYWORDS, getKeywords());
+        p.put(STATUS, getStatus());
         return p;
     }
 }

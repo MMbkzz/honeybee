@@ -17,11 +17,40 @@
     `id`, `job_name`, `job_code`, `job_expression`, `job_order`, `status`, `owner`, `updatetime`, 
     `createtime`, `desc`
   </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from hb_quality_job where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and (`job_name` like #{keywords} or `job_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="order != null">
+      order by ${order}
+    </if>
+    <if test="pageStart != null and pageSize != null and pageStart gt -1">
+      limit ${pageStart}, ${pageSize}
+    </if>
+  </select>
+
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from hb_quality_job where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and (`job_name` like #{keywords} or `job_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_quality_job
-    where `id` = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_quality_job set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}

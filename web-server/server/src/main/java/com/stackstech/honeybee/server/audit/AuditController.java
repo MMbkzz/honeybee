@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * DataServiceController
+ * audit log service controller
  *
  * @author william
  */

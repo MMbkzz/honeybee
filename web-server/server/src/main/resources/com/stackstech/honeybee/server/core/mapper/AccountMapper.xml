@@ -21,11 +21,46 @@
     `account_email`, `account_phone`, `status`, `owner`, `updatetime`, `createtime`, 
     `desc`
   </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from hb_account where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="accountRole != null">
+      and `account_role` = #{accountRole}
+    </if>
+    <if test="keywords != null">
+      and (`account_name` like #{keywords} or `account_realname` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="order != null">
+      order by ${order}
+    </if>
+    <if test="pageStart != null and pageSize != null and pageStart gt -1">
+      limit ${pageStart}, ${pageSize}
+    </if>
+  </select>
+
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from hb_account where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="accountRole != null">
+      and `account_role` = #{accountRole}
+    </if>
+    <if test="keywords != null">
+      and (`account_name` like #{keywords} or `account_realname` like #{keywords} or `desc` like #{keywords})
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_account
-    where `id` = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_account set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}

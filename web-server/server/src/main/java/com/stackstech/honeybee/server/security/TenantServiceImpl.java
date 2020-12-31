@@ -1,7 +1,7 @@
-package com.stackstech.honeybee.server.quality;
+package com.stackstech.honeybee.server.security;
 
-import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
-import com.stackstech.honeybee.server.core.mapper.QualityJobMapper;
+import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
+import com.stackstech.honeybee.server.core.mapper.DataServiceTenantMapper;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> {
+public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
 
     @Autowired
-    private QualityJobMapper mapper;
+    private DataServiceTenantMapper mapper;
 
     @Override
-    public boolean add(QualityJobEntity entity) {
+    public boolean add(DataServiceTenantEntity entity) {
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityJobEntity entity) {
+    public boolean update(DataServiceTenantEntity entity) {
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
@@ -31,17 +31,17 @@ public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> 
     }
 
     @Override
-    public QualityJobEntity getSingle(Long recordId) {
+    public DataServiceTenantEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public QualityJobEntity getSingle(Map<String, Object> parameter) {
+    public DataServiceTenantEntity getSingle(Map<String, Object> parameter) {
         return null;
     }
 
     @Override
-    public List<QualityJobEntity> get(Map<String, Object> parameter) {
+    public List<DataServiceTenantEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

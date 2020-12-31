@@ -15,11 +15,40 @@
     `id`, `tenant_name`, `tenant_code`, `status`, `owner`, `updatetime`, `createtime`, 
     `desc`
   </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from hb_data_service_tenant where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and (`tenant_name` like #{keywords} or `tenant_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="order != null">
+      order by ${order}
+    </if>
+    <if test="pageStart != null and pageSize != null and pageStart gt -1">
+      limit ${pageStart}, ${pageSize}
+    </if>
+  </select>
+
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from hb_data_service_tenant where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and (`tenant_name` like #{keywords} or `tenant_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hb_data_service_tenant
-    where `id` = #{id,jdbcType=BIGINT}
+    where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_data_service_tenant set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}

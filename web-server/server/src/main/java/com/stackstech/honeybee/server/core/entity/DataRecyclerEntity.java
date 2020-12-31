@@ -12,6 +12,12 @@ public class DataRecyclerEntity {
 
     private Long assetsModelId;
 
+    private String assetsModelName;
+
+    private Long assetsCatalogDomain;
+
+    private String catalogName;
+
     private Long assetsDataSize;
 
     private Long assetsDataCount;

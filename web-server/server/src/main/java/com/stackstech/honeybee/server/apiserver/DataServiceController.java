@@ -4,17 +4,19 @@ import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * DataServiceController
+ * data api service controller
  *
  * @author william
  */
@@ -41,6 +43,9 @@ public class DataServiceController {
 
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@RequestBody DataServiceEntity entity) {
+        Optional.ofNullable(entity).ifPresent(u -> {
+            entity.setUpdatetime(new Date());
+        });
         if (!service.update(entity)) {
             return ResponseMap.failed("update data service failed.");
         }
@@ -51,6 +56,9 @@ public class DataServiceController {
     public ResponseMap<?> add(@RequestBody DataServiceEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
+            entity.setStatus(EntityStatusType.ENABLE.getStatus());
+            entity.setUpdatetime(new Date());
+            entity.setCreatetime(new Date());
         });
         if (!service.add(entity)) {
             return ResponseMap.failed("insert data service failed.");

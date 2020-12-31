@@ -5,17 +5,19 @@ import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * DataServiceController
+ * account assets service controller
  *
  * @author william
  */
@@ -43,6 +45,9 @@ public class DataAssetsController {
 
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateModel(@RequestBody AssetsModelEntity entity) {
+        Optional.ofNullable(entity).ifPresent(u -> {
+            entity.setUpdatetime(new Date());
+        });
         if (!assetsModelService.update(entity)) {
             return ResponseMap.failed("update data service failed.");
         }
@@ -53,6 +58,9 @@ public class DataAssetsController {
     public ResponseMap<?> addModel(@RequestBody AssetsModelEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
+            entity.setStatus(EntityStatusType.ENABLE.getStatus());
+            entity.setUpdatetime(new Date());
+            entity.setCreatetime(new Date());
         });
         if (!assetsModelService.add(entity)) {
             return ResponseMap.failed("insert data service failed.");
@@ -83,6 +91,9 @@ public class DataAssetsController {
 
     @RequestMapping(value = "/data/assets/catalog/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateCatalog(@RequestBody AssetsCatalogEntity entity) {
+        Optional.ofNullable(entity).ifPresent(u -> {
+            entity.setUpdatetime(new Date());
+        });
         if (!assetsCatalogService.update(entity)) {
             return ResponseMap.failed("update data assets catalog failed.");
         }
@@ -93,6 +104,9 @@ public class DataAssetsController {
     public ResponseMap<?> addCatalog(@RequestBody AssetsCatalogEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
+            entity.setStatus(EntityStatusType.ENABLE.getStatus());
+            entity.setUpdatetime(new Date());
+            entity.setCreatetime(new Date());
         });
         if (!assetsCatalogService.add(entity)) {
             return ResponseMap.failed("insert data assets catalog failed.");

@@ -12,16 +12,80 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
   </resultMap>
+  <resultMap id="BaseResultMapWithAssets" type="com.stackstech.honeybee.server.core.entity.DataRecyclerEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="assets_model_id" jdbcType="BIGINT" property="assetsModelId" />
+    <result column="assets_model_name" jdbcType="VARCHAR" property="assetsModelName" />
+    <result column="assets_catalog_domain" jdbcType="BIGINT" property="assetsCatalogDomain" />
+    <result column="catalog_name" jdbcType="VARCHAR" property="catalogName" />
+    <result column="assets_data_size" jdbcType="BIGINT" property="assetsDataSize" />
+    <result column="assets_data_count" jdbcType="BIGINT" property="assetsDataCount" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="owner" jdbcType="BIGINT" property="owner" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
   <sql id="Base_Column_List">
     `id`, `assets_model_id`, `assets_data_size`, `assets_data_count`, `status`, `owner`, 
     `updatetime`, `createtime`, `desc`
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from hb_data_recycler
-    where `id` = #{id,jdbcType=BIGINT}
+
+  <sql id="Base_Column_With_Assets">
+    r.`id`,
+    r.`assets_model_id`,
+    a.`assets_model_name`,
+    a.`assets_catalog_domain`,
+    c.`catalog_name`,
+    r.`assets_data_size`,
+    r.`assets_data_count`,
+    r.`status`,
+    r.`owner`,
+    r.`updatetime`,
+    r.`createtime`,
+    r.`desc`
+  </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMapWithAssets" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_With_Assets" />
+    from hb_data_recycler r
+    left join hb_assets_model a on a.id = r.assets_model_id
+    left join hb_assets_catalog c on c.id = a.assets_catalog_domain
+    where r.`status` != -1
+    <if test="status != null">
+      and r.`status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and r.`desc` like #{keywords}
+    </if>
+    <if test="order != null">
+      order by ${order}
+    </if>
+    <if test="pageStart != null and pageSize != null and pageStart gt -1">
+      limit ${pageStart}, ${pageSize}
+    </if>
   </select>
+
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from hb_data_recycler where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and `desc` like #{keywords}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMapWithAssets">
+    select
+    <include refid="Base_Column_With_Assets" />
+    from hb_data_recycler r
+    left join hb_assets_model a on a.id = r.assets_model_id
+    left join hb_assets_catalog c on c.id = a.assets_catalog_domain
+    where r.`id` = #{id,jdbcType=BIGINT} and r.`status` != -1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_data_recycler set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
