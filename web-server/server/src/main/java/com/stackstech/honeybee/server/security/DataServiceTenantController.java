@@ -1,9 +1,11 @@
 package com.stackstech.honeybee.server.security;
 
+import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ import java.util.Optional;
 public class DataServiceTenantController {
 
     private final Logger log = LoggerFactory.getLogger(AccountController.class);
-    
+
     @Autowired
     private DataService<DataServiceTenantEntity> tenantService;
 
@@ -34,11 +36,13 @@ public class DataServiceTenantController {
         return ResponseMap.success(tenantService.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/tenant/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> delete(@PathVariable("id") long id) {
         return ResponseMap.success(tenantService.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/tenant/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@RequestBody DataServiceTenantEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -50,6 +54,7 @@ public class DataServiceTenantController {
         return ResponseMap.success(true);
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/tenant/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@RequestBody DataServiceTenantEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {

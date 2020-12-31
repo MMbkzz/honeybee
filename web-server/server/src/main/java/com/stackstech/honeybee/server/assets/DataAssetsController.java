@@ -1,7 +1,9 @@
 package com.stackstech.honeybee.server.assets;
 
+import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.*;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.slf4j.Logger;
@@ -36,11 +38,13 @@ public class DataAssetsController {
         return ResponseMap.success(assetsModelService.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/model/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteModel(@PathVariable("id") long id) {
         return ResponseMap.success(assetsModelService.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateModel(@RequestBody AssetsModelEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -52,6 +56,7 @@ public class DataAssetsController {
         return ResponseMap.success(true);
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
     public ResponseMap<?> addModel(@RequestBody AssetsModelEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -82,11 +87,13 @@ public class DataAssetsController {
         return ResponseMap.success(assetsCatalogService.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/catalog/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteCatalog(@PathVariable("id") long id) {
         return ResponseMap.success(assetsCatalogService.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/catalog/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateCatalog(@RequestBody AssetsCatalogEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -98,6 +105,7 @@ public class DataAssetsController {
         return ResponseMap.success(true);
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/catalog/add", method = RequestMethod.PUT)
     public ResponseMap<?> addCatalog(@RequestBody AssetsCatalogEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -129,11 +137,13 @@ public class DataAssetsController {
         return ResponseMap.success(recyclerService.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/recycler/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteRecycler(@PathVariable("id") long id) {
         return ResponseMap.success(recyclerService.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/recycler/add", method = RequestMethod.PUT)
     public ResponseMap<?> addRecycler(@RequestBody DataRecyclerEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {

@@ -1,7 +1,9 @@
 package com.stackstech.honeybee.server.quality;
 
+import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.*;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.slf4j.Logger;
@@ -35,11 +37,13 @@ public class DataQualityController {
         return ResponseMap.success(qualityJobService.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/quality/job/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteQualityJob(@PathVariable("id") long id) {
         return ResponseMap.success(qualityJobService.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/job/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateQualityJob(@RequestBody QualityJobEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -51,6 +55,7 @@ public class DataQualityController {
         return ResponseMap.success(true);
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/job/add", method = RequestMethod.PUT)
     public ResponseMap<?> addQualityJob(@RequestBody QualityJobEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -81,11 +86,13 @@ public class DataQualityController {
         return ResponseMap.success(qualityRuleService.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/quality/rule/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteQualityRule(@PathVariable("id") long id) {
         return ResponseMap.success(qualityRuleService.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/rule/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateQualityRule(@RequestBody QualityRuleEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -97,6 +104,7 @@ public class DataQualityController {
         return ResponseMap.success(true);
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/rule/add", method = RequestMethod.PUT)
     public ResponseMap<?> addQualityRule(@RequestBody QualityRuleEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {

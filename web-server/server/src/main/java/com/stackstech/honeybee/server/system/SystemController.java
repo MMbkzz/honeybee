@@ -1,10 +1,12 @@
 package com.stackstech.honeybee.server.system;
 
 import com.google.common.collect.Maps;
+import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.service.DataService;
@@ -40,11 +42,13 @@ public class SystemController {
         return ResponseMap.success(dataSourceService.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/system/datasource/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteDataSource(@PathVariable("id") long id) {
         return ResponseMap.success(dataSourceService.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateDataSource(@RequestBody DataSourceEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -56,6 +60,7 @@ public class SystemController {
         return ResponseMap.success(true);
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
     public ResponseMap<?> addDataSource(@RequestBody DataSourceEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -87,6 +92,7 @@ public class SystemController {
         return null;
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/system/datacache/delete/{key}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteDataCache(@PathVariable("key") String key) {
         //TODO
@@ -110,6 +116,7 @@ public class SystemController {
         return ResponseMap.failed("config value is empty.");
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateConfig(@RequestBody String config) {
         if (StringUtils.isNotEmpty(config)) {
@@ -129,6 +136,7 @@ public class SystemController {
         return null;
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @PostMapping(value = "/system/license/update")
     public ResponseMap<?> updateLicense() {
         //TODO

@@ -1,9 +1,11 @@
 package com.stackstech.honeybee.server.apiserver;
 
+import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.slf4j.Logger;
@@ -35,12 +37,14 @@ public class DataServiceController {
         return ResponseMap.success(service.getSingle(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/service/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> delete(@PathVariable("id") long id) {
         log.debug("delete data service ID {}.", id);
         return ResponseMap.success(service.delete(id));
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@RequestBody DataServiceEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
@@ -52,6 +56,7 @@ public class DataServiceController {
         return ResponseMap.success(true);
     }
 
+    @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@RequestBody DataServiceEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
