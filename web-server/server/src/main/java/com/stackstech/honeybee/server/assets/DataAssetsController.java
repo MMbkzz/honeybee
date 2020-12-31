@@ -1,9 +1,6 @@
 package com.stackstech.honeybee.server.assets;
 
-import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
-import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
-import com.stackstech.honeybee.server.core.entity.RequestParameter;
-import com.stackstech.honeybee.server.core.entity.ResponseMap;
+import com.stackstech.honeybee.server.core.entity.*;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
@@ -29,9 +26,10 @@ public class DataAssetsController {
 
     @Autowired
     private DataService<AssetsModelEntity> assetsModelService;
-
     @Autowired
     private DataService<AssetsCatalogEntity> assetsCatalogService;
+    @Autowired
+    private DataService<DataRecyclerEntity> recyclerService;
 
     @RequestMapping(value = "/data/assets/model/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> getModel(@PathVariable("id") long id) {
@@ -119,6 +117,42 @@ public class DataAssetsController {
         List<AssetsCatalogEntity> data = assetsCatalogService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsCatalogService.getTotalCount(parameters.getParameter());
+            log.debug("query data record size {}", total);
+            return ResponseMap.setTotal(data, total);
+        }
+        return ResponseMap.failed("nothing found");
+    }
+
+
+    @RequestMapping(value = "/data/assets/recycler/get/{id}", method = RequestMethod.GET)
+    public ResponseMap<?> getRecycler(@PathVariable("id") long id) {
+        return ResponseMap.success(recyclerService.getSingle(id));
+    }
+
+    @RequestMapping(value = "/data/assets/recycler/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseMap<?> deleteRecycler(@PathVariable("id") long id) {
+        return ResponseMap.success(recyclerService.delete(id));
+    }
+
+    @RequestMapping(value = "/data/assets/recycler/add", method = RequestMethod.PUT)
+    public ResponseMap<?> addRecycler(@RequestBody DataRecyclerEntity entity) {
+        Optional.ofNullable(entity).ifPresent(u -> {
+            entity.setId(null);
+            entity.setStatus(EntityStatusType.ENABLE.getStatus());
+            entity.setUpdatetime(new Date());
+            entity.setCreatetime(new Date());
+        });
+        if (!recyclerService.add(entity)) {
+            return ResponseMap.failed("insert recycler failed.");
+        }
+        return ResponseMap.success(entity);
+    }
+
+    @RequestMapping(value = "/data/assets/recycler/query", method = RequestMethod.POST)
+    public ResponseMap<?> queryRecycler(@RequestBody RequestParameter parameters) {
+        List<DataRecyclerEntity> data = recyclerService.get(parameters.getParameter());
+        if (data != null && data.size() > 0) {
+            int total = recyclerService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
         }

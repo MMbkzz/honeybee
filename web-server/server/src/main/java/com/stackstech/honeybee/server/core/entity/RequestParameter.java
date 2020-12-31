@@ -5,6 +5,7 @@ import com.stackstech.honeybee.server.core.enums.Constant;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 请求的参数实体
@@ -28,7 +29,7 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
      */
     public Integer getPageStart() {
         Integer pageStart = getInteger(PAGE_START);
-        Integer pageSize = getInteger(PAGE_SIZE);
+        Integer pageSize = getPageSize();
 
         if (pageStart != null && pageStart > 1) {
             pageStart = (pageStart - 1) * pageSize;
@@ -39,12 +40,12 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
     }
 
     /**
-     * query record limit size, by default PageSize is 0.
+     * query record limit size, by default PageSize is 10.
      *
      * @return Integer
      */
     public Integer getPageSize() {
-        return getInteger(PAGE_SIZE);
+        return Optional.ofNullable(getInteger(PAGE_SIZE)).orElse(10);
     }
 
 
@@ -57,7 +58,7 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
     public String getOrder() {
         String orders = null;
         if (Constant.SORTS.contains(getString(ORDER_FIELD))) {
-            if (getBoolean(ORDER_TYPE)) {
+            if (Optional.ofNullable(getBoolean(ORDER_TYPE)).orElse(false)) {
                 orders = StringUtils.join("`", getString(ORDER_FIELD), "`", " ASC");
             } else {
                 orders = StringUtils.join("`", getString(ORDER_FIELD), "`", " DESC");
