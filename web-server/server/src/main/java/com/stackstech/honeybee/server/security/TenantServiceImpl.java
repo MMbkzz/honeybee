@@ -36,11 +36,6 @@ public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
     }
 
     @Override
-    public DataServiceTenantEntity getSingle(Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
     public List<DataServiceTenantEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }

@@ -36,11 +36,6 @@ public class AccountServiceImpl implements DataService<AccountEntity> {
     }
 
     @Override
-    public AccountEntity getSingle(Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
     public List<AccountEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }

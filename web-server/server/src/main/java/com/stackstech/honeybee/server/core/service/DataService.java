@@ -46,13 +46,13 @@ public interface DataService<T> {
 	 */
 	T getSingle(Long recordId);
 
-	/**
-	 * 获取单个数据记录
-	 *
-	 * @param parameter Query parameters
-	 * @return Data model
-	 */
-	T getSingle(Map<String, Object> parameter);
+//	/**
+//	 * 获取单个数据记录
+//	 *
+//	 * @param parameter Query parameters
+//	 * @return Data model
+//	 */
+//	T getSingle(Map<String, Object> parameter);
 
 	/**
 	 * 获取多个数据记录

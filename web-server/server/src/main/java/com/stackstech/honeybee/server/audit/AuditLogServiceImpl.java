@@ -36,11 +36,6 @@ public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
     }
 
     @Override
-    public AuditLogEntity getSingle(Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
     public List<AuditLogEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }

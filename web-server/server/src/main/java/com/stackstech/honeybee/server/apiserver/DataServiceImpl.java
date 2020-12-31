@@ -41,11 +41,6 @@ public class DataServiceImpl implements DataService<DataServiceEntity> {
     }
 
     @Override
-    public DataServiceEntity getSingle(Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
     public List<DataServiceEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }

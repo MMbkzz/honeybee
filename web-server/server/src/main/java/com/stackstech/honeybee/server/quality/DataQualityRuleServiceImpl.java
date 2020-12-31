@@ -36,11 +36,6 @@ public class DataQualityRuleServiceImpl implements DataService<QualityRuleEntity
     }
 
     @Override
-    public QualityRuleEntity getSingle(Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
     public List<QualityRuleEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }

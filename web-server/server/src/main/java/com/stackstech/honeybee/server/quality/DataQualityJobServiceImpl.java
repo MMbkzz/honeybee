@@ -36,11 +36,6 @@ public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> 
     }
 
     @Override
-    public QualityJobEntity getSingle(Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
     public List<QualityJobEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }

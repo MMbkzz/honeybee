@@ -36,11 +36,6 @@ public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity
     }
 
     @Override
-    public AssetsCatalogEntity getSingle(Map<String, Object> parameter) {
-        return null;
-    }
-
-    @Override
     public List<AssetsCatalogEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
