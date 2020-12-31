@@ -58,6 +58,11 @@ public enum AuditLogType {
 
     private final String name;
 
+
+    public String getName() {
+        return name;
+    }
+
     AuditLogType(String name) {
         this.name = name;
     }

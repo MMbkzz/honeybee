@@ -61,26 +61,18 @@ public enum StatusCode {
      */
     REQUEST_UNSUPPORT(3002, 200);
 
-    private int status;
-    private int httpCode;
+    private final int status;
+    private final int httpCode;
 
     public int getStatus() {
         return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public int getHttpCode() {
         return httpCode;
     }
 
-    public void setHttpCode(int httpCode) {
-        this.httpCode = httpCode;
-    }
-
-    private StatusCode(int status, int httpCode) {
+    StatusCode(int status, int httpCode) {
         this.status = status;
         this.httpCode = httpCode;
     }
