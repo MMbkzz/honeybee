@@ -269,7 +269,6 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -285,8 +284,6 @@
                     <overwrite>true</overwrite>
                 </configuration>
             </plugin>
-
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -311,6 +308,25 @@
                 <!--                    </execution>-->
                 <!--                </executions>-->
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <resources>
@@ -322,39 +338,13 @@
                 </includes>
                 <excludes>
                     <exclude>application.yml</exclude>
+                    <exclude>bootstrap.yml</exclude>
                     <exclude>generatorConfig.xml</exclude>
                     <exclude>logback.xml</exclude>
+                    <exclude>mybatis-config.xml</exclude>
                 </excludes>
             </resource>
-            <!--            <resource>-->
-            <!--                <directory>src/main/java</directory>-->
-            <!--                <filtering>false</filtering>-->
-            <!--                <includes>-->
-            <!--                    <include>**/*.properties</include>-->
-            <!--                    <include>**/*.xml</include>-->
-            <!--                </includes>-->
-            <!--            </resource>-->
         </resources>
     </build>
-
-<!--    <profiles>-->
-<!--        &lt;!&ndash; Development Config &ndash;&gt;-->
-<!--        <profile>-->
-<!--            <id>dev</id>-->
-<!--            <properties>-->
-<!--                <env>dev</env>-->
-<!--            </properties>-->
-<!--            <activation>-->
-<!--                <activeByDefault>true</activeByDefault>-->
-<!--            </activation>-->
-<!--        </profile>-->
-<!--        <profile>-->
-<!--            <id>product</id>-->
-<!--            <properties>-->
-<!--                <env>product</env>-->
-<!--            </properties>-->
-<!--        </profile>-->
-<!--    </profiles>-->
-
 
 </project>
