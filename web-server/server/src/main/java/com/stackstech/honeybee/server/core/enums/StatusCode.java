@@ -8,58 +8,39 @@ package com.stackstech.honeybee.server.core.enums;
  * @since 1.0
  */
 public enum StatusCode {
+
     /**
      * 成功
      */
-    SUCCESS(1024, 200, "success"),
+    SUCCESS(2000, 200, "Success"),
     /**
      * 失败
      */
-    FAILED(2000, 200, "failed"),
+    FAILED(3000, 200, "Failed"),
     /**
      * 请求参数为空
      */
-    PARAMS_NULL(2001, 200, "request parameter empty"),
+    PARAMS_NULL(3001, 200, "Request parameter empty"),
     /**
      * 没有查询到数据
      */
-    DATA_NULL(2002, 404, "data not found"),
-    /**
-     * 新增数据失败
-     */
-    CREATE_FAILURE(2003, 200, "insert data failed"),
-    /**
-     * 更新数据失败
-     */
-    UPDATE_FAILURE(2004, 200, "update data failed"),
-    /**
-     * 删除失败
-     */
-    DELETE_FAILURE(2005, 200, "delete data failed"),
-    /**
-     * 用户登录会话过期
-     */
-    SESSION_EXPIRED(2006, 200, "user session expired"),
+    NOT_FOUND(3002, 404, "Data not found"),
     /**
      * Authorization Token无效
      */
-    TOKEN_INVALID(2007, 200, "User authorization Token invalid"),
-    /**
-     * 参数无效，没有查询到数据
-     */
-    NOT_FOUND(2008, 404, "Request parameter invalid"),
+    UNAUTHORIZED(4001, 401, "User authorization Token invalid"),
     /**
      * 服务接口内部异常
      */
-    INTERNAL_ERROR(3000, 500, "Internal server error"),
+    INTERNAL_ERROR(5001, 500, "Internal server error"),
     /**
      * 拒绝请求
      */
-    REQUEST_FORBIDDEN(3001, 403, "Forbidden"),
+    FORBIDDEN(5002, 403, "Forbidden"),
     /**
      * 请求方法不允许
      */
-    REQUEST_UNSUPPORT(3002, 401, "Bad Request");
+    BAD_REQUEST(5003, 400, "Bad Request");
 
     private final int status;
     private final int httpCode;

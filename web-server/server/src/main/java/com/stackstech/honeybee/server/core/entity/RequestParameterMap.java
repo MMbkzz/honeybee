@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.core.entity;
 
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.Maps;
+import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Map;
  *
  * @author william
  */
+@ApiModel(description = "Request query parameter")
 public class RequestParameterMap<K, V> extends ForwardingMap<K, V> implements Serializable {
 
     private Map<K, V> parameter = null;

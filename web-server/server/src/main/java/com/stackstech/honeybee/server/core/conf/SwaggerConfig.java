@@ -27,10 +27,11 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         List<ResponseMessage> responseMessageList = Lists.newArrayList();
         responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.SUCCESS.getHttpCode()).message(StatusCode.SUCCESS.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.FAILED.getHttpCode()).message(StatusCode.FAILED.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.TOKEN_INVALID.getHttpCode()).message(StatusCode.TOKEN_INVALID.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.REQUEST_FORBIDDEN.getHttpCode()).message(StatusCode.REQUEST_FORBIDDEN.getMessage()).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.NOT_FOUND.getHttpCode()).message(StatusCode.NOT_FOUND.getMessage()).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.UNAUTHORIZED.getHttpCode()).message(StatusCode.UNAUTHORIZED.getMessage()).build());
         responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.INTERNAL_ERROR.getHttpCode()).message(StatusCode.INTERNAL_ERROR.getMessage()).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.FORBIDDEN.getHttpCode()).message(StatusCode.FORBIDDEN.getMessage()).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.BAD_REQUEST.getHttpCode()).message(StatusCode.BAD_REQUEST.getMessage()).build());
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .globalResponseMessage(RequestMethod.GET, responseMessageList)

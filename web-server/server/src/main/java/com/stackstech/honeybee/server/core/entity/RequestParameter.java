@@ -15,14 +15,13 @@ import java.util.Optional;
  *
  * @author William
  */
-@Data
-@ApiModel(description = "Request query parameter")
+
 public class RequestParameter extends RequestParameterMap<String, Object> {
 
-    @ApiModelProperty(name = "pageStart", value = "pageStart", required = true, example = "0")
-    private int pageStart;
-    @ApiModelProperty(name = "pageSize", value = "pageSize", required = true, example = "10")
-    private int pageSize = 10;
+//    @ApiModelProperty(name = "pageStart", value = "pageStart", required = true, example = "0")
+//    private int pageStart;
+//    @ApiModelProperty(name = "pageSize", value = "pageSize", required = true, example = "10")
+//    private int pageSize = 10;
 
     public static final String PAGE_START = "pageStart";
     public static final String PAGE_SIZE = "pageSize";

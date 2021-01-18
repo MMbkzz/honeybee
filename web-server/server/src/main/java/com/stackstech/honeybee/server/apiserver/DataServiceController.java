@@ -25,7 +25,6 @@ import java.util.Optional;
  */
 @Api(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@ApiResponses(@ApiResponse(code = 404, message = "data not found", response = ResponseMap.class))
 @RestController
 @RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataServiceController {
