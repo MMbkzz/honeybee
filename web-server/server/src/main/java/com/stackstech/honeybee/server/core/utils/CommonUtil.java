@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -30,9 +31,8 @@ import java.util.regex.Pattern;
  * @date 2019-03-01
  * @since 1.0
  */
+@Slf4j
 public final class CommonUtil {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CommonUtil.class);
 
     private static final Pattern EMAIL_REG = Pattern.compile("^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
 
@@ -57,7 +57,7 @@ public final class CommonUtil {
         try {
             flag = EMAIL_REG.matcher(email).matches();
         } catch (Exception e) {
-            LOG.warn("", e);
+            log.warn("", e);
         }
         return flag;
     }
@@ -73,7 +73,7 @@ public final class CommonUtil {
         try {
             flag = PHONE_REG.matcher(mobileNumber).matches();
         } catch (Exception e) {
-            LOG.warn("", e);
+            log.warn("", e);
         }
         return flag;
     }
@@ -162,10 +162,10 @@ public final class CommonUtil {
      */
     public static String getStackTrace(Throwable throwable) {
         StringWriter stringWriter = new StringWriter();
-        try (PrintWriter printWriter = new PrintWriter(stringWriter);) {
+        try (PrintWriter printWriter = new PrintWriter(stringWriter)) {
             throwable.printStackTrace(printWriter);
         } catch (Exception e) {
-            LOG.error("", e);
+            log.error("", e);
         }
         return stringWriter.toString();
     }
@@ -184,7 +184,7 @@ public final class CommonUtil {
             JavaType valueType = JSON_MAPPER.getTypeFactory().constructParametricType(parametrized, parameterClasses);
             return JSON_MAPPER.readValue(json, valueType);
         } catch (IOException e) {
-            LOG.error("", e);
+            log.error("", e);
         }
         return null;
     }
@@ -201,7 +201,7 @@ public final class CommonUtil {
         try {
             return JSON_MAPPER.readValue(json, valueType);
         } catch (IOException e) {
-            LOG.error("", e);
+            log.error("", e);
         }
         return null;
     }
@@ -214,10 +214,10 @@ public final class CommonUtil {
      * @param throwable Throwable
      */
     public static void outputStackTraceFile(String filePath, Throwable throwable) {
-        try (FileWriter fileWriter = new FileWriter(filePath, false);) {
+        try (FileWriter fileWriter = new FileWriter(filePath, false)) {
             fileWriter.write(getStackTrace(throwable));
         } catch (Exception e) {
-            LOG.error("", e);
+            log.error("", e);
         }
     }
 
@@ -231,7 +231,7 @@ public final class CommonUtil {
         try {
             return JSON_MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            LOG.error("", e);
+            log.error("", e);
         }
         return null;
     }

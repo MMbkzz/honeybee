@@ -11,12 +11,11 @@ import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.service.DataService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -43,17 +42,20 @@ public class SystemController {
     @Autowired
     private DataService<DataSourceEntity> dataSourceService;
 
+    @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> getDataSource(@PathVariable("id") long id) {
         return ResponseMap.success(dataSourceService.getSingle(id));
     }
 
+    @ApiOperation(value = "delete data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/system/datasource/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteDataSource(@PathVariable("id") long id) {
         return ResponseMap.success(dataSourceService.delete(id));
     }
 
+    @ApiOperation(value = "update data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateDataSource(@RequestBody DataSourceEntity entity) {
@@ -66,6 +68,7 @@ public class SystemController {
         return ResponseMap.success(true);
     }
 
+    @ApiOperation(value = "add data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
     public ResponseMap<?> addDataSource(@RequestBody DataSourceEntity entity) {
@@ -81,6 +84,7 @@ public class SystemController {
         return ResponseMap.success(entity);
     }
 
+    @ApiOperation(value = "query data source")
     @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
     public ResponseMap<?> queryDataSource(@RequestBody RequestParameter parameters) {
         List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
@@ -92,12 +96,14 @@ public class SystemController {
         return ResponseMap.failed("nothing found");
     }
 
+    @ApiOperation(value = "get data cache")
     @RequestMapping(value = "/system/datacache/get/{key}", method = RequestMethod.GET)
     public ResponseMap<?> getDataCache(@PathVariable("key") String key) {
         //TODO
         return null;
     }
 
+    @ApiOperation(value = "delete data cache")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/system/datacache/delete/{key}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteDataCache(@PathVariable("key") String key) {
@@ -105,12 +111,14 @@ public class SystemController {
         return null;
     }
 
+    @ApiOperation(value = "query data cache")
     @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
     public ResponseMap<?> queryDataCache(@RequestBody RequestParameter parameters) {
         //TODO
         return null;
     }
 
+    @ApiOperation(value = "get system config")
     @RequestMapping(value = "/system/config/get", method = RequestMethod.GET)
     public ResponseMap<?> getConfig() {
         String configValue = service.getSysConfig();
@@ -122,6 +130,7 @@ public class SystemController {
         return ResponseMap.failed("config value is empty.");
     }
 
+    @ApiOperation(value = "update system config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateConfig(@RequestBody String config) {
@@ -136,12 +145,14 @@ public class SystemController {
         return ResponseMap.failed("update system config failed.");
     }
 
+    @ApiOperation(value = "get system license")
     @PostMapping(value = "/system/license/get")
     public ResponseMap<?> getLicense() {
         //TODO
         return null;
     }
 
+    @ApiOperation(value = "update system license")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @PostMapping(value = "/system/license/update")
     public ResponseMap<?> updateLicense() {

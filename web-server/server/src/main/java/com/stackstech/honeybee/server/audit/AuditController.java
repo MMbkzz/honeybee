@@ -6,6 +6,7 @@ import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.service.DataService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +33,13 @@ public class AuditController {
     @Autowired
     private DataService<AuditLogEntity> service;
 
+    @ApiOperation(value = "get audit log")
     @RequestMapping(value = "/audit/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> get(@PathVariable("id") long id) {
         return ResponseMap.success(service.getSingle(id));
     }
 
+    @ApiOperation(value = "query audit log")
     @RequestMapping(value = "/audit/{auditType}/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@PathVariable("auditType") String auditType, @RequestBody RequestParameter parameters) {
         List<AuditLogEntity> data = service.get(parameters.getParameter());

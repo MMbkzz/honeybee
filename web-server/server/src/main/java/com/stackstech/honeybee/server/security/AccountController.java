@@ -10,11 +10,10 @@ import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -38,18 +37,20 @@ public class AccountController {
     @Autowired
     private DataService<AccountEntity> accountService;
 
-
+    @ApiOperation(value = "get account")
     @RequestMapping(value = "/security/account/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> getAccount(@PathVariable("id") long id) {
         return ResponseMap.success(accountService.getSingle(id));
     }
 
+    @ApiOperation(value = "delete account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/account/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteAccount(@PathVariable("id") long id) {
         return ResponseMap.success(accountService.delete(id));
     }
 
+    @ApiOperation(value = "update account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/account/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateAccount(@RequestBody AccountEntity entity) {
@@ -62,6 +63,7 @@ public class AccountController {
         return ResponseMap.success(true);
     }
 
+    @ApiOperation(value = "add account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/account/add", method = RequestMethod.PUT)
     public ResponseMap<?> addAccount(@RequestBody AccountEntity entity) {
@@ -77,6 +79,7 @@ public class AccountController {
         return ResponseMap.success(entity);
     }
 
+    @ApiOperation(value = "query account")
     @RequestMapping(value = "/security/account/query", method = RequestMethod.POST)
     public ResponseMap<?> queryAccount(@RequestBody RequestParameter parameters) {
         List<AccountEntity> data = accountService.get(parameters.getParameter());
@@ -88,12 +91,14 @@ public class AccountController {
         return ResponseMap.failed("nothing found");
     }
 
+    @ApiOperation(value = "get account role")
     @RequestMapping(value = "/security/role/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> getAcctRole(@PathVariable("id") long id) {
         //TODO WJ
         return null;
     }
 
+    @ApiOperation(value = "delete account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/role/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> deleteAcctRole(@PathVariable("id") long id) {
@@ -101,6 +106,7 @@ public class AccountController {
         return null;
     }
 
+    @ApiOperation(value = "update account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/role/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateAcctRole(@RequestBody DataServiceEntity entity) {
@@ -108,6 +114,7 @@ public class AccountController {
         return null;
     }
 
+    @ApiOperation(value = "add account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/role/add", method = RequestMethod.PUT)
     public ResponseMap<?> addAcctRole(@RequestBody DataServiceEntity entity) {
@@ -115,6 +122,7 @@ public class AccountController {
         return null;
     }
 
+    @ApiOperation(value = "query account role")
     @RequestMapping(value = "/security/role/query", method = RequestMethod.POST)
     public ResponseMap<?> queryAcctRole(@RequestBody RequestParameter parameters) {
         //TODO WJ

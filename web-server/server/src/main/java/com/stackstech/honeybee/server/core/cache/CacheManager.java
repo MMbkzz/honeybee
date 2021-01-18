@@ -5,6 +5,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.stackstech.honeybee.server.core.enums.CacheKey;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +32,8 @@ import java.util.concurrent.TimeUnit;
  * @date 2019-03-01
  * @since 1.0
  */
+@Slf4j
 public final class CacheManager {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CacheManager.class);
 
     private static final String LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
 
@@ -138,7 +138,7 @@ public final class CacheManager {
     }
 
     public Set<String> getScanKeySet(String pattern) {
-        LOG.debug("Scan all Redis key sets, pattern is {}", pattern);
+        log.debug("Scan all Redis key sets, pattern is {}", pattern);
         Set<String> result = null;
         try {
             RedisCallback<Set<String>> callback = (connection) -> {
@@ -151,9 +151,9 @@ public final class CacheManager {
             };
             result = redisTemplate.execute(callback);
         } catch (Exception e) {
-            LOG.error("Scan all Redis error", e);
+            log.error("Scan all Redis error", e);
         }
-        LOG.debug("Scan all Redis key sets complete");
+        log.debug("Scan all Redis key sets complete");
         return result;
     }
 
@@ -168,9 +168,9 @@ public final class CacheManager {
             String result = redisTemplate.execute(callback);
             flag = Optional.ofNullable(result).orElse(StringUtils.EMPTY).equalsIgnoreCase("OK");
         } catch (Exception e) {
-            LOG.error("Setting Redis lock error", e);
+            log.error("Setting Redis lock error", e);
         }
-        LOG.debug("Setting Redis lock, Key {} State {}", key, flag);
+        log.debug("Setting Redis lock, Key {} State {}", key, flag);
         return flag;
     }
 
@@ -197,9 +197,9 @@ public final class CacheManager {
             };
             flag = redisTemplate.execute(callback) > 0;
         } catch (Exception e) {
-            LOG.error("Releasing Redis lock error", e);
+            log.error("Releasing Redis lock error", e);
         }
-        LOG.debug("Releasing Redis lock, Key {} State {}", key, flag);
+        log.debug("Releasing Redis lock, Key {} State {}", key, flag);
         return flag;
     }
 
