@@ -28,8 +28,3 @@ app:
       - http://localhost:9527
       - http://127.0.0.1:9527
       - http://127.0.0.1:18082
-  external:
-    config:
-      location: /Users/william/Downloads
-    env:
-      location: /Users/william/Downloads

@@ -21,7 +21,7 @@ public class Constant {
 	/** 数据目录 */
 	public static final String DATA_PATH = "data";
 	/** 日志目录 */
-	public static final String LOG_PATH = "logs";
+	public static final String LOG_PATH = "log";
 	/** 资源目录 */
 	public static final String RESOURCE_PATH = StringUtils.join(DATA_PATH, File.separatorChar, "resources");
 	/** 默认时区 GMT+8 */
@@ -51,8 +51,10 @@ public class Constant {
 	/** Default JMX port */
 	public static final String DEFAULT_JMX_PORT = "6666";
 	/** app server name */
-	public static final String QIKE_CLUB_NAME = "Honeybee";
+	public static final String SERVER_NAME = "Honeybee";
+	/** Authorization header name */
+	public static final String AUTHORIZATION = "Authorization";
 	/** database sort field list */
-	public static final List<String> SORTS =Lists.newArrayList("id","status","updatetime","createtime");
+	public static final List<String> SORTS = Lists.newArrayList("id","status","updatetime","createtime");
 
 }

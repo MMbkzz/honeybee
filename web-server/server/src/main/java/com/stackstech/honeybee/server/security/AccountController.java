@@ -9,9 +9,14 @@ import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -23,11 +28,12 @@ import java.util.Optional;
  *
  * @author william
  */
+@Api(produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
+@ApiResponses(@ApiResponse(code = 404, message = "data not found", response = ResponseMap.class))
 @RestController
-@RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT)
+@RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccountController {
-
-    private final Logger log = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private DataService<AccountEntity> accountService;

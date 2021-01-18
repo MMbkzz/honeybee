@@ -8,9 +8,10 @@ import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -22,21 +23,24 @@ import java.util.Optional;
  *
  * @author william
  */
+@Api(produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
+@ApiResponses(@ApiResponse(code = 404, message = "data not found", response = ResponseMap.class))
 @RestController
-@RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT)
+@RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataServiceController {
-
-    private final Logger log = LoggerFactory.getLogger(DataServiceController.class);
 
     @Autowired
     private DataService<DataServiceEntity> service;
 
+    @ApiOperation(value = "get data service")
     @RequestMapping(value = "/data/service/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> get(@PathVariable("id") long id) {
         log.debug("get data service information.");
         return ResponseMap.success(service.getSingle(id));
     }
 
+    @ApiOperation(value = "delete data service")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/service/delete/{id}", method = RequestMethod.DELETE)
     public ResponseMap<?> delete(@PathVariable("id") long id) {
@@ -44,6 +48,7 @@ public class DataServiceController {
         return ResponseMap.success(service.delete(id));
     }
 
+    @ApiOperation(value = "update data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@RequestBody DataServiceEntity entity) {
@@ -56,6 +61,7 @@ public class DataServiceController {
         return ResponseMap.success(true);
     }
 
+    @ApiOperation(value = "add data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@RequestBody DataServiceEntity entity) {
@@ -71,8 +77,9 @@ public class DataServiceController {
         return ResponseMap.success(entity);
     }
 
+    @ApiOperation(value = "query data service")
     @RequestMapping(value = "/data/service/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> query(@ApiParam() @RequestBody RequestParameter parameters) {
         List<DataServiceEntity> data = service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(parameters.getParameter());

@@ -2,6 +2,9 @@ package com.stackstech.honeybee.server.core.entity;
 
 
 import com.stackstech.honeybee.server.core.enums.Constant;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -12,7 +15,14 @@ import java.util.Optional;
  *
  * @author William
  */
+@Data
+@ApiModel(description = "Request query parameter")
 public class RequestParameter extends RequestParameterMap<String, Object> {
+
+    @ApiModelProperty(name = "pageStart", value = "pageStart", required = true, example = "0")
+    private int pageStart;
+    @ApiModelProperty(name = "pageSize", value = "pageSize", required = true, example = "10")
+    private int pageSize = 10;
 
     public static final String PAGE_START = "pageStart";
     public static final String PAGE_SIZE = "pageSize";
