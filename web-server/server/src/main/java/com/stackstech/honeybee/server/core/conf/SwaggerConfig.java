@@ -3,41 +3,47 @@ package com.stackstech.honeybee.server.core.conf;
 import com.google.common.collect.Lists;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpMethod;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.Response;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
 @Configuration
-@EnableSwagger2
+@EnableOpenApi
 public class SwaggerConfig {
+
+    @Value("${swagger.enable}")
+    private boolean enable;
 
     @Bean
     public Docket createRestApi() {
-        List<ResponseMessage> responseMessageList = Lists.newArrayList();
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.SUCCESS.getHttpCode()).message(StatusCode.SUCCESS.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.NOT_FOUND.getHttpCode()).message(StatusCode.NOT_FOUND.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.UNAUTHORIZED.getHttpCode()).message(StatusCode.UNAUTHORIZED.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.INTERNAL_ERROR.getHttpCode()).message(StatusCode.INTERNAL_ERROR.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.FORBIDDEN.getHttpCode()).message(StatusCode.FORBIDDEN.getMessage()).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(StatusCode.BAD_REQUEST.getHttpCode()).message(StatusCode.BAD_REQUEST.getMessage()).build());
+        List<Response> responseMessageList = Lists.newArrayList();
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.SUCCESS.getHttpCode())).description(StatusCode.SUCCESS.getMessage()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.NOT_FOUND.getHttpCode())).description(StatusCode.NOT_FOUND.getMessage()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.UNAUTHORIZED.getHttpCode())).description(StatusCode.UNAUTHORIZED.getMessage()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.INTERNAL_ERROR.getHttpCode())).description(StatusCode.INTERNAL_ERROR.getMessage()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.FORBIDDEN.getHttpCode())).description(StatusCode.FORBIDDEN.getMessage()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.BAD_REQUEST.getHttpCode())).description(StatusCode.BAD_REQUEST.getMessage()).build());
 
-        return new Docket(DocumentationType.SWAGGER_2)
-                .globalResponseMessage(RequestMethod.GET, responseMessageList)
-                .globalResponseMessage(RequestMethod.POST, responseMessageList)
-                .globalResponseMessage(RequestMethod.PUT, responseMessageList)
-                .globalResponseMessage(RequestMethod.DELETE, responseMessageList)
+        return new Docket(DocumentationType.OAS_30)
+                .globalResponses(HttpMethod.GET, responseMessageList)
+                .globalResponses(HttpMethod.POST, responseMessageList)
+                .globalResponses(HttpMethod.PUT, responseMessageList)
+                .globalResponses(HttpMethod.DELETE, responseMessageList)
+                .groupName(Constant.SERVER_NAME)
+                .enable(enable)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors

@@ -13,11 +13,9 @@ import java.util.Map;
  *
  * @author william
  */
-@ApiModel(description = "Request query parameter")
 public class RequestParameterMap<K, V> extends ForwardingMap<K, V> implements Serializable {
 
     private Map<K, V> parameter = null;
-
 
     public RequestParameterMap() {
         this(Maps.newHashMap());

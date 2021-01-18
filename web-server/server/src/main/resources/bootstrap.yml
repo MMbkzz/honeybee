@@ -22,3 +22,6 @@ management:
 
 logging:
   config: classpath:logback-spring.xml
+
+swagger:
+  enable: true

@@ -15,13 +15,7 @@ import java.util.Optional;
  *
  * @author William
  */
-
 public class RequestParameter extends RequestParameterMap<String, Object> {
-
-//    @ApiModelProperty(name = "pageStart", value = "pageStart", required = true, example = "0")
-//    private int pageStart;
-//    @ApiModelProperty(name = "pageSize", value = "pageSize", required = true, example = "10")
-//    private int pageSize = 10;
 
     public static final String PAGE_START = "pageStart";
     public static final String PAGE_SIZE = "pageSize";
@@ -107,5 +101,10 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
         p.put(KEYWORDS, getKeywords());
         p.put(STATUS, getStatus());
         return p;
+    }
+
+    @Override
+    public String toString() {
+        return getParameter().toString();
     }
 }
