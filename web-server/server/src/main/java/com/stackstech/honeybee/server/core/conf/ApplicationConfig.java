@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Data
 @ConfigurationProperties(prefix = "app.config")
-@Component
 public class ApplicationConfig {
 
     private String upload;

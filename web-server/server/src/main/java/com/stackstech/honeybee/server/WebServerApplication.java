@@ -1,7 +1,5 @@
 package com.stackstech.honeybee.server;
 
-import com.stackstech.honeybee.server.core.conf.ApplicationConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -19,10 +17,8 @@ import org.springframework.context.annotation.ImportResource;
 @EnableDiscoveryClient
 public class WebServerApplication {
 
-    @Autowired
-    private ApplicationConfig applicationConfig;
-
     public static void main(String[] args) {
         SpringApplication.run(WebServerApplication.class, args);
     }
+
 }

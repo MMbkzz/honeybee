@@ -7,12 +7,11 @@ import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.core.utils.CommonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,9 +28,9 @@ import java.util.Optional;
  */
 @Aspect
 @Component
+@Slf4j
 public final class AuditOperationHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AuditOperationHandler.class);
 
     @Autowired
     private DataService<AuditLogEntity> service;
@@ -78,18 +77,18 @@ public final class AuditOperationHandler {
                 builder.append("ERROR: ").append(finalStacktrace).append("\n");
             });
 
-            AuditLogEntity log = new AuditLogEntity();
-            log.setLogTitle(operation.getDesc());
-            log.setLogType(operation.getName());
-            log.setLogAudit(type.getName());
-            log.setLogContent(builder.toString());
-            log.setOwner(1L);
-            log.setStatus(EntityStatusType.ENABLE.getStatus());
-            log.setCreatetime(new Date());
-            log.setUpdatetime(new Date());
-            log.setDesc(desc);
-            service.add(log);
-            LOG.debug("Recording user operation {}", log.toString());
+            AuditLogEntity auditLog = new AuditLogEntity();
+            auditLog.setLogTitle(operation.getDesc());
+            auditLog.setLogType(operation.getName());
+            auditLog.setLogAudit(type.getName());
+            auditLog.setLogContent(builder.toString());
+            auditLog.setOwner(1L);
+            auditLog.setStatus(EntityStatusType.ENABLE.getStatus());
+            auditLog.setCreatetime(new Date());
+            auditLog.setUpdatetime(new Date());
+            auditLog.setDesc(desc);
+            service.add(auditLog);
+            log.debug("Recording user operation {}", log.toString());
         }
         return result;
     }

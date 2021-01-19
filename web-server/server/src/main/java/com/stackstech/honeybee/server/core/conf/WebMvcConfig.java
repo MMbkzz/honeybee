@@ -1,20 +1,34 @@
 package com.stackstech.honeybee.server.core.conf;
 
+import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.inteceptor.AuthenticationInterceptor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-@Configuration
-@Component
 @Data
+@Component
 @ConfigurationProperties(prefix = "app.cors")
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     private String[] urls;
+
+    @Autowired
+    private AuthenticationInterceptor authenticationInterceptor;
+
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authenticationInterceptor)
+                .addPathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/**")
+                .excludePathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/security/login");
+
+        super.addInterceptors(registry);
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

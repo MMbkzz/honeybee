@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Data
 @ConfigurationProperties(prefix = "app.datasource.db")
-@Component
 public class DatabaseConfig {
 
     private String jdbcUrl;

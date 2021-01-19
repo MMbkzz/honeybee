@@ -10,6 +10,10 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountEntity {
 
+    public static final String ACCOUNT_ID = "id";
+    public static final String ACCOUNT_NAME = "account";
+    public static final String ACCOUNT_PWD = "password";
+
     private Long id;
 
     private String accountName;
@@ -36,5 +40,5 @@ public class AccountEntity {
     private Date createtime;
 
     private String desc;
-    
+
 }

@@ -20,6 +20,11 @@ app:
       port: 6379
       database: 0
       password:
+      maxIdle: 5
+      minIdle: 5
+      maxActive: 100
+      maxWait: 10
+      timeout: 2000
   config:
     upload: /Users/william/development/test-spaces/
     api: http://127.0.0.1:18083/api
@@ -28,3 +33,8 @@ app:
       - http://localhost:9527
       - http://127.0.0.1:9527
       - http://127.0.0.1:18082
+  security:
+    token:
+      issuer: honeybee
+      secret: honeybee@2020
+      expires: 1000000

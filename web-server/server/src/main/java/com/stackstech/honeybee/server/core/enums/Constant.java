@@ -52,8 +52,6 @@ public class Constant {
 	public static final String DEFAULT_JMX_PORT = "6666";
 	/** app server name */
 	public static final String SERVER_NAME = "Honeybee";
-	/** Authorization header name */
-	public static final String AUTHORIZATION = "Authorization";
 	/** database sort field list */
 	public static final List<String> SORTS = Lists.newArrayList("id","status","updatetime","createtime");
 

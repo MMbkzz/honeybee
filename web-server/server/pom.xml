@@ -293,11 +293,22 @@
             <version>${jedis.version}</version>
         </dependency>
 
-        <!-- 分页工具 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
             <version>${pagehelper.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson</groupId>
+                    <artifactId>jackson-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
