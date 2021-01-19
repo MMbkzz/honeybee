@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.cache;
+package com.stackstech.honeybee.server.core.utils;
 
 
 import com.google.common.base.Joiner;
@@ -7,23 +7,21 @@ import com.stackstech.honeybee.server.core.enums.CacheKey;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.util.SafeEncoder;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Redis缓存管理
@@ -33,109 +31,103 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  */
 @Slf4j
-public final class CacheManager {
+@Component
+public final class CacheUtil {
 
     private static final String LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
 
     public static Joiner joiner = Joiner.on(Constant.SEPARATOR).skipNulls();
 
-    private RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
-    public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
-    public RedisTemplate<String, String> getRedisTemplate() {
-        return redisTemplate;
-    }
-
-    protected void set(String key, String value) {
-        redisTemplate.opsForValue().set(key, value);
-    }
-
-    protected void set(String key, String value, long timeout, TimeUnit unit) {
-        redisTemplate.opsForValue().set(key, value, timeout, unit);
-    }
-
-    protected String get(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-
-    protected void delete(String key) {
-        redisTemplate.delete(key);
-    }
-
-    protected void delete(String... keys) {
-        redisTemplate.delete(Sets.newHashSet(keys));
-    }
-
-    protected void delete(Collection<String> keys) {
-        redisTemplate.delete(keys);
-    }
-
-    protected boolean hasKey(String key) {
-        return redisTemplate.hasKey(key);
-    }
-
-    protected boolean expire(String key, long timeout, TimeUnit unit) {
-        return redisTemplate.expire(key, timeout, unit);
-    }
-
-    protected void hmset(String key, Map<String, Object> hash) {
-        redisTemplate.opsForHash().putAll(key, hash);
-    }
-
-    protected void hset(String key, String hashKey, Object hashValue) {
-        redisTemplate.opsForHash().put(key, hashKey, hashValue);
-    }
-
-    protected Object hget(String key, String hashKey) {
-        return redisTemplate.opsForHash().get(key, hashKey);
-    }
-
-    protected Set<Object> hgetall(String key) {
-        return redisTemplate.opsForHash().keys(key);
-    }
-
-    protected Long hdel(String key, Object... hashKeys) {
-        return redisTemplate.opsForHash().delete(key, hashKeys);
-    }
-
-    protected Long sadd(String key, String... value) {
-        return redisTemplate.opsForSet().add(key, value);
-    }
-
-    protected boolean sismember(String key, String value) {
-        return redisTemplate.opsForSet().isMember(key, value);
-    }
-
-    protected Long srem(String key, Object... values) {
-        return redisTemplate.opsForSet().remove(key, values);
-    }
-
-    protected Set<String> smembers(String key) {
-        return redisTemplate.opsForSet().members(key);
-    }
-
-    protected Long pfadd(String key, String... values) {
-        return redisTemplate.opsForHyperLogLog().add(key, values);
-    }
-
-    protected Long pfcount(String... keys) {
-        return redisTemplate.opsForHyperLogLog().size(keys);
-    }
-
-    public Long addValueToQueue(String key, String value) {
-        return redisTemplate.opsForList().leftPush(key, value);
-    }
-
-    public String getQueuePop(String key) {
-        return redisTemplate.opsForList().rightPop(key);
-    }
-
-    public Long getQueueSize(String key) {
-        return redisTemplate.opsForList().size(key);
-    }
+//    protected void set(String key, String value) {
+//        redisTemplate.opsForValue().set(key, value);
+//    }
+//
+//    protected void set(String key, String value, long timeout, TimeUnit unit) {
+//        redisTemplate.opsForValue().set(key, value, timeout, unit);
+//    }
+//
+//    protected String get(String key) {
+//        return redisTemplate.opsForValue().get(key);
+//    }
+//
+//    protected void delete(String key) {
+//        redisTemplate.delete(key);
+//    }
+//
+//    protected void delete(String... keys) {
+//        redisTemplate.delete(Sets.newHashSet(keys));
+//    }
+//
+//    protected void delete(Collection<String> keys) {
+//        redisTemplate.delete(keys);
+//    }
+//
+//    protected boolean hasKey(String key) {
+//        return redisTemplate.hasKey(key);
+//    }
+//
+//    protected boolean expire(String key, long timeout, TimeUnit unit) {
+//        return redisTemplate.expire(key, timeout, unit);
+//    }
+//
+//    protected void hmset(String key, Map<String, Object> hash) {
+//        redisTemplate.opsForHash().putAll(key, hash);
+//    }
+//
+//    protected void hset(String key, String hashKey, Object hashValue) {
+//        redisTemplate.opsForHash().put(key, hashKey, hashValue);
+//    }
+//
+//    protected Object hget(String key, String hashKey) {
+//        return redisTemplate.opsForHash().get(key, hashKey);
+//    }
+//
+//    protected Set<Object> hgetall(String key) {
+//        return redisTemplate.opsForHash().keys(key);
+//    }
+//
+//    protected Long hdel(String key, Object... hashKeys) {
+//        return redisTemplate.opsForHash().delete(key, hashKeys);
+//    }
+//
+//    protected Long sadd(String key, String... value) {
+//        return redisTemplate.opsForSet().add(key, value);
+//    }
+//
+//    protected boolean sismember(String key, String value) {
+//        return redisTemplate.opsForSet().isMember(key, value);
+//    }
+//
+//    protected Long srem(String key, Object... values) {
+//        return redisTemplate.opsForSet().remove(key, values);
+//    }
+//
+//    protected Set<String> smembers(String key) {
+//        return redisTemplate.opsForSet().members(key);
+//    }
+//
+//    protected Long pfadd(String key, String... values) {
+//        return redisTemplate.opsForHyperLogLog().add(key, values);
+//    }
+//
+//    protected Long pfcount(String... keys) {
+//        return redisTemplate.opsForHyperLogLog().size(keys);
+//    }
+//
+//    public Long addValueToQueue(String key, String value) {
+//        return redisTemplate.opsForList().leftPush(key, value);
+//    }
+//
+//    public String getQueuePop(String key) {
+//        return redisTemplate.opsForList().rightPop(key);
+//    }
+//
+//    public Long getQueueSize(String key) {
+//        return redisTemplate.opsForList().size(key);
+//    }
 
     public Set<String> getScanKeySet(String pattern) {
         log.debug("Scan all Redis key sets, pattern is {}", pattern);
@@ -201,6 +193,12 @@ public final class CacheManager {
         }
         log.debug("Releasing Redis lock, Key {} State {}", key, flag);
         return flag;
+    }
+
+
+    public void addSession(Map<String, Object> session, String accountId) {
+        String key = joiner.join(CacheKey.SESSION.toString(), accountId);
+        redisTemplate.opsForHash().putAll(key, session);
     }
 
 
