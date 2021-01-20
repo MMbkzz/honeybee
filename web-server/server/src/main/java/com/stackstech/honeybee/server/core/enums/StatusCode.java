@@ -28,7 +28,7 @@ public enum StatusCode {
     /**
      * Authorization Token无效
      */
-    UNAUTHORIZED(4001, 401, "User authorization Token invalid"),
+    UNAUTHORIZED(4001, 401, "User authorization token invalid"),
     /**
      * 服务接口内部异常
      */

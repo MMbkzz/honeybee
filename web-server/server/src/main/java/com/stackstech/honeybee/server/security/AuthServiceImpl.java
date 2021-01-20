@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.security;
 
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.mapper.AccountMapper;
 import com.stackstech.honeybee.server.core.utils.AuthTokenBuilder;
@@ -46,7 +47,6 @@ public class AuthServiceImpl implements AuthService {
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         authTokenBuilder.destroyToken(request.getHeader(HttpHeader.AUTHORIZATION));
         log.info("account logout success");
-
     }
 
     @Override
@@ -71,6 +71,20 @@ public class AuthServiceImpl implements AuthService {
 
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean verifyAccount(String token) {
+        AccountEntity account = authTokenBuilder.getAccount(token);
+        if (account != null) {
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("account", account.getAccountName());
+            map.put("password", account.getAccountPassword());
+
+            AccountEntity result = mapper.selectByAccountAndPassowrd(map);
+            return result != null && result.getStatus() == EntityStatusType.ENABLE.getStatus();
         }
         return false;
     }

@@ -73,6 +73,11 @@ public class AuthTokenBuilder {
         return UUID.randomUUID().toString().replace("-", StringUtils.EMPTY);
     }
 
+    protected void refreshResponseHeader(String token, HttpServletResponse response) {
+        response.addHeader(HttpHeader.AUTHORIZATION, token);
+        response.addHeader(HttpHeader.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeader.AUTHORIZATION);
+        response.addHeader(HttpHeader.CACHE_CONTROL, Constant.NO_STORE);
+    }
 
     public String generateToken(AccountEntity account) {
         Date nowTime = DateTime.now().toDate();
@@ -147,16 +152,19 @@ public class AuthTokenBuilder {
         }
     }
 
-    protected void refreshResponseHeader(String token, HttpServletResponse response) {
-        response.addHeader(HttpHeader.AUTHORIZATION, token);
-        response.addHeader(HttpHeader.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeader.AUTHORIZATION);
-        response.addHeader(HttpHeader.CACHE_CONTROL, Constant.NO_STORE);
-    }
-
-    @Deprecated
-    public String getClaimValue(String token, String key) {
-        DecodedJWT jwt = decodeToken(token);
-        return jwt.getClaim(key).asString();
+    public AccountEntity getAccount(String token) {
+        AccountEntity account = null;
+        try {
+            // decode token
+            DecodedJWT jwt = decodeToken(token);
+            account = new AccountEntity();
+            account.setId(jwt.getClaim(AccountEntity.ACCOUNT_ID).asLong());
+            account.setAccountName(jwt.getClaim(AccountEntity.ACCOUNT_NAME).asString());
+            account.setAccountPassword(jwt.getClaim(AccountEntity.ACCOUNT_PWD).asString());
+        } catch (Exception e) {
+            log.error("", e);
+        }
+        return account;
     }
 
 }

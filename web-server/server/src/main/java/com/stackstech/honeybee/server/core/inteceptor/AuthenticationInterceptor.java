@@ -1,11 +1,11 @@
 package com.stackstech.honeybee.server.core.inteceptor;
 
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
-import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
 import com.stackstech.honeybee.server.core.utils.AuthTokenBuilder;
+import com.stackstech.honeybee.server.security.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Autowired
     private AuthTokenBuilder authTokenBuilder;
+    @Autowired
+    private AuthService authService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         HandlerMethod handlerMethod = null;
         try {
             handlerMethod = (HandlerMethod) handler;
@@ -58,7 +59,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             response.getWriter().print(StatusCode.UNAUTHORIZED.getMessage());
             return false;
         }
-        //TODO verify the account
+        if (!authService.verifyAccount(token)) {
+            response.setStatus(StatusCode.UNAUTHORIZED.getHttpCode());
+            response.getWriter().print(StatusCode.UNAUTHORIZED.getMessage());
+            return false;
+        }
         if (status == TokenStatus.EXPIRES) {
             log.debug("The authentication token expires, Reissue the authentication token to the client");
             authTokenBuilder.refreshAuthToken(token, response);
