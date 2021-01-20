@@ -34,8 +34,8 @@ public class AuthTokenBuilder {
     @Value("${app.security.token.secret:honeybee}")
     private String secret;
 
-    //@Value("${app.security.token.expires:180}")
-    private final int expires = 10;
+    @Value("${app.security.token.expires:180}")
+    private int expires;
 
     @Autowired
     private CacheUtil cacheUtil;
