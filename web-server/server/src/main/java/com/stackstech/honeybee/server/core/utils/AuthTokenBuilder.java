@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.core.utils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -52,7 +53,7 @@ public class AuthTokenBuilder {
         return algorithm;
     }
 
-    private DecodedJWT decodeToken(String token) {
+    private DecodedJWT decodeToken(String token) throws JWTDecodeException {
         if (StringUtils.startsWith(token, Constant.TOKEN_PREFIX)) {
             token = StringUtils.substring(token, Constant.TOKEN_PREFIX.length()).trim();
         }
@@ -107,15 +108,15 @@ public class AuthTokenBuilder {
             log.debug("", e1);
             return TokenStatus.INVALID;
         } catch (Exception e2) {
-            log.debug("", e2);
+            log.error("", e2);
             return TokenStatus.INVALID;
         }
         return TokenStatus.VALID;
     }
 
     public void destroyToken(String token) {
-        DecodedJWT jwt = decodeToken(token);
         try {
+            DecodedJWT jwt = decodeToken(token);
             // record token id to blacklist
             cacheUtil.addBlacklist(jwt.getId());
         } catch (Exception e) {
@@ -124,14 +125,18 @@ public class AuthTokenBuilder {
     }
 
     public void refreshAuthToken(String currentToken, HttpServletResponse response) {
-        // decode current token
-        DecodedJWT jwt = decodeToken(currentToken);
-        AccountEntity account = new AccountEntity();
-        account.setId(jwt.getClaim(AccountEntity.ACCOUNT_ID).asLong());
-        account.setAccountName(jwt.getClaim(AccountEntity.ACCOUNT_NAME).asString());
-        account.setAccountPassword(jwt.getClaim(AccountEntity.ACCOUNT_PWD).asString());
-        // generate new token
-        this.refreshAuthToken(currentToken, account, response);
+        try {
+            // decode current token
+            DecodedJWT jwt = decodeToken(currentToken);
+            AccountEntity account = new AccountEntity();
+            account.setId(jwt.getClaim(AccountEntity.ACCOUNT_ID).asLong());
+            account.setAccountName(jwt.getClaim(AccountEntity.ACCOUNT_NAME).asString());
+            account.setAccountPassword(jwt.getClaim(AccountEntity.ACCOUNT_PWD).asString());
+            // generate new token
+            this.refreshAuthToken(currentToken, account, response);
+        } catch (Exception e) {
+            log.error("", e);
+        }
     }
 
     public void refreshAuthToken(String currentToken, AccountEntity account, HttpServletResponse response) {
