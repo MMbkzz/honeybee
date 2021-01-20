@@ -25,11 +25,11 @@ import java.util.List;
 @EnableOpenApi
 public class SwaggerConfig {
 
-    @Value("${swagger.enable}")
+    @Value("${swagger.enable:false}")
     private boolean enable;
 
     @Bean
-    public Docket createRestApi() {
+    public Docket createSwaggerDocket() {
         List<Response> responseMessageList = Lists.newArrayList();
         responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.SUCCESS.getHttpCode())).description(StatusCode.SUCCESS.getMessage()).build());
         responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.NOT_FOUND.getHttpCode())).description(StatusCode.NOT_FOUND.getMessage()).build());
@@ -47,8 +47,7 @@ public class SwaggerConfig {
                 .enable(enable)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors
-                        .basePackage("com.stackstech.honeybee.server"))
+                .apis(RequestHandlerSelectors.basePackage("com.stackstech.honeybee.server"))
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Collections.singletonList(HttpAuthenticationScheme.JWT_BEARER_BUILDER.name("JWT").build()))
@@ -66,10 +65,6 @@ public class SwaggerConfig {
                 .title("Honeybee server")
                 .description("Honeybee server api")
                 .version("1.0").build();
-    }
-
-    private ApiKey apiKey() {
-        return new ApiKey(HttpHeader.AUTHORIZATION, HttpHeader.AUTHORIZATION, "header");
     }
 
 }

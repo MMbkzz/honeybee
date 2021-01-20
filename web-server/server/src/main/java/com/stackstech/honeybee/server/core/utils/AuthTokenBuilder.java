@@ -11,9 +11,9 @@ import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * @author william
+ */
 @Slf4j
 @Component
 public class AuthTokenBuilder {
@@ -31,17 +34,16 @@ public class AuthTokenBuilder {
     @Value("${app.security.token.secret:honeybee}")
     private String secret;
 
-    //@Value("${app.security.token.expires:180000}")
+    //@Value("${app.security.token.expires:180}")
     private final int expires = 10;
+
+    @Autowired
+    private CacheUtil cacheUtil;
 
     /**
      * JWT algorithm
      */
     private Algorithm algorithm;
-    /**
-     * disturb factor
-     */
-    private static final int DISTURB_FACTOR = 18;
 
     private Algorithm getAlgorithm() {
         if (algorithm == null) {
@@ -54,13 +56,6 @@ public class AuthTokenBuilder {
         return JWT.require(getAlgorithm()).withIssuer(issuer).build();
     }
 
-    private String distraction(String token, boolean disturb) {
-        if (disturb) {
-            return StringUtils.join(token, RandomStringUtils.randomAlphanumeric(DISTURB_FACTOR));
-        } else {
-            return StringUtils.substring(token, 0, token.length() - DISTURB_FACTOR);
-        }
-    }
 
     public String generateTokenId() {
         return UUID.randomUUID().toString().replace("-", StringUtils.EMPTY);
@@ -70,9 +65,10 @@ public class AuthTokenBuilder {
     public String generateToken(AccountEntity account) {
         Date nowTime = DateTime.now().toDate();
         Date expiresTime = DateTime.now().plusSeconds(expires).toDate();
+        String tokenId = generateTokenId();
         // create new authentication token
         String token = JWT.create()
-                .withJWTId(generateTokenId())
+                .withJWTId(tokenId)
                 .withClaim(AccountEntity.ACCOUNT_ID, account.getId())
                 .withClaim(AccountEntity.ACCOUNT_NAME, account.getAccountName())
                 .withClaim(AccountEntity.ACCOUNT_PWD, account.getAccountPassword())
@@ -80,19 +76,19 @@ public class AuthTokenBuilder {
                 .withIssuedAt(nowTime)
                 .withExpiresAt(expiresTime)
                 .sign(getAlgorithm());
-        // distraction token
-        String distraction = distraction(token, true);
         // encode token
-        String newToken = CommonUtil.encodeBase64(distraction);
-        log.debug("Issue new authentication token {}, create at {}, expires at {}.", newToken, nowTime, expiresTime);
+        String newToken = CommonUtil.encodeBase64(token);
+        log.info("Issue new authentication token {}, create at {}, expires at {}.", newToken, nowTime, expiresTime);
         return newToken;
     }
 
     public TokenStatus verifyToken(String token) {
         try {
             String src = CommonUtil.decodeBase64(token);
-            String real = distraction(src, false);
-            jwtVerifier().verify(real);
+            if (cacheUtil.hasBlacklist(JWT.decode(src).getId())) {
+                return TokenStatus.INVALID;
+            }
+            jwtVerifier().verify(src);
         } catch (TokenExpiredException e) {
             log.debug("", e);
             return TokenStatus.EXPIRES;
@@ -119,6 +115,12 @@ public class AuthTokenBuilder {
         response.addHeader(HttpHeader.AUTHORIZATION, token);
         response.addHeader(HttpHeader.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeader.AUTHORIZATION);
         response.addHeader(HttpHeader.CACHE_CONTROL, Constant.NO_STORE);
+        try {
+            // record token id to blacklist
+            cacheUtil.addBlacklist(decodedJWT.getId());
+        } catch (Exception e) {
+            log.error("", e);
+        }
     }
 
     public String getClaimValue(String token, String key) {

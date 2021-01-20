@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.core.enums.CacheKey;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
@@ -19,7 +20,6 @@ import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.util.SafeEncoder;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -195,11 +195,16 @@ public final class CacheUtil {
         return flag;
     }
 
-
-    public void addSession(Map<String, Object> session, String accountId) {
-        String key = joiner.join(CacheKey.SESSION.toString(), accountId);
-        redisTemplate.opsForHash().putAll(key, session);
+    public long addBlacklist(String tokenId) {
+        Long length = redisTemplate.opsForSet().add("TOKEN_BLACKLIST", tokenId);
+        if (redisTemplate.getExpire("TOKEN_BLACKLIST") == -1) {
+            redisTemplate.expireAt("TOKEN_BLACKLIST", DateTime.now().plusDays(1).toDate());
+        }
+        return length;
     }
 
+    public boolean hasBlacklist(String tokenId) {
+        return redisTemplate.opsForSet().isMember("TOKEN_BLACKLIST", tokenId);
+    }
 
 }

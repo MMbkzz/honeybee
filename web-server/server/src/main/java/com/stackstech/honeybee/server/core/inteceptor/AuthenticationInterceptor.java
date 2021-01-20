@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
+/**
+ * @author william
+ */
 @Slf4j
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {

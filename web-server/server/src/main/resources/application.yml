@@ -36,5 +36,5 @@ app:
   security:
     token:
       issuer: honeybee
-      secret: honeybee@2020
-      expires: 1000000
+      secret: honeybee
+      expires: 180
