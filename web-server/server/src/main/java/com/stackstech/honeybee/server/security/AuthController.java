@@ -1,15 +1,11 @@
 package com.stackstech.honeybee.server.security;
 
-import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
-import com.stackstech.honeybee.server.core.enums.*;
-import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.server.core.utils.AuthTokenBuilder;
-import com.stackstech.honeybee.server.core.utils.CacheUtil;
-import com.stackstech.honeybee.server.core.utils.CommonUtil;
+import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * authentication service controller
@@ -38,11 +31,7 @@ import java.util.Optional;
 public class AuthController {
 
     @Autowired
-    private DataService<AccountEntity> accountService;
-    @Autowired
-    private AuthTokenBuilder authTokenBuilder;
-    @Autowired
-    private CacheUtil cacheUtil;
+    private AuthService authService;
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -53,21 +42,10 @@ public class AuthController {
     @RequestMapping(value = "/security/login", method = RequestMethod.POST)
     public ResponseMap<?> login(@RequestBody RequestParameter parameters) {
         ResponseMap responseMap = ResponseMap.failed("login failed, please check your account and password");
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("account", Optional.ofNullable(parameters.get("account")).orElse("default"));
-        map.put("password", Optional.ofNullable(parameters.get("password")).orElse("default"));
 
-        if (accountService.getTotalCount(map) == 1) {
-            AccountEntity entity = accountService.get(map).get(0);
-            // generate auth token
-            String ip = CommonUtil.getRequestIpAddr(request);
-            String token = authTokenBuilder.generateToken(entity);
-            log.info("account login success, account id {}, login at {}", entity.getId(), ip);
-
-            // setting response headers
-            response.addHeader(HttpHeader.AUTHORIZATION, token);
-            response.addHeader(HttpHeader.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeader.AUTHORIZATION);
-            response.addHeader(HttpHeader.CACHE_CONTROL, Constant.NO_STORE);
+        AccountEntity entity = authService.login(request, response,
+                parameters.getString("account"), parameters.getString("password"));
+        if (entity != null) {
             responseMap = ResponseMap.success(entity);
         }
         return responseMap;
@@ -76,17 +54,24 @@ public class AuthController {
     @ApiOperation(value = "account logout")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.LOGOUT)
     @RequestMapping(value = "/security/logout", method = RequestMethod.GET)
-    public ResponseMap<?> logout(@RequestBody RequestParameter parameters) {
-        //TODO WJ
-        return null;
+    public ResponseMap<?> logout() {
+        authService.logout(request, response);
+        return ResponseMap.success("logout success");
     }
 
     @ApiOperation(value = "reset account password")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/resetpwd", method = RequestMethod.POST)
     public ResponseMap<?> resetPassword(@RequestBody RequestParameter parameters) {
-        //TODO WJ
-        return null;
+
+        boolean flag = authService.resetPassword(request, response,
+                parameters.getString("account"),
+                parameters.getString("oldPssword"),
+                parameters.getString("newPassword"));
+        if (flag) {
+            return ResponseMap.success("rest password success");
+        }
+        return ResponseMap.failed("rest password failed");
     }
 
 }

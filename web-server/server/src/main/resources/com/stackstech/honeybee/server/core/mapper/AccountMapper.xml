@@ -22,13 +22,15 @@
     `desc`
   </sql>
 
+  <select id="selectByAccountAndPassowrd" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List" /> from hb_account
+    where `status` != -1 and `account_name` = #{account} and `account_password` = #{password}
+  </select>
+
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
     <include refid="Base_Column_List" />
     from hb_account where `status` != -1
-    <if test="account != null and password != null">
-      and `account_name` = #{account} and `account_password` = #{password} and `status` = 0
-    </if>
     <if test="status != null">
       and `status` = #{status}
     </if>
@@ -48,9 +50,6 @@
 
   <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
     select count(1) from hb_account where `status` != -1
-    <if test="account != null and password != null">
-      and `account_name` = #{account} and `account_password` = #{password} and `status` = 0
-    </if>
     <if test="status != null">
       and `status` = #{status}
     </if>

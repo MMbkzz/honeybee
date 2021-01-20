@@ -52,12 +52,23 @@ public class AuthTokenBuilder {
         return algorithm;
     }
 
-    private JWTVerifier jwtVerifier() {
+    private DecodedJWT decodeToken(String token) {
+        if (StringUtils.startsWith(token, Constant.TOKEN_PREFIX)) {
+            token = StringUtils.substring(token, Constant.TOKEN_PREFIX.length()).trim();
+        }
+        String src = CommonUtil.decodeBase64(token);
+        return JWT.decode(src);
+    }
+
+    private String encodeToken(String token) {
+        return CommonUtil.encodeBase64(token);
+    }
+
+    protected JWTVerifier jwtVerifier() {
         return JWT.require(getAlgorithm()).withIssuer(issuer).build();
     }
 
-
-    public String generateTokenId() {
+    protected String generateTokenId() {
         return UUID.randomUUID().toString().replace("-", StringUtils.EMPTY);
     }
 
@@ -77,18 +88,18 @@ public class AuthTokenBuilder {
                 .withExpiresAt(expiresTime)
                 .sign(getAlgorithm());
         // encode token
-        String newToken = CommonUtil.encodeBase64(token);
+        String newToken = encodeToken(token);
         log.info("Issue new authentication token {}, create at {}, expires at {}.", newToken, nowTime, expiresTime);
         return newToken;
     }
 
     public TokenStatus verifyToken(String token) {
         try {
-            String src = CommonUtil.decodeBase64(token);
-            if (cacheUtil.hasBlacklist(JWT.decode(src).getId())) {
+            DecodedJWT jwt = decodeToken(token);
+            if (cacheUtil.hasBlacklist(jwt.getId())) {
                 return TokenStatus.INVALID;
             }
-            jwtVerifier().verify(src);
+            jwtVerifier().verify(jwt);
         } catch (TokenExpiredException e) {
             log.debug("", e);
             return TokenStatus.EXPIRES;
@@ -102,30 +113,45 @@ public class AuthTokenBuilder {
         return TokenStatus.VALID;
     }
 
-    public void refreshAuthToken(String currentToken, HttpServletResponse response) {
-        // decode current token
-        String src = CommonUtil.decodeBase64(currentToken);
-        AccountEntity account = new AccountEntity();
-        DecodedJWT decodedJWT = JWT.decode(src);
-        account.setId(decodedJWT.getClaim(AccountEntity.ACCOUNT_ID).asLong());
-        account.setAccountName(decodedJWT.getClaim(AccountEntity.ACCOUNT_NAME).asString());
-        account.setAccountPassword(decodedJWT.getClaim(AccountEntity.ACCOUNT_PWD).asString());
-        // generate new token
-        String token = generateToken(account);
-        response.addHeader(HttpHeader.AUTHORIZATION, token);
-        response.addHeader(HttpHeader.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeader.AUTHORIZATION);
-        response.addHeader(HttpHeader.CACHE_CONTROL, Constant.NO_STORE);
+    public void destroyToken(String token) {
+        DecodedJWT jwt = decodeToken(token);
         try {
             // record token id to blacklist
-            cacheUtil.addBlacklist(decodedJWT.getId());
+            cacheUtil.addBlacklist(jwt.getId());
         } catch (Exception e) {
             log.error("", e);
         }
     }
 
+    public void refreshAuthToken(String currentToken, HttpServletResponse response) {
+        // decode current token
+        DecodedJWT jwt = decodeToken(currentToken);
+        AccountEntity account = new AccountEntity();
+        account.setId(jwt.getClaim(AccountEntity.ACCOUNT_ID).asLong());
+        account.setAccountName(jwt.getClaim(AccountEntity.ACCOUNT_NAME).asString());
+        account.setAccountPassword(jwt.getClaim(AccountEntity.ACCOUNT_PWD).asString());
+        // generate new token
+        this.refreshAuthToken(currentToken, account, response);
+    }
+
+    public void refreshAuthToken(String currentToken, AccountEntity account, HttpServletResponse response) {
+        String token = this.generateToken(account);
+        this.refreshResponseHeader(token, response);
+        if (StringUtils.isNotEmpty(currentToken)) {
+            this.destroyToken(currentToken);
+        }
+    }
+
+    protected void refreshResponseHeader(String token, HttpServletResponse response) {
+        response.addHeader(HttpHeader.AUTHORIZATION, token);
+        response.addHeader(HttpHeader.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeader.AUTHORIZATION);
+        response.addHeader(HttpHeader.CACHE_CONTROL, Constant.NO_STORE);
+    }
+
+    @Deprecated
     public String getClaimValue(String token, String key) {
-        String src = CommonUtil.decodeBase64(token);
-        return JWT.decode(src).getClaim(key).asString();
+        DecodedJWT jwt = decodeToken(token);
+        return jwt.getClaim(key).asString();
     }
 
 }

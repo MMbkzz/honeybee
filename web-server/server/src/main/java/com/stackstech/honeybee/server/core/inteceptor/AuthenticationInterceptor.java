@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.core.inteceptor;
 
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
+import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
@@ -50,10 +51,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             response.setStatus(StatusCode.UNAUTHORIZED.getHttpCode());
             response.getWriter().print(StatusCode.UNAUTHORIZED.getMessage());
             return false;
-        }
-        // just for debug
-        if (StringUtils.startsWith(token, "Bearer")) {
-            token = StringUtils.substring(token, "Bearer".length()).trim();
         }
         TokenStatus status = authTokenBuilder.verifyToken(token);
         if (status == TokenStatus.INVALID) {

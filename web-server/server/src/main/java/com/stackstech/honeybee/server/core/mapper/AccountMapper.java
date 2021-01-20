@@ -21,4 +21,6 @@ public interface AccountMapper {
     List<AccountEntity> selectByParameter(Map<String, Object> parameter);
 
     int selectTotalCount(Map<String, Object> parameter);
+
+    AccountEntity selectByAccountAndPassowrd(Map<String, Object> parameter);
 }
