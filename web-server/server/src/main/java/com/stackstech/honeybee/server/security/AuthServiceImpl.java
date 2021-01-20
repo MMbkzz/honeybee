@@ -36,7 +36,8 @@ public class AuthServiceImpl implements AuthService {
             String ip = CommonUtil.getRequestIpAddr(request);
             log.info("account login success, account id {}, login at {}", entity.getId(), ip);
             // generate auth token
-            authTokenBuilder.refreshAuthToken(null, entity, response);
+            String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
+            authTokenBuilder.refreshAuthToken(currentToken, entity, response);
         }
         return entity;
     }
@@ -64,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
             // update account password
             if (mapper.updateByPrimaryKeySelective(update) > 0) {
                 // reissue auth token
-                String currentToken = request.getHeader(HttpHeader.AUTHORIZATION);
+                String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
                 authTokenBuilder.refreshAuthToken(currentToken, update, response);
                 log.info("account rest password success, reissue the authentication token to the client");
 
