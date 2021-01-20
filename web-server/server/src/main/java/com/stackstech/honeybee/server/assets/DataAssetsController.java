@@ -1,22 +1,25 @@
 package com.stackstech.honeybee.server.assets;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
-import com.stackstech.honeybee.server.core.entity.*;
+import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
+import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
+import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
+import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.vo.AssetsModelQuery;
+import com.stackstech.honeybee.server.core.vo.PageQuery;
+import com.stackstech.honeybee.server.core.vo.AssetsCatalogQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +58,7 @@ public class DataAssetsController {
     @ApiOperation(value = "update data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateModel(@RequestBody AssetsModelEntity entity) {
+    public ResponseMap<?> updateModel(@Valid @RequestBody AssetsModelEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setUpdatetime(new Date());
         });
@@ -68,7 +71,7 @@ public class DataAssetsController {
     @ApiOperation(value = "add data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addModel(@RequestBody AssetsModelEntity entity) {
+    public ResponseMap<?> addModel(@Valid @RequestBody AssetsModelEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
             entity.setStatus(EntityStatusType.ENABLE.getStatus());
@@ -83,7 +86,7 @@ public class DataAssetsController {
 
     @ApiOperation(value = "query data assets model")
     @RequestMapping(value = "/data/assets/model/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryModel(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> queryModel(@Valid @RequestBody AssetsModelQuery parameters) {
         List<AssetsModelEntity> data = assetsModelService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsModelService.getTotalCount(parameters.getParameter());
@@ -109,7 +112,7 @@ public class DataAssetsController {
     @ApiOperation(value = "update data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/catalog/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateCatalog(@RequestBody AssetsCatalogEntity entity) {
+    public ResponseMap<?> updateCatalog(@Valid @RequestBody AssetsCatalogEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setUpdatetime(new Date());
         });
@@ -122,7 +125,7 @@ public class DataAssetsController {
     @ApiOperation(value = "add data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/catalog/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addCatalog(@RequestBody AssetsCatalogEntity entity) {
+    public ResponseMap<?> addCatalog(@Valid @RequestBody AssetsCatalogEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
             entity.setStatus(EntityStatusType.ENABLE.getStatus());
@@ -137,7 +140,7 @@ public class DataAssetsController {
 
     @ApiOperation(value = "query data assets catalog")
     @RequestMapping(value = "/data/assets/catalog/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryCatalog(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> queryCatalog(@Valid @RequestBody AssetsCatalogQuery parameters) {
         List<AssetsCatalogEntity> data = assetsCatalogService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsCatalogService.getTotalCount(parameters.getParameter());
@@ -163,7 +166,7 @@ public class DataAssetsController {
     @ApiOperation(value = "add recycler data")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/recycler/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addRecycler(@RequestBody DataRecyclerEntity entity) {
+    public ResponseMap<?> addRecycler(@Valid @RequestBody DataRecyclerEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
             entity.setStatus(EntityStatusType.ENABLE.getStatus());
@@ -178,7 +181,7 @@ public class DataAssetsController {
 
     @ApiOperation(value = "query recycler data")
     @RequestMapping(value = "/data/assets/recycler/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryRecycler(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> queryRecycler(@Valid @RequestBody PageQuery parameters) {
         List<DataRecyclerEntity> data = recyclerService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = recyclerService.getTotalCount(parameters.getParameter());

@@ -13,6 +13,7 @@ import java.util.Map;
  *
  * @author william
  */
+@Deprecated
 public class RequestParameterMap<K, V> extends ForwardingMap<K, V> implements Serializable {
 
     private Map<K, V> parameter = null;

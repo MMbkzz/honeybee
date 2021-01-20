@@ -2,7 +2,6 @@ package com.stackstech.honeybee.server.core.conf;
 
 import com.google.common.collect.Lists;
 import com.stackstech.honeybee.server.core.enums.Constant;
-import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

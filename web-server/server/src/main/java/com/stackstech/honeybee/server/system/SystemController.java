@@ -3,20 +3,24 @@ package com.stackstech.honeybee.server.system;
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
-import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.service.DataService;
-import io.swagger.annotations.*;
+import com.stackstech.honeybee.server.core.vo.DataSourceQuery;
+import com.stackstech.honeybee.server.core.vo.PageQuery;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +58,7 @@ public class SystemController {
     @ApiOperation(value = "update data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateDataSource(@RequestBody DataSourceEntity entity) {
+    public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setUpdatetime(new Date());
         });
@@ -67,7 +71,7 @@ public class SystemController {
     @ApiOperation(value = "add data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addDataSource(@RequestBody DataSourceEntity entity) {
+    public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
             entity.setStatus(EntityStatusType.ENABLE.getStatus());
@@ -82,7 +86,7 @@ public class SystemController {
 
     @ApiOperation(value = "query data source")
     @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryDataSource(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> queryDataSource(@Valid @RequestBody DataSourceQuery parameters) {
         List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = dataSourceService.getTotalCount(parameters.getParameter());
@@ -109,7 +113,7 @@ public class SystemController {
 
     @ApiOperation(value = "query data cache")
     @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryDataCache(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> queryDataCache(@Valid @RequestBody PageQuery parameters) {
         //TODO
         return null;
     }
@@ -129,7 +133,7 @@ public class SystemController {
     @ApiOperation(value = "update system config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateConfig(@RequestBody String config) {
+    public ResponseMap<?> updateConfig(@NotNull(message = "config cannot be null") @RequestBody String config) {
         if (StringUtils.isNotEmpty(config)) {
             //TODO check config yaml code style
             boolean flag = service.updateSysConfig(config);
@@ -151,7 +155,7 @@ public class SystemController {
     @ApiOperation(value = "update system license")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @PostMapping(value = "/system/license/update")
-    public ResponseMap<?> updateLicense() {
+    public ResponseMap<?> updateLicense(@NotNull(message = "license cannot be null") @RequestBody String license) {
         //TODO
         return null;
     }

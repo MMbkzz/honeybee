@@ -1,21 +1,19 @@
 package com.stackstech.honeybee.server.audit;
 
 import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
-import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.vo.AuditLogQuery;
+import com.stackstech.honeybee.server.core.vo.PageQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -40,7 +38,7 @@ public class AuditController {
 
     @ApiOperation(value = "query audit log")
     @RequestMapping(value = "/audit/{auditType}/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@PathVariable("auditType") String auditType, @RequestBody RequestParameter parameters) {
+    public ResponseMap<?> query(@PathVariable("auditType") String auditType, @Valid @RequestBody AuditLogQuery parameters) {
         List<AuditLogEntity> data = service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(parameters.getParameter());

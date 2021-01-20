@@ -3,21 +3,20 @@ package com.stackstech.honeybee.server.security;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
-import com.stackstech.honeybee.server.core.entity.RequestParameter;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.vo.PageQuery;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +51,7 @@ public class AccountController {
     @ApiOperation(value = "update account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/account/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAccount(@RequestBody AccountEntity entity) {
+    public ResponseMap<?> updateAccount(@Valid @RequestBody AccountEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setUpdatetime(new Date());
         });
@@ -65,7 +64,7 @@ public class AccountController {
     @ApiOperation(value = "add account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/account/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAccount(@RequestBody AccountEntity entity) {
+    public ResponseMap<?> addAccount(@Valid @RequestBody AccountEntity entity) {
         Optional.ofNullable(entity).ifPresent(u -> {
             entity.setId(null);
             entity.setStatus(EntityStatusType.ENABLE.getStatus());
@@ -80,7 +79,7 @@ public class AccountController {
 
     @ApiOperation(value = "query account")
     @RequestMapping(value = "/security/account/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryAccount(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> queryAccount(@Valid @RequestBody PageQuery parameters) {
         List<AccountEntity> data = accountService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = accountService.getTotalCount(parameters.getParameter());
@@ -108,7 +107,7 @@ public class AccountController {
     @ApiOperation(value = "update account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/role/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAcctRole(@RequestBody DataServiceEntity entity) {
+    public ResponseMap<?> updateAcctRole(@Valid @RequestBody DataServiceEntity entity) {
         //TODO WJ
         return null;
     }
@@ -116,14 +115,14 @@ public class AccountController {
     @ApiOperation(value = "add account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/role/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAcctRole(@RequestBody DataServiceEntity entity) {
+    public ResponseMap<?> addAcctRole(@Valid @RequestBody DataServiceEntity entity) {
         //TODO WJ
         return null;
     }
 
     @ApiOperation(value = "query account role")
     @RequestMapping(value = "/security/role/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryAcctRole(@RequestBody RequestParameter parameters) {
+    public ResponseMap<?> queryAcctRole(@Valid @RequestBody PageQuery parameters) {
         //TODO WJ
         return null;
     }
