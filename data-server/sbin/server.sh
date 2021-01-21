@@ -10,7 +10,7 @@ SERVER_DIR=$(
 # Process Tag to identify
 # Use this tag should identify the process.
 # The command is :  ps -ef | grep -w $PROC_TAG
-PROC_TAG="honeybee-web-server"
+PROC_TAG="honeybee-data-server"
 #-----------------------------------------------------------------------
 
 #-----------------------------------------------------------------------
@@ -26,7 +26,7 @@ PROC_OPTS="-Djmx.port=$JMX_PORT"
 
 #-----------------------------------------------------------------------
 # Process log file
-LOG_FILE="$SERVER_DIR/log/honeybee-web-server.out"
+LOG_FILE="$SERVER_DIR/log/honeybee-data-server.out"
 #-----------------------------------------------------------------------
 
 #-----------------------------------------------------------------------
@@ -50,7 +50,7 @@ LOADER_PATH="$SERVER_DIR/lib/*.jar $SERVER_DIR/conf/"
 
 #-----------------------------------------------------------------------
 # Process Entrance class
-MAIN_CLASS="com.stackstech.honeybee.server.WebServerApplication"
+MAIN_CLASS="com.stackstech.honeybee.data.DataServerApplication"
 #-----------------------------------------------------------------------
 
 #-----------------------------------------------------------------------
