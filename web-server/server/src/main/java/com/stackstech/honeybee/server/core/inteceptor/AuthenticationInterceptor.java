@@ -9,6 +9,8 @@ import com.stackstech.honeybee.server.security.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,6 +35,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HandlerMethod handlerMethod = null;
         try {
+            if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
+                response.setStatus(StatusCode.SUCCESS.getHttpCode());
+                return true;
+            }
             handlerMethod = (HandlerMethod) handler;
         } catch (Exception e) {
             log.error("request method not exist, return 404.", e);

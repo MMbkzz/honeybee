@@ -5,6 +5,7 @@ import com.stackstech.honeybee.server.core.inteceptor.AuthenticationInterceptor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,7 +27,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/**")
                 .excludePathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/security/login");
-
         super.addInterceptors(registry);
     }
 
@@ -40,11 +40,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
+        registry.addMapping(ApiEndpoint.API_ENDPOINT_ROOT + "/**")
                 .allowedOrigins(urls)
                 .allowCredentials(true)
                 .allowedMethods("*")
                 .maxAge(3600);
+        super.addCorsMappings(registry);
     }
 
 }

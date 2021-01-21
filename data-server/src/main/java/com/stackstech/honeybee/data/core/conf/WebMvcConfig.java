@@ -40,11 +40,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
+        registry.addMapping(ApiEndpoint.API_ENDPOINT_ROOT + "/**")
                 .allowedOrigins(urls)
                 .allowCredentials(true)
                 .allowedMethods("*")
                 .maxAge(3600);
+        super.addCorsMappings(registry);
     }
 
 }
