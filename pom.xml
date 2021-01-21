@@ -97,8 +97,8 @@
 
     <modules>
         <module>bees</module>
-<!--        <module>api-server</module>-->
         <module>web-server</module>
+        <module>data-server</module>
     </modules>
 
 
