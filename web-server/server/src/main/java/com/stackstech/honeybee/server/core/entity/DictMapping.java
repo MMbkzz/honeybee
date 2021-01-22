@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DictMapping {
 
-    private Integer code;
+    private String code;
     private String desc;
 
     public DictMapping() {
@@ -13,6 +13,12 @@ public class DictMapping {
     }
 
     public DictMapping build(Integer code, String desc) {
+        this.code = String.valueOf(code);
+        this.desc = desc;
+        return this;
+    }
+
+    public DictMapping build(String code, String desc) {
         this.code = code;
         this.desc = desc;
         return this;

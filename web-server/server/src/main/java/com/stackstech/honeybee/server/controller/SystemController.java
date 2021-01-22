@@ -9,10 +9,7 @@ import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.core.entity.DictMapping;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
-import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
-import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
-import com.stackstech.honeybee.server.core.enums.SysConfigMap;
+import com.stackstech.honeybee.server.core.enums.*;
 import com.stackstech.honeybee.server.core.vo.DataSourceQuery;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import com.stackstech.honeybee.server.service.DataService;
@@ -173,6 +170,47 @@ public class SystemController {
         serviceStatusMapping.add(new DictMapping().build(EntityStatusType.OFFLINE.getStatus(), EntityStatusType.OFFLINE.getDesc()));
         serviceStatusMapping.add(new DictMapping().build(EntityStatusType.ONLINE.getStatus(), EntityStatusType.ONLINE.getDesc()));
         mapping.put("SERVICE_STATUS", serviceStatusMapping);
+
+        List<DictMapping> auditTypeMapping = Lists.newArrayList();
+        auditTypeMapping.add(new DictMapping().build(AuditOperationType.SERVICE.getName(), AuditOperationType.SERVICE.getDesc()));
+        auditTypeMapping.add(new DictMapping().build(AuditOperationType.ASSETS.getName(), AuditOperationType.ASSETS.getDesc()));
+        auditTypeMapping.add(new DictMapping().build(AuditOperationType.SYSTEM.getName(), AuditOperationType.SYSTEM.getDesc()));
+        mapping.put("AUDIT_TYPE", auditTypeMapping);
+
+        List<DictMapping> logTypeMapping = Lists.newArrayList();
+        logTypeMapping.add(new DictMapping().build(AuditOperationType.DELETE.getName(), AuditOperationType.DELETE.getDesc()));
+        logTypeMapping.add(new DictMapping().build(AuditOperationType.UPDATE.getName(), AuditOperationType.UPDATE.getDesc()));
+        logTypeMapping.add(new DictMapping().build(AuditOperationType.INSERT.getName(), AuditOperationType.INSERT.getDesc()));
+        logTypeMapping.add(new DictMapping().build(AuditOperationType.LOGIN.getName(), AuditOperationType.LOGIN.getDesc()));
+        logTypeMapping.add(new DictMapping().build(AuditOperationType.LOGOUT.getName(), AuditOperationType.LOGOUT.getDesc()));
+        logTypeMapping.add(new DictMapping().build(AuditOperationType.ERROR.getName(), AuditOperationType.ERROR.getDesc()));
+        mapping.put("LOG_TYPE", logTypeMapping);
+
+        List<DictMapping> assetsCatalogType = Lists.newArrayList();
+        assetsCatalogType.add(new DictMapping().build(AssetsCatalogType.DOMAIN.name(), "数据资产领域"));
+        assetsCatalogType.add(new DictMapping().build(AssetsCatalogType.TOPIC.name(), "数据资产主题"));
+        mapping.put("ASSETS_CATALOG_TYPE", assetsCatalogType);
+
+        List<DictMapping> dataSourceType = Lists.newArrayList();
+        dataSourceType.add(new DictMapping().build(DataSourceType.HIVE.name(), DataSourceType.HIVE.name().toLowerCase()));
+        dataSourceType.add(new DictMapping().build(DataSourceType.MYSQL.name(), DataSourceType.MYSQL.name().toLowerCase()));
+        dataSourceType.add(new DictMapping().build(DataSourceType.MSSQL.name(), DataSourceType.MSSQL.name().toLowerCase()));
+        dataSourceType.add(new DictMapping().build(DataSourceType.ORACLE.name(), DataSourceType.ORACLE.name().toLowerCase()));
+        dataSourceType.add(new DictMapping().build(DataSourceType.POSTGRESQL.name(), DataSourceType.POSTGRESQL.name().toLowerCase()));
+        mapping.put("DATA_SOURCE_TYPE", dataSourceType);
+
+        List<DictMapping> qualityRuleType = Lists.newArrayList();
+        qualityRuleType.add(new DictMapping().build(QualityRuleType.ACCURACY.name(), "精确性"));
+        qualityRuleType.add(new DictMapping().build(QualityRuleType.PROFILING.name(), "一致性"));
+        qualityRuleType.add(new DictMapping().build(QualityRuleType.UNIQUENESS.name(), "唯一性"));
+        qualityRuleType.add(new DictMapping().build(QualityRuleType.DISTINCT.name(), "有效性"));
+        qualityRuleType.add(new DictMapping().build(QualityRuleType.TIMELINESS.name(), "及时性"));
+        qualityRuleType.add(new DictMapping().build(QualityRuleType.COMPLETENESS.name(), "完整性"));
+        mapping.put("QUALITY_RULE_TYPE", qualityRuleType);
+
+        List<DictMapping> messageType = Lists.newArrayList();
+        messageType.add(new DictMapping().build(MessageType.SYSTEM.name(), "系统消息"));
+        mapping.put("MESSAGE_TYPE", messageType);
 
         return ResponseMap.success(mapping);
     }
