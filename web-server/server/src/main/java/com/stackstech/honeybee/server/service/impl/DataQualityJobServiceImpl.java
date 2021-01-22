@@ -1,31 +1,34 @@
 package com.stackstech.honeybee.server.service.impl;
 
 import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
+import com.stackstech.honeybee.server.core.vo.QualityJobVo;
 import com.stackstech.honeybee.server.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> {
+public class DataQualityJobServiceImpl implements DataService<QualityJobVo> {
 
     @Autowired
     private QualityJobMapper mapper;
 
     @Override
-    public boolean add(QualityJobEntity entity, Long ownerId) {
-        entity.create(ownerId);
+    public boolean add(QualityJobVo vo, Long ownerId) {
+        QualityJobEntity entity = new QualityJobEntity().create(ownerId);
+        BeanUtils.copyProperties(vo, entity);
         entity.setJobCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityJobEntity entity, Long ownerId) {
-        entity.update(ownerId);
+    public boolean update(QualityJobVo vo, Long ownerId) {
+        QualityJobEntity entity = new QualityJobEntity().update(ownerId);
+        BeanUtils.copyProperties(vo, entity);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
@@ -35,12 +38,12 @@ public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> 
     }
 
     @Override
-    public QualityJobEntity getSingle(Long recordId) {
+    public Object getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<QualityJobEntity> get(Map<String, Object> parameter) {
+    public Object get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

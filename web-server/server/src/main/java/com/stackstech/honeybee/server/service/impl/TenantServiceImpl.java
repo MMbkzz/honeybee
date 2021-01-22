@@ -1,31 +1,33 @@
 package com.stackstech.honeybee.server.service.impl;
 
 import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
+import com.stackstech.honeybee.server.core.vo.DataServiceTenantVo;
 import com.stackstech.honeybee.server.dao.DataServiceTenantMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
+public class TenantServiceImpl implements DataService<DataServiceTenantVo> {
 
     @Autowired
     private DataServiceTenantMapper mapper;
 
     @Override
-    public boolean add(DataServiceTenantEntity entity, Long ownerId) {
-        entity.create(ownerId);
+    public boolean add(DataServiceTenantVo vo, Long ownerId) {
+        DataServiceTenantEntity entity = new DataServiceTenantEntity().create(ownerId);
+        BeanUtils.copyProperties(vo, entity);
         entity.setTenantCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataServiceTenantEntity entity, Long ownerId) {
-        entity.update(ownerId);
+    public boolean update(DataServiceTenantVo vo, Long ownerId) {
+        DataServiceTenantEntity entity = new DataServiceTenantEntity().update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
@@ -35,12 +37,12 @@ public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
     }
 
     @Override
-    public DataServiceTenantEntity getSingle(Long recordId) {
+    public Object getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<DataServiceTenantEntity> get(Map<String, Object> parameter) {
+    public Object get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

@@ -1,31 +1,36 @@
 package com.stackstech.honeybee.server.service.impl;
 
 import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
+import com.stackstech.honeybee.server.core.vo.DataSourceVo;
 import com.stackstech.honeybee.server.dao.DataSourceMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataSourceServiceImpl implements DataService<DataSourceEntity> {
+public class DataSourceServiceImpl implements DataService<DataSourceVo> {
 
     @Autowired
     private DataSourceMapper mapper;
 
     @Override
-    public boolean add(DataSourceEntity entity, Long ownerId) {
-        entity.create(ownerId);
+    public boolean add(DataSourceVo vo, Long ownerId) {
+        DataSourceEntity entity = new DataSourceEntity().create(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        //TODO
+        entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
         entity.setDatasourceCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataSourceEntity entity, Long ownerId) {
-        entity.update(ownerId);
+    public boolean update(DataSourceVo vo, Long ownerId) {
+        DataSourceEntity entity = new DataSourceEntity().update(ownerId);
+        entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
@@ -35,12 +40,12 @@ public class DataSourceServiceImpl implements DataService<DataSourceEntity> {
     }
 
     @Override
-    public DataSourceEntity getSingle(Long recordId) {
+    public Object getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<DataSourceEntity> get(Map<String, Object> parameter) {
+    public Object get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

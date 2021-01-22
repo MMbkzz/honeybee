@@ -1,13 +1,14 @@
 package com.stackstech.honeybee.server.service.impl;
 
 import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
+import com.stackstech.honeybee.server.core.vo.DataServiceVo;
 import com.stackstech.honeybee.server.dao.DataServiceMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,21 +17,27 @@ import java.util.Map;
  * @author william
  */
 @Service
-public class DataServiceImpl implements DataService<DataServiceEntity> {
+public class DataServiceImpl implements DataService<DataServiceVo> {
 
     @Autowired
     private DataServiceMapper mapper;
 
     @Override
-    public boolean add(DataServiceEntity entity, Long ownerId) {
-        entity.create(ownerId);
+    public boolean add(DataServiceVo vo, Long ownerId) {
+        DataServiceEntity entity = new DataServiceEntity().create(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        //TODO
+        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
         entity.setDataServiceCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataServiceEntity entity, Long ownerId) {
-        entity.update(ownerId);
+    public boolean update(DataServiceVo vo, Long ownerId) {
+        DataServiceEntity entity = new DataServiceEntity().update(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        //TODO
+        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
@@ -40,12 +47,12 @@ public class DataServiceImpl implements DataService<DataServiceEntity> {
     }
 
     @Override
-    public DataServiceEntity getSingle(Long recordId) {
+    public Object getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<DataServiceEntity> get(Map<String, Object> parameter) {
+    public Object get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

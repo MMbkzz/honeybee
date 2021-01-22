@@ -1,29 +1,32 @@
 package com.stackstech.honeybee.server.service.impl;
 
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
+import com.stackstech.honeybee.server.core.vo.AccountVo;
 import com.stackstech.honeybee.server.dao.AccountMapper;
 import com.stackstech.honeybee.server.service.DataService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class AccountServiceImpl implements DataService<AccountEntity> {
+public class AccountServiceImpl implements DataService<AccountVo> {
 
     @Autowired
     private AccountMapper mapper;
 
     @Override
-    public boolean add(AccountEntity entity, Long ownerId) {
-        entity.create(ownerId);
+    public boolean add(AccountVo vo, Long ownerId) {
+        AccountEntity entity = new AccountEntity().create(ownerId);
+        BeanUtils.copyProperties(vo, entity);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AccountEntity entity, Long ownerId) {
-        entity.update(ownerId);
+    public boolean update(AccountVo vo, Long ownerId) {
+        AccountEntity entity = new AccountEntity().update(ownerId);
+        BeanUtils.copyProperties(vo, entity);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
@@ -33,12 +36,12 @@ public class AccountServiceImpl implements DataService<AccountEntity> {
     }
 
     @Override
-    public AccountEntity getSingle(Long recordId) {
+    public Object getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<AccountEntity> get(Map<String, Object> parameter) {
+    public Object get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

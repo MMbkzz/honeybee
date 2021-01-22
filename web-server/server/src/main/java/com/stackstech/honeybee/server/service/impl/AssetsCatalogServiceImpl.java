@@ -1,51 +1,66 @@
 package com.stackstech.honeybee.server.service.impl;
 
 import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
-import com.stackstech.honeybee.server.dao.AssetsCatalogMapper;
-import com.stackstech.honeybee.server.service.DataService;
-import com.stackstech.honeybee.server.utils.CommonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
+import com.stackstech.honeybee.server.core.vo.AssetsCatalogVo;
+import com.stackstech.honeybee.server.service.AssetsCatalogService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
-public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity> {
-
-    @Autowired
-    private AssetsCatalogMapper mapper;
+public class AssetsCatalogServiceImpl implements AssetsCatalogService {
 
     @Override
-    public boolean add(AssetsCatalogEntity entity, Long ownerId) {
-        entity.create(ownerId);
-        entity.setCatalogCode(CommonUtil.generateEntityCode());
-        return mapper.insertSelective(entity) > 0;
+    public boolean addAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId) {
+        return false;
     }
 
     @Override
-    public boolean update(AssetsCatalogEntity entity, Long ownerId) {
-        entity.update(ownerId);
-        return mapper.updateByPrimaryKeySelective(entity) > 0;
+    public boolean updateAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId) {
+        return false;
     }
 
     @Override
-    public boolean delete(Long recordId, Long ownerId) {
-        return mapper.deleteByPrimaryKey(recordId) > 0;
+    public boolean deleteAssetsCatalog(String assetsCatalogType, Long recordId, Long ownerId) {
+        return false;
     }
 
     @Override
-    public AssetsCatalogEntity getSingle(Long recordId) {
-        return mapper.selectByPrimaryKey(recordId);
+    public AssetsCatalogEntity getAssetsCatalog(String assetsCatalogType, Long recordId) {
+        return null;
     }
 
     @Override
-    public List<AssetsCatalogEntity> get(Map<String, Object> parameter) {
-        return mapper.selectByParameter(parameter);
+    public List<AssetsCatalogEntity> getAssetsCatalogs(Map<String, Object> parameter) {
+        return null;
     }
 
     @Override
-    public Integer getTotalCount(Map<String, Object> parameter) {
-        return mapper.selectTotalCount(parameter);
+    public List<AssetsCatalogEntity> getAssetsCatalogTree(Map<String, Object> parameter) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteDataRecycler(Long recordId, Long ownerId) {
+        return false;
+    }
+
+    @Override
+    public DataRecyclerEntity getDataRecycler(Long recordId) {
+        return null;
+    }
+
+    @Override
+    public List<DataRecyclerEntity> getDataRecyclers(Map<String, Object> parameter) {
+        return null;
+    }
+
+    @Override
+    public Integer getDataRecyclerCount(Map<String, Object> parameter) {
+        return null;
     }
 }

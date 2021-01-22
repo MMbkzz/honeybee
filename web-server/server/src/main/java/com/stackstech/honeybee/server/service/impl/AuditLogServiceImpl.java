@@ -6,7 +6,6 @@ import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,12 +32,12 @@ public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
     }
 
     @Override
-    public AuditLogEntity getSingle(Long recordId) {
+    public Object getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<AuditLogEntity> get(Map<String, Object> parameter) {
+    public Object get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
