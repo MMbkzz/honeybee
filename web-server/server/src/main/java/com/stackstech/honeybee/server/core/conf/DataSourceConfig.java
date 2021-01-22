@@ -20,7 +20,7 @@ import javax.sql.DataSource;
  * 数据源配置
  */
 @Configuration
-@MapperScan(basePackages = "com.stackstech.honeybee.server.*.mapper", sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = "com.stackstech.honeybee.server.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class DataSourceConfig {
 
     @Bean(name = "dataSource")
@@ -34,7 +34,7 @@ public class DataSourceConfig {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:com/stackstech/honeybee/server/core/mapper/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:com/stackstech/honeybee/server/dao/mapper/*.xml"));
         // 加载mybatis核心配置
         bean.setConfigLocation(new DefaultResourceLoader().getResource("classpath:mybatis-config.xml"));
         return bean.getObject();
