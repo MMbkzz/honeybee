@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.utils;
+package com.stackstech.honeybee.server.utils;
 
 
 import com.google.common.base.Joiner;
@@ -24,10 +24,9 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Redis缓存管理
+ * Redis Cache utils
  *
  * @author William
- * @date 2019-03-01
  * @since 1.0
  */
 @Slf4j

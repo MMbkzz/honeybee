@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.utils;
+package com.stackstech.honeybee.server.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -10,8 +10,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileWriter;
@@ -25,10 +23,9 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
- * 公共工具类
+ * Common utils
  *
  * @author William
- * @date 2019-03-01
  * @since 1.0
  */
 @Slf4j

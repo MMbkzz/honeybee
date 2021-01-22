@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.utils;
+package com.stackstech.honeybee.server.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -23,7 +23,10 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
+ * Authentication token builder
+ *
  * @author william
+ * @since 1.0
  */
 @Slf4j
 @Component
