@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.util.Date;
 
-@ApiModel(value = "data entity")
+@ApiModel
 @Data
 public class DataEntity {
 

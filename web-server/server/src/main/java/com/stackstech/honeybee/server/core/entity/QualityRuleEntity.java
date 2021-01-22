@@ -7,8 +7,8 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
-@Data
 @ApiModel
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NotNull(message = "request parameter cannot be null")
 public class QualityRuleEntity extends DataEntity {

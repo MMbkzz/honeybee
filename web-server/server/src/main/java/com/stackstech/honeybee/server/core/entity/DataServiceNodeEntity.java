@@ -1,9 +1,11 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+@ApiModel
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataServiceNodeEntity extends DataEntity {
