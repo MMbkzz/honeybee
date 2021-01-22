@@ -3,8 +3,8 @@ package com.stackstech.honeybee.server.controller;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
-import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.AccountLoginVo;
 import com.stackstech.honeybee.server.core.vo.RestPasswordVo;
 import com.stackstech.honeybee.server.service.AuthService;
@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @Api(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @RestController
-@RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = Constant.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
 
     @Autowired

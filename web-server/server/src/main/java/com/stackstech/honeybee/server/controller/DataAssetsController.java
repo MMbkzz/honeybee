@@ -3,8 +3,8 @@ package com.stackstech.honeybee.server.controller;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.entity.*;
-import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.AssetsCatalogQuery;
 import com.stackstech.honeybee.server.core.vo.AssetsModelQuery;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
@@ -28,7 +28,7 @@ import java.util.List;
 @Api(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @RestController
-@RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = Constant.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataAssetsController {
 
     @Autowired

@@ -1,8 +1,3 @@
-/**
- * Copyright 2019 the original author.
- *
- * @author William
- */
 package com.stackstech.honeybee.server.core.enums;
 
 public class HttpHeader {

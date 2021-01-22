@@ -10,11 +10,14 @@ import java.util.List;
  * 全局常量定义
  *
  * @author William
- * @date 2019-05-04
  * @since 1.0
  */
 public class Constant {
 
+    /**
+     * API Endpoint root
+     */
+    public static final String API_ENDPOINT_ROOT = "/api/v1";
     /**
      * URL路径分隔符
      */
@@ -56,10 +59,6 @@ public class Constant {
      */
     public static final String FORMAT_DATETIMES = "yyyy-MM-dd HH:mm:ss.SSS Z";
     /**
-     * 备份文件扩展名
-     */
-    public static final String DATAFILE_EXT = ".dat";
-    /**
      * 通配符
      */
     public static final String WILDCARD = "*";
@@ -78,11 +77,7 @@ public class Constant {
     /**
      * Access control max age time
      */
-    public static final String ACCESS_CONTROL_MAX_AGE_TIME = "7200";
-    /**
-     * Default JMX port
-     */
-    public static final String DEFAULT_JMX_PORT = "6666";
+    public static final int ACCESS_CONTROL_MAX_AGE_TIME = 7200;
     /**
      * app server name
      */

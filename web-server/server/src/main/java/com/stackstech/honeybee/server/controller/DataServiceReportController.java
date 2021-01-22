@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.controller;
 
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
-import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @Api(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @RestController
-@RequestMapping(value = ApiEndpoint.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = Constant.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataServiceReportController {
 
     @RequestMapping(value = "/data/service/report/get/{id}", method = RequestMethod.GET)

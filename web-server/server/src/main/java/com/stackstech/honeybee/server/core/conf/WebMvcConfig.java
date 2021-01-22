@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.core.conf;
 
-import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
+import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.inteceptor.AuthenticationInterceptor;
 import com.stackstech.honeybee.server.core.inteceptor.RequestAccountArgumentResolver;
 import lombok.Data;
@@ -31,8 +31,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor)
-                .addPathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/**")
-                .excludePathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/security/login");
+                .addPathPatterns(Constant.API_ENDPOINT_ROOT + "/**")
+                .excludePathPatterns(Constant.API_ENDPOINT_ROOT + "/security/login");
         super.addInterceptors(registry);
     }
 
@@ -52,11 +52,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping(ApiEndpoint.API_ENDPOINT_ROOT + "/**")
+        registry.addMapping(Constant.API_ENDPOINT_ROOT + "/**")
                 .allowedOrigins(urls)
                 .allowCredentials(true)
-                .allowedMethods("*")
-                .maxAge(3600);
+                .allowedMethods(Constant.WILDCARD)
+                .maxAge(Constant.ACCESS_CONTROL_MAX_AGE_TIME);
         super.addCorsMappings(registry);
     }
 
