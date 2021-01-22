@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 /**
@@ -269,5 +270,10 @@ public final class CommonUtil {
         String hex = DigestUtils.sha1Hex(sortString.getBytes(StandardCharsets.UTF_8));
         return signature.equals(hex);
     }
+
+    public static String generateEntityCode() {
+        return UUID.randomUUID().toString().replace("-", StringUtils.EMPTY).toLowerCase();
+    }
+
 
 }

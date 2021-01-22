@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
@@ -8,6 +9,7 @@ import lombok.Data;
 public class DataServiceEndpointEntity extends DataEntity {
     private Long id;
 
+    @ApiModelProperty(hidden = true)
     private String dataServiceEndpointCode;
 
     private Long serviceNodeId;

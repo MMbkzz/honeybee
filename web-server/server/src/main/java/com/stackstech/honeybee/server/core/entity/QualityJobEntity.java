@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ public class QualityJobEntity extends DataEntity {
 
     private String jobName;
 
+    @ApiModelProperty(hidden = true)
     private String jobCode;
 
     private String jobExpression;

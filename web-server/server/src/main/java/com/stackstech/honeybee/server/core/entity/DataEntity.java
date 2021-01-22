@@ -1,11 +1,13 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
 
+@ApiModel(value = "data entity")
 @Data
 public class DataEntity {
 

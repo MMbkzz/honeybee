@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ public class AssetsCatalogEntity extends DataEntity {
 
     private String catalogName;
 
+    @ApiModelProperty(hidden = true)
     private String catalogCode;
 
     private Long catalogParentId;

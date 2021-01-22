@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.service.impl;
 import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
 import com.stackstech.honeybee.server.dao.AssetsCatalogMapper;
 import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity
     @Override
     public boolean add(AssetsCatalogEntity entity, Long ownerId) {
         entity.create(ownerId);
+        entity.setCatalogCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 

@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ public class DataServiceEntity extends DataEntity {
 
     private String dataServiceName;
 
+    @ApiModelProperty(hidden = true)
     private String dataServiceCode;
 
     private Long assetsModelId;

@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.service.impl;
 import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
 import com.stackstech.honeybee.server.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> 
     @Override
     public boolean add(QualityJobEntity entity, Long ownerId) {
         entity.create(ownerId);
+        entity.setJobCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 

@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.service.impl;
 import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.dao.DataServiceTenantMapper;
 import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
     @Override
     public boolean add(DataServiceTenantEntity entity, Long ownerId) {
         entity.create(ownerId);
+        entity.setTenantCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 

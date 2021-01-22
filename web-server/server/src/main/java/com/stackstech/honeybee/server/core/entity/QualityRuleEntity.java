@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ public class QualityRuleEntity extends DataEntity {
 
     private String ruleName;
 
+    @ApiModelProperty(hidden = true)
     private String ruleCode;
 
     private String ruleType;
