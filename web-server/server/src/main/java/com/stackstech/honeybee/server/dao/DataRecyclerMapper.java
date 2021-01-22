@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.mapper;
+package com.stackstech.honeybee.server.dao;
 
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;

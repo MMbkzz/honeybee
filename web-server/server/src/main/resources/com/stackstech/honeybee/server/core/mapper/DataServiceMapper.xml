@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.core.mapper.DataServiceMapper">
+<mapper namespace="com.stackstech.honeybee.server.dao.DataServiceMapper">
   <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.DataServiceEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="data_service_name" jdbcType="VARCHAR" property="dataServiceName" />

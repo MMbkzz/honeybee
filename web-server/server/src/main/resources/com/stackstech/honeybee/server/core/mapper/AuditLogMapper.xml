@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.core.mapper.AuditLogMapper">
+<mapper namespace="com.stackstech.honeybee.server.dao.AuditLogMapper">
   <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="log_title" jdbcType="VARCHAR" property="logTitle" />
