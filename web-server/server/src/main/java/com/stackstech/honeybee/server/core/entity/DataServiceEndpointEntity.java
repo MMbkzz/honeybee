@@ -3,11 +3,9 @@ package com.stackstech.honeybee.server.core.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataServiceEndpointEntity {
+public class DataServiceEndpointEntity extends DataEntity {
     private Long id;
 
     private String dataServiceEndpointCode;
@@ -21,10 +19,6 @@ public class DataServiceEndpointEntity {
     private String dataServiceEndpoint;
 
     private String dataServiceStatus;
-
-    private Date updatetime;
-
-    private Date createtime;
 
     private String desc;
 

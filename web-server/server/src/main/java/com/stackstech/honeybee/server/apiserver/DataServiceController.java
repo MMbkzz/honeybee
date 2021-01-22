@@ -1,23 +1,24 @@
 package com.stackstech.honeybee.server.apiserver;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
+import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * data api service controller
@@ -43,19 +44,16 @@ public class DataServiceController {
     @ApiOperation(value = "delete data service")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/service/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> delete(@PathVariable("id") long id) {
+    public ResponseMap<?> delete(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
         log.debug("delete data service ID {}.", id);
-        return ResponseMap.success(service.delete(id));
+        return ResponseMap.success(service.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
-    public ResponseMap<?> update(@Valid @RequestBody DataServiceEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!service.update(entity)) {
+    public ResponseMap<?> update(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!service.update(entity, account.getId())) {
             return ResponseMap.failed("update data service failed.");
         }
         return ResponseMap.success(true);
@@ -64,14 +62,8 @@ public class DataServiceController {
     @ApiOperation(value = "add data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
-    public ResponseMap<?> add(@Valid @RequestBody DataServiceEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!service.add(entity)) {
+    public ResponseMap<?> add(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!service.add(entity, account.getId())) {
             return ResponseMap.failed("insert data service failed.");
         }
         return ResponseMap.success(entity);
@@ -90,13 +82,13 @@ public class DataServiceController {
     }
 
     @RequestMapping(value = "/data/service/online/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> online(@PathVariable("id") long id) {
+    public ResponseMap<?> online(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
         //TODO setting data service online
         return null;
     }
 
     @RequestMapping(value = "/data/service/offline/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> offline(@PathVariable("id") long id) {
+    public ResponseMap<?> offline(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
         //TODO setting data service offline
         return null;
     }

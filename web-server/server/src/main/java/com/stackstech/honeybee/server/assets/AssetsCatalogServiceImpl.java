@@ -16,17 +16,19 @@ public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity
     private AssetsCatalogMapper mapper;
 
     @Override
-    public boolean add(AssetsCatalogEntity entity) {
+    public boolean add(AssetsCatalogEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AssetsCatalogEntity entity) {
+    public boolean update(AssetsCatalogEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

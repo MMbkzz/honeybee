@@ -16,17 +16,19 @@ public class AccountServiceImpl implements DataService<AccountEntity> {
     private AccountMapper mapper;
 
     @Override
-    public boolean add(AccountEntity entity) {
+    public boolean add(AccountEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AccountEntity entity) {
+    public boolean update(AccountEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

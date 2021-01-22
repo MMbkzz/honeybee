@@ -1,12 +1,13 @@
 package com.stackstech.honeybee.server.quality;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
+import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
 import com.stackstech.honeybee.server.core.entity.QualityRuleEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import io.swagger.annotations.Api;
@@ -15,11 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * data quality service controller
@@ -47,18 +47,15 @@ public class DataQualityController {
     @ApiOperation(value = "delete quality job")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/quality/job/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteQualityJob(@PathVariable("id") long id) {
-        return ResponseMap.success(qualityJobService.delete(id));
+    public ResponseMap<?> deleteQualityJob(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(qualityJobService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update quality job")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/job/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateQualityJob(@Valid @RequestBody QualityJobEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!qualityJobService.update(entity)) {
+    public ResponseMap<?> updateQualityJob(@Valid @RequestBody QualityJobEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityJobService.update(entity, account.getId())) {
             return ResponseMap.failed("update data quality job failed.");
         }
         return ResponseMap.success(true);
@@ -67,14 +64,8 @@ public class DataQualityController {
     @ApiOperation(value = "add quality job")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/job/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addQualityJob(@Valid @RequestBody QualityJobEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!qualityJobService.add(entity)) {
+    public ResponseMap<?> addQualityJob(@Valid @RequestBody QualityJobEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityJobService.add(entity, account.getId())) {
             return ResponseMap.failed("insert data quality job failed.");
         }
         return ResponseMap.success(entity);
@@ -101,18 +92,15 @@ public class DataQualityController {
     @ApiOperation(value = "delete quality rule")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/quality/rule/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteQualityRule(@PathVariable("id") long id) {
-        return ResponseMap.success(qualityRuleService.delete(id));
+    public ResponseMap<?> deleteQualityRule(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(qualityRuleService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update quality rule")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/rule/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateQualityRule(@Valid @RequestBody QualityRuleEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!qualityRuleService.update(entity)) {
+    public ResponseMap<?> updateQualityRule(@Valid @RequestBody QualityRuleEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityRuleService.update(entity, entity.getId())) {
             return ResponseMap.failed("update data quality rule failed.");
         }
         return ResponseMap.success(true);
@@ -121,14 +109,8 @@ public class DataQualityController {
     @ApiOperation(value = "add quality rule")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/rule/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addQualityRule(@Valid @RequestBody QualityRuleEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!qualityRuleService.add(entity)) {
+    public ResponseMap<?> addQualityRule(@Valid @RequestBody QualityRuleEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityRuleService.add(entity, account.getId())) {
             return ResponseMap.failed("insert data quality rule failed.");
         }
         return ResponseMap.success(entity);

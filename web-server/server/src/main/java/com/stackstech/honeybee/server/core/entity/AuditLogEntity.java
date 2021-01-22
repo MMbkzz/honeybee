@@ -3,11 +3,9 @@ package com.stackstech.honeybee.server.core.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AuditLogEntity {
+public class AuditLogEntity extends DataEntity {
     private Long id;
 
     private String logTitle;
@@ -17,14 +15,6 @@ public class AuditLogEntity {
     private String logType;
 
     private String logContent;
-
-    private Integer status;
-
-    private Long owner;
-
-    private Date updatetime;
-
-    private Date createtime;
 
     private String desc;
 

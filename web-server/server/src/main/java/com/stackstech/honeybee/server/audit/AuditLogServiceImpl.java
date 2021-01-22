@@ -16,17 +16,19 @@ public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
     private AuditLogMapper mapper;
 
     @Override
-    public boolean add(AuditLogEntity entity) {
+    public boolean add(AuditLogEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AuditLogEntity entity) {
+    public boolean update(AuditLogEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

@@ -13,6 +13,6 @@ public interface AuthService {
 
     boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword);
 
-    boolean verifyAccount(String token);
+    AccountEntity verifyAccount(String token);
 
 }

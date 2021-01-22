@@ -1,28 +1,24 @@
 package com.stackstech.honeybee.server.assets;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
-import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
-import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
-import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
-import com.stackstech.honeybee.server.core.entity.ResponseMap;
+import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.entity.*;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.vo.AssetsCatalogQuery;
 import com.stackstech.honeybee.server.core.vo.AssetsModelQuery;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
-import com.stackstech.honeybee.server.core.vo.AssetsCatalogQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * account assets service controller
@@ -51,18 +47,15 @@ public class DataAssetsController {
     @ApiOperation(value = "delete data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/model/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteModel(@PathVariable("id") long id) {
-        return ResponseMap.success(assetsModelService.delete(id));
+    public ResponseMap<?> deleteModel(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(assetsModelService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateModel(@Valid @RequestBody AssetsModelEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!assetsModelService.update(entity)) {
+    public ResponseMap<?> updateModel(@Valid @RequestBody AssetsModelEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!assetsModelService.update(entity, account.getId())) {
             return ResponseMap.failed("update data service failed.");
         }
         return ResponseMap.success(true);
@@ -71,14 +64,8 @@ public class DataAssetsController {
     @ApiOperation(value = "add data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addModel(@Valid @RequestBody AssetsModelEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!assetsModelService.add(entity)) {
+    public ResponseMap<?> addModel(@Valid @RequestBody AssetsModelEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!assetsModelService.add(entity, account.getId())) {
             return ResponseMap.failed("insert data service failed.");
         }
         return ResponseMap.success(entity);
@@ -105,18 +92,15 @@ public class DataAssetsController {
     @ApiOperation(value = "delete data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/catalog/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteCatalog(@PathVariable("id") long id) {
-        return ResponseMap.success(assetsCatalogService.delete(id));
+    public ResponseMap<?> deleteCatalog(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(assetsCatalogService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/catalog/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateCatalog(@Valid @RequestBody AssetsCatalogEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!assetsCatalogService.update(entity)) {
+    public ResponseMap<?> updateCatalog(@Valid @RequestBody AssetsCatalogEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!assetsCatalogService.update(entity, account.getId())) {
             return ResponseMap.failed("update data assets catalog failed.");
         }
         return ResponseMap.success(true);
@@ -125,14 +109,8 @@ public class DataAssetsController {
     @ApiOperation(value = "add data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/catalog/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addCatalog(@Valid @RequestBody AssetsCatalogEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!assetsCatalogService.add(entity)) {
+    public ResponseMap<?> addCatalog(@Valid @RequestBody AssetsCatalogEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!assetsCatalogService.add(entity, account.getId())) {
             return ResponseMap.failed("insert data assets catalog failed.");
         }
         return ResponseMap.success(entity);
@@ -159,21 +137,15 @@ public class DataAssetsController {
     @ApiOperation(value = "delete recycler data")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/recycler/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteRecycler(@PathVariable("id") long id) {
-        return ResponseMap.success(recyclerService.delete(id));
+    public ResponseMap<?> deleteRecycler(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(recyclerService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "add recycler data")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/recycler/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addRecycler(@Valid @RequestBody DataRecyclerEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!recyclerService.add(entity)) {
+    public ResponseMap<?> addRecycler(@Valid @RequestBody DataRecyclerEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!recyclerService.add(entity, account.getId())) {
             return ResponseMap.failed("insert recycler failed.");
         }
         return ResponseMap.success(entity);

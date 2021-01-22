@@ -1,12 +1,12 @@
 package com.stackstech.honeybee.server.security;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
+import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import io.swagger.annotations.Api;
@@ -15,11 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * account and role service controller
@@ -44,18 +43,15 @@ public class AccountController {
     @ApiOperation(value = "delete account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/account/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteAccount(@PathVariable("id") long id) {
-        return ResponseMap.success(accountService.delete(id));
+    public ResponseMap<?> deleteAccount(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(accountService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/account/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAccount(@Valid @RequestBody AccountEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!accountService.update(entity)) {
+    public ResponseMap<?> updateAccount(@Valid @RequestBody AccountEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!accountService.update(entity, account.getId())) {
             return ResponseMap.failed("update account failed.");
         }
         return ResponseMap.success(true);
@@ -64,14 +60,8 @@ public class AccountController {
     @ApiOperation(value = "add account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/account/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAccount(@Valid @RequestBody AccountEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!accountService.add(entity)) {
+    public ResponseMap<?> addAccount(@Valid @RequestBody AccountEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!accountService.add(entity, account.getId())) {
             return ResponseMap.failed("insert account failed.");
         }
         return ResponseMap.success(entity);
@@ -99,7 +89,7 @@ public class AccountController {
     @ApiOperation(value = "delete account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/role/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteAcctRole(@PathVariable("id") long id) {
+    public ResponseMap<?> deleteAcctRole(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
         //TODO WJ
         return null;
     }
@@ -107,7 +97,7 @@ public class AccountController {
     @ApiOperation(value = "update account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/role/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAcctRole(@Valid @RequestBody DataServiceEntity entity) {
+    public ResponseMap<?> updateAcctRole(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
         //TODO WJ
         return null;
     }
@@ -115,7 +105,7 @@ public class AccountController {
     @ApiOperation(value = "add account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/role/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAcctRole(@Valid @RequestBody DataServiceEntity entity) {
+    public ResponseMap<?> addAcctRole(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
         //TODO WJ
         return null;
     }

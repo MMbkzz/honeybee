@@ -2,15 +2,18 @@ package com.stackstech.honeybee.server.core.conf;
 
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.inteceptor.AuthenticationInterceptor;
+import com.stackstech.honeybee.server.core.inteceptor.RequestAccountArgumentResolver;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import java.util.List;
 
 @Data
 @Component
@@ -22,12 +25,21 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Autowired
     private AuthenticationInterceptor authenticationInterceptor;
 
+    @Autowired
+    private RequestAccountArgumentResolver requestAccountArgumentResolver;
+
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/**")
                 .excludePathPatterns(ApiEndpoint.API_ENDPOINT_ROOT + "/security/login");
         super.addInterceptors(registry);
+    }
+
+    @Override
+    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(requestAccountArgumentResolver);
+        super.addArgumentResolvers(argumentResolvers);
     }
 
     @Override

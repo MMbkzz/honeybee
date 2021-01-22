@@ -1,11 +1,12 @@
 package com.stackstech.honeybee.server.security;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
+import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import io.swagger.annotations.Api;
@@ -15,11 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * data tenant service controller
@@ -43,17 +43,14 @@ public class DataServiceTenantController {
 
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/tenant/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> delete(@PathVariable("id") long id) {
-        return ResponseMap.success(tenantService.delete(id));
+    public ResponseMap<?> delete(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(tenantService.delete(id, account.getId()));
     }
 
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/tenant/update", method = RequestMethod.PUT)
-    public ResponseMap<?> update(@Valid @RequestBody DataServiceTenantEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!tenantService.update(entity)) {
+    public ResponseMap<?> update(@Valid @RequestBody DataServiceTenantEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!tenantService.update(entity, account.getId())) {
             return ResponseMap.failed("update tenant failed.");
         }
         return ResponseMap.success(true);
@@ -61,14 +58,8 @@ public class DataServiceTenantController {
 
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/tenant/add", method = RequestMethod.PUT)
-    public ResponseMap<?> add(@Valid @RequestBody DataServiceTenantEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!tenantService.add(entity)) {
+    public ResponseMap<?> add(@Valid @RequestBody DataServiceTenantEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!tenantService.add(entity, account.getId())) {
             return ResponseMap.failed("insert tenant failed.");
         }
         return ResponseMap.success(entity);

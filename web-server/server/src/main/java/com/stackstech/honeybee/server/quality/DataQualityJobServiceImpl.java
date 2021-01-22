@@ -16,17 +16,19 @@ public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> 
     private QualityJobMapper mapper;
 
     @Override
-    public boolean add(QualityJobEntity entity) {
+    public boolean add(QualityJobEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityJobEntity entity) {
+    public boolean update(QualityJobEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

@@ -16,17 +16,19 @@ public class DataSourceServiceImpl implements DataService<DataSourceEntity> {
     private DataSourceMapper mapper;
 
     @Override
-    public boolean add(DataSourceEntity entity) {
+    public boolean add(DataSourceEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataSourceEntity entity) {
+    public boolean update(DataSourceEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

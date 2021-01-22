@@ -16,17 +16,19 @@ public class AssetsModelServiceImpl implements DataService<AssetsModelEntity> {
     private AssetsModelMapper mapper;
 
     @Override
-    public boolean add(AssetsModelEntity entity) {
+    public boolean add(AssetsModelEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AssetsModelEntity entity) {
+    public boolean update(AssetsModelEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

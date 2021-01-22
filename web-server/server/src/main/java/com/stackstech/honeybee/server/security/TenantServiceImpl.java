@@ -16,17 +16,19 @@ public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
     private DataServiceTenantMapper mapper;
 
     @Override
-    public boolean add(DataServiceTenantEntity entity) {
+    public boolean add(DataServiceTenantEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataServiceTenantEntity entity) {
+    public boolean update(DataServiceTenantEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

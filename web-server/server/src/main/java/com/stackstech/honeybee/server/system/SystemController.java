@@ -2,11 +2,12 @@ package com.stackstech.honeybee.server.system;
 
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
+import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.core.vo.DataSourceQuery;
@@ -18,13 +19,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * SystemController
@@ -51,18 +51,15 @@ public class SystemController {
     @ApiOperation(value = "delete data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/system/datasource/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteDataSource(@PathVariable("id") long id) {
-        return ResponseMap.success(dataSourceService.delete(id));
+    public ResponseMap<?> deleteDataSource(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(dataSourceService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setUpdatetime(new Date());
-        });
-        if (!dataSourceService.update(entity)) {
+    public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!dataSourceService.update(entity, account.getId())) {
             return ResponseMap.failed("update data source failed.");
         }
         return ResponseMap.success(true);
@@ -71,14 +68,8 @@ public class SystemController {
     @ApiOperation(value = "add data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceEntity entity) {
-        Optional.ofNullable(entity).ifPresent(u -> {
-            entity.setId(null);
-            entity.setStatus(EntityStatusType.ENABLE.getStatus());
-            entity.setUpdatetime(new Date());
-            entity.setCreatetime(new Date());
-        });
-        if (!dataSourceService.add(entity)) {
+    public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!dataSourceService.add(entity, account.getId())) {
             return ResponseMap.failed("insert data source failed.");
         }
         return ResponseMap.success(entity);

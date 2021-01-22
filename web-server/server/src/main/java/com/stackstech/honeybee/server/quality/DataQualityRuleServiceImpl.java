@@ -16,17 +16,19 @@ public class DataQualityRuleServiceImpl implements DataService<QualityRuleEntity
     private QualityRuleMapper mapper;
 
     @Override
-    public boolean add(QualityRuleEntity entity) {
+    public boolean add(QualityRuleEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityRuleEntity entity) {
+    public boolean update(QualityRuleEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

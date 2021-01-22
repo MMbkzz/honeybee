@@ -2,9 +2,6 @@ package com.stackstech.honeybee.server.core.entity;
 
 
 import com.stackstech.honeybee.server.core.enums.Constant;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;

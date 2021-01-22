@@ -76,16 +76,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean verifyAccount(String token) {
+    public AccountEntity verifyAccount(String token) {
         AccountEntity account = authTokenBuilder.getAccount(token);
         if (account != null) {
             Map<String, Object> map = Maps.newHashMap();
             map.put("account", account.getAccountName());
             map.put("password", account.getAccountPassword());
-
-            AccountEntity result = mapper.selectByAccountAndPassowrd(map);
-            return result != null && result.getStatus() == EntityStatusType.ENABLE.getStatus();
+            account = mapper.selectByAccountAndPassowrd(map);
+            if (account == null || account.getStatus() != EntityStatusType.ENABLE.getStatus()) {
+                return null;
+            }
         }
-        return false;
+        return account;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 @Mapper
 @Repository
 public interface DataServiceMapper {
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long id, Long ownerId);
 
     int insertSelective(DataServiceEntity record);
 

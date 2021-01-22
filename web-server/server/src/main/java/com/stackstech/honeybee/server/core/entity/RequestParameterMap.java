@@ -2,7 +2,6 @@ package com.stackstech.honeybee.server.core.entity;
 
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.Maps;
-import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 import java.util.Date;

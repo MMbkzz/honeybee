@@ -16,17 +16,19 @@ public class DataRecyclerServiceImpl implements DataService<DataRecyclerEntity> 
     private DataRecyclerMapper mapper;
 
     @Override
-    public boolean add(DataRecyclerEntity entity) {
+    public boolean add(DataRecyclerEntity entity, Long ownerId) {
+        entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataRecyclerEntity entity) {
+    public boolean update(DataRecyclerEntity entity, Long ownerId) {
+        entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId) {
+    public boolean delete(Long recordId, Long ownerId) {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

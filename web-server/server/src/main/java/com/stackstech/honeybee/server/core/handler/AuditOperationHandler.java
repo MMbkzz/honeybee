@@ -87,7 +87,7 @@ public final class AuditOperationHandler {
             auditLog.setCreatetime(new Date());
             auditLog.setUpdatetime(new Date());
             auditLog.setDesc(desc);
-            service.add(auditLog);
+            service.add(auditLog, 1L);
             log.debug("Recording user operation {}", log.toString());
         }
         return result;

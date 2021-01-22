@@ -21,5 +21,5 @@ public class HttpHeader {
 	public static final String USER_AGENT = "User-Agent";
 	public static final String CACHE_CONTROL = "Cache-Control";
 	public static final String CONTENT_TYPE = "Content-Type";
-
+	public static final String REQUEST_ACCOUNT = "Request-Account";
 }
