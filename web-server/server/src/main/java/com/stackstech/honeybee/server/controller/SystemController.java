@@ -1,13 +1,17 @@
 package com.stackstech.honeybee.server.controller;
 
+import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.Maps;
+import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
+import com.stackstech.honeybee.server.core.entity.DictMapping;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.vo.DataSourceQuery;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
@@ -150,6 +154,27 @@ public class SystemController {
     public ResponseMap<?> updateLicense(@NotNull(message = "license cannot be null") @RequestBody String license) {
         //TODO
         return null;
+    }
+
+    @ApiAuthIgnore
+    @ApiOperation(value = "get global dict mapping")
+    @RequestMapping(value = "/system/dict/get", method = RequestMethod.GET)
+    public ResponseMap<?> getDataSource() {
+        Map<String, List<DictMapping>> mapping = Maps.newHashMap();
+
+        List<DictMapping> statusMapping = Lists.newArrayList();
+        statusMapping.add(new DictMapping().build(EntityStatusType.ENABLE.getStatus(), EntityStatusType.ENABLE.getDesc()));
+        statusMapping.add(new DictMapping().build(EntityStatusType.DISABLE.getStatus(), EntityStatusType.DISABLE.getDesc()));
+        mapping.put("STATUS", statusMapping);
+
+        List<DictMapping> serviceStatusMapping = Lists.newArrayList();
+        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.ENABLE.getStatus(), EntityStatusType.ENABLE.getDesc()));
+        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.DISABLE.getStatus(), EntityStatusType.DISABLE.getDesc()));
+        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.OFFLINE.getStatus(), EntityStatusType.OFFLINE.getDesc()));
+        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.ONLINE.getStatus(), EntityStatusType.ONLINE.getDesc()));
+        mapping.put("SERVICE_STATUS", serviceStatusMapping);
+
+        return ResponseMap.success(mapping);
     }
 
 
