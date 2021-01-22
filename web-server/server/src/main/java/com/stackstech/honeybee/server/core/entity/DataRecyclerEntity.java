@@ -1,16 +1,11 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
-@ApiModel
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@NotNull(message = "request parameter cannot be null")
-public class DataRecyclerEntity extends DataEntity {
+public class DataRecyclerEntity extends DataEntity<DataRecyclerEntity> {
     private Long id;
 
     private Long assetsModelId;

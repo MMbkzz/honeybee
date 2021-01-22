@@ -1,37 +1,33 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
 
-@ApiModel
 @Data
-public class DataEntity {
+public class DataEntity<T> {
 
     private Integer status;
 
-    @ApiModelProperty(hidden = true)
     private Long owner;
 
-    @ApiModelProperty(hidden = true)
     private Date updatetime;
 
-    @ApiModelProperty(hidden = true)
     private Date createtime;
 
-    public void create(Long ownerId) {
+    public T create(Long ownerId) {
         this.owner = ownerId;
         this.status = EntityStatusType.ENABLE.getStatus();
         this.createtime = new Date();
         this.updatetime = new Date();
+        return (T) this;
     }
 
-    public void update(Long ownerId) {
+    public T update(Long ownerId) {
         this.owner = ownerId;
         this.updatetime = new Date();
+        return (T) this;
     }
 
 }

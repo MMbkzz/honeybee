@@ -1,17 +1,11 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
-@ApiModel
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@NotNull(message = "request parameter cannot be null")
-public class AssetsCatalogEntity extends DataEntity {
+public class AssetsCatalogEntity extends DataEntity<AssetsCatalogEntity> {
 
     private Long id;
 
@@ -19,7 +13,6 @@ public class AssetsCatalogEntity extends DataEntity {
 
     private String catalogName;
 
-    @ApiModelProperty(hidden = true)
     private String catalogCode;
 
     private Long catalogParentId;

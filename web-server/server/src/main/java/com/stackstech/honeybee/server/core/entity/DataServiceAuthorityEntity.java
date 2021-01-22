@@ -1,13 +1,11 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-@ApiModel
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataServiceAuthorityEntity extends DataEntity {
+public class DataServiceAuthorityEntity extends DataEntity<DataServiceAuthorityEntity> {
     private Long id;
 
     private Long tenantId;

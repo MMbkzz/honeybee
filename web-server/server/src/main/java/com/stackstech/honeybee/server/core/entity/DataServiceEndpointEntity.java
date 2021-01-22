@@ -1,17 +1,13 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataServiceEndpointEntity extends DataEntity {
+public class DataServiceEndpointEntity extends DataEntity<DataServiceEndpointEntity> {
     private Long id;
 
-    @ApiModelProperty(hidden = true)
     private String dataServiceEndpointCode;
 
     private Long serviceNodeId;

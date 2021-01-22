@@ -1,16 +1,12 @@
 package com.stackstech.honeybee.server.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
-@ApiModel
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@NotNull(message = "request parameter cannot be null")
-public class AccountEntity extends DataEntity {
+public class AccountEntity extends DataEntity<AccountEntity> {
 
     public static final String ACCOUNT_ID = "id";
     public static final String ACCOUNT_NAME = "account";
@@ -20,6 +16,7 @@ public class AccountEntity extends DataEntity {
 
     private String accountName;
 
+    @JsonIgnore
     private String accountPassword;
 
     private Long accountRole;

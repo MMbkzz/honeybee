@@ -1,13 +1,11 @@
 package com.stackstech.honeybee.server.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-@ApiModel
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QualityRuleConfig extends DataEntity {
+public class QualityRuleConfig extends DataEntity<QualityRuleConfig> {
     private Long id;
 
     private Long ruleId;
