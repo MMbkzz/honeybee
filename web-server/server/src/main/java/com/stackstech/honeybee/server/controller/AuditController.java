@@ -1,9 +1,9 @@
-package com.stackstech.honeybee.server.audit;
+package com.stackstech.honeybee.server.controller;
 
 import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.core.vo.AuditLogQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

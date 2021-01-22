@@ -1,8 +1,8 @@
-package com.stackstech.honeybee.server.security;
+package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.AccountEntity;
-import com.stackstech.honeybee.server.core.mapper.AccountMapper;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.entity.QualityRuleEntity;
+import com.stackstech.honeybee.server.core.mapper.QualityRuleMapper;
+import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AccountServiceImpl implements DataService<AccountEntity> {
+public class DataQualityRuleServiceImpl implements DataService<QualityRuleEntity> {
 
     @Autowired
-    private AccountMapper mapper;
+    private QualityRuleMapper mapper;
 
     @Override
-    public boolean add(AccountEntity entity, Long ownerId) {
+    public boolean add(QualityRuleEntity entity, Long ownerId) {
         entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AccountEntity entity, Long ownerId) {
+    public boolean update(QualityRuleEntity entity, Long ownerId) {
         entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
@@ -33,12 +33,12 @@ public class AccountServiceImpl implements DataService<AccountEntity> {
     }
 
     @Override
-    public AccountEntity getSingle(Long recordId) {
+    public QualityRuleEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<AccountEntity> get(Map<String, Object> parameter) {
+    public List<QualityRuleEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

@@ -1,8 +1,8 @@
-package com.stackstech.honeybee.server.quality;
+package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.QualityRuleEntity;
-import com.stackstech.honeybee.server.core.mapper.QualityRuleMapper;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
+import com.stackstech.honeybee.server.core.mapper.AssetsCatalogMapper;
+import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataQualityRuleServiceImpl implements DataService<QualityRuleEntity> {
+public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity> {
 
     @Autowired
-    private QualityRuleMapper mapper;
+    private AssetsCatalogMapper mapper;
 
     @Override
-    public boolean add(QualityRuleEntity entity, Long ownerId) {
+    public boolean add(AssetsCatalogEntity entity, Long ownerId) {
         entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityRuleEntity entity, Long ownerId) {
+    public boolean update(AssetsCatalogEntity entity, Long ownerId) {
         entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
@@ -33,12 +33,12 @@ public class DataQualityRuleServiceImpl implements DataService<QualityRuleEntity
     }
 
     @Override
-    public QualityRuleEntity getSingle(Long recordId) {
+    public AssetsCatalogEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<QualityRuleEntity> get(Map<String, Object> parameter) {
+    public List<AssetsCatalogEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

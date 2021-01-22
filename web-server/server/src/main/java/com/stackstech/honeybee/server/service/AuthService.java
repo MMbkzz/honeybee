@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.security;
+package com.stackstech.honeybee.server.service;
 
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
 

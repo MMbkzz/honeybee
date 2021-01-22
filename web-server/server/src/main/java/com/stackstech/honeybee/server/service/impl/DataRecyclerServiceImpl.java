@@ -1,8 +1,8 @@
-package com.stackstech.honeybee.server.security;
+package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
-import com.stackstech.honeybee.server.core.mapper.DataServiceTenantMapper;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
+import com.stackstech.honeybee.server.core.mapper.DataRecyclerMapper;
+import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
+public class DataRecyclerServiceImpl implements DataService<DataRecyclerEntity> {
 
     @Autowired
-    private DataServiceTenantMapper mapper;
+    private DataRecyclerMapper mapper;
 
     @Override
-    public boolean add(DataServiceTenantEntity entity, Long ownerId) {
+    public boolean add(DataRecyclerEntity entity, Long ownerId) {
         entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataServiceTenantEntity entity, Long ownerId) {
+    public boolean update(DataRecyclerEntity entity, Long ownerId) {
         entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
@@ -33,12 +33,12 @@ public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
     }
 
     @Override
-    public DataServiceTenantEntity getSingle(Long recordId) {
+    public DataRecyclerEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<DataServiceTenantEntity> get(Map<String, Object> parameter) {
+    public List<DataRecyclerEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

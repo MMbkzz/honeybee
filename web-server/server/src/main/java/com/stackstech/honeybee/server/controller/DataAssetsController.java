@@ -1,11 +1,11 @@
-package com.stackstech.honeybee.server.assets;
+package com.stackstech.honeybee.server.controller;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.entity.*;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.core.vo.AssetsCatalogQuery;
 import com.stackstech.honeybee.server.core.vo.AssetsModelQuery;
 import com.stackstech.honeybee.server.core.vo.PageQuery;

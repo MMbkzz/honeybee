@@ -6,7 +6,7 @@ import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
 import com.stackstech.honeybee.server.core.utils.AuthTokenBuilder;
-import com.stackstech.honeybee.server.security.AuthService;
+import com.stackstech.honeybee.server.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

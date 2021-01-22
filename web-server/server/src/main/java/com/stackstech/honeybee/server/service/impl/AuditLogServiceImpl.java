@@ -1,8 +1,8 @@
-package com.stackstech.honeybee.server.system;
+package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
-import com.stackstech.honeybee.server.core.mapper.DataSourceMapper;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
+import com.stackstech.honeybee.server.core.mapper.AuditLogMapper;
+import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataSourceServiceImpl implements DataService<DataSourceEntity> {
+public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
 
     @Autowired
-    private DataSourceMapper mapper;
+    private AuditLogMapper mapper;
 
     @Override
-    public boolean add(DataSourceEntity entity, Long ownerId) {
+    public boolean add(AuditLogEntity entity, Long ownerId) {
         entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataSourceEntity entity, Long ownerId) {
+    public boolean update(AuditLogEntity entity, Long ownerId) {
         entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
@@ -33,12 +33,12 @@ public class DataSourceServiceImpl implements DataService<DataSourceEntity> {
     }
 
     @Override
-    public DataSourceEntity getSingle(Long recordId) {
+    public AuditLogEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<DataSourceEntity> get(Map<String, Object> parameter) {
+    public List<AuditLogEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
@@ -46,4 +46,5 @@ public class DataSourceServiceImpl implements DataService<DataSourceEntity> {
     public Integer getTotalCount(Map<String, Object> parameter) {
         return mapper.selectTotalCount(parameter);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.security;
+package com.stackstech.honeybee.server.controller;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.vo.AccountLoginVo;
 import com.stackstech.honeybee.server.core.vo.RestPasswordVo;
+import com.stackstech.honeybee.server.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

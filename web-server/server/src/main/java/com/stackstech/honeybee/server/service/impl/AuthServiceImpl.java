@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.security;
+package com.stackstech.honeybee.server.service.impl;
 
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.entity.AccountEntity;
@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.mapper.AccountMapper;
 import com.stackstech.honeybee.server.core.utils.AuthTokenBuilder;
 import com.stackstech.honeybee.server.core.utils.CommonUtil;
+import com.stackstech.honeybee.server.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

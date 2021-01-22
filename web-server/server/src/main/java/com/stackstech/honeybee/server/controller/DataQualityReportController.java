@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.report;
+package com.stackstech.honeybee.server.controller;
 
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;

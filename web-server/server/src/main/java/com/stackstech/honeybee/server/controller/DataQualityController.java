@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.quality;
+package com.stackstech.honeybee.server.controller;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
@@ -8,7 +8,7 @@ import com.stackstech.honeybee.server.core.entity.QualityRuleEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.ApiEndpoint;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

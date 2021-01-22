@@ -1,8 +1,8 @@
-package com.stackstech.honeybee.server.assets;
+package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
-import com.stackstech.honeybee.server.core.mapper.AssetsCatalogMapper;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
+import com.stackstech.honeybee.server.core.mapper.DataServiceTenantMapper;
+import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity> {
+public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
 
     @Autowired
-    private AssetsCatalogMapper mapper;
+    private DataServiceTenantMapper mapper;
 
     @Override
-    public boolean add(AssetsCatalogEntity entity, Long ownerId) {
+    public boolean add(DataServiceTenantEntity entity, Long ownerId) {
         entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AssetsCatalogEntity entity, Long ownerId) {
+    public boolean update(DataServiceTenantEntity entity, Long ownerId) {
         entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
@@ -33,12 +33,12 @@ public class AssetsCatalogServiceImpl implements DataService<AssetsCatalogEntity
     }
 
     @Override
-    public AssetsCatalogEntity getSingle(Long recordId) {
+    public DataServiceTenantEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<AssetsCatalogEntity> get(Map<String, Object> parameter) {
+    public List<DataServiceTenantEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

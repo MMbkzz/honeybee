@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.system;
+package com.stackstech.honeybee.server.service;
 
 public interface SystemConfigService {
 

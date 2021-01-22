@@ -1,44 +1,49 @@
-package com.stackstech.honeybee.server.quality;
+package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
-import com.stackstech.honeybee.server.core.mapper.QualityJobMapper;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
+import com.stackstech.honeybee.server.core.mapper.DataServiceMapper;
+import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * DataServiceImpl
+ *
+ * @author william
+ */
 @Service
-public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> {
+public class DataServiceImpl implements DataService<DataServiceEntity> {
 
     @Autowired
-    private QualityJobMapper mapper;
+    private DataServiceMapper mapper;
 
     @Override
-    public boolean add(QualityJobEntity entity, Long ownerId) {
+    public boolean add(DataServiceEntity entity, Long ownerId) {
         entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityJobEntity entity, Long ownerId) {
+    public boolean update(DataServiceEntity entity, Long ownerId) {
         entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
     public boolean delete(Long recordId, Long ownerId) {
-        return mapper.deleteByPrimaryKey(recordId) > 0;
+        return mapper.deleteByPrimaryKey(recordId, ownerId) > 0;
     }
 
     @Override
-    public QualityJobEntity getSingle(Long recordId) {
+    public DataServiceEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<QualityJobEntity> get(Map<String, Object> parameter) {
+    public List<DataServiceEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
@@ -46,4 +51,5 @@ public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> 
     public Integer getTotalCount(Map<String, Object> parameter) {
         return mapper.selectTotalCount(parameter);
     }
+
 }

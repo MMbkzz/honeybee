@@ -5,7 +5,7 @@ import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.core.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

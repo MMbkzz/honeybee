@@ -1,8 +1,8 @@
-package com.stackstech.honeybee.server.assets;
+package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
-import com.stackstech.honeybee.server.core.mapper.DataRecyclerMapper;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
+import com.stackstech.honeybee.server.core.mapper.QualityJobMapper;
+import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataRecyclerServiceImpl implements DataService<DataRecyclerEntity> {
+public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> {
 
     @Autowired
-    private DataRecyclerMapper mapper;
+    private QualityJobMapper mapper;
 
     @Override
-    public boolean add(DataRecyclerEntity entity, Long ownerId) {
+    public boolean add(QualityJobEntity entity, Long ownerId) {
         entity.create(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataRecyclerEntity entity, Long ownerId) {
+    public boolean update(QualityJobEntity entity, Long ownerId) {
         entity.update(ownerId);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
@@ -33,12 +33,12 @@ public class DataRecyclerServiceImpl implements DataService<DataRecyclerEntity> 
     }
 
     @Override
-    public DataRecyclerEntity getSingle(Long recordId) {
+    public QualityJobEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<DataRecyclerEntity> get(Map<String, Object> parameter) {
+    public List<QualityJobEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

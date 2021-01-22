@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.service;
+package com.stackstech.honeybee.server.service;
 
 import java.util.List;
 import java.util.Map;
