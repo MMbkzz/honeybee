@@ -1,6 +1,5 @@
 package com.stackstech.honeybee.server.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 

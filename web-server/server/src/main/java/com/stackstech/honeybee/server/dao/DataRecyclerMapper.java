@@ -1,6 +1,5 @@
 package com.stackstech.honeybee.server.dao;
 
-import com.stackstech.honeybee.server.core.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
