@@ -20,17 +20,9 @@
 
 #### 模块说明
 
-- api-server：提供通用数据服务的接口服务。
+- data-server：提供通用数据服务的接口服务。
 - web：前端界面。
 - bees：数据质量检查服务。
 - web-server：
   - connector：数据源连接器，基于标准的API实现对不同数据库的接入支持。
   - server：后端服务。
-    - apiserver
-    - assets
-    - audit
-    - core
-    - quality
-    - report
-    - security
-    - system
