@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.core.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import com.stackstech.honeybee.server.core.vo.DataServiceTenantVo;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import com.stackstech.honeybee.server.service.DataService;
 import io.swagger.annotations.Api;
@@ -34,7 +35,7 @@ import java.util.List;
 public class DataServiceTenantController {
 
     @Autowired
-    private DataService<DataServiceTenantEntity> tenantService;
+    private DataService<DataServiceTenantVo> tenantService;
 
     @RequestMapping(value = "/security/tenant/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> get(@PathVariable("id") long id) {
@@ -49,8 +50,8 @@ public class DataServiceTenantController {
 
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/tenant/update", method = RequestMethod.PUT)
-    public ResponseMap<?> update(@Valid @RequestBody DataServiceTenantEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!tenantService.update(entity, account.getId())) {
+    public ResponseMap<?> update(@Valid @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!tenantService.update(vo, account.getId())) {
             return ResponseMap.failed("update tenant failed.");
         }
         return ResponseMap.success(true);
@@ -58,16 +59,16 @@ public class DataServiceTenantController {
 
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/tenant/add", method = RequestMethod.PUT)
-    public ResponseMap<?> add(@Valid @RequestBody DataServiceTenantEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!tenantService.add(entity, account.getId())) {
+    public ResponseMap<?> add(@Valid @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!tenantService.add(vo, account.getId())) {
             return ResponseMap.failed("insert tenant failed.");
         }
-        return ResponseMap.success(entity);
+        return ResponseMap.success(true);
     }
 
     @RequestMapping(value = "/security/tenant/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
-        List<DataServiceTenantEntity> data = tenantService.get(parameters.getParameter());
+        List<DataServiceTenantEntity> data = (List<DataServiceTenantEntity>) tenantService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = tenantService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

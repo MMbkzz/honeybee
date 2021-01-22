@@ -11,6 +11,7 @@ import com.stackstech.honeybee.server.core.entity.DictMapping;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.*;
 import com.stackstech.honeybee.server.core.vo.DataSourceQuery;
+import com.stackstech.honeybee.server.core.vo.DataSourceVo;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.service.SystemConfigService;
@@ -42,7 +43,7 @@ public class SystemController {
     @Autowired
     private SystemConfigService service;
     @Autowired
-    private DataService<DataSourceEntity> dataSourceService;
+    private DataService<DataSourceVo> dataSourceService;
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
@@ -60,8 +61,8 @@ public class SystemController {
     @ApiOperation(value = "update data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!dataSourceService.update(entity, account.getId())) {
+    public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!dataSourceService.update(vo, account.getId())) {
             return ResponseMap.failed("update data source failed.");
         }
         return ResponseMap.success(true);
@@ -70,17 +71,17 @@ public class SystemController {
     @ApiOperation(value = "add data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!dataSourceService.add(entity, account.getId())) {
+    public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!dataSourceService.add(vo, account.getId())) {
             return ResponseMap.failed("insert data source failed.");
         }
-        return ResponseMap.success(entity);
+        return ResponseMap.success(true);
     }
 
     @ApiOperation(value = "query data source")
     @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
     public ResponseMap<?> queryDataSource(@Valid @RequestBody DataSourceQuery parameters) {
-        List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
+        List<DataSourceEntity> data = (List<DataSourceEntity>) dataSourceService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = dataSourceService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

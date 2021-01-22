@@ -9,6 +9,8 @@ import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
+import com.stackstech.honeybee.server.core.vo.QualityJobVo;
+import com.stackstech.honeybee.server.core.vo.QualityRuleVo;
 import com.stackstech.honeybee.server.service.DataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,9 +35,9 @@ import java.util.List;
 public class DataQualityController {
 
     @Autowired
-    private DataService<QualityJobEntity> qualityJobService;
+    private DataService<QualityJobVo> qualityJobService;
     @Autowired
-    private DataService<QualityRuleEntity> qualityRuleService;
+    private DataService<QualityRuleVo> qualityRuleService;
 
 
     @ApiOperation(value = "get quality job")
@@ -54,8 +56,8 @@ public class DataQualityController {
     @ApiOperation(value = "update quality job")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/job/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateQualityJob(@Valid @RequestBody QualityJobEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!qualityJobService.update(entity, account.getId())) {
+    public ResponseMap<?> updateQualityJob(@Valid @RequestBody QualityJobVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityJobService.update(vo, account.getId())) {
             return ResponseMap.failed("update data quality job failed.");
         }
         return ResponseMap.success(true);
@@ -64,17 +66,17 @@ public class DataQualityController {
     @ApiOperation(value = "add quality job")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/job/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addQualityJob(@Valid @RequestBody QualityJobEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!qualityJobService.add(entity, account.getId())) {
+    public ResponseMap<?> addQualityJob(@Valid @RequestBody QualityJobVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityJobService.add(vo, account.getId())) {
             return ResponseMap.failed("insert data quality job failed.");
         }
-        return ResponseMap.success(entity);
+        return ResponseMap.success(true);
     }
 
     @ApiOperation(value = "query quality job")
     @RequestMapping(value = "/quality/job/query", method = RequestMethod.POST)
     public ResponseMap<?> queryQualityJob(@Valid @RequestBody PageQuery parameters) {
-        List<QualityJobEntity> data = qualityJobService.get(parameters.getParameter());
+        List<QualityJobEntity> data = (List<QualityJobEntity>) qualityJobService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = qualityJobService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
@@ -99,8 +101,8 @@ public class DataQualityController {
     @ApiOperation(value = "update quality rule")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/rule/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateQualityRule(@Valid @RequestBody QualityRuleEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!qualityRuleService.update(entity, entity.getId())) {
+    public ResponseMap<?> updateQualityRule(@Valid @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityRuleService.update(vo, account.getId())) {
             return ResponseMap.failed("update data quality rule failed.");
         }
         return ResponseMap.success(true);
@@ -109,17 +111,17 @@ public class DataQualityController {
     @ApiOperation(value = "add quality rule")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/rule/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addQualityRule(@Valid @RequestBody QualityRuleEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!qualityRuleService.add(entity, account.getId())) {
+    public ResponseMap<?> addQualityRule(@Valid @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!qualityRuleService.add(vo, account.getId())) {
             return ResponseMap.failed("insert data quality rule failed.");
         }
-        return ResponseMap.success(entity);
+        return ResponseMap.success(true);
     }
 
     @ApiOperation(value = "query quality rule")
     @RequestMapping(value = "/quality/rule/query", method = RequestMethod.POST)
     public ResponseMap<?> queryQualityRule(@Valid @RequestBody PageQuery parameters) {
-        List<QualityRuleEntity> data = qualityRuleService.get(parameters.getParameter());
+        List<QualityRuleEntity> data = (List<QualityRuleEntity>) qualityRuleService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = qualityRuleService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

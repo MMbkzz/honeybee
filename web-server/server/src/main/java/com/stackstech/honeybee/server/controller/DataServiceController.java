@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import com.stackstech.honeybee.server.core.vo.DataServiceVo;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import com.stackstech.honeybee.server.service.DataService;
 import io.swagger.annotations.Api;
@@ -32,7 +33,7 @@ import java.util.List;
 public class DataServiceController {
 
     @Autowired
-    private DataService<DataServiceEntity> service;
+    private DataService<DataServiceVo> service;
 
     @ApiOperation(value = "get data service")
     @RequestMapping(value = "/data/service/get/{id}", method = RequestMethod.GET)
@@ -52,8 +53,8 @@ public class DataServiceController {
     @ApiOperation(value = "update data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
-    public ResponseMap<?> update(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!service.update(entity, account.getId())) {
+    public ResponseMap<?> update(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!service.update(vo, account.getId())) {
             return ResponseMap.failed("update data service failed.");
         }
         return ResponseMap.success(true);
@@ -62,17 +63,17 @@ public class DataServiceController {
     @ApiOperation(value = "add data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
-    public ResponseMap<?> add(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!service.add(entity, account.getId())) {
+    public ResponseMap<?> add(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!service.add(vo, account.getId())) {
             return ResponseMap.failed("insert data service failed.");
         }
-        return ResponseMap.success(entity);
+        return ResponseMap.success(true);
     }
 
     @ApiOperation(value = "query data service")
     @RequestMapping(value = "/data/service/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
-        List<DataServiceEntity> data = service.get(parameters.getParameter());
+        List<DataServiceEntity> data = (List<DataServiceEntity>) service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

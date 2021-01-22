@@ -43,11 +43,11 @@ public class AuthController {
     @ApiOperation(value = "account login")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.LOGIN)
     @RequestMapping(value = "/security/login", method = RequestMethod.POST)
-    public ResponseMap<?> login(@Valid @RequestBody AccountLoginVo parameters) {
+    public ResponseMap<?> login(@Valid @RequestBody AccountLoginVo vo) {
         ResponseMap responseMap = ResponseMap.failed("login failed, please check your account and password");
 
         AccountEntity entity = authService.login(request, response,
-                parameters.getAccount(), parameters.getPassword());
+                vo.getAccount(), vo.getPassword());
         if (entity != null) {
             responseMap = ResponseMap.success(entity);
         }
@@ -65,12 +65,12 @@ public class AuthController {
     @ApiOperation(value = "reset account password")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/resetpwd", method = RequestMethod.POST)
-    public ResponseMap<?> resetPassword(@Valid @RequestBody RestPasswordVo parameters) {
+    public ResponseMap<?> resetPassword(@Valid @RequestBody RestPasswordVo vo) {
 
         boolean flag = authService.resetPassword(request, response,
-                parameters.getAccount(),
-                parameters.getOldPassword(),
-                parameters.getNewPassword());
+                vo.getAccount(),
+                vo.getOldPassword(),
+                vo.getNewPassword());
         if (flag) {
             return ResponseMap.success("rest password success");
         }

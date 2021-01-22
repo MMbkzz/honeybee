@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import com.stackstech.honeybee.server.core.vo.AccountVo;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import com.stackstech.honeybee.server.service.DataService;
 import io.swagger.annotations.Api;
@@ -32,7 +33,7 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    private DataService<AccountEntity> accountService;
+    private DataService<AccountVo> accountService;
 
     @ApiOperation(value = "get account")
     @RequestMapping(value = "/security/account/get/{id}", method = RequestMethod.GET)
@@ -50,8 +51,8 @@ public class AccountController {
     @ApiOperation(value = "update account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/account/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAccount(@Valid @RequestBody AccountEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!accountService.update(entity, account.getId())) {
+    public ResponseMap<?> updateAccount(@Valid @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!accountService.update(vo, account.getId())) {
             return ResponseMap.failed("update account failed.");
         }
         return ResponseMap.success(true);
@@ -60,17 +61,17 @@ public class AccountController {
     @ApiOperation(value = "add account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/account/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAccount(@Valid @RequestBody AccountEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!accountService.add(entity, account.getId())) {
+    public ResponseMap<?> addAccount(@Valid @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        if (!accountService.add(vo, account.getId())) {
             return ResponseMap.failed("insert account failed.");
         }
-        return ResponseMap.success(entity);
+        return ResponseMap.success(true);
     }
 
     @ApiOperation(value = "query account")
     @RequestMapping(value = "/security/account/query", method = RequestMethod.POST)
     public ResponseMap<?> queryAccount(@Valid @RequestBody PageQuery parameters) {
-        List<AccountEntity> data = accountService.get(parameters.getParameter());
+        List<AccountEntity> data = (List<AccountEntity>) accountService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = accountService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
