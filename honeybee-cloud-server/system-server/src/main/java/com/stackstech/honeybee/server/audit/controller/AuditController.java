@@ -4,7 +4,7 @@ import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.AuditLogQuery;
-import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.core.service.DataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,8 @@
-package com.stackstech.honeybee.server.service.impl;
+package com.stackstech.honeybee.server.audit.service;
 
 import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.audit.dao.AuditLogMapper;
-import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.core.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
