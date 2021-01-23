@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.dao.QualityJobMapper">
-  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.QualityJobEntity">
+<mapper namespace="com.stackstech.honeybee.server.quality.dao.QualityJobMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.quality.entity.QualityJobEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="job_name" jdbcType="VARCHAR" property="jobName" />
     <result column="job_code" jdbcType="VARCHAR" property="jobCode" />
@@ -55,7 +55,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_quality_job set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityJobEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.quality.entity.QualityJobEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_quality_job
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -122,7 +122,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityJobEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.quality.entity.QualityJobEntity">
     update hb_quality_job
     <set>
       <if test="jobName != null">

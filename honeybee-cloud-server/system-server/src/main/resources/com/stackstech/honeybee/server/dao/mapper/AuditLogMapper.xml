@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.dao.AuditLogMapper">
-  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
+<mapper namespace="com.stackstech.honeybee.server.audit.dao.AuditLogMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.audit.entity.AuditLogEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="log_title" jdbcType="VARCHAR" property="logTitle" />
     <result column="log_audit" jdbcType="VARCHAR" property="logAudit" />
@@ -61,7 +61,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_audit_log set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity"  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.audit.entity.AuditLogEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_audit_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -128,7 +128,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.AuditLogEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.audit.entity.AuditLogEntity">
     update hb_audit_log
     <set>
       <if test="logTitle != null">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.dao.AssetsCatalogMapper">
-  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity">
+<mapper namespace="com.stackstech.honeybee.server.assets.dao.AssetsCatalogMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="isroot" jdbcType="INTEGER" property="isroot" />
     <result column="catalog_name" jdbcType="VARCHAR" property="catalogName" />
@@ -61,7 +61,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_assets_catalog set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity"  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_assets_catalog
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -140,7 +140,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity">
     update hb_assets_catalog
     <set>
       <if test="isroot != null">

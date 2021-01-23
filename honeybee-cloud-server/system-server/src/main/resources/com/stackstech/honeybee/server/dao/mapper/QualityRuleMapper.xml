@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stackstech.honeybee.server.dao.QualityRuleMapper">
-  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.core.entity.QualityRuleEntity">
+<mapper namespace="com.stackstech.honeybee.server.quality.dao.QualityRuleMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.quality.entity.QualityRuleEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="rule_name" jdbcType="VARCHAR" property="ruleName" />
     <result column="rule_code" jdbcType="VARCHAR" property="ruleCode" />
@@ -62,7 +62,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update hb_quality_rule set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityRuleEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.quality.entity.QualityRuleEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into hb_quality_rule
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -135,7 +135,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.core.entity.QualityRuleEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.quality.entity.QualityRuleEntity">
     update hb_quality_rule
     <set>
       <if test="ruleName != null">
