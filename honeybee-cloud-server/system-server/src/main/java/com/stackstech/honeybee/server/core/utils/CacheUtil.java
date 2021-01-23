@@ -20,6 +20,7 @@ import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.util.SafeEncoder;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public final class CacheUtil {
 
     public static Joiner joiner = Joiner.on(Constant.SEPARATOR).skipNulls();
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
 //    protected void set(String key, String value) {

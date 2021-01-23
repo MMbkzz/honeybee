@@ -6,6 +6,7 @@ import com.stackstech.honeybee.server.core.inteceptor.RequestAccountArgumentReso
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Data
 @Component
+@RefreshScope
 @ConfigurationProperties(prefix = "app.cors")
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 

@@ -4,8 +4,10 @@ import com.stackstech.honeybee.server.core.enums.Constant;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @Data
+@RefreshScope
 @ConfigurationProperties(prefix = "app.config")
 public class ApplicationConfig {
 
