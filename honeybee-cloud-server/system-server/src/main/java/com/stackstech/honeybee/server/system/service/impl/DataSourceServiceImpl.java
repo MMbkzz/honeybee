@@ -4,7 +4,7 @@ import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.core.vo.DataSourceVo;
 import com.stackstech.honeybee.server.system.dao.DataSourceMapper;
 import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.server.utils.CommonUtil;
+import com.stackstech.honeybee.server.core.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.utils;
+package com.stackstech.honeybee.server.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
