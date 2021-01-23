@@ -9,12 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>honeybee-cloud-module</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>honeybee-boot-gateway</module>
-        <module>honeybee-boot-monitor</module>
-    </modules>
-
+    <artifactId>honeybee-boot-monitor</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
 </project>
