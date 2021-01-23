@@ -6,7 +6,7 @@
         <artifactId>honeybee</artifactId>
         <groupId>com.stackstech.honeybee</groupId>
         <version>1.0</version>
-        <relativePath><![CDATA[../../pom.xml]]></relativePath>
+        <relativePath><![CDATA[../pom.xml]]></relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
