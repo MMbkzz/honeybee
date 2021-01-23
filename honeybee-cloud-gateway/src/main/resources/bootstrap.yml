@@ -23,7 +23,10 @@ spring:
           uri: lb://honeybee-cloud-server
           predicates:
             - Path=/api/**
-
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8850
+        port: 8719
 management:
   endpoints:
     web:
@@ -32,6 +35,3 @@ management:
 
 logging:
   config: classpath:logback-spring.xml
-
-swagger:
-  enable: true

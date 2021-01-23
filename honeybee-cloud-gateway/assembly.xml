@@ -22,7 +22,6 @@
             <outputDirectory>/conf</outputDirectory>
             <includes>
                 <include>/bootstrap.yml</include>
-                <include>/mybatis-config.xml</include>
                 <include>/logback-spring.xml</include>
             </includes>
         </fileSet>
