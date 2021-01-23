@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stackstech.honeybee.server.quality.dao.QualityJobMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.quality.entity.QualityJobEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="job_name" jdbcType="VARCHAR" property="jobName" />
+    <result column="job_code" jdbcType="VARCHAR" property="jobCode" />
+    <result column="job_expression" jdbcType="VARCHAR" property="jobExpression" />
+    <result column="job_order" jdbcType="INTEGER" property="jobOrder" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="owner" jdbcType="BIGINT" property="owner" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `job_name`, `job_code`, `job_expression`, `job_order`, `status`, `owner`, `updatetime`, 
+    `createtime`, `desc`
+  </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from hb_quality_job where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and (`job_name` like #{keywords} or `job_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="order != null">
+      order by ${order}
+    </if>
+    <if test="pageStart != null and pageSize != null and pageStart gt -1">
+      limit ${pageStart}, ${pageSize}
+    </if>
+  </select>
+
+  <select id="selectTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from hb_quality_job where `status` != -1
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="keywords != null">
+      and (`job_name` like #{keywords} or `job_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hb_quality_job
+    where `id` = #{id,jdbcType=BIGINT} and `status` != -1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update hb_quality_job set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.quality.entity.QualityJobEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    insert into hb_quality_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        `id`,
+      </if>
+      <if test="jobName != null">
+        `job_name`,
+      </if>
+      <if test="jobCode != null">
+        `job_code`,
+      </if>
+      <if test="jobExpression != null">
+        `job_expression`,
+      </if>
+      <if test="jobOrder != null">
+        `job_order`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="owner != null">
+        `owner`,
+      </if>
+      <if test="updatetime != null">
+        `updatetime`,
+      </if>
+      <if test="createtime != null">
+        `createtime`,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="jobName != null">
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCode != null">
+        #{jobCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobExpression != null">
+        #{jobExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="jobOrder != null">
+        #{jobOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.quality.entity.QualityJobEntity">
+    update hb_quality_job
+    <set>
+      <if test="jobName != null">
+        `job_name` = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCode != null">
+        `job_code` = #{jobCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobExpression != null">
+        `job_expression` = #{jobExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="jobOrder != null">
+        `job_order` = #{jobOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        `owner` = #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        `createtime` = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

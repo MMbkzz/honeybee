@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stackstech.honeybee.server.system.dao.SysConfigMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.system.entity.SysConfigEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="config_key" jdbcType="VARCHAR" property="configKey" />
+    <result column="config_value" jdbcType="VARCHAR" property="configValue" />
+    <result column="owner" jdbcType="BIGINT" property="owner" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `config_key`, `config_value`, `owner`, `updatetime`, `createtime`, `desc`
+  </sql>
+
+  <select id="selectByConfigKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from hb_sys_config
+    where `config_key` = #{configKey,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateByConfigKey" parameterType="java.lang.String">
+    update hb_sys_config
+    set `config_value` = #{configValue,jdbcType=VARCHAR}, `updatetime` = NOW()
+    where `config_key` = #{configKey,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hb_sys_config
+    where `id` = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.system.entity.SysConfigEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    insert into hb_sys_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        `id`,
+      </if>
+      <if test="configKey != null">
+        `config_key`,
+      </if>
+      <if test="configValue != null">
+        `config_value`,
+      </if>
+      <if test="owner != null">
+        `owner`,
+      </if>
+      <if test="updatetime != null">
+        `updatetime`,
+      </if>
+      <if test="createtime != null">
+        `createtime`,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="configKey != null">
+        #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null">
+        #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.system.entity.SysConfigEntity">
+    update hb_sys_config
+    <set>
+      <if test="configKey != null">
+        `config_key` = #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null">
+        `config_value` = #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        `owner` = #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        `createtime` = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

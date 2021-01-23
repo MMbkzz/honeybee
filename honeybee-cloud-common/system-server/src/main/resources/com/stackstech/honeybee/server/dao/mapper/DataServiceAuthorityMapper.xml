@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stackstech.honeybee.server.api.dao.DataServiceAuthorityMapper">
+  <resultMap id="BaseResultMap" type="com.stackstech.honeybee.server.api.entity.DataServiceAuthorityEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
+    <result column="data_service_id" jdbcType="BIGINT" property="dataServiceId" />
+    <result column="authority_token" jdbcType="VARCHAR" property="authorityToken" />
+    <result column="authority_expire" jdbcType="BIGINT" property="authorityExpire" />
+    <result column="authority_data" jdbcType="VARCHAR" property="authorityData" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="owner" jdbcType="BIGINT" property="owner" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `tenant_id`, `data_service_id`, `authority_token`, `authority_expire`, `authority_data`, 
+    `status`, `owner`, `updatetime`, `createtime`, `desc`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hb_data_service_authority
+    where `id` = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update hb_data_service_authority set `status` = -1 ,`updatetime` = NOW() where `id` = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.stackstech.honeybee.server.api.entity.DataServiceAuthorityEntity" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    insert into hb_data_service_authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        `id`,
+      </if>
+      <if test="tenantId != null">
+        `tenant_id`,
+      </if>
+      <if test="dataServiceId != null">
+        `data_service_id`,
+      </if>
+      <if test="authorityToken != null">
+        `authority_token`,
+      </if>
+      <if test="authorityExpire != null">
+        `authority_expire`,
+      </if>
+      <if test="authorityData != null">
+        `authority_data`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="owner != null">
+        `owner`,
+      </if>
+      <if test="updatetime != null">
+        `updatetime`,
+      </if>
+      <if test="createtime != null">
+        `createtime`,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="dataServiceId != null">
+        #{dataServiceId,jdbcType=BIGINT},
+      </if>
+      <if test="authorityToken != null">
+        #{authorityToken,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityExpire != null">
+        #{authorityExpire,jdbcType=BIGINT},
+      </if>
+      <if test="authorityData != null">
+        #{authorityData,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.api.entity.DataServiceAuthorityEntity">
+    update hb_data_service_authority
+    <set>
+      <if test="tenantId != null">
+        `tenant_id` = #{tenantId,jdbcType=BIGINT},
+      </if>
+      <if test="dataServiceId != null">
+        `data_service_id` = #{dataServiceId,jdbcType=BIGINT},
+      </if>
+      <if test="authorityToken != null">
+        `authority_token` = #{authorityToken,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityExpire != null">
+        `authority_expire` = #{authorityExpire,jdbcType=BIGINT},
+      </if>
+      <if test="authorityData != null">
+        `authority_data` = #{authorityData,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        `owner` = #{owner,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null">
+        `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        `createtime` = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
