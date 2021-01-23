@@ -1,6 +1,6 @@
-package com.stackstech.honeybee.server.dao;
+package com.stackstech.honeybee.server.assets.dao;
 
-import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
+import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
