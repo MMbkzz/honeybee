@@ -20,7 +20,7 @@ import javax.sql.DataSource;
  * 数据源配置
  */
 @Configuration
-@MapperScan(basePackages = "com.stackstech.honeybee.server.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = "com.stackstech.honeybee.server.*.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class DataSourceConfig {
 
     @Bean(name = "dataSource")

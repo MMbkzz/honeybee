@@ -10,7 +10,7 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/honeybee?charset=UTF8&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8" userId="root" password="123456"/>
-        <javaModelGenerator targetPackage="com.stackstech.honeybee.server.core.entity" targetProject="src/main/java"/>
+        <javaModelGenerator targetPackage="com.stackstech.honeybee.server.entity" targetProject="src/main/java"/>
         <sqlMapGenerator targetPackage="com.stackstech.honeybee.server.dao.mapper" targetProject="src/main/resources"/>
         <javaClientGenerator targetPackage="com.stackstech.honeybee.server.dao" targetProject="src/main/java" type="XMLMAPPER"/>
 
