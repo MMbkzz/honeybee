@@ -14,7 +14,6 @@ spring:
         file-extension: yaml
         prefix: honeybee
         group: DEFAULT_GROUP
-
     gateway:
       discovery:
         locator:
@@ -23,7 +22,7 @@ spring:
         - id: honeybee-cloud-server
           uri: lb://honeybee-cloud-server
           predicates:
-            - Path=/api/v1/**
+            - Path=/api/**
 
 management:
   endpoints:
