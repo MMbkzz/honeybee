@@ -1,6 +1,7 @@
-package com.stackstech.honeybee.server.core.entity;
+package com.stackstech.honeybee.server.audit.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.stackstech.honeybee.server.core.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
