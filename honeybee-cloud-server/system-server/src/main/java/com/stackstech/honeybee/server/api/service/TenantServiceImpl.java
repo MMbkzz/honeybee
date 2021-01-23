@@ -1,9 +1,9 @@
-package com.stackstech.honeybee.server.service.impl;
+package com.stackstech.honeybee.server.api.service;
 
 import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.core.vo.DataServiceTenantVo;
 import com.stackstech.honeybee.server.api.dao.DataServiceTenantMapper;
-import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
