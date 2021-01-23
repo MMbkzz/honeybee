@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>connector</artifactId>
+    <artifactId>bees-connector</artifactId>
     <packaging>jar</packaging>
     <description>honeybee database connector project for Spring Boot</description>
 

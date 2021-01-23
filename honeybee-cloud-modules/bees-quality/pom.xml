@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>bees</artifactId>
+    <artifactId>bees-quality</artifactId>
     <packaging>jar</packaging>
 
     <properties>
