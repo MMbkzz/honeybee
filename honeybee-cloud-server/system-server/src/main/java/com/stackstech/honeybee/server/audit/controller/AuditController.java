@@ -1,6 +1,6 @@
-package com.stackstech.honeybee.server.controller;
+package com.stackstech.honeybee.server.audit.controller;
 
-import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
+import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.AuditLogQuery;
