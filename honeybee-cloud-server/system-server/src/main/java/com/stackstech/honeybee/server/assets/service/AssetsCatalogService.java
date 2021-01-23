@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.service;
+package com.stackstech.honeybee.server.assets.service;
 
 import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
 import com.stackstech.honeybee.server.assets.entity.DataRecyclerEntity;

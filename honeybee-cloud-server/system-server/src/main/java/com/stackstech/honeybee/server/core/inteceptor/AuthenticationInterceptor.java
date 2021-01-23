@@ -5,7 +5,7 @@ import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
-import com.stackstech.honeybee.server.service.AuthService;
+import com.stackstech.honeybee.server.system.service.AuthService;
 import com.stackstech.honeybee.server.utils.AuthTokenBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
