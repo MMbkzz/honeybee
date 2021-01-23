@@ -8,15 +8,15 @@
         <version>1.0</version>
         <relativePath><![CDATA[../pom.xml]]></relativePath>
     </parent>
-
-    <name>web-server</name>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-    <artifactId>web-server</artifactId>
 
+    <artifactId>honeybee-cloud-server</artifactId>
+    <packaging>pom</packaging>
     <modules>
-        <module>server</module>
+        <module>bees</module>
         <module>connector</module>
+        <module>data-server</module>
+        <module>system-server</module>
     </modules>
 
 </project>

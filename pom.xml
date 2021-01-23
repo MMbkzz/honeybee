@@ -96,9 +96,8 @@
 
 
     <modules>
-        <module>bees</module>
-        <module>web-server</module>
-        <module>data-server</module>
+        <module>honeybee-cloud-server</module>
+        <module>honeybee-cloud-module</module>
     </modules>
 
 
