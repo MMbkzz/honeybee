@@ -1,8 +1,8 @@
 server:
-  port: 18082
+  port: 18083
 spring:
   application:
-    name: honeybee-cloud-server
+    name: honeybee-cloud-gateway
   cloud:
     nacos:
       discovery:
@@ -14,6 +14,17 @@ spring:
         file-extension: yaml
         prefix: honeybee
         group: DEFAULT_GROUP
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: honeybee-cloud-server
+          uri: lb://honeybee-cloud-server
+          predicates:
+            - Path=/api/v1/**
+
 management:
   endpoints:
     web:
