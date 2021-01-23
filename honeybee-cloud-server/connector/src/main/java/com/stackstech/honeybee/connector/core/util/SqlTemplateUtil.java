@@ -141,7 +141,7 @@ public class SqlTemplateUtil {
         result.forEach(m -> {
             Map<String, Object> hashMap = new HashMap<>();
             for (String key : filedMap.keySet()) {
-                if (m.get(key) == null || m.get(key) == "" || "null".equals(m.get(key).toString().toLowerCase())) {
+                if (m.get(key) == null || m.get(key) == "" || "null".equalsIgnoreCase(m.get(key).toString())) {
                     hashMap.put(key, "");
                 } else {
                     hashMap.put(key, m.get(key));

@@ -11,7 +11,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>connector</artifactId>
-    <name>connector</name>
     <packaging>jar</packaging>
     <description>honeybee database connector project for Spring Boot</description>
 
