@@ -1,6 +1,6 @@
-package com.stackstech.honeybee.server.dao;
+package com.stackstech.honeybee.server.audit.dao;
 
-import com.stackstech.honeybee.server.core.entity.AuditLogEntity;
+import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
