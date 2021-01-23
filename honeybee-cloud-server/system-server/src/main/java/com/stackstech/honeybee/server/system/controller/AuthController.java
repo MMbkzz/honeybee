@@ -7,7 +7,7 @@ import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.AccountLoginVo;
 import com.stackstech.honeybee.server.core.vo.RestPasswordVo;
-import com.stackstech.honeybee.server.service.AuthService;
+import com.stackstech.honeybee.server.system.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
