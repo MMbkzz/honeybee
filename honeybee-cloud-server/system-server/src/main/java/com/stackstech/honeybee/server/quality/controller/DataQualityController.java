@@ -11,7 +11,7 @@ import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
 import com.stackstech.honeybee.server.core.vo.QualityJobVo;
 import com.stackstech.honeybee.server.core.vo.QualityRuleVo;
-import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.core.service.DataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

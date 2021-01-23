@@ -1,9 +1,9 @@
-package com.stackstech.honeybee.server.service.impl;
+package com.stackstech.honeybee.server.quality.service;
 
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
 import com.stackstech.honeybee.server.core.vo.QualityJobVo;
 import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
-import com.stackstech.honeybee.server.service.DataService;
+import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
