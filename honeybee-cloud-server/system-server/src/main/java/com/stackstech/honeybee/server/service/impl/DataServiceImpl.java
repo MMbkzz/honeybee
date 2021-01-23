@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,14 +18,14 @@ import java.util.Map;
  * @author william
  */
 @Service
-public class DataServiceImpl implements DataService<DataServiceVo> {
+public class DataServiceImpl implements DataService<DataServiceVo, DataServiceEntity> {
 
     @Autowired
     private DataServiceMapper mapper;
 
     @Override
     public boolean add(DataServiceVo vo, Long ownerId) {
-        DataServiceEntity entity = new DataServiceEntity().create(ownerId);
+        DataServiceEntity entity = new DataServiceEntity().build(ownerId);
         BeanUtils.copyProperties(vo, entity);
         //TODO
         entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
@@ -47,12 +48,12 @@ public class DataServiceImpl implements DataService<DataServiceVo> {
     }
 
     @Override
-    public Object getSingle(Long recordId) {
+    public DataServiceEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public Object get(Map<String, Object> parameter) {
+    public List<DataServiceEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
@@ -60,5 +61,6 @@ public class DataServiceImpl implements DataService<DataServiceVo> {
     public Integer getTotalCount(Map<String, Object> parameter) {
         return mapper.selectTotalCount(parameter);
     }
+
 
 }

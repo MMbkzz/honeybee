@@ -9,17 +9,18 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataSourceServiceImpl implements DataService<DataSourceVo> {
+public class DataSourceServiceImpl implements DataService<DataSourceVo, DataSourceEntity> {
 
     @Autowired
     private DataSourceMapper mapper;
 
     @Override
     public boolean add(DataSourceVo vo, Long ownerId) {
-        DataSourceEntity entity = new DataSourceEntity().create(ownerId);
+        DataSourceEntity entity = new DataSourceEntity().build(ownerId);
         BeanUtils.copyProperties(vo, entity);
         //TODO
         entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
@@ -40,12 +41,12 @@ public class DataSourceServiceImpl implements DataService<DataSourceVo> {
     }
 
     @Override
-    public Object getSingle(Long recordId) {
+    public DataSourceEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public Object get(Map<String, Object> parameter) {
+    public List<DataSourceEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
@@ -53,4 +54,5 @@ public class DataSourceServiceImpl implements DataService<DataSourceVo> {
     public Integer getTotalCount(Map<String, Object> parameter) {
         return mapper.selectTotalCount(parameter);
     }
+
 }

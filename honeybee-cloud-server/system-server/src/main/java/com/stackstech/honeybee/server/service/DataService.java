@@ -1,15 +1,17 @@
 package com.stackstech.honeybee.server.service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * Data operation service interface
  *
- * @param <T> Data entity class type
+ * @param <V> Data view class type
+ * @param <E> Data entity class type
  * @author William
  * @since 1.0
  */
-public interface DataService<T> {
+public interface DataService<V, E> {
 
     /**
      * Add data record
@@ -18,7 +20,7 @@ public interface DataService<T> {
      * @param ownerId Owner ID
      * @return boolean
      */
-    boolean add(T vo, Long ownerId);
+    boolean add(V vo, Long ownerId);
 
     /**
      * Update data record
@@ -27,7 +29,7 @@ public interface DataService<T> {
      * @param ownerId Owner ID
      * @return boolean
      */
-    boolean update(T vo, Long ownerId);
+    boolean update(V vo, Long ownerId);
 
     /**
      * Delete data record
@@ -44,7 +46,7 @@ public interface DataService<T> {
      * @param recordId Data record ID
      * @return Data result
      */
-    Object getSingle(Long recordId);
+    E getSingle(Long recordId);
 
 
     /**
@@ -53,7 +55,7 @@ public interface DataService<T> {
      * @param parameter Query parameters
      * @return List of data result
      */
-    Object get(Map<String, Object> parameter);
+    List<E> get(Map<String, Object> parameter);
 
     /**
      * Get the number of multiple data records

@@ -43,7 +43,7 @@ public class SystemController {
     @Autowired
     private SystemConfigService service;
     @Autowired
-    private DataService<DataSourceVo> dataSourceService;
+    private DataService<DataSourceVo, DataSourceEntity> dataSourceService;
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
@@ -81,7 +81,7 @@ public class SystemController {
     @ApiOperation(value = "query data source")
     @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
     public ResponseMap<?> queryDataSource(@Valid @RequestBody DataSourceQuery parameters) {
-        List<DataSourceEntity> data = (List<DataSourceEntity>) dataSourceService.get(parameters.getParameter());
+        List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = dataSourceService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

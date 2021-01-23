@@ -33,7 +33,7 @@ import java.util.List;
 public class DataServiceController {
 
     @Autowired
-    private DataService<DataServiceVo> service;
+    private DataService<DataServiceVo, DataServiceEntity> service;
 
     @ApiOperation(value = "get data service")
     @RequestMapping(value = "/data/service/get/{id}", method = RequestMethod.GET)
@@ -73,7 +73,7 @@ public class DataServiceController {
     @ApiOperation(value = "query data service")
     @RequestMapping(value = "/data/service/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
-        List<DataServiceEntity> data = (List<DataServiceEntity>) service.get(parameters.getParameter());
+        List<DataServiceEntity> data = service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

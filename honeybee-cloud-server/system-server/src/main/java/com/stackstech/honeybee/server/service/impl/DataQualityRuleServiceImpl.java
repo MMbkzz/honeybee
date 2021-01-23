@@ -11,10 +11,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataQualityRuleServiceImpl implements DataService<QualityRuleVo> {
+public class DataQualityRuleServiceImpl implements DataService<QualityRuleVo, QualityRuleEntity> {
 
     @Autowired
     private QualityJobMapper qualityJobMapper;
@@ -23,14 +24,14 @@ public class DataQualityRuleServiceImpl implements DataService<QualityRuleVo> {
 
     @Override
     public boolean add(QualityRuleVo vo, Long ownerId) {
-        QualityJobEntity jobEntity = new QualityJobEntity().create(ownerId);
+        QualityJobEntity jobEntity = new QualityJobEntity().build(ownerId);
         BeanUtils.copyProperties(vo, jobEntity);
         jobEntity.setJobCode(CommonUtil.generateEntityCode());
         jobEntity.setJobOrder(1);
         jobEntity.setDesc(vo.getJobDesc());
         boolean flag = qualityJobMapper.insertSelective(jobEntity) > 0;
         if (flag) {
-            QualityRuleEntity ruleEntity = new QualityRuleEntity().create(ownerId);
+            QualityRuleEntity ruleEntity = new QualityRuleEntity().build(ownerId);
             BeanUtils.copyProperties(vo, jobEntity);
             ruleEntity.setRuleCode(CommonUtil.generateEntityCode());
             // TODO rule config yaml
@@ -70,12 +71,12 @@ public class DataQualityRuleServiceImpl implements DataService<QualityRuleVo> {
     }
 
     @Override
-    public Object getSingle(Long recordId) {
+    public QualityRuleEntity getSingle(Long recordId) {
         return qualityRuleMapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public Object get(Map<String, Object> parameter) {
+    public List<QualityRuleEntity> get(Map<String, Object> parameter) {
         return qualityRuleMapper.selectByParameter(parameter);
     }
 
@@ -83,4 +84,5 @@ public class DataQualityRuleServiceImpl implements DataService<QualityRuleVo> {
     public Integer getTotalCount(Map<String, Object> parameter) {
         return qualityRuleMapper.selectTotalCount(parameter);
     }
+
 }

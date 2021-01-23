@@ -1,50 +1,50 @@
 package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
-import com.stackstech.honeybee.server.core.vo.AssetsModelVo;
-import com.stackstech.honeybee.server.dao.AssetsModelMapper;
+import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
+import com.stackstech.honeybee.server.core.vo.QualityJobVo;
+import com.stackstech.honeybee.server.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class AssetsModelServiceImpl implements DataService<AssetsModelVo> {
+public class DataQualityJobServiceImpl implements DataService<QualityJobVo, QualityJobEntity> {
 
     @Autowired
-    private AssetsModelMapper mapper;
+    private QualityJobMapper mapper;
 
     @Override
-    public boolean add(AssetsModelVo vo, Long ownerId) {
-        AssetsModelEntity entity = new AssetsModelEntity().create(ownerId);
+    public boolean add(QualityJobVo vo, Long ownerId) {
+        QualityJobEntity entity = new QualityJobEntity().build(ownerId);
         BeanUtils.copyProperties(vo, entity);
-        entity.setAssetsModelCode(CommonUtil.generateEntityCode());
+        entity.setJobCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AssetsModelVo vo, Long ownerId) {
-        AssetsModelEntity entity = new AssetsModelEntity().update(ownerId);
+    public boolean update(QualityJobVo vo, Long ownerId) {
+        QualityJobEntity entity = new QualityJobEntity().update(ownerId);
         BeanUtils.copyProperties(vo, entity);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
     public boolean delete(Long recordId, Long ownerId) {
-        //TODO insert to data recycler
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     @Override
-    public Object getSingle(Long recordId) {
+    public QualityJobEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public Object get(Map<String, Object> parameter) {
+    public List<QualityJobEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
@@ -52,4 +52,5 @@ public class AssetsModelServiceImpl implements DataService<AssetsModelVo> {
     public Integer getTotalCount(Map<String, Object> parameter) {
         return mapper.selectTotalCount(parameter);
     }
+
 }

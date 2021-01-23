@@ -27,7 +27,7 @@ import java.util.List;
 public class AuditController {
 
     @Autowired
-    private DataService<AuditLogEntity> service;
+    private DataService<AuditLogEntity, AuditLogEntity> service;
 
     @ApiOperation(value = "get audit log")
     @RequestMapping(value = "/audit/get/{id}", method = RequestMethod.GET)
@@ -38,7 +38,7 @@ public class AuditController {
     @ApiOperation(value = "query audit log")
     @RequestMapping(value = "/audit/{auditType}/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@PathVariable("auditType") String auditType, @Valid @RequestBody AuditLogQuery parameters) {
-        List<AuditLogEntity> data = (List<AuditLogEntity>) service.get(parameters.getParameter());
+        List<AuditLogEntity> data = service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

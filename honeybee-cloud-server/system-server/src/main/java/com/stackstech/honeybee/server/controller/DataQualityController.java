@@ -35,9 +35,9 @@ import java.util.List;
 public class DataQualityController {
 
     @Autowired
-    private DataService<QualityJobVo> qualityJobService;
+    private DataService<QualityJobVo, QualityJobEntity> qualityJobService;
     @Autowired
-    private DataService<QualityRuleVo> qualityRuleService;
+    private DataService<QualityRuleVo, QualityRuleEntity> qualityRuleService;
 
 
     @ApiOperation(value = "get quality job")
@@ -76,7 +76,7 @@ public class DataQualityController {
     @ApiOperation(value = "query quality job")
     @RequestMapping(value = "/quality/job/query", method = RequestMethod.POST)
     public ResponseMap<?> queryQualityJob(@Valid @RequestBody PageQuery parameters) {
-        List<QualityJobEntity> data = (List<QualityJobEntity>) qualityJobService.get(parameters.getParameter());
+        List<QualityJobEntity> data = qualityJobService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = qualityJobService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
@@ -121,7 +121,7 @@ public class DataQualityController {
     @ApiOperation(value = "query quality rule")
     @RequestMapping(value = "/quality/rule/query", method = RequestMethod.POST)
     public ResponseMap<?> queryQualityRule(@Valid @RequestBody PageQuery parameters) {
-        List<QualityRuleEntity> data = (List<QualityRuleEntity>) qualityRuleService.get(parameters.getParameter());
+        List<QualityRuleEntity> data = qualityRuleService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = qualityRuleService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

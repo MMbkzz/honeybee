@@ -6,17 +6,19 @@ import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
+//TODO
 @Service
-public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
+public class AuditLogServiceImpl implements DataService<AuditLogEntity, AuditLogEntity> {
 
     @Autowired
     private AuditLogMapper mapper;
 
     @Override
     public boolean add(AuditLogEntity entity, Long ownerId) {
-        entity.create(ownerId);
+        entity.build(ownerId);
         return mapper.insertSelective(entity) > 0;
     }
 
@@ -32,12 +34,12 @@ public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
     }
 
     @Override
-    public Object getSingle(Long recordId) {
+    public AuditLogEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public Object get(Map<String, Object> parameter) {
+    public List<AuditLogEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 

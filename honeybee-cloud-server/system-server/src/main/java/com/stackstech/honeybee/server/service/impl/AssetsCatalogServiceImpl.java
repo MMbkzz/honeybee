@@ -2,9 +2,13 @@ package com.stackstech.honeybee.server.service.impl;
 
 import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
 import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
+import com.stackstech.honeybee.server.core.enums.AssetsCatalogType;
 import com.stackstech.honeybee.server.core.vo.AssetsCatalogVo;
+import com.stackstech.honeybee.server.dao.AssetsCatalogMapper;
+import com.stackstech.honeybee.server.dao.DataRecyclerMapper;
 import com.stackstech.honeybee.server.service.AssetsCatalogService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +18,21 @@ import java.util.Map;
 @Service
 public class AssetsCatalogServiceImpl implements AssetsCatalogService {
 
+    @Autowired
+    private AssetsCatalogMapper assetsCatalogMapper;
+    @Autowired
+    private DataRecyclerMapper dataRecyclerMapper;
+
     @Override
     public boolean addAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId) {
+        if(assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.DOMAIN.name())){
+            AssetsCatalogEntity entity = new AssetsCatalogEntity().build(ownerId);
+
+        }
+        if(assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.TOPIC.name())){
+
+        }
+
         return false;
     }
 

@@ -33,7 +33,7 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    private DataService<AccountVo> accountService;
+    private DataService<AccountVo, AccountEntity> accountService;
 
     @ApiOperation(value = "get account")
     @RequestMapping(value = "/security/account/get/{id}", method = RequestMethod.GET)
@@ -71,7 +71,7 @@ public class AccountController {
     @ApiOperation(value = "query account")
     @RequestMapping(value = "/security/account/query", method = RequestMethod.POST)
     public ResponseMap<?> queryAccount(@Valid @RequestBody PageQuery parameters) {
-        List<AccountEntity> data = (List<AccountEntity>) accountService.get(parameters.getParameter());
+        List<AccountEntity> data = accountService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = accountService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

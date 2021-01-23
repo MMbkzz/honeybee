@@ -31,7 +31,7 @@ import java.util.List;
 public class DataAssetsController {
 
     @Autowired
-    private DataService<AssetsModelVo> assetsModelService;
+    private DataService<AssetsModelVo, AssetsModelEntity> assetsModelService;
     @Autowired
     private AssetsCatalogService assetsCatalogService;
 
@@ -71,7 +71,7 @@ public class DataAssetsController {
     @ApiOperation(value = "query data assets model")
     @RequestMapping(value = "/data/assets/model/query", method = RequestMethod.POST)
     public ResponseMap<?> queryModel(@Valid @RequestBody AssetsModelQuery parameters) {
-        List<AssetsModelEntity> data = (List<AssetsModelEntity>) assetsModelService.get(parameters.getParameter());
+        List<AssetsModelEntity> data = assetsModelService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsModelService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

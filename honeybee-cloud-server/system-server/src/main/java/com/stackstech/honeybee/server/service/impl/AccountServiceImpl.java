@@ -8,17 +8,18 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class AccountServiceImpl implements DataService<AccountVo> {
+public class AccountServiceImpl implements DataService<AccountVo, AccountEntity> {
 
     @Autowired
     private AccountMapper mapper;
 
     @Override
     public boolean add(AccountVo vo, Long ownerId) {
-        AccountEntity entity = new AccountEntity().create(ownerId);
+        AccountEntity entity = new AccountEntity().build(ownerId);
         BeanUtils.copyProperties(vo, entity);
         return mapper.insertSelective(entity) > 0;
     }
@@ -36,12 +37,12 @@ public class AccountServiceImpl implements DataService<AccountVo> {
     }
 
     @Override
-    public Object getSingle(Long recordId) {
+    public AccountEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public Object get(Map<String, Object> parameter) {
+    public List<AccountEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
@@ -49,4 +50,6 @@ public class AccountServiceImpl implements DataService<AccountVo> {
     public Integer getTotalCount(Map<String, Object> parameter) {
         return mapper.selectTotalCount(parameter);
     }
+
+
 }

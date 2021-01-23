@@ -35,7 +35,7 @@ import java.util.List;
 public class DataServiceTenantController {
 
     @Autowired
-    private DataService<DataServiceTenantVo> tenantService;
+    private DataService<DataServiceTenantVo, DataServiceTenantEntity> tenantService;
 
     @RequestMapping(value = "/security/tenant/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> get(@PathVariable("id") long id) {
@@ -68,7 +68,7 @@ public class DataServiceTenantController {
 
     @RequestMapping(value = "/security/tenant/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
-        List<DataServiceTenantEntity> data = (List<DataServiceTenantEntity>) tenantService.get(parameters.getParameter());
+        List<DataServiceTenantEntity> data = tenantService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = tenantService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);

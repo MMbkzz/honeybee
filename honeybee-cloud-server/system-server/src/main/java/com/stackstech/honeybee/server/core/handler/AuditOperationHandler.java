@@ -33,7 +33,7 @@ public final class AuditOperationHandler {
 
 
     @Autowired
-    private DataService<AuditLogEntity> service;
+    private DataService<AuditLogEntity, AuditLogEntity> service;
     @Autowired
     private HttpServletRequest request;
 

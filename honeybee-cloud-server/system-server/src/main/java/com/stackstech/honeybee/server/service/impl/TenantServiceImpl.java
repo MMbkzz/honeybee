@@ -9,17 +9,18 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class TenantServiceImpl implements DataService<DataServiceTenantVo> {
+public class TenantServiceImpl implements DataService<DataServiceTenantVo, DataServiceTenantEntity> {
 
     @Autowired
     private DataServiceTenantMapper mapper;
 
     @Override
     public boolean add(DataServiceTenantVo vo, Long ownerId) {
-        DataServiceTenantEntity entity = new DataServiceTenantEntity().create(ownerId);
+        DataServiceTenantEntity entity = new DataServiceTenantEntity().build(ownerId);
         BeanUtils.copyProperties(vo, entity);
         entity.setTenantCode(CommonUtil.generateEntityCode());
         return mapper.insertSelective(entity) > 0;
@@ -37,12 +38,12 @@ public class TenantServiceImpl implements DataService<DataServiceTenantVo> {
     }
 
     @Override
-    public Object getSingle(Long recordId) {
+    public DataServiceTenantEntity getSingle(Long recordId) {
         return mapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public Object get(Map<String, Object> parameter) {
+    public List<DataServiceTenantEntity> get(Map<String, Object> parameter) {
         return mapper.selectByParameter(parameter);
     }
 
@@ -50,4 +51,5 @@ public class TenantServiceImpl implements DataService<DataServiceTenantVo> {
     public Integer getTotalCount(Map<String, Object> parameter) {
         return mapper.selectTotalCount(parameter);
     }
+
 }
