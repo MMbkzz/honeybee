@@ -1,6 +1,6 @@
-package com.stackstech.honeybee.server.dao;
+package com.stackstech.honeybee.server.quality.dao;
 
-import com.stackstech.honeybee.server.core.entity.QualityRuleConfig;
+import com.stackstech.honeybee.server.quality.entity.QualityRuleConfig;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

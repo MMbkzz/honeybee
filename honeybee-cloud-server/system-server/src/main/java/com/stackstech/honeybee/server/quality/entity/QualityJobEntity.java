@@ -1,7 +1,7 @@
-package com.stackstech.honeybee.server.core.entity;
+package com.stackstech.honeybee.server.quality.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.stackstech.honeybee.server.core.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -9,24 +9,21 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QualityRuleEntity extends DataEntity<QualityRuleEntity> {
+public class QualityJobEntity extends DataEntity<QualityJobEntity> {
     private Long id;
 
-    private String ruleName;
+    private String jobName;
 
-    private String ruleCode;
+    private String jobCode;
 
-    private String ruleType;
+    private String jobExpression;
 
-    @JsonIgnore
-    private String ruleConfigYaml;
-
-    private Long jobId;
+    private Integer jobOrder;
 
     private String desc;
 
     @Override
-    public QualityRuleEntity build(Long ownerId) {
+    public QualityJobEntity build(Long ownerId) {
         this.owner = ownerId;
         this.status = EntityStatusType.ENABLE.getStatus();
         this.createtime = new Date();
@@ -35,7 +32,7 @@ public class QualityRuleEntity extends DataEntity<QualityRuleEntity> {
     }
 
     @Override
-    public QualityRuleEntity update(Long ownerId) {
+    public QualityJobEntity update(Long ownerId) {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;

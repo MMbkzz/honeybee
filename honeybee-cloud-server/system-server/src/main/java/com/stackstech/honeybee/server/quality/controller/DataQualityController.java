@@ -1,10 +1,10 @@
-package com.stackstech.honeybee.server.controller;
+package com.stackstech.honeybee.server.quality.controller;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.server.core.entity.AccountEntity;
-import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
-import com.stackstech.honeybee.server.core.entity.QualityRuleEntity;
+import com.stackstech.honeybee.server.system.entity.AccountEntity;
+import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
+import com.stackstech.honeybee.server.quality.entity.QualityRuleEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;

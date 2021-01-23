@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.controller;
+package com.stackstech.honeybee.server.quality.controller;
 
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.Constant;
