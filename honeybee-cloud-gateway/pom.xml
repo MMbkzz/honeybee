@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>honeybee-boot-gateway</artifactId>
+    <artifactId>honeybee-cloud-gateway</artifactId>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

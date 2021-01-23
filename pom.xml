@@ -94,14 +94,11 @@
         </dependencies>
     </dependencyManagement>
 
-
     <modules>
         <module>honeybee-cloud-data</module>
         <module>honeybee-cloud-gateway</module>
+        <module>honeybee-cloud-modules</module>
         <module>honeybee-cloud-monitor</module>
         <module>honeybee-cloud-server</module>
-        <module>honeybee-cloud-module</module>
     </modules>
-
-
 </project>
