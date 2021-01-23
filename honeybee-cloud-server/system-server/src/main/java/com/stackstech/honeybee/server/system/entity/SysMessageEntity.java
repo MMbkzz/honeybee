@@ -1,6 +1,7 @@
-package com.stackstech.honeybee.server.core.entity;
+package com.stackstech.honeybee.server.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.stackstech.honeybee.server.core.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -8,21 +9,21 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataSourceEntity extends DataEntity<DataSourceEntity> {
+public class SysMessageEntity extends DataEntity<SysMessageEntity> {
     private Long id;
 
-    private String datasourceName;
+    private String messageTitle;
 
-    private String datasourceCode;
+    private String messageType;
 
-    private String datasourceType;
+    private String messageContent;
 
-    private String datasourceConfig;
+    private Long messageReceiver;
 
     private String desc;
 
     @Override
-    public DataSourceEntity build(Long ownerId) {
+    public SysMessageEntity build(Long ownerId) {
         this.owner = ownerId;
         this.status = EntityStatusType.ENABLE.getStatus();
         this.createtime = new Date();
@@ -31,7 +32,7 @@ public class DataSourceEntity extends DataEntity<DataSourceEntity> {
     }
 
     @Override
-    public DataSourceEntity update(Long ownerId) {
+    public SysMessageEntity update(Long ownerId) {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;

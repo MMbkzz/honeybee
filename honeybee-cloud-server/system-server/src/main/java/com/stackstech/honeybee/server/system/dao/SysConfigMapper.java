@@ -1,6 +1,6 @@
-package com.stackstech.honeybee.server.dao;
+package com.stackstech.honeybee.server.system.dao;
 
-import com.stackstech.honeybee.server.core.entity.SysConfigEntity;
+import com.stackstech.honeybee.server.system.entity.SysConfigEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
