@@ -3,17 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.stackstech.honeybee</groupId>
         <artifactId>honeybee</artifactId>
+        <groupId>com.stackstech.honeybee</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>honeybee-cloud-modules</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>bees-quality</module>
-        <module>bees-connector</module>
-    </modules>
+    <artifactId>honeybee-cloud-job</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
 </project>

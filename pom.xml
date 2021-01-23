@@ -100,5 +100,6 @@
         <module>honeybee-cloud-modules</module>
         <module>honeybee-cloud-monitor</module>
         <module>honeybee-cloud-server</module>
+        <module>honeybee-cloud-job</module>
     </modules>
 </project>
