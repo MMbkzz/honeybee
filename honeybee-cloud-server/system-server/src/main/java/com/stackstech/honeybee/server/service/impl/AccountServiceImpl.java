@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.AccountEntity;
+import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.vo.AccountVo;
-import com.stackstech.honeybee.server.dao.AccountMapper;
+import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

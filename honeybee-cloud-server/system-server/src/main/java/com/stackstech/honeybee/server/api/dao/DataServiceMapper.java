@@ -1,6 +1,6 @@
-package com.stackstech.honeybee.server.dao;
+package com.stackstech.honeybee.server.api.dao;
 
-import com.stackstech.honeybee.server.core.entity.DataServiceEntity;
+import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

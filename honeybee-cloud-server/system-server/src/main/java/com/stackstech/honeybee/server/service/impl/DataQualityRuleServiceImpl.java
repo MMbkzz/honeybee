@@ -1,10 +1,10 @@
 package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.QualityJobEntity;
-import com.stackstech.honeybee.server.core.entity.QualityRuleEntity;
+import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
+import com.stackstech.honeybee.server.quality.entity.QualityRuleEntity;
 import com.stackstech.honeybee.server.core.vo.QualityRuleVo;
-import com.stackstech.honeybee.server.dao.QualityJobMapper;
-import com.stackstech.honeybee.server.dao.QualityRuleMapper;
+import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
+import com.stackstech.honeybee.server.quality.dao.QualityRuleMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;

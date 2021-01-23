@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.AssetsModelEntity;
+import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.vo.AssetsModelVo;
-import com.stackstech.honeybee.server.dao.AssetsModelMapper;
+import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;

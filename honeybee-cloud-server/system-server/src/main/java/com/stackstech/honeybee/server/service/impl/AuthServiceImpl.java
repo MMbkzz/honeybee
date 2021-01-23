@@ -1,10 +1,10 @@
 package com.stackstech.honeybee.server.service.impl;
 
 import com.google.common.collect.Maps;
-import com.stackstech.honeybee.server.core.entity.AccountEntity;
+import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
-import com.stackstech.honeybee.server.dao.AccountMapper;
+import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.service.AuthService;
 import com.stackstech.honeybee.server.utils.AuthTokenBuilder;
 import com.stackstech.honeybee.server.utils.CommonUtil;

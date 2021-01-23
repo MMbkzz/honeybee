@@ -1,11 +1,11 @@
 package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.AssetsCatalogEntity;
-import com.stackstech.honeybee.server.core.entity.DataRecyclerEntity;
+import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
+import com.stackstech.honeybee.server.assets.entity.DataRecyclerEntity;
 import com.stackstech.honeybee.server.core.enums.AssetsCatalogType;
 import com.stackstech.honeybee.server.core.vo.AssetsCatalogVo;
-import com.stackstech.honeybee.server.dao.AssetsCatalogMapper;
-import com.stackstech.honeybee.server.dao.DataRecyclerMapper;
+import com.stackstech.honeybee.server.assets.dao.AssetsCatalogMapper;
+import com.stackstech.honeybee.server.assets.dao.DataRecyclerMapper;
 import com.stackstech.honeybee.server.service.AssetsCatalogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

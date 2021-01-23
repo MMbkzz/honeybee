@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.service;
 
-import com.stackstech.honeybee.server.core.entity.AccountEntity;
+import com.stackstech.honeybee.server.system.entity.AccountEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

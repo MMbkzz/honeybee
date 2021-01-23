@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.entity;
+package com.stackstech.honeybee.server.api.entity;
 
 import lombok.Data;
 

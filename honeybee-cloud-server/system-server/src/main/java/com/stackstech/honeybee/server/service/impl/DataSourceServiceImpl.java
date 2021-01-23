@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.DataSourceEntity;
+import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.core.vo.DataSourceVo;
-import com.stackstech.honeybee.server.dao.DataSourceMapper;
+import com.stackstech.honeybee.server.system.dao.DataSourceMapper;
 import com.stackstech.honeybee.server.service.DataService;
 import com.stackstech.honeybee.server.utils.CommonUtil;
 import org.springframework.beans.BeanUtils;

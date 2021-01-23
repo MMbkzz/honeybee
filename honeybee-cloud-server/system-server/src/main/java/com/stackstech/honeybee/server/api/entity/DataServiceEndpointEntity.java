@@ -1,6 +1,7 @@
-package com.stackstech.honeybee.server.core.entity;
+package com.stackstech.honeybee.server.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.stackstech.honeybee.server.core.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -8,17 +9,25 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataServiceTenantEntity extends DataEntity<DataServiceTenantEntity> {
+public class DataServiceEndpointEntity extends DataEntity<DataServiceEndpointEntity> {
     private Long id;
 
-    private String tenantName;
+    private String dataServiceEndpointCode;
 
-    private String tenantCode;
+    private Long serviceNodeId;
+
+    private Long dataServiceId;
+
+    private Integer dataServiceResource;
+
+    private String dataServiceEndpoint;
+
+    private String dataServiceStatus;
 
     private String desc;
 
     @Override
-    public DataServiceTenantEntity build(Long ownerId) {
+    public DataServiceEndpointEntity build(Long ownerId) {
         this.owner = ownerId;
         this.status = EntityStatusType.ENABLE.getStatus();
         this.createtime = new Date();
@@ -27,7 +36,7 @@ public class DataServiceTenantEntity extends DataEntity<DataServiceTenantEntity>
     }
 
     @Override
-    public DataServiceTenantEntity update(Long ownerId) {
+    public DataServiceEndpointEntity update(Long ownerId) {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;

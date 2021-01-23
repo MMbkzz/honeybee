@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.server.service.impl;
 
-import com.stackstech.honeybee.server.core.entity.SysConfigEntity;
+import com.stackstech.honeybee.server.system.entity.SysConfigEntity;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
-import com.stackstech.honeybee.server.dao.SysConfigMapper;
+import com.stackstech.honeybee.server.system.dao.SysConfigMapper;
 import com.stackstech.honeybee.server.service.SystemConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
