@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.utils;
+package com.stackstech.honeybee.server.common.utils;
 
 
 import com.google.common.base.Joiner;

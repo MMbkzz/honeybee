@@ -1,19 +1,21 @@
-package com.stackstech.honeybee.server.core.entity;
+package com.stackstech.honeybee.server.common.vo;
 
-
+import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
-import java.util.Optional;
 
-/**
- * 请求的参数实体
- *
- * @author William
- */
-@Deprecated
-public class RequestParameter extends RequestParameterMap<String, Object> {
+@Data
+@ApiModel
+@NotNull(message = "query parameter cannot be null")
+public class PageQuery {
 
     public static final String PAGE_START = "pageStart";
     public static final String PAGE_SIZE = "pageSize";
@@ -23,30 +25,34 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
     public static final String ORDER_TYPE = "orderType";
     public static final String STATUS = "status";
 
+    @Min(value = 0L, message = "Invalid page start index")
+    @ApiModelProperty(required = true)
+    private int pageStart;
+
+    @Max(value = 100L, message = "Invalid page limit size, max limit size is 100")
+    @ApiModelProperty(required = true)
+    private int pageSize;
+
+    private String keywords;
+
+    private String orderField;
+
+    private boolean orderType;
+
+    private int status;
+
     /**
      * query record limit start index, by default PageStart is 0.
      *
      * @return Integer
      */
     public Integer getPageStart() {
-        Integer pageStart = getInteger(PAGE_START);
-        Integer pageSize = getPageSize();
-
-        if (pageStart != null && pageStart > 1) {
+        if (pageStart > 1) {
             pageStart = (pageStart - 1) * pageSize;
         } else {
             pageStart = 0;
         }
         return pageStart;
-    }
-
-    /**
-     * query record limit size, by default PageSize is 10.
-     *
-     * @return Integer
-     */
-    public Integer getPageSize() {
-        return Optional.ofNullable(getInteger(PAGE_SIZE)).orElse(10);
     }
 
 
@@ -58,11 +64,11 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
      */
     public String getOrder() {
         String orders = null;
-        if (Constant.SORTS.contains(getString(ORDER_FIELD))) {
-            if (Optional.ofNullable(getBoolean(ORDER_TYPE)).orElse(false)) {
-                orders = StringUtils.join("`", getString(ORDER_FIELD), "`", " ASC");
+        if (Constant.SORTS.contains(orderField)) {
+            if (orderType) {
+                orders = StringUtils.join("`", orderField, "`", " ASC");
             } else {
-                orders = StringUtils.join("`", getString(ORDER_FIELD), "`", " DESC");
+                orders = StringUtils.join("`", orderField, "`", " DESC");
             }
         }
         return orders;
@@ -74,25 +80,14 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
      * @return String
      */
     public String getKeywords() {
-        if (StringUtils.isNotEmpty(getString(KEYWORDS))) {
-            return StringUtils.join("%", getString(KEYWORDS).trim(), "%");
+        if (StringUtils.isNotEmpty(keywords)) {
+            return StringUtils.join("%", keywords.trim(), "%");
         }
         return null;
     }
 
-    /**
-     * query by status
-     *
-     * @return Integer
-     */
-    public Integer getStatus() {
-        return getInteger(STATUS);
-    }
-
-
-    @Override
     public Map<String, Object> getParameter() {
-        Map<String, Object> p = super.getParameter();
+        Map<String, Object> p = Maps.newHashMap();
         p.put(PAGE_START, getPageStart());
         p.put(PAGE_SIZE, getPageSize());
         p.put(ORDER, getOrder());
@@ -101,8 +96,4 @@ public class RequestParameter extends RequestParameterMap<String, Object> {
         return p;
     }
 
-    @Override
-    public String toString() {
-        return getParameter().toString();
-    }
 }

@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.entity;
+package com.stackstech.honeybee.server.common.entity;
 
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.Maps;

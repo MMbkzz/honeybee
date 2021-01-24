@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.utils;
+package com.stackstech.honeybee.server.common.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
