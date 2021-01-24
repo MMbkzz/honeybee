@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.stackstech.honeybee.common.entity.DataEntity;
+import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SysMessageEntity extends DataEntity<SysMessageEntity> {
+public class SysMessageEntity extends AbstractDataEntity<SysMessageEntity, Object> {
     private Long id;
 
     private String messageTitle;
@@ -36,5 +36,17 @@ public class SysMessageEntity extends DataEntity<SysMessageEntity> {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;
+    }
+
+    @Deprecated
+    @Override
+    public SysMessageEntity build(Long ownerId, Object vo) {
+        return null;
+    }
+
+    @Deprecated
+    @Override
+    public SysMessageEntity update(Long ownerId, Object vo) {
+        return null;
     }
 }

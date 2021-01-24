@@ -2,15 +2,17 @@ package com.stackstech.honeybee.server.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.stackstech.honeybee.common.entity.DataEntity;
+import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.system.vo.AccountVo;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountEntity extends DataEntity<AccountEntity> {
+public class AccountEntity extends AbstractDataEntity<AccountEntity, AccountVo> {
 
     public static final String ACCOUNT_ID = "id";
     public static final String ACCOUNT_NAME = "account";
@@ -49,5 +51,19 @@ public class AccountEntity extends DataEntity<AccountEntity> {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;
+    }
+
+    @Override
+    public AccountEntity build(Long ownerId, AccountVo vo) {
+        AccountEntity entity = build(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
+    }
+
+    @Override
+    public AccountEntity update(Long ownerId, AccountVo vo) {
+        AccountEntity entity = update(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
     }
 }
