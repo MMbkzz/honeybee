@@ -1,20 +1,18 @@
 package com.stackstech.honeybee.server.api.controller;
 
+import com.stackstech.honeybee.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
+import com.stackstech.honeybee.server.api.vo.DataServiceVo;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.api.vo.DataServiceVo;
-import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -56,9 +54,7 @@ public class DataServiceController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        DataServiceEntity entity = new DataServiceEntity().update(account.getId());
-        BeanUtils.copyProperties(vo, entity);
-        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
+        DataServiceEntity entity = new DataServiceEntity().update(account.getId(), vo);
 
         if (!service.update(entity)) {
             return ResponseMap.failed("update data service failed.");
@@ -70,9 +66,7 @@ public class DataServiceController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        DataServiceEntity entity = new DataServiceEntity().build(account.getId());
-        BeanUtils.copyProperties(vo, entity);
-        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
+        DataServiceEntity entity = new DataServiceEntity().build(account.getId(), vo);
 
         if (!service.add(entity)) {
             return ResponseMap.failed("insert data service failed.");
