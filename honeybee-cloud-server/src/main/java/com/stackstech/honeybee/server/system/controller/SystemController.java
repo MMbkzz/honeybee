@@ -5,20 +5,22 @@ import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.server.system.entity.AccountEntity;
-import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
-import com.stackstech.honeybee.server.system.entity.DictMapping;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.*;
+import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.vo.DataSourceQuery;
 import com.stackstech.honeybee.server.core.vo.DataSourceVo;
 import com.stackstech.honeybee.server.core.vo.PageQuery;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.system.entity.AccountEntity;
+import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
+import com.stackstech.honeybee.server.system.entity.DictMapping;
 import com.stackstech.honeybee.server.system.service.SystemConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +45,7 @@ public class SystemController {
     @Autowired
     private SystemConfigService service;
     @Autowired
-    private DataService<DataSourceVo, DataSourceEntity> dataSourceService;
+    private DataService<DataSourceEntity> dataSourceService;
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
@@ -62,7 +64,10 @@ public class SystemController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!dataSourceService.update(vo, account.getId())) {
+        DataSourceEntity entity = new DataSourceEntity().update(account.getId());
+        entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
+
+        if (!dataSourceService.update(entity)) {
             return ResponseMap.failed("update data source failed.");
         }
         return ResponseMap.success(true);
@@ -72,7 +77,12 @@ public class SystemController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
     public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!dataSourceService.add(vo, account.getId())) {
+        DataSourceEntity entity = new DataSourceEntity().build(account.getId());
+        BeanUtils.copyProperties(vo, entity);
+        //TODO
+        entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
+
+        if (!dataSourceService.add(entity)) {
             return ResponseMap.failed("insert data source failed.");
         }
         return ResponseMap.success(true);

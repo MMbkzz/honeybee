@@ -272,7 +272,7 @@ public final class CommonUtil {
     }
 
     public static String generateEntityCode() {
-        return UUID.randomUUID().toString().replace("-", StringUtils.EMPTY).toLowerCase();
+        return UUID.randomUUID().toString().toLowerCase();
     }
 
 

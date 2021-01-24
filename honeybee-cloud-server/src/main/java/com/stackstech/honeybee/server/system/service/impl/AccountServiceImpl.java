@@ -1,10 +1,8 @@
 package com.stackstech.honeybee.server.system.service.impl;
 
-import com.stackstech.honeybee.server.system.entity.AccountEntity;
-import com.stackstech.honeybee.server.core.vo.AccountVo;
-import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.core.service.DataService;
-import org.springframework.beans.BeanUtils;
+import com.stackstech.honeybee.server.system.dao.AccountMapper;
+import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AccountServiceImpl implements DataService<AccountVo, AccountEntity> {
+public class AccountServiceImpl implements DataService<AccountEntity> {
 
     @Autowired
     private AccountMapper mapper;
 
     @Override
-    public boolean add(AccountVo vo, Long ownerId) {
-        AccountEntity entity = new AccountEntity().build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+    public boolean add(AccountEntity entity) {
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AccountVo vo, Long ownerId) {
-        AccountEntity entity = new AccountEntity().update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+    public boolean update(AccountEntity entity) {
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 

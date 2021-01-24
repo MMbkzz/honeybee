@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.audit.service;
 
-import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.audit.dao.AuditLogMapper;
+import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,20 +11,18 @@ import java.util.Map;
 
 //TODO
 @Service
-public class AuditLogServiceImpl implements DataService<AuditLogEntity, AuditLogEntity> {
+public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
 
     @Autowired
     private AuditLogMapper mapper;
 
     @Override
-    public boolean add(AuditLogEntity entity, Long ownerId) {
-        entity.build(ownerId);
+    public boolean add(AuditLogEntity entity) {
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AuditLogEntity entity, Long ownerId) {
-        entity.update(ownerId);
+    public boolean update(AuditLogEntity entity) {
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 

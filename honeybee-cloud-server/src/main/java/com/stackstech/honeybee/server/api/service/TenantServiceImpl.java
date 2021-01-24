@@ -1,11 +1,8 @@
 package com.stackstech.honeybee.server.api.service;
 
-import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
-import com.stackstech.honeybee.server.core.vo.DataServiceTenantVo;
 import com.stackstech.honeybee.server.api.dao.DataServiceTenantMapper;
+import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.server.core.utils.CommonUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TenantServiceImpl implements DataService<DataServiceTenantVo, DataServiceTenantEntity> {
+public class TenantServiceImpl implements DataService<DataServiceTenantEntity> {
 
     @Autowired
     private DataServiceTenantMapper mapper;
 
     @Override
-    public boolean add(DataServiceTenantVo vo, Long ownerId) {
-        DataServiceTenantEntity entity = new DataServiceTenantEntity().build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
-        entity.setTenantCode(CommonUtil.generateEntityCode());
+    public boolean add(DataServiceTenantEntity entity) {
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataServiceTenantVo vo, Long ownerId) {
-        DataServiceTenantEntity entity = new DataServiceTenantEntity().update(ownerId);
+    public boolean update(DataServiceTenantEntity entity) {
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 

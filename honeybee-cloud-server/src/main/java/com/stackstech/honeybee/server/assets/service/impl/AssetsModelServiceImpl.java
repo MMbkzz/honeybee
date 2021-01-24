@@ -1,11 +1,8 @@
 package com.stackstech.honeybee.server.assets.service.impl;
 
-import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
-import com.stackstech.honeybee.server.core.vo.AssetsModelVo;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
+import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.server.core.utils.CommonUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AssetsModelServiceImpl implements DataService<AssetsModelVo, AssetsModelEntity> {
+public class AssetsModelServiceImpl implements DataService<AssetsModelEntity> {
 
     @Autowired
     private AssetsModelMapper mapper;
 
     @Override
-    public boolean add(AssetsModelVo vo, Long ownerId) {
-        AssetsModelEntity entity = new AssetsModelEntity().build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
-        entity.setAssetsModelCode(CommonUtil.generateEntityCode());
+    public boolean add(AssetsModelEntity entity) {
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AssetsModelVo vo, Long ownerId) {
-        AssetsModelEntity entity = new AssetsModelEntity().update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+    public boolean update(AssetsModelEntity entity) {
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 

@@ -3,18 +3,19 @@ package com.stackstech.honeybee.server.assets.controller;
 import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.assets.entity.DataRecyclerEntity;
+import com.stackstech.honeybee.server.assets.service.AssetsCatalogService;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.server.core.entity.*;
+import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
-import com.stackstech.honeybee.server.core.vo.*;
-import com.stackstech.honeybee.server.assets.service.AssetsCatalogService;
 import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.vo.*;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ import java.util.List;
 public class DataAssetsController {
 
     @Autowired
-    private DataService<AssetsModelVo, AssetsModelEntity> assetsModelService;
+    private DataService<AssetsModelEntity> assetsModelService;
     @Autowired
     private AssetsCatalogService assetsCatalogService;
 
@@ -56,7 +57,10 @@ public class DataAssetsController {
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!assetsModelService.update(vo, account.getId())) {
+        AssetsModelEntity entity = new AssetsModelEntity().update(account.getId());
+        BeanUtils.copyProperties(vo, entity);
+
+        if (!assetsModelService.update(entity)) {
             return ResponseMap.failed("update data service failed.");
         }
         return ResponseMap.success(true);
@@ -66,7 +70,10 @@ public class DataAssetsController {
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
     public ResponseMap<?> addModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!assetsModelService.add(vo, account.getId())) {
+        AssetsModelEntity entity = new AssetsModelEntity().build(account.getId());
+        BeanUtils.copyProperties(vo, entity);
+
+        if (!assetsModelService.add(entity)) {
             return ResponseMap.failed("insert data service failed.");
         }
         return ResponseMap.success(true);

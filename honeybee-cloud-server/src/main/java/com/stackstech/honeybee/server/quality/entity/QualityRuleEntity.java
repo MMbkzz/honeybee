@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.server.core.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.utils.CommonUtil;
 import lombok.Data;
 
 import java.util.Date;
@@ -32,6 +33,7 @@ public class QualityRuleEntity extends DataEntity<QualityRuleEntity> {
         this.status = EntityStatusType.ENABLE.getStatus();
         this.createtime = new Date();
         this.updatetime = new Date();
+        this.ruleCode = CommonUtil.generateEntityCode();
         return this;
     }
 

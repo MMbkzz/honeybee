@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.server.core.handler;
 
 
-import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
+import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
@@ -33,7 +33,7 @@ public final class AuditOperationHandler {
 
 
     @Autowired
-    private DataService<AuditLogEntity, AuditLogEntity> service;
+    private DataService<AuditLogEntity> service;
     @Autowired
     private HttpServletRequest request;
 
@@ -87,7 +87,7 @@ public final class AuditOperationHandler {
             auditLog.setCreatetime(new Date());
             auditLog.setUpdatetime(new Date());
             auditLog.setDesc(desc);
-            service.add(auditLog, 1L);
+            service.add(auditLog);
             log.debug("Recording user operation {}", log.toString());
         }
         return result;

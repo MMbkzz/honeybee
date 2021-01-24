@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.system.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.server.core.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.utils.CommonUtil;
 import lombok.Data;
 
 import java.util.Date;
@@ -28,6 +29,7 @@ public class DataSourceEntity extends DataEntity<DataSourceEntity> {
         this.status = EntityStatusType.ENABLE.getStatus();
         this.createtime = new Date();
         this.updatetime = new Date();
+        this.datasourceCode = CommonUtil.generateEntityCode();
         return this;
     }
 

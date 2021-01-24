@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.assets.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.server.core.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.utils.CommonUtil;
 import lombok.Data;
 
 import java.util.Date;
@@ -34,6 +35,7 @@ public class AssetsModelEntity extends DataEntity<AssetsModelEntity> {
         this.status = EntityStatusType.ENABLE.getStatus();
         this.createtime = new Date();
         this.updatetime = new Date();
+        this.assetsModelCode = CommonUtil.generateEntityCode();
         return this;
     }
 

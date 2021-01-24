@@ -3,8 +3,8 @@ package com.stackstech.honeybee.server.audit.controller;
 import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.Constant;
-import com.stackstech.honeybee.server.core.vo.AuditLogQuery;
 import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.vo.AuditLogQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.List;
 public class AuditController {
 
     @Autowired
-    private DataService<AuditLogEntity, AuditLogEntity> service;
+    private DataService<AuditLogEntity> service;
 
     @ApiOperation(value = "get audit log")
     @RequestMapping(value = "/audit/get/{id}", method = RequestMethod.GET)

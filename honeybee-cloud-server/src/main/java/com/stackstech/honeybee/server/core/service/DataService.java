@@ -6,30 +6,27 @@ import java.util.Map;
 /**
  * Data operation service interface
  *
- * @param <V> Data view class type
  * @param <E> Data entity class type
  * @author William
  * @since 1.0
  */
-public interface DataService<V, E> {
+public interface DataService<E> {
 
     /**
      * Add data record
      *
-     * @param vo      Data model
-     * @param ownerId Owner ID
+     * @param entity Data entity
      * @return boolean
      */
-    boolean add(V vo, Long ownerId);
+    boolean add(E entity);
 
     /**
      * Update data record
      *
-     * @param vo      Data model
-     * @param ownerId Owner ID
+     * @param entity Data entity
      * @return boolean
      */
-    boolean update(V vo, Long ownerId);
+    boolean update(E entity);
 
     /**
      * Delete data record

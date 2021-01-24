@@ -1,11 +1,8 @@
-package com.stackstech.honeybee.server.quality.service;
+package com.stackstech.honeybee.server.quality.service.impl;
 
-import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
-import com.stackstech.honeybee.server.core.vo.QualityJobVo;
-import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.server.core.utils.CommonUtil;
-import org.springframework.beans.BeanUtils;
+import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
+import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataQualityJobServiceImpl implements DataService<QualityJobVo, QualityJobEntity> {
+public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> {
 
     @Autowired
     private QualityJobMapper mapper;
 
     @Override
-    public boolean add(QualityJobVo vo, Long ownerId) {
-        QualityJobEntity entity = new QualityJobEntity().build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
-        entity.setJobCode(CommonUtil.generateEntityCode());
+    public boolean add(QualityJobEntity entity) {
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityJobVo vo, Long ownerId) {
-        QualityJobEntity entity = new QualityJobEntity().update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+    public boolean update(QualityJobEntity entity) {
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
