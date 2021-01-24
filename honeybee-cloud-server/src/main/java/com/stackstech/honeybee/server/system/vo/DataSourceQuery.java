@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.system.vo;
 
-import com.stackstech.honeybee.server.common.vo.PageQuery;
+import com.stackstech.honeybee.common.vo.PageQuery;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 

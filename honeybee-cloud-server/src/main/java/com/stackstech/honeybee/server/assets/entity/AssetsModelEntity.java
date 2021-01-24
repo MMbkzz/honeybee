@@ -1,9 +1,9 @@
 package com.stackstech.honeybee.server.assets.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.stackstech.honeybee.server.common.entity.DataEntity;
+import com.stackstech.honeybee.common.entity.DataEntity;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
-import com.stackstech.honeybee.server.common.utils.CommonUtil;
+import com.stackstech.honeybee.common.utils.CommonUtil;
 import lombok.Data;
 
 import java.util.Date;

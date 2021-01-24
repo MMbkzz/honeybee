@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.system.controller;
 
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
-import com.stackstech.honeybee.server.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.system.vo.AccountLoginVo;
