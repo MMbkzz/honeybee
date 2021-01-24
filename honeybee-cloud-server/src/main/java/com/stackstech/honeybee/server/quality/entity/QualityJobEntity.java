@@ -1,16 +1,18 @@
 package com.stackstech.honeybee.server.quality.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.stackstech.honeybee.common.entity.DataEntity;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.quality.vo.QualityJobVo;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QualityJobEntity extends DataEntity<QualityJobEntity> {
+public class QualityJobEntity extends AbstractDataEntity<QualityJobEntity, QualityJobVo> {
     private Long id;
 
     private String jobName;
@@ -38,5 +40,19 @@ public class QualityJobEntity extends DataEntity<QualityJobEntity> {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;
+    }
+
+    @Override
+    public QualityJobEntity build(Long ownerId, QualityJobVo vo) {
+        QualityJobEntity entity = build(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
+    }
+
+    @Override
+    public QualityJobEntity update(Long ownerId, QualityJobVo vo) {
+        QualityJobEntity entity = update(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
     }
 }

@@ -2,16 +2,16 @@ package com.stackstech.honeybee.server.quality.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.stackstech.honeybee.common.entity.DataEntity;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QualityRuleEntity extends DataEntity<QualityRuleEntity> {
+public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity, Object> {
     private Long id;
 
     private String ruleName;
@@ -42,5 +42,17 @@ public class QualityRuleEntity extends DataEntity<QualityRuleEntity> {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;
+    }
+
+    @Deprecated
+    @Override
+    public QualityRuleEntity build(Long ownerId, Object vo) {
+        return null;
+    }
+
+    @Deprecated
+    @Override
+    public QualityRuleEntity update(Long ownerId, Object vo) {
+        return null;
     }
 }
