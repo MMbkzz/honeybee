@@ -1,7 +1,8 @@
 package com.stackstech.honeybee.server.assets.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.stackstech.honeybee.common.entity.DataEntity;
+import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.server.assets.vo.AssetsCatalogVo;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AssetsCatalogEntity extends DataEntity<AssetsCatalogEntity> {
+public class AssetsCatalogEntity extends AbstractDataEntity<AssetsCatalogEntity, AssetsCatalogVo> {
 
     private Long id;
 
@@ -41,5 +42,17 @@ public class AssetsCatalogEntity extends DataEntity<AssetsCatalogEntity> {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;
+    }
+
+    @Deprecated
+    @Override
+    public AssetsCatalogEntity build(Long ownerId, AssetsCatalogVo vo) {
+        return null;
+    }
+
+    @Deprecated
+    @Override
+    public AssetsCatalogEntity update(Long ownerId, AssetsCatalogVo vo) {
+        return null;
     }
 }

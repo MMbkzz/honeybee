@@ -1,16 +1,18 @@
 package com.stackstech.honeybee.server.assets.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.stackstech.honeybee.common.entity.DataEntity;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
+import com.stackstech.honeybee.server.assets.vo.AssetsModelVo;
+import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AssetsModelEntity extends DataEntity<AssetsModelEntity> {
+public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity, AssetsModelVo> {
     private Long id;
 
     private String assetsModelName;
@@ -44,5 +46,19 @@ public class AssetsModelEntity extends DataEntity<AssetsModelEntity> {
         this.owner = ownerId;
         this.updatetime = new Date();
         return this;
+    }
+
+    @Override
+    public AssetsModelEntity build(Long ownerId, AssetsModelVo vo) {
+        AssetsModelEntity entity = build(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
+    }
+
+    @Override
+    public AssetsModelEntity update(Long ownerId, AssetsModelVo vo) {
+        AssetsModelEntity entity = update(ownerId);
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
     }
 }
