@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 @NotNull(message = "assets catalog parameter cannot be null")
 public class AssetsCatalogVo {
 
-
     private Long id;
 
     @NotNull(message = "assets catalog name cannot be null")

@@ -7,9 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Map;
 
 @Data
@@ -25,11 +23,11 @@ public class PageQuery {
     public static final String ORDER_TYPE = "orderType";
     public static final String STATUS = "status";
 
-    @Min(value = 0L, message = "Invalid page start index")
+    @Min(value = 0L, message = "invalid page start index, default value is 0")
     @ApiModelProperty(required = true)
     private int pageStart;
 
-    @Max(value = 100L, message = "Invalid page limit size, max limit size is 100")
+    @Size(min = 1, max = 100, message = "invalid page limit size, max limit size is 1~100")
     @ApiModelProperty(required = true)
     private int pageSize;
 
@@ -37,6 +35,8 @@ public class PageQuery {
 
     private String orderField;
 
+    @AssertFalse(message = "invalid order type, must be `true` or `false`")
+    @AssertTrue(message = "invalid order type, must be `true` or `false`")
     private boolean orderType;
 
     private int status;

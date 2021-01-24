@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NotNull(message = "request parameter cannot be null")
+@NotNull(message = "account login parameter cannot be null")
 public class AccountLoginVo {
 
     @NotNull(message = "account cannot be null")

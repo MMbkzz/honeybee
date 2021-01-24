@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.system.vo;
 
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +26,7 @@ public class AccountVo {
 
     private Integer accountGender;
 
+    @Email(message = "invalid account email format")
     private String accountEmail;
 
     private String accountPhone;
