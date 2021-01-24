@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.common.entity;
+package com.stackstech.honeybee.common.entity;
 
 import lombok.Data;
 

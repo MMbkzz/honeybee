@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.common.utils;
+package com.stackstech.honeybee.common.utils;
 
 
 import com.google.common.base.Joiner;
@@ -8,7 +8,6 @@ import com.stackstech.honeybee.server.core.enums.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;

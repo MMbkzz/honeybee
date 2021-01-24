@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.common.entity;
+package com.stackstech.honeybee.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
