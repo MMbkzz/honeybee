@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.server.api.controller;
 
-import com.stackstech.honeybee.server.core.entity.ResponseMap;
+import com.stackstech.honeybee.server.common.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.enums.Constant;
-import com.stackstech.honeybee.server.core.vo.PageQuery;
+import com.stackstech.honeybee.server.common.vo.PageQuery;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

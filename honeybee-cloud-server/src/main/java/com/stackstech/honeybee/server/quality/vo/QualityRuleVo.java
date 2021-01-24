@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.vo;
+package com.stackstech.honeybee.server.quality.vo;
 
 import lombok.Data;
 

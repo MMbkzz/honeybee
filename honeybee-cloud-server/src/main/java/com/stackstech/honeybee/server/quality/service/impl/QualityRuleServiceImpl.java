@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
-import com.stackstech.honeybee.server.core.vo.QualityRuleVo;
+import com.stackstech.honeybee.server.quality.vo.QualityRuleVo;
 import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.quality.dao.QualityRuleMapper;
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;

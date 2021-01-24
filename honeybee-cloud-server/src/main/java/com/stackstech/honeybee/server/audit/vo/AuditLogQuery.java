@@ -1,5 +1,6 @@
-package com.stackstech.honeybee.server.core.vo;
+package com.stackstech.honeybee.server.audit.vo;
 
+import com.stackstech.honeybee.server.common.vo.PageQuery;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -9,14 +10,14 @@ import java.util.Map;
 @ApiModel
 @Data
 @NotNull(message = "query parameter cannot be null")
-public class DataSourceQuery extends PageQuery {
+public class AuditLogQuery extends PageQuery {
 
-    private String datasourceType;
+    private String logType;
 
     @Override
     public Map<String, Object> getParameter() {
         Map<String, Object> map = super.getParameter();
-        map.put("datasourceType", datasourceType);
+        map.put("logType", logType);
         return map;
     }
 }

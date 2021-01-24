@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.assets.service;
 
 import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
 import com.stackstech.honeybee.server.assets.entity.DataRecyclerEntity;
-import com.stackstech.honeybee.server.core.vo.AssetsCatalogVo;
+import com.stackstech.honeybee.server.assets.vo.AssetsCatalogVo;
 
 import java.util.List;
 import java.util.Map;

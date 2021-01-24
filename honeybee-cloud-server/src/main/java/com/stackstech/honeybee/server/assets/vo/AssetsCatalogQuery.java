@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.core.vo;
+package com.stackstech.honeybee.server.assets.vo;
 
 import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiModel;

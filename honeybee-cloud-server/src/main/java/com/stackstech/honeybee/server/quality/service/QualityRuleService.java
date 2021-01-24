@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.quality.service;
 
-import com.stackstech.honeybee.server.core.vo.QualityRuleVo;
+import com.stackstech.honeybee.server.quality.vo.QualityRuleVo;
 import com.stackstech.honeybee.server.quality.entity.QualityRuleEntity;
 
 import java.util.List;
