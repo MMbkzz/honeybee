@@ -20,5 +20,7 @@ public class AssetsCatalogVo {
     @Min(value = 1L, message = "invalid catalog order number")
     private Integer catalogOrder;
 
+    private Integer status;
+
     private String desc;
 }
