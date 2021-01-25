@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SysConfigEntity extends AbstractDataEntity<SysConfigEntity, Object> {
+public class SysConfigEntity extends AbstractDataEntity<SysConfigEntity> {
     private Long id;
 
     private String configKey;
@@ -34,15 +35,10 @@ public class SysConfigEntity extends AbstractDataEntity<SysConfigEntity, Object>
         return this;
     }
 
-    @Deprecated
     @Override
-    public SysConfigEntity build(Long ownerId, Object vo) {
-        return null;
+    public SysConfigEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Deprecated
-    @Override
-    public SysConfigEntity update(Long ownerId, Object vo) {
-        return null;
-    }
 }

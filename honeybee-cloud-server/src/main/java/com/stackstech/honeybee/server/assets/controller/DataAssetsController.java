@@ -60,7 +60,9 @@ public class DataAssetsController {
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        AssetsModelEntity entity = new AssetsModelEntity().update(account.getId(), vo);
+        AssetsModelEntity entity = new AssetsModelEntity().update(account.getId()).copy(vo);
+        //TODO
+        entity.setDatasourceMeta("TODO");
 
         if (!assetsModelService.update(entity)) {
             return ResponseMap.failed("update data service failed.");
@@ -72,7 +74,9 @@ public class DataAssetsController {
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
     public ResponseMap<?> addModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        AssetsModelEntity entity = new AssetsModelEntity().build(account.getId(), vo);
+        AssetsModelEntity entity = new AssetsModelEntity().build(account.getId()).copy(vo);
+        //TODO
+        entity.setDatasourceMeta("TODO");
 
         if (!assetsModelService.add(entity)) {
             return ResponseMap.failed("insert data service failed.");

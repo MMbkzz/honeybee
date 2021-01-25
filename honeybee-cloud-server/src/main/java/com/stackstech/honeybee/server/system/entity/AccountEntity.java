@@ -5,14 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
-import com.stackstech.honeybee.server.system.vo.AccountVo;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountEntity extends AbstractDataEntity<AccountEntity, AccountVo> {
+public class AccountEntity extends AbstractDataEntity<AccountEntity> {
 
     public static final String ACCOUNT_ID = "id";
     public static final String ACCOUNT_NAME = "account";
@@ -54,16 +53,10 @@ public class AccountEntity extends AbstractDataEntity<AccountEntity, AccountVo> 
     }
 
     @Override
-    public AccountEntity build(Long ownerId, AccountVo vo) {
-        AccountEntity entity = build(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        return entity;
+    public AccountEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Override
-    public AccountEntity update(Long ownerId, AccountVo vo) {
-        AccountEntity entity = update(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        return entity;
-    }
+
 }

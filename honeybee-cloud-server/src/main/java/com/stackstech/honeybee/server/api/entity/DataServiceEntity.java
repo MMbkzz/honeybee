@@ -3,7 +3,6 @@ package com.stackstech.honeybee.server.api.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.api.vo.DataServiceVo;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity, DataServiceVo> {
+public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
 
     private Long id;
 
@@ -49,24 +48,9 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity, Dat
     }
 
     @Override
-    public DataServiceEntity build(Long ownerId, DataServiceVo vo) {
-        DataServiceEntity entity = build(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        //TODO
-        entity.setDatasourceMeta("TODO");
-        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
-        entity.setExpression("TODO");
-        return entity;
+    public DataServiceEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Override
-    public DataServiceEntity update(Long ownerId, DataServiceVo vo) {
-        DataServiceEntity entity = update(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        //TODO
-        entity.setDatasourceMeta("TODO");
-        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
-        entity.setExpression("TODO");
-        return entity;
-    }
 }

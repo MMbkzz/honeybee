@@ -3,7 +3,6 @@ package com.stackstech.honeybee.server.api.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.api.vo.DataServiceTenantVo;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataServiceTenantEntity extends AbstractDataEntity<DataServiceTenantEntity, DataServiceTenantVo> {
+public class DataServiceTenantEntity extends AbstractDataEntity<DataServiceTenantEntity> {
     private Long id;
 
     private String tenantName;
@@ -38,16 +37,9 @@ public class DataServiceTenantEntity extends AbstractDataEntity<DataServiceTenan
     }
 
     @Override
-    public DataServiceTenantEntity build(Long ownerId, DataServiceTenantVo vo) {
-        DataServiceTenantEntity entity = build(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        return entity;
+    public DataServiceTenantEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Override
-    public DataServiceTenantEntity update(Long ownerId, DataServiceTenantVo vo) {
-        DataServiceTenantEntity entity = update(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        return entity;
-    }
 }

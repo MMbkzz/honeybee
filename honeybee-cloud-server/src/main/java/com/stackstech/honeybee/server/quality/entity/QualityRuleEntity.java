@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity, Object> {
+public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
     private Long id;
 
     private String ruleName;
@@ -44,15 +44,10 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity, Obj
         return this;
     }
 
-    @Deprecated
     @Override
-    public QualityRuleEntity build(Long ownerId, Object vo) {
-        return null;
+    public QualityRuleEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Deprecated
-    @Override
-    public QualityRuleEntity update(Long ownerId, Object vo) {
-        return null;
-    }
 }

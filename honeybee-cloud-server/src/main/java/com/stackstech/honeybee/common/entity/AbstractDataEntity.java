@@ -8,12 +8,11 @@ import java.util.Date;
  * Abstract data entity
  *
  * @param <E> Data entity type
- * @param <V> Data view type
  * @author William
  * @since 1.0
  */
 @Data
-public abstract class AbstractDataEntity<E, V> {
+public abstract class AbstractDataEntity<E> {
 
     /**
      * entity status
@@ -52,19 +51,11 @@ public abstract class AbstractDataEntity<E, V> {
     abstract public E update(Long ownerId);
 
     /**
-     * build a entity object
+     * copy properties from view object
      *
-     * @param ownerId entity owner id
+     * @param vo view object
      * @return entity object
      */
-    abstract public E build(Long ownerId, V vo);
-
-    /**
-     * update entity object
-     *
-     * @param ownerId entity owner id
-     * @return entity object
-     */
-    abstract public E update(Long ownerId, V vo);
+    abstract public E copy(Object vo);
 
 }

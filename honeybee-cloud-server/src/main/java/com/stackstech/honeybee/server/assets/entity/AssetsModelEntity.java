@@ -3,7 +3,6 @@ package com.stackstech.honeybee.server.assets.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.assets.vo.AssetsModelVo;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -11,7 +10,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity, AssetsModelVo> {
+public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity> {
     private Long id;
 
     private String assetsModelName;
@@ -48,20 +47,9 @@ public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity, Ass
     }
 
     @Override
-    public AssetsModelEntity build(Long ownerId, AssetsModelVo vo) {
-        AssetsModelEntity entity = build(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        //TODO
-        entity.setDatasourceMeta("TODO");
-        return entity;
+    public AssetsModelEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Override
-    public AssetsModelEntity update(Long ownerId, AssetsModelVo vo) {
-        AssetsModelEntity entity = update(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        //TODO
-        entity.setDatasourceMeta("TODO");
-        return entity;
-    }
 }

@@ -53,7 +53,7 @@ public class JobController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/job/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateQualityJob(@Valid @RequestBody QualityJobVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        QualityJobEntity entity = new QualityJobEntity().update(account.getId(), vo);
+        QualityJobEntity entity = new QualityJobEntity().update(account.getId()).copy(vo);
 
         if (!service.update(entity)) {
             return ResponseMap.failed("update data quality job failed.");
@@ -65,7 +65,7 @@ public class JobController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/job/add", method = RequestMethod.PUT)
     public ResponseMap<?> addQualityJob(@Valid @RequestBody QualityJobVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        QualityJobEntity entity = new QualityJobEntity().build(account.getId(), vo);
+        QualityJobEntity entity = new QualityJobEntity().build(account.getId()).copy(vo);
 
         if (!service.add(entity)) {
             return ResponseMap.failed("insert data quality job failed.");

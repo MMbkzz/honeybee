@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.assets.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DataRecyclerEntity extends AbstractDataEntity<DataRecyclerEntity, Object> {
+public class DataRecyclerEntity extends AbstractDataEntity<DataRecyclerEntity> {
     private Long id;
 
     private Long assetsModelId;
@@ -42,15 +43,10 @@ public class DataRecyclerEntity extends AbstractDataEntity<DataRecyclerEntity, O
         return this;
     }
 
-    @Deprecated
     @Override
-    public DataRecyclerEntity build(Long ownerId, Object vo) {
-        return null;
+    public DataRecyclerEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Deprecated
-    @Override
-    public DataRecyclerEntity update(Long ownerId, Object vo) {
-        return null;
-    }
 }

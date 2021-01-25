@@ -52,7 +52,7 @@ public class AccountController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/account/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateAccount(@Valid @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        AccountEntity entity = new AccountEntity().update(account.getId(), vo);
+        AccountEntity entity = new AccountEntity().update(account.getId()).copy(vo);
 
         if (!accountService.update(entity)) {
             return ResponseMap.failed("update account failed.");
@@ -64,7 +64,7 @@ public class AccountController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/account/add", method = RequestMethod.PUT)
     public ResponseMap<?> addAccount(@Valid @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        AccountEntity entity = new AccountEntity().build(account.getId(), vo);
+        AccountEntity entity = new AccountEntity().build(account.getId()).copy(vo);
 
         if (!accountService.add(entity)) {
             return ResponseMap.failed("insert account failed.");

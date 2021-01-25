@@ -4,15 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
-import com.stackstech.honeybee.server.quality.vo.QualityJobVo;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QualityJobEntity extends AbstractDataEntity<QualityJobEntity, QualityJobVo> {
+public class QualityJobEntity extends AbstractDataEntity<QualityJobEntity> {
     private Long id;
 
     private String jobName;
@@ -43,16 +41,9 @@ public class QualityJobEntity extends AbstractDataEntity<QualityJobEntity, Quali
     }
 
     @Override
-    public QualityJobEntity build(Long ownerId, QualityJobVo vo) {
-        QualityJobEntity entity = build(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        return entity;
+    public QualityJobEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Override
-    public QualityJobEntity update(Long ownerId, QualityJobVo vo) {
-        QualityJobEntity entity = update(ownerId);
-        CommonUtil.copyProperties(vo, entity);
-        return entity;
-    }
 }

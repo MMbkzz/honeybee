@@ -51,7 +51,7 @@ public class DataServiceTenantController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/tenant/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@Valid @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        DataServiceTenantEntity entity = new DataServiceTenantEntity().update(account.getId(), vo);
+        DataServiceTenantEntity entity = new DataServiceTenantEntity().update(account.getId()).copy(vo);
 
         if (!tenantService.update(entity)) {
             return ResponseMap.failed("update tenant failed.");
@@ -62,7 +62,7 @@ public class DataServiceTenantController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/tenant/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@Valid @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        DataServiceTenantEntity entity = new DataServiceTenantEntity().build(account.getId(), vo);
+        DataServiceTenantEntity entity = new DataServiceTenantEntity().build(account.getId()).copy(vo);
 
         if (!tenantService.add(entity)) {
             return ResponseMap.failed("insert tenant failed.");

@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.audit.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.Date;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AuditLogEntity extends AbstractDataEntity<AuditLogEntity, Object> {
+public class AuditLogEntity extends AbstractDataEntity<AuditLogEntity> {
     private Long id;
 
     private String logTitle;
@@ -38,15 +39,11 @@ public class AuditLogEntity extends AbstractDataEntity<AuditLogEntity, Object> {
         return this;
     }
 
-    @Deprecated
     @Override
-    public AuditLogEntity build(Long ownerId, Object vo) {
-        return null;
+    public AuditLogEntity copy(Object vo) {
+        CommonUtil.copyProperties(vo, this);
+        return this;
     }
 
-    @Deprecated
-    @Override
-    public AuditLogEntity update(Long ownerId, Object vo) {
-        return null;
-    }
+
 }
