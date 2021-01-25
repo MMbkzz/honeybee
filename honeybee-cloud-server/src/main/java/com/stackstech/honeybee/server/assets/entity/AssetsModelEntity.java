@@ -6,7 +6,6 @@ import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.assets.vo.AssetsModelVo;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
@@ -51,14 +50,18 @@ public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity, Ass
     @Override
     public AssetsModelEntity build(Long ownerId, AssetsModelVo vo) {
         AssetsModelEntity entity = build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
+        //TODO
+        entity.setDatasourceMeta("TODO");
         return entity;
     }
 
     @Override
     public AssetsModelEntity update(Long ownerId, AssetsModelVo vo) {
         AssetsModelEntity entity = update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
+        //TODO
+        entity.setDatasourceMeta("TODO");
         return entity;
     }
 }

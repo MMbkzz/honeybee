@@ -26,5 +26,7 @@ public class AssetsModelVo {
     @NotNull(message = "assets model expression cannot be null")
     private String expression;
 
+    private Integer status;
+
     private String desc;
 }
