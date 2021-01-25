@@ -23,6 +23,8 @@ public class DataServiceVo {
 
     private Integer cacheExpire;
 
+    private Integer status;
+
     private String desc;
 
 }

@@ -13,5 +13,7 @@ public class DataServiceTenantVo {
     @NotNull(message = "tenant name cannot be null")
     private String tenantName;
 
+    private Integer status;
+
     private String desc;
 }

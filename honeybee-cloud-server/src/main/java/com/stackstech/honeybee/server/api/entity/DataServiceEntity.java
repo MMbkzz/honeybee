@@ -53,7 +53,10 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity, Dat
     public DataServiceEntity build(Long ownerId, DataServiceVo vo) {
         DataServiceEntity entity = build(ownerId);
         BeanUtils.copyProperties(vo, entity);
+        //TODO
+        entity.setDatasourceMeta("TODO");
         entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
+        entity.setExpression("TODO");
         return entity;
     }
 
@@ -61,7 +64,10 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity, Dat
     public DataServiceEntity update(Long ownerId, DataServiceVo vo) {
         DataServiceEntity entity = update(ownerId);
         BeanUtils.copyProperties(vo, entity);
+        //TODO
+        entity.setDatasourceMeta("TODO");
         entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
+        entity.setExpression("TODO");
         return entity;
     }
 }
