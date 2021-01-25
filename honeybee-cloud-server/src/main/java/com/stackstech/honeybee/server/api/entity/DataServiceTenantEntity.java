@@ -6,7 +6,6 @@ import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.api.vo.DataServiceTenantVo;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
@@ -41,14 +40,14 @@ public class DataServiceTenantEntity extends AbstractDataEntity<DataServiceTenan
     @Override
     public DataServiceTenantEntity build(Long ownerId, DataServiceTenantVo vo) {
         DataServiceTenantEntity entity = build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         return entity;
     }
 
     @Override
     public DataServiceTenantEntity update(Long ownerId, DataServiceTenantVo vo) {
         DataServiceTenantEntity entity = update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         return entity;
     }
 }

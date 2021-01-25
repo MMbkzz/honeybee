@@ -45,14 +45,14 @@ public class QualityJobEntity extends AbstractDataEntity<QualityJobEntity, Quali
     @Override
     public QualityJobEntity build(Long ownerId, QualityJobVo vo) {
         QualityJobEntity entity = build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         return entity;
     }
 
     @Override
     public QualityJobEntity update(Long ownerId, QualityJobVo vo) {
         QualityJobEntity entity = update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         return entity;
     }
 }

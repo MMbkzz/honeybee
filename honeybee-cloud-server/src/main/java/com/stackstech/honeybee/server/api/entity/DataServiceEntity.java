@@ -6,7 +6,6 @@ import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.api.vo.DataServiceVo;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
@@ -52,7 +51,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity, Dat
     @Override
     public DataServiceEntity build(Long ownerId, DataServiceVo vo) {
         DataServiceEntity entity = build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         //TODO
         entity.setDatasourceMeta("TODO");
         entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
@@ -63,7 +62,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity, Dat
     @Override
     public DataServiceEntity update(Long ownerId, DataServiceVo vo) {
         DataServiceEntity entity = update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         //TODO
         entity.setDatasourceMeta("TODO");
         entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));

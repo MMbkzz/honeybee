@@ -6,7 +6,6 @@ import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.system.vo.DataSourceVo;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
@@ -45,7 +44,7 @@ public class DataSourceEntity extends AbstractDataEntity<DataSourceEntity, DataS
     @Override
     public DataSourceEntity build(Long ownerId, DataSourceVo vo) {
         DataSourceEntity entity = build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
         return entity;
     }
@@ -53,7 +52,7 @@ public class DataSourceEntity extends AbstractDataEntity<DataSourceEntity, DataS
     @Override
     public DataSourceEntity update(Long ownerId, DataSourceVo vo) {
         DataSourceEntity entity = update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
         return entity;
     }

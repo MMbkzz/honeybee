@@ -3,10 +3,10 @@ package com.stackstech.honeybee.server.system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.system.vo.AccountVo;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
@@ -56,14 +56,14 @@ public class AccountEntity extends AbstractDataEntity<AccountEntity, AccountVo> 
     @Override
     public AccountEntity build(Long ownerId, AccountVo vo) {
         AccountEntity entity = build(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         return entity;
     }
 
     @Override
     public AccountEntity update(Long ownerId, AccountVo vo) {
         AccountEntity entity = update(ownerId);
-        BeanUtils.copyProperties(vo, entity);
+        CommonUtil.copyProperties(vo, entity);
         return entity;
     }
 }
