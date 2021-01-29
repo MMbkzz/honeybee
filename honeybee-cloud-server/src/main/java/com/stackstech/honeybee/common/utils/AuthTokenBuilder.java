@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.stackstech.honeybee.common.cache.SystemCacheHelper;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
@@ -42,7 +43,7 @@ public class AuthTokenBuilder {
     private int expires;
 
     @Autowired
-    private CacheUtil cacheUtil;
+    private SystemCacheHelper systemCacheHelper;
 
     /**
      * JWT algorithm
@@ -105,7 +106,7 @@ public class AuthTokenBuilder {
     public TokenStatus verifyToken(String token) {
         try {
             DecodedJWT jwt = decodeToken(token);
-            if (cacheUtil.hasBlacklist(jwt.getId())) {
+            if (systemCacheHelper.hasBlacklist(jwt.getId())) {
                 return TokenStatus.INVALID;
             }
             jwtVerifier().verify(jwt);
@@ -126,7 +127,7 @@ public class AuthTokenBuilder {
         try {
             DecodedJWT jwt = decodeToken(token);
             // record token id to blacklist
-            cacheUtil.addBlacklist(jwt.getId());
+            systemCacheHelper.addBlacklist(jwt.getId());
         } catch (Exception e) {
             log.error("", e);
         }

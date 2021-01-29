@@ -4,21 +4,24 @@ import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.*;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
+import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.system.entity.DictMapping;
+import com.stackstech.honeybee.server.system.service.DataCacheService;
 import com.stackstech.honeybee.server.system.service.SystemConfigService;
+import com.stackstech.honeybee.server.system.vo.DataCacheQuery;
 import com.stackstech.honeybee.server.system.vo.DataSourceQuery;
 import com.stackstech.honeybee.server.system.vo.DataSourceVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,6 +30,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +49,8 @@ public class SystemController {
     private SystemConfigService service;
     @Autowired
     private DataService<DataSourceEntity> dataSourceService;
+    @Autowired
+    private DataCacheService dataCacheService;
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
@@ -97,26 +103,47 @@ public class SystemController {
         return ResponseMap.failed("nothing found");
     }
 
+    @Deprecated
+    @ApiOperation(value = "testing api for data cache")
+    @RequestMapping(value = "/system/datacache/add", method = RequestMethod.GET)
+    public ResponseMap<?> test() {
+        List<String> result = Lists.newArrayList();
+        result.add(RandomStringUtils.randomAlphanumeric(22));
+
+        for (int i = 0; i < 66; i++) {
+            DataCacheEntity entity = new DataCacheEntity();
+            entity.setUuid(String.valueOf((i + 1)));
+            entity.setData(result);
+            entity.setExpire(300);
+            entity.setUpdatetime(new Date());
+            dataCacheService.addDataCache(entity);
+        }
+        return ResponseMap.success(true);
+    }
+
     @ApiOperation(value = "get data cache")
-    @RequestMapping(value = "/system/datacache/get/{key}", method = RequestMethod.GET)
-    public ResponseMap<?> getDataCache(@PathVariable("key") String key) {
-        //TODO
-        return null;
+    @RequestMapping(value = "/system/datacache/get/{uuid}", method = RequestMethod.GET)
+    public ResponseMap<?> getDataCache(@PathVariable("uuid") String uuid) {
+        return ResponseMap.success(dataCacheService.getDataCache(uuid));
     }
 
     @ApiOperation(value = "delete data cache")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
-    @RequestMapping(value = "/system/datacache/delete/{key}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteDataCache(@PathVariable("key") String key) {
-        //TODO
-        return null;
+    @RequestMapping(value = "/system/datacache/delete/{uuid}", method = RequestMethod.DELETE)
+    public ResponseMap<?> deleteDataCache(@PathVariable("uuid") String uuid, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseMap.success(dataCacheService.delete(uuid));
     }
 
     @ApiOperation(value = "query data cache")
     @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryDataCache(@Valid @RequestBody PageQuery parameters) {
-        //TODO
-        return null;
+    public ResponseMap<?> queryDataCache(@Valid @RequestBody DataCacheQuery parameters) {
+        List<DataCacheEntity> data = dataCacheService.get(parameters.getPageStart(), parameters.getPageSize());
+        if (data != null && data.size() > 0) {
+            int total = dataCacheService.getTotalCount();
+            log.debug("query data record size {}", total);
+            return ResponseMap.setTotal(data, total);
+        }
+        return ResponseMap.failed("nothing found");
     }
 
     @ApiOperation(value = "get system config")

@@ -1,5 +1,4 @@
-package com.stackstech.honeybee.common.utils;
-
+package com.stackstech.honeybee.common.cache;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
@@ -7,40 +6,29 @@ import com.stackstech.honeybee.server.core.enums.CacheKey;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
-import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.util.SafeEncoder;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * Redis Cache utils
- *
- * @author William
- * @since 1.0
- */
 @Slf4j
-@Component
-public final class CacheUtil {
+public abstract class AbstractCacheService {
 
-    private static final String LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+    protected static final String LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
 
-    public static Joiner joiner = Joiner.on(Constant.SEPARATOR).skipNulls();
+    protected static final String KEY_PREFIX = Constant.SERVER_NAME.toUpperCase();
 
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    protected static Joiner joiner = Joiner.on(Constant.SEPARATOR).skipNulls();
 
-    public Set<String> getScanKeySet(String pattern) {
+    public final Set<String> getScanKeySet(RedisTemplate<String, Object> redisTemplate, String pattern) {
         log.debug("Scan all Redis key sets, pattern is {}", pattern);
         Set<String> result = null;
         try {
@@ -60,7 +48,7 @@ public final class CacheUtil {
         return result;
     }
 
-    public boolean setLock(String name, String id, int timeout) {
+    public final boolean setLock(RedisTemplate<String, Object> redisTemplate, String name, String id, int timeout) {
         boolean flag = false;
         String key = joiner.join(CacheKey.LOCK, name);
         try {
@@ -77,12 +65,12 @@ public final class CacheUtil {
         return flag;
     }
 
-    public boolean setLock(String name, String id) {
+    public final boolean setLock(RedisTemplate<String, Object> redisTemplate, String name, String id) {
         // Release the lock in 5 minutes
-        return setLock(name, id, 300);
+        return setLock(redisTemplate, name, id, 300);
     }
 
-    public boolean releaseLock(String name, String id) {
+    public final boolean releaseLock(RedisTemplate<String, Object> redisTemplate, String name, String id) {
         boolean flag = false;
         String key = joiner.join(CacheKey.LOCK, name);
         try {
@@ -104,18 +92,6 @@ public final class CacheUtil {
         }
         log.debug("Releasing Redis lock, Key {} State {}", key, flag);
         return flag;
-    }
-
-    public long addBlacklist(String tokenId) {
-        Long length = redisTemplate.opsForSet().add("TOKEN_BLACKLIST", tokenId);
-        if (redisTemplate.getExpire("TOKEN_BLACKLIST") == -1) {
-            redisTemplate.expireAt("TOKEN_BLACKLIST", DateTime.now().plusDays(1).toDate());
-        }
-        return length;
-    }
-
-    public boolean hasBlacklist(String tokenId) {
-        return redisTemplate.opsForSet().isMember("TOKEN_BLACKLIST", tokenId);
     }
 
 }

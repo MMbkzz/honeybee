@@ -43,5 +43,10 @@ public enum CacheKey {
     /**
      * 总数
      */
-    TOTAL
+    TOTAL,
+
+    /**
+     * 数据缓存
+     */
+    DATACACHE
 }
