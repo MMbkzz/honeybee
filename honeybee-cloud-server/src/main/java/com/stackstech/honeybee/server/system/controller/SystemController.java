@@ -7,13 +7,14 @@ import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.server.core.enums.*;
+import com.stackstech.honeybee.server.core.enums.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.Constant;
+import com.stackstech.honeybee.server.core.enums.DictCatalog;
+import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.server.system.entity.AccountEntity;
-import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
-import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
-import com.stackstech.honeybee.server.system.entity.DictMapping;
+import com.stackstech.honeybee.server.system.entity.*;
 import com.stackstech.honeybee.server.system.service.DataCacheService;
+import com.stackstech.honeybee.server.system.service.DictService;
 import com.stackstech.honeybee.server.system.service.SystemConfigService;
 import com.stackstech.honeybee.server.system.vo.DataCacheQuery;
 import com.stackstech.honeybee.server.system.vo.DataSourceQuery;
@@ -51,6 +52,8 @@ public class SystemController {
     private DataService<DataSourceEntity> dataSourceService;
     @Autowired
     private DataCacheService dataCacheService;
+    @Autowired
+    private DictService dictService;
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
@@ -191,61 +194,43 @@ public class SystemController {
     @ApiAuthIgnore
     @ApiOperation(value = "get global dict mapping")
     @RequestMapping(value = "/system/dict/get", method = RequestMethod.GET)
-    public ResponseMap<?> getDataSource() {
-        Map<String, List<DictMapping>> mapping = Maps.newHashMap();
+    public ResponseMap<?> getDict() {
+        List<DictEntity> dicts = dictService.getDictByCatalog(null);
+        Map<String, List<DictMapping>> maps = Maps.newHashMap();
+        List<DictMapping> mapping = null;
+        for (DictEntity entity : dicts) {
+            if (maps.get(entity.getCatalogName()) == null) {
+                mapping = Lists.newArrayList();
+            } else {
+                mapping = maps.get(entity.getCatalogName());
+            }
+            mapping.add(new DictMapping().build(entity.getCode(), entity.getName()));
+            maps.put(entity.getCatalogName(), mapping);
+        }
+        return ResponseMap.success(maps);
+    }
 
-        List<DictMapping> statusMapping = Lists.newArrayList();
-        statusMapping.add(new DictMapping().build(EntityStatusType.ENABLE.getStatus(), EntityStatusType.ENABLE.getDesc()));
-        statusMapping.add(new DictMapping().build(EntityStatusType.DISABLE.getStatus(), EntityStatusType.DISABLE.getDesc()));
-        mapping.put("STATUS", statusMapping);
+    @ApiAuthIgnore
+    @ApiOperation(value = "get global dict mapping by catalog")
+    @RequestMapping(value = "/system/dict/{catalog}", method = RequestMethod.GET)
+    public ResponseMap<?> getDict(@NotNull(message = "catalog cannot be null") @PathVariable("catalog") String catalog) {
+        DictCatalog dictCatalog = null;
+        try {
+            dictCatalog = DictCatalog.valueOf(catalog);
+            if (dictCatalog == null) {
+                throw new IllegalArgumentException("invalid catalog name [" + catalog + "]");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseMap.failed("invalid catalog name");
+        }
 
-        List<DictMapping> serviceStatusMapping = Lists.newArrayList();
-        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.ENABLE.getStatus(), EntityStatusType.ENABLE.getDesc()));
-        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.DISABLE.getStatus(), EntityStatusType.DISABLE.getDesc()));
-        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.OFFLINE.getStatus(), EntityStatusType.OFFLINE.getDesc()));
-        serviceStatusMapping.add(new DictMapping().build(EntityStatusType.ONLINE.getStatus(), EntityStatusType.ONLINE.getDesc()));
-        mapping.put("SERVICE_STATUS", serviceStatusMapping);
-
-        List<DictMapping> auditTypeMapping = Lists.newArrayList();
-        auditTypeMapping.add(new DictMapping().build(AuditOperationType.SERVICE.getName(), AuditOperationType.SERVICE.getDesc()));
-        auditTypeMapping.add(new DictMapping().build(AuditOperationType.ASSETS.getName(), AuditOperationType.ASSETS.getDesc()));
-        auditTypeMapping.add(new DictMapping().build(AuditOperationType.SYSTEM.getName(), AuditOperationType.SYSTEM.getDesc()));
-        mapping.put("AUDIT_TYPE", auditTypeMapping);
-
-        List<DictMapping> logTypeMapping = Lists.newArrayList();
-        logTypeMapping.add(new DictMapping().build(AuditOperationType.DELETE.getName(), AuditOperationType.DELETE.getDesc()));
-        logTypeMapping.add(new DictMapping().build(AuditOperationType.UPDATE.getName(), AuditOperationType.UPDATE.getDesc()));
-        logTypeMapping.add(new DictMapping().build(AuditOperationType.INSERT.getName(), AuditOperationType.INSERT.getDesc()));
-        logTypeMapping.add(new DictMapping().build(AuditOperationType.LOGIN.getName(), AuditOperationType.LOGIN.getDesc()));
-        logTypeMapping.add(new DictMapping().build(AuditOperationType.LOGOUT.getName(), AuditOperationType.LOGOUT.getDesc()));
-        logTypeMapping.add(new DictMapping().build(AuditOperationType.ERROR.getName(), AuditOperationType.ERROR.getDesc()));
-        mapping.put("LOG_TYPE", logTypeMapping);
-
-        List<DictMapping> assetsCatalogType = Lists.newArrayList();
-        assetsCatalogType.add(new DictMapping().build(AssetsCatalogType.DOMAIN.name(), "数据资产领域"));
-        assetsCatalogType.add(new DictMapping().build(AssetsCatalogType.TOPIC.name(), "数据资产主题"));
-        mapping.put("ASSETS_CATALOG_TYPE", assetsCatalogType);
-
-        List<DictMapping> dataSourceType = Lists.newArrayList();
-        dataSourceType.add(new DictMapping().build(DataSourceType.HIVE.name(), DataSourceType.HIVE.name().toLowerCase()));
-        dataSourceType.add(new DictMapping().build(DataSourceType.MYSQL.name(), DataSourceType.MYSQL.name().toLowerCase()));
-        dataSourceType.add(new DictMapping().build(DataSourceType.MSSQL.name(), DataSourceType.MSSQL.name().toLowerCase()));
-        dataSourceType.add(new DictMapping().build(DataSourceType.ORACLE.name(), DataSourceType.ORACLE.name().toLowerCase()));
-        dataSourceType.add(new DictMapping().build(DataSourceType.POSTGRESQL.name(), DataSourceType.POSTGRESQL.name().toLowerCase()));
-        mapping.put("DATA_SOURCE_TYPE", dataSourceType);
-
-        List<DictMapping> qualityRuleType = Lists.newArrayList();
-        qualityRuleType.add(new DictMapping().build(QualityRuleType.ACCURACY.name(), "精确性"));
-        qualityRuleType.add(new DictMapping().build(QualityRuleType.PROFILING.name(), "一致性"));
-        qualityRuleType.add(new DictMapping().build(QualityRuleType.UNIQUENESS.name(), "唯一性"));
-        qualityRuleType.add(new DictMapping().build(QualityRuleType.DISTINCT.name(), "有效性"));
-        qualityRuleType.add(new DictMapping().build(QualityRuleType.TIMELINESS.name(), "及时性"));
-        qualityRuleType.add(new DictMapping().build(QualityRuleType.COMPLETENESS.name(), "完整性"));
-        mapping.put("QUALITY_RULE_TYPE", qualityRuleType);
-
-        List<DictMapping> messageType = Lists.newArrayList();
-        messageType.add(new DictMapping().build(MessageType.SYSTEM.name(), "系统消息"));
-        mapping.put("MESSAGE_TYPE", messageType);
+        List<DictEntity> dicts = dictService.getDictByCatalog(dictCatalog);
+        List<DictMapping> mapping = Lists.newArrayList();
+        for (DictEntity entity : dicts) {
+            mapping.add(new DictMapping().build(entity.getCode(), entity.getName()));
+        }
+        Map<String, List<DictMapping>> maps = Maps.newHashMap();
+        maps.put(catalog, mapping);
 
         return ResponseMap.success(mapping);
     }
