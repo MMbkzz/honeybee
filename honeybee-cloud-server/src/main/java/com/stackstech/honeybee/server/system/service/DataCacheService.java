@@ -12,7 +12,7 @@ public interface DataCacheService {
 
     boolean delete(String uuid);
 
-    List<DataCacheEntity> get(int pageStart, int pageSize);
+    List<DataCacheEntity> get(String keywords, int pageStart, int pageSize);
 
-    int getTotalCount();
+    int getTotalCount(String keywords);
 }

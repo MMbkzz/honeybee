@@ -11,6 +11,8 @@ import javax.validation.constraints.Size;
 @NotNull(message = "data cache parameter cannot be null")
 public class DataCacheQuery {
 
+    private String keywords;
+
     @ApiModelProperty(required = true)
     @Min(value = 1, message = "invalid page start index, default value is 1")
     private int pageStart;

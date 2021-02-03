@@ -30,10 +30,10 @@ public abstract class AbstractCacheService {
 
     public final Set<String> getScanKeySet(RedisTemplate<String, Object> redisTemplate, String pattern) {
         log.debug("Scan all Redis key sets, pattern is {}", pattern);
-        Set<String> result = null;
+        Set<String> result = Sets.newLinkedHashSet();
         try {
             RedisCallback<Set<String>> callback = (connection) -> {
-                Set<String> keysSet = Sets.newHashSet();
+                Set<String> keysSet = Sets.newLinkedHashSet();
                 Cursor<byte[]> cursor = connection.scan(new ScanOptions.ScanOptionsBuilder().match(pattern).count(1000).build());
                 while (cursor.hasNext()) {
                     keysSet.add(SafeEncoder.encode(cursor.next()));

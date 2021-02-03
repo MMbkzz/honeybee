@@ -49,19 +49,13 @@ public class DataCacheHelper extends AbstractCacheService {
         return redisTemplate.opsForZSet().remove(setsKey, key) > 0;
     }
 
-    private List<String> pager(int pageStart, int pageSize) {
-        String setsKey = joiner.join(KEY_PREFIX, CacheKey.DATACACHE);
+    private Set<String> scan(String keywords) {
+        String pattern = joiner.join(KEY_PREFIX, CacheKey.DATACACHE, keywords);
+        return super.getScanKeySet(redisTemplate, pattern);
+    }
 
-        long min = DateTime.now().getMillis() - applicationConfig.getDataCacheExpires() * 1000;
-        long max = DateTime.now().getMillis() + applicationConfig.getDataCacheExpires() * 1000;
-        Set<Object> keysSet = redisTemplate.opsForZSet().rangeByScore(setsKey, min, max);
-
-        if (keysSet == null || keysSet.size() == 0) {
-            return Collections.emptyList();
-        }
-
-        List<String> temp = keysSet.stream().map(Object::toString).collect(Collectors.toList());
-        int count = temp.size();
+    private List<String> pager(List<String> keys, int pageStart, int pageSize) {
+        int count = keys.size();
         int startIndex = (pageStart - 1) * pageSize;
         if (startIndex >= count) {
             return Collections.emptyList();
@@ -73,29 +67,54 @@ public class DataCacheHelper extends AbstractCacheService {
         if (endIndex >= count) {
             endIndex = count;
         }
-        return temp.subList(startIndex, endIndex);
+        return keys.subList(startIndex, endIndex);
     }
 
+    public List<DataCacheEntity> get(String keywords, int pageStart, int pageSize) {
+        List<String> temp = Lists.newArrayList(scan(keywords));
+        List<String> elements = pager(temp, pageStart, pageSize);
 
-    public List<DataCacheEntity> get(int pageStart, int pageSize) {
-        String setsKey = joiner.join(KEY_PREFIX, CacheKey.DATACACHE);
-        List<String> list = pager(pageStart, pageSize);
         List<DataCacheEntity> result = Lists.newArrayList();
-        for (String k : list) {
+        for (String k : elements) {
             if (redisTemplate.hasKey(k)) {
                 result.add((DataCacheEntity) redisTemplate.opsForValue().get(k));
-            } else {
-                redisTemplate.opsForZSet().remove(setsKey, k);
             }
         }
         return result;
     }
 
-    public int getTotalCount() {
+    public List<DataCacheEntity> get(int pageStart, int pageSize) {
         String setsKey = joiner.join(KEY_PREFIX, CacheKey.DATACACHE);
-        long min = DateTime.now().getMillis() - applicationConfig.getDataCacheExpires() * 1000;
-        long max = DateTime.now().getMillis() + applicationConfig.getDataCacheExpires() * 1000;
-        return redisTemplate.opsForZSet().count(setsKey, min, max).intValue();
+
+        Set<Object> keysSet = redisTemplate.opsForZSet().range(setsKey, 0, -1);
+        if (keysSet == null || keysSet.size() == 0) {
+            return Collections.emptyList();
+        }
+
+        List<String> temp = keysSet.stream().map(Object::toString).collect(Collectors.toList());
+        List<String> elements = pager(temp, pageStart, pageSize);
+
+        List<DataCacheEntity> result = Lists.newArrayList();
+        List<String> expires = Lists.newArrayList();
+        for (String k : elements) {
+            if (redisTemplate.hasKey(k)) {
+                result.add((DataCacheEntity) redisTemplate.opsForValue().get(k));
+            } else {
+                expires.add(k);
+            }
+        }
+        if (expires.size() > 0) {
+            redisTemplate.opsForZSet().remove(setsKey, expires.toArray());
+        }
+        return result;
+    }
+
+    public int getTotalCount(String keywords) {
+        return scan(keywords).size();
+    }
+
+    public int getTotalCount() {
+        return redisTemplate.opsForZSet().zCard(joiner.join(KEY_PREFIX, CacheKey.DATACACHE)).intValue();
     }
 
 }

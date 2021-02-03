@@ -137,9 +137,9 @@ public class SystemController {
     @ApiOperation(value = "query data cache")
     @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
     public ResponseMap<?> queryDataCache(@Valid @RequestBody DataCacheQuery parameters) {
-        List<DataCacheEntity> data = dataCacheService.get(parameters.getPageStart(), parameters.getPageSize());
+        List<DataCacheEntity> data = dataCacheService.get(parameters.getKeywords(), parameters.getPageStart(), parameters.getPageSize());
         if (data != null && data.size() > 0) {
-            int total = dataCacheService.getTotalCount();
+            int total = dataCacheService.getTotalCount(parameters.getKeywords());
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
         }

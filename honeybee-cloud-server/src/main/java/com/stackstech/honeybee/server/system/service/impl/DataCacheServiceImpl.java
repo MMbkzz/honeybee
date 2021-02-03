@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.system.service.impl;
 import com.stackstech.honeybee.common.cache.DataCacheHelper;
 import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
 import com.stackstech.honeybee.server.system.service.DataCacheService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +31,18 @@ public class DataCacheServiceImpl implements DataCacheService {
     }
 
     @Override
-    public List<DataCacheEntity> get(int pageStart, int pageSize) {
+    public List<DataCacheEntity> get(String keywords, int pageStart, int pageSize) {
+        if (StringUtils.isNotEmpty(keywords)) {
+            return dataCacheHelper.get(keywords, pageStart, pageSize);
+        }
         return dataCacheHelper.get(pageStart, pageSize);
     }
 
     @Override
-    public int getTotalCount() {
+    public int getTotalCount(String keywords) {
+        if (StringUtils.isNotEmpty(keywords)) {
+            return dataCacheHelper.getTotalCount(keywords);
+        }
         return dataCacheHelper.getTotalCount();
     }
 
