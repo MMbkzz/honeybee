@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.server.assets.service.impl;
 
+import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.service.DataService;
@@ -17,11 +18,21 @@ public class AssetsModelServiceImpl implements DataService<AssetsModelEntity> {
 
     @Override
     public boolean add(AssetsModelEntity entity) {
+        //TODO
+        JsonParameterMap meta = new JsonParameterMap();
+        meta.put("testmeta1", "testvalue");
+        meta.put("testmeta2", true);
+        entity.setDatasourceMeta(meta);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
     public boolean update(AssetsModelEntity entity) {
+        //TODO
+        JsonParameterMap meta = new JsonParameterMap();
+        meta.put("testmeta1", "testvalue");
+        meta.put("testmeta2", true);
+        entity.setDatasourceMeta(meta);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 

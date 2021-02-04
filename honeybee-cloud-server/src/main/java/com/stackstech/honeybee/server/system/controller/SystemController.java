@@ -73,7 +73,6 @@ public class SystemController {
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().update(account.getId()).copy(vo);
-        entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
 
         if (!dataSourceService.update(entity)) {
             return ResponseMap.failed("update data source failed.");
@@ -86,7 +85,6 @@ public class SystemController {
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
     public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().build(account.getId()).copy(vo);
-        entity.setDatasourceConfig(CommonUtil.toJsonString(vo.getDatasourceParameters()));
 
         if (!dataSourceService.add(entity)) {
             return ResponseMap.failed("insert data source failed.");

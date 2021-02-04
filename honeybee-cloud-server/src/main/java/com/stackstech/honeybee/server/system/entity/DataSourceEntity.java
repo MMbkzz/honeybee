@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class DataSourceEntity extends AbstractDataEntity<DataSourceEntity> {
 
     private String datasourceType;
 
-    private String datasourceConfig;
+    private JsonParameterMap datasourceConfig;
 
     private String desc;
 

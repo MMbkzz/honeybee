@@ -1,6 +1,5 @@
 package com.stackstech.honeybee.server.assets.controller;
 
-import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
@@ -62,11 +61,6 @@ public class DataAssetsController {
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AssetsModelEntity entity = new AssetsModelEntity().update(account.getId()).copy(vo);
-        //TODO
-        JsonParameterMap meta = new JsonParameterMap();
-        meta.put("testmeta1", "testvalue");
-        meta.put("testmeta2", true);
-        entity.setDatasourceMeta(meta);
 
         if (!assetsModelService.update(entity)) {
             return ResponseMap.failed("update data service failed.");
@@ -79,11 +73,6 @@ public class DataAssetsController {
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
     public ResponseMap<?> addModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AssetsModelEntity entity = new AssetsModelEntity().build(account.getId()).copy(vo);
-        //TODO
-        JsonParameterMap meta = new JsonParameterMap();
-        meta.put("testmeta1", "testvalue");
-        meta.put("testmeta2", true);
-        entity.setDatasourceMeta(meta);
 
         if (!assetsModelService.add(entity)) {
             return ResponseMap.failed("insert data service failed.");

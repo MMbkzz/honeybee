@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.server.system.service.impl;
 
+import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.system.dao.DataSourceMapper;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
@@ -17,11 +18,23 @@ public class DataSourceServiceImpl implements DataService<DataSourceEntity> {
 
     @Override
     public boolean add(DataSourceEntity entity) {
+        //TODO
+        JsonParameterMap conf = new JsonParameterMap();
+        conf.put("test1", "testvalue");
+        conf.put("test2", true);
+        entity.setDatasourceConfig(conf);
+
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
     public boolean update(DataSourceEntity entity) {
+        //TODO
+        JsonParameterMap conf = new JsonParameterMap();
+        conf.put("test1", "testvalue");
+        conf.put("test2", true);
+        entity.setDatasourceConfig(conf);
+
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
