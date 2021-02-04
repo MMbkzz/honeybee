@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.server.core.conf;
 
+import com.stackstech.honeybee.server.core.handler.JsonTypeHandler;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,9 +17,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
-/**
- * 数据源配置
- */
 @Configuration
 @MapperScan(basePackages = "com.stackstech.honeybee.server.*.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class DataSourceConfig {
@@ -29,14 +27,20 @@ public class DataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
+    @Bean(name = "jsonTypeHandler")
+    public JsonTypeHandler newJsonTypeHandler() {
+        return new JsonTypeHandler();
+    }
+
     @Bean(name = "sqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:com/stackstech/honeybee/server/dao/mapper/*.xml"));
-        // 加载mybatis核心配置
         bean.setConfigLocation(new DefaultResourceLoader().getResource("classpath:mybatis-config.xml"));
+        bean.setTypeHandlers(newJsonTypeHandler());
+        bean.afterPropertiesSet();
         return bean.getObject();
     }
 

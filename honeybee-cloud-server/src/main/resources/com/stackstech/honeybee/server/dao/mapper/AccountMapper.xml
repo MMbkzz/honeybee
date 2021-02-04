@@ -32,7 +32,7 @@
   </sql>
 
   <select id="selectByAccountAndPassowrd" resultMap="BaseResultMap" parameterType="java.util.Map">
-    select <include refid="Base_Column_List" /> , <include refid="Include_status_column" /> from hb_account
+    select <include refid="Base_Column_List" /> from hb_account
     where `status` != -1 and `account_name` = #{account} and `account_password` = #{password}
   </select>
 
