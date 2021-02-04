@@ -23,7 +23,7 @@ public class PageQuery {
     public static final String ORDER_TYPE = "orderType";
     public static final String STATUS = "status";
 
-    @Min(value = 0L, message = "invalid page start index, default value is 0")
+    @Min(value = 1, message = "invalid page start index, default value is 1")
     @ApiModelProperty(required = true)
     private Integer pageStart;
 

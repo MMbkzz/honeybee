@@ -15,11 +15,11 @@ public class DataCacheQuery {
 
     @ApiModelProperty(required = true)
     @Min(value = 1, message = "invalid page start index, default value is 1")
-    private int pageStart;
+    private Integer pageStart;
 
     @ApiModelProperty(required = true)
     @Size(min = 1, max = 100, message = "invalid page limit size, max limit size is 1~100")
-    private int pageSize;
+    private Integer pageSize;
 
     public int getPageStart() {
         if (pageStart <= 0) {
