@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.common.utils;
+package com.stackstech.honeybee.server.core.handler;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -19,11 +19,18 @@ import java.io.ByteArrayOutputStream;
 @Slf4j
 public class KryoRedisSerializer<T> implements RedisSerializer<T> {
 
-    private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
+    private static final byte[] EMPTY_ARRAY = new byte[0];
 
     private static final ThreadLocal<Kryo> kryoThreadLocal = ThreadLocal.withInitial(Kryo::new);
 
     private Class<T> clazz;
+
+    private Kryo getKryo() {
+        Kryo kryo = kryoThreadLocal.get();
+        kryo.setReferences(false);
+        kryo.register(clazz);
+        return kryo;
+    }
 
     public KryoRedisSerializer(Class<T> clazz) {
         super();
@@ -32,37 +39,28 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
     }
 
     @Override
-    public byte[] serialize(T t) throws SerializationException {
+    public byte[] serialize(Object t) throws SerializationException {
         if (t == null) {
-            return EMPTY_BYTE_ARRAY;
+            return EMPTY_ARRAY;
         }
-        Kryo kryo = kryoThreadLocal.get();
-        kryo.setReferences(false);
-        kryo.register(clazz);
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-             Output output = new Output(byteArrayOutputStream)) {
-            kryo.writeClassAndObject(output, t);
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); Output output = new Output(baos)) {
+            getKryo().writeClassAndObject(output, t);
             output.flush();
-            return byteArrayOutputStream.toByteArray();
+            return baos.toByteArray();
         } catch (Exception e) {
-            log.error("", e);
+            throw new SerializationException("Cannot serialize", e);
         }
-        return EMPTY_BYTE_ARRAY;
     }
 
     @Override
     public T deserialize(byte[] bytes) throws SerializationException {
-        if (bytes == null || bytes.length <= 0) {
+        if (bytes == null || bytes.length == 0) {
             return null;
         }
-        Kryo kryo = kryoThreadLocal.get();
-        kryo.setReferences(false);
-        kryo.register(clazz);
         try (Input input = new Input(bytes)) {
-            return (T) kryo.readClassAndObject(input);
+            return (T) getKryo().readClassAndObject(input);
         } catch (Exception e) {
-            log.error("", e);
+            throw new SerializationException("Cannot deserialize", e);
         }
-        return null;
     }
 }
