@@ -35,6 +35,11 @@ public abstract class AbstractDataEntity<E> {
     protected Date createtime;
 
     /**
+     * entity status name
+     */
+    protected String statusName;
+
+    /**
      * build a entity object
      *
      * @param ownerId entity owner id

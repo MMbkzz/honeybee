@@ -15,6 +15,7 @@
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="status_name" jdbcType="VARCHAR" property="statusName" />
   </resultMap>
   <sql id="Base_Column_List">
     `id`, `assets_model_name`, `assets_model_code`, `assets_catalog_domain`, `assets_catalog_topic`, 
@@ -22,9 +23,18 @@
     `createtime`, `desc`
   </sql>
 
+  <sql id="Query_Column_List">
+    `id`, `assets_model_name`, `assets_model_code`, `assets_catalog_domain`, `assets_catalog_topic`,
+    `datasource_id`, `status`, `owner`, `updatetime`
+  </sql>
+
+  <sql id="Include_status_column">
+    (select ifnull(`name`, "Unknown") from hb_dict d where `catalog_name` = 'STATUS' and `status` != -1 and code = hb_assets_model.status) as `status_name`
+  </sql>
+
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Query_Column_List" />, <include refid="Include_status_column" />
     from hb_assets_model where `status` != -1
     <if test="status != null">
       and `status` = #{status}
@@ -70,7 +80,7 @@
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />, <include refid="Include_status_column" />
     from hb_assets_model
     where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>

@@ -13,15 +13,29 @@
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="status_name" jdbcType="VARCHAR" property="statusName" />
+    <result column="rule_type_name" jdbcType="VARCHAR" property="ruleTypeName" />
   </resultMap>
   <sql id="Base_Column_List">
     `id`, `rule_name`, `rule_code`, `rule_type`, `rule_config_yaml`, `job_id`, `status`, 
     `owner`, `updatetime`, `createtime`, `desc`
   </sql>
 
+  <sql id="Query_Column_List">
+    `id`, `rule_name`, `rule_type`, `status`, `owner`, `updatetime`, `desc`
+  </sql>
+
+  <sql id="Include_status_column">
+    (select ifnull(`name`, "Unknown") from hb_dict d where `catalog_name` = 'STATUS' and `status` != -1 and code = hb_quality_rule.status) as `status_name`
+  </sql>
+
+  <sql id="Include_type_column">
+    (select ifnull(`name`, "Unknown") from hb_dict d where `catalog_name` = 'QUALITY_RULE_TYPE' and `status` != -1 and code = hb_quality_rule.rule_type) as `rule_type_name`
+  </sql>
+
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Query_Column_List" />, <include refid="Include_status_column" />, <include refid="Include_type_column" />
     from hb_quality_rule where `status` != -1
     <if test="status != null">
       and `status` = #{status}
@@ -55,7 +69,7 @@
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />, <include refid="Include_status_column" />, <include refid="Include_type_column" />
     from hb_quality_rule
     where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>

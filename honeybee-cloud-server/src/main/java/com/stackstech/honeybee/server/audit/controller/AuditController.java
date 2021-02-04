@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * audit log service controller
@@ -38,9 +39,11 @@ public class AuditController {
     @ApiOperation(value = "query audit log")
     @RequestMapping(value = "/audit/{auditType}/query", method = RequestMethod.POST)
     public ResponseMap<?> query(@PathVariable("auditType") String auditType, @Valid @RequestBody AuditLogQuery parameters) {
-        List<AuditLogEntity> data = service.get(parameters.getParameter());
+        Map<String, Object> params = parameters.getParameter();
+        params.put("auditType", auditType);
+        List<AuditLogEntity> data = service.get(params);
         if (data != null && data.size() > 0) {
-            int total = service.getTotalCount(parameters.getParameter());
+            int total = service.getTotalCount(params);
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
         }

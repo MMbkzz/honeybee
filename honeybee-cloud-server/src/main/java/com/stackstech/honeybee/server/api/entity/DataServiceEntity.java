@@ -30,6 +30,8 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
 
     private String desc;
 
+    private String assetsModelName;
+
     @Override
     public DataServiceEntity build(Long ownerId) {
         this.owner = ownerId;

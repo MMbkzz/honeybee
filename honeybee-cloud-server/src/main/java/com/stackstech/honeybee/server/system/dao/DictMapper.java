@@ -22,4 +22,5 @@ public interface DictMapper {
     int updateByPrimaryKey(DictEntity record);
 
     List<DictEntity> selectByCatalogName(String catalogName);
+
 }

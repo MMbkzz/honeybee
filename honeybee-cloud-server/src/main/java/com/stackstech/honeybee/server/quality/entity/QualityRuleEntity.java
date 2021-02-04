@@ -27,6 +27,8 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
 
     private String desc;
 
+    private String ruleTypeName;
+
     @Override
     public QualityRuleEntity build(Long ownerId) {
         this.owner = ownerId;

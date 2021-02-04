@@ -23,6 +23,8 @@ public class AuditLogEntity extends AbstractDataEntity<AuditLogEntity> {
 
     private String desc;
 
+    private String logTypeName;
+
     @Override
     public AuditLogEntity build(Long ownerId) {
         this.owner = ownerId;

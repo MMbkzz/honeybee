@@ -23,6 +23,8 @@ public class DataSourceEntity extends AbstractDataEntity<DataSourceEntity> {
 
     private String desc;
 
+    private String datasourceTypeName;
+
     @Override
     public DataSourceEntity build(Long ownerId) {
         this.owner = ownerId;

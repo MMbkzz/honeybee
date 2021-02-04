@@ -25,11 +25,11 @@ public class PageQuery {
 
     @Min(value = 0L, message = "invalid page start index, default value is 0")
     @ApiModelProperty(required = true)
-    private int pageStart;
+    private Integer pageStart;
 
     @Size(min = 1, max = 100, message = "invalid page limit size, max limit size is 1~100")
     @ApiModelProperty(required = true)
-    private int pageSize;
+    private Integer pageSize;
 
     private String keywords;
 
@@ -39,7 +39,7 @@ public class PageQuery {
     @AssertTrue(message = "invalid order type, must be `true` or `false`")
     private boolean orderType;
 
-    private int status;
+    private Integer status;
 
     /**
      * query record limit start index, by default PageStart is 0.
