@@ -3,8 +3,7 @@ package com.stackstech.honeybee.server.api.entity;
 import lombok.Data;
 
 @Data
-public class DataServiceParameter {
-    private Long id;
+public class DataServiceMeta {
     private String argName;
     private String argType;
     private String paramName;

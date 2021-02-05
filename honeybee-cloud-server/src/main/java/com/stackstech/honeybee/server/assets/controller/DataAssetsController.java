@@ -26,6 +26,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * account assets service controller
@@ -47,6 +48,17 @@ public class DataAssetsController {
     @RequestMapping(value = "/data/assets/model/get/{id}", method = RequestMethod.GET)
     public ResponseMap<?> getModel(@PathVariable("id") long id) {
         return ResponseMap.success(assetsModelService.getSingle(id));
+    }
+
+    @ApiOperation(value = "get data assets model meta")
+    @RequestMapping(value = "/data/assets/model/meta/{id}", method = RequestMethod.GET)
+    public ResponseMap<?> getModelMeta(@PathVariable("id") long id) {
+        AssetsModelEntity model = assetsModelService.getSingle(id);
+        if (model == null) {
+            return ResponseMap.failed("assets model not found");
+        }
+        return ResponseMap.success(model.getDatasourceMeta());
+
     }
 
     @ApiOperation(value = "delete data assets model")
@@ -136,7 +148,9 @@ public class DataAssetsController {
     @RequestMapping(value = "/data/assets/{catalogType}/query", method = RequestMethod.POST)
     public ResponseMap<?> queryCatalog(@PathVariable("catalogType") String catalogType,
                                        @Valid @RequestBody AssetsCatalogQuery parameters) {
-        List<AssetsCatalogEntity> data = assetsCatalogService.getAssetsCatalogs(parameters.getParameter());
+        Map<String, Object> param = parameters.getParameter();
+        param.put("catalogType", catalogType);
+        List<AssetsCatalogEntity> data = assetsCatalogService.getAssetsCatalogs(param);
         if (data != null && data.size() > 0) {
             log.debug("query data record size {}", data.size());
             return ResponseMap.setTotal(data, data.size());

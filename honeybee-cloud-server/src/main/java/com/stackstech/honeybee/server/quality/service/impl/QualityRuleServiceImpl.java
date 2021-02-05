@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
+import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.quality.dao.QualityRuleMapper;
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
@@ -80,7 +81,18 @@ public class QualityRuleServiceImpl implements QualityRuleService {
 
     @Override
     public QualityRuleEntity getSingle(Long recordId) {
-        return ruleMapper.selectByPrimaryKey(recordId);
+        QualityRuleEntity rule = ruleMapper.selectByPrimaryKey(recordId);
+        if (rule != null) {
+            QualityJobEntity job = jobMapper.selectByPrimaryKey(rule.getJobId());
+            Map<String, Object> maps = Maps.newLinkedHashMap();
+            maps.put("jobName", job.getJobName());
+            maps.put("jobCode", job.getJobCode());
+            maps.put("jobExpression", job.getJobExpression());
+            maps.put("jobOrder", job.getJobOrder());
+            maps.put("jobDesc", job.getDesc());
+            rule.setJob(maps);
+        }
+        return rule;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.api.controller;
 
+import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.entity.ResponseMap;
-import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.api.vo.DataServiceVo;
@@ -56,10 +56,10 @@ public class DataServiceController {
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceEntity entity = new DataServiceEntity().update(account.getId()).copy(vo);
-        //TODO
-        entity.setDatasourceMeta("TODO");
-        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
-        entity.setExpression("TODO");
+        JsonParameterMap parameterMap = new JsonParameterMap();
+        parameterMap.put("dataServiceMeta", vo.getDataServiceMetas());
+        entity.setServiceMeta(parameterMap);
+        entity.setExpression("expression test...");
 
         if (!service.update(entity)) {
             return ResponseMap.failed("update data service failed.");
@@ -72,10 +72,10 @@ public class DataServiceController {
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceEntity entity = new DataServiceEntity().build(account.getId()).copy(vo);
-        //TODO
-        entity.setDatasourceMeta("TODO");
-        entity.setServiceMeta(CommonUtil.toJsonString(vo.getDataServiceParameters()));
-        entity.setExpression("TODO");
+        JsonParameterMap parameterMap = new JsonParameterMap();
+        parameterMap.put("dataServiceMeta", vo.getDataServiceMetas());
+        entity.setServiceMeta(parameterMap);
+        entity.setExpression("expression test...");
 
         if (!service.add(entity)) {
             return ResponseMap.failed("insert data service failed.");

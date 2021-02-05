@@ -104,7 +104,6 @@ CREATE TABLE `hb_data_service` (
   `data_service_name` varchar(50) NOT NULL COMMENT '数据服务名称',
   `data_service_code` varchar(50) NOT NULL COMMENT '数据服务编号',
   `assets_model_id` bigint(20) NOT NULL COMMENT '数据资产模型ID',
-  `datasource_meta` text NOT NULL COMMENT '元数据配置（JSON）',
   `service_meta` text NOT NULL COMMENT '参数配置（JSON）',
   `cache_expire` int(50) NOT NULL COMMENT '缓存过期时间（ms）',
   `expression` text NOT NULL COMMENT '表达式',

@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.api.vo;
 
-import com.stackstech.honeybee.server.api.entity.DataServiceParameter;
+import com.stackstech.honeybee.server.api.entity.DataServiceMeta;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -19,7 +19,7 @@ public class DataServiceVo {
     @Min(value = 1L, message = "invalid assets model id")
     private Long assetsModelId;
 
-    private List<DataServiceParameter> dataServiceParameters;
+    private List<DataServiceMeta> dataServiceMetas;
 
     private Integer cacheExpire;
 

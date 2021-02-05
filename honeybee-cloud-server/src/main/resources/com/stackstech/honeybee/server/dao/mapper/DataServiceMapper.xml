@@ -6,8 +6,7 @@
     <result column="data_service_name" jdbcType="VARCHAR" property="dataServiceName" />
     <result column="data_service_code" jdbcType="VARCHAR" property="dataServiceCode" />
     <result column="assets_model_id" jdbcType="BIGINT" property="assetsModelId" />
-    <result column="datasource_meta" jdbcType="VARCHAR" property="datasourceMeta" />
-    <result column="service_meta" jdbcType="VARCHAR" property="serviceMeta" />
+    <result column="service_meta" property="serviceMeta" typeHandler="com.stackstech.honeybee.server.core.handler.JsonTypeHandler"/>
     <result column="cache_expire" jdbcType="INTEGER" property="cacheExpire" />
     <result column="expression" jdbcType="VARCHAR" property="expression" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -19,7 +18,7 @@
     <result column="assets_model_name" jdbcType="VARCHAR" property="assetsModelName" />
   </resultMap>
   <sql id="Base_Column_List">
-    `id`, `data_service_name`, `data_service_code`, `assets_model_id`, `datasource_meta`, 
+    `id`, `data_service_name`, `data_service_code`, `assets_model_id`,
     `service_meta`, `cache_expire`, `expression`, `status`, `owner`, `updatetime`, `createtime`, 
     `desc`
   </sql>
@@ -88,9 +87,6 @@
       <if test="assetsModelId != null">
         `assets_model_id`,
       </if>
-      <if test="datasourceMeta != null">
-        `datasource_meta`,
-      </if>
       <if test="serviceMeta != null">
         `service_meta`,
       </if>
@@ -129,11 +125,8 @@
       <if test="assetsModelId != null">
         #{assetsModelId,jdbcType=BIGINT},
       </if>
-      <if test="datasourceMeta != null">
-        #{datasourceMeta,jdbcType=VARCHAR},
-      </if>
       <if test="serviceMeta != null">
-        #{serviceMeta,jdbcType=VARCHAR},
+        #{serviceMeta,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
       </if>
       <if test="cacheExpire != null">
         #{cacheExpire,jdbcType=INTEGER},
@@ -170,11 +163,8 @@
       <if test="assetsModelId != null">
         `assets_model_id` = #{assetsModelId,jdbcType=BIGINT},
       </if>
-      <if test="datasourceMeta != null">
-        `datasource_meta` = #{datasourceMeta,jdbcType=VARCHAR},
-      </if>
       <if test="serviceMeta != null">
-        `service_meta` = #{serviceMeta,jdbcType=VARCHAR},
+        `service_meta` = #{serviceMeta,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
       </if>
       <if test="cacheExpire != null">
         `cache_expire` = #{cacheExpire,jdbcType=INTEGER},

@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
@@ -20,9 +21,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
 
     private Long assetsModelId;
 
-    private String datasourceMeta;
-
-    private String serviceMeta;
+    private JsonParameterMap serviceMeta;
 
     private Integer cacheExpire;
 

@@ -8,6 +8,7 @@ import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Map;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -28,6 +29,8 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
     private String desc;
 
     private String ruleTypeName;
+
+    private Map<String, Object> job;
 
     @Override
     public QualityRuleEntity build(Long ownerId) {
