@@ -16,6 +16,8 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
     <result column="status_name" jdbcType="VARCHAR" property="statusName" />
+    <result column="assets_catalog_domain_name" jdbcType="VARCHAR" property="assetsCatalogDomainName" />
+    <result column="assets_catalog_topic_name" jdbcType="VARCHAR" property="assetsCatalogTopicName" />
   </resultMap>
   <sql id="Base_Column_List">
     `id`, `assets_model_name`, `assets_model_code`, `assets_catalog_domain`, `assets_catalog_topic`, 
@@ -30,6 +32,11 @@
 
   <sql id="Include_status_column">
     (select ifnull(`name`, "Unknown") from hb_dict d where `catalog_name` = 'STATUS' and `status` != -1 and code = hb_assets_model.status) as `status_name`
+  </sql>
+
+  <sql id="Include_catalog_column">
+    (select ifnull(`catalog_name`, "Unknown") from hb_assets_catalog c where `status` != -1 and id = hb_assets_model.assets_catalog_domain) as `assets_catalog_domain_name`,
+    (select ifnull(`catalog_name`, "Unknown") from hb_assets_catalog c where `status` != -1 and id = hb_assets_model.assets_catalog_topic) as `assets_catalog_topic_name`
   </sql>
 
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
@@ -80,7 +87,7 @@
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />, <include refid="Include_status_column" />
+    <include refid="Base_Column_List" />, <include refid="Include_status_column" />, <include refid="Include_catalog_column" />
     from hb_assets_model
     where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>

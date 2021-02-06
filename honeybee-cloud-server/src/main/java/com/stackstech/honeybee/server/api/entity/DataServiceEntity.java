@@ -31,6 +31,16 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
 
     private String assetsModelName;
 
+    private JsonParameterMap datasourceMeta;
+
+    private Long assetsCatalogDomain;
+
+    private String assetsCatalogDomainName;
+
+    private Long assetsCatalogTopic;
+
+    private String assetsCatalogTopicName;
+
     @Override
     public DataServiceEntity build(Long ownerId) {
         this.owner = ownerId;

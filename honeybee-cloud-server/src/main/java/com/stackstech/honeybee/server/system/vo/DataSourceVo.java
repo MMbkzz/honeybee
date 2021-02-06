@@ -17,7 +17,7 @@ public class DataSourceVo {
     @NotNull(message = "data source type cannot be null")
     private String datasourceType;
 
-    private Map<String, String> datasourceParameters;
+    private Map<String, Object> datasourceParameters;
 
     private Integer status;
 

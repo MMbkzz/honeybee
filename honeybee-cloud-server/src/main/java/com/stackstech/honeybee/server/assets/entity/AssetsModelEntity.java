@@ -30,6 +30,10 @@ public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity> {
 
     private String desc;
 
+    private String assetsCatalogDomainName;
+
+    private String assetsCatalogTopicName;
+
     @Override
     public AssetsModelEntity build(Long ownerId) {
         this.owner = ownerId;
