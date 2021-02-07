@@ -11,6 +11,7 @@ import java.util.Map;
  * Request parameter base map
  *
  * @author william
+ * @since 1.0
  */
 public class ParameterMap<K, V> extends ForwardingMap<K, V> implements Serializable {
 
