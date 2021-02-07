@@ -13,9 +13,9 @@ public interface AssetsCatalogService {
 
     boolean updateAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId);
 
-    boolean deleteAssetsCatalog(String assetsCatalogType, Long recordId, Long ownerId);
+    boolean deleteAssetsCatalog(Long recordId, Long ownerId);
 
-    AssetsCatalogEntity getAssetsCatalog(String assetsCatalogType, Long recordId);
+    AssetsCatalogEntity getAssetsCatalog(Long recordId);
 
     List<AssetsCatalogEntity> getAssetsCatalogs(Map<String, Object> parameter);
 

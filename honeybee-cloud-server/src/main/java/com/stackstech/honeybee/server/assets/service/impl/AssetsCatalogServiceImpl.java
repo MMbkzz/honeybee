@@ -25,59 +25,66 @@ public class AssetsCatalogServiceImpl implements AssetsCatalogService {
 
     @Override
     public boolean addAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId) {
-        if (assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.DOMAIN.name())) {
-            AssetsCatalogEntity entity = new AssetsCatalogEntity().build(ownerId);
-
+        AssetsCatalogEntity entity = new AssetsCatalogEntity().build(ownerId);
+        if (assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.DOMAIN.getName())) {
+            entity.setCatalogType(AssetsCatalogType.DOMAIN);
         }
-        if (assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.TOPIC.name())) {
-
+        if (assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.TOPIC.getName())) {
+            entity.setCatalogType(AssetsCatalogType.TOPIC);
         }
-
-        return false;
+        return assetsCatalogMapper.insertSelective(entity) > 0;
     }
 
     @Override
     public boolean updateAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId) {
-        return false;
+        AssetsCatalogEntity entity = new AssetsCatalogEntity().update(ownerId);
+        if (assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.DOMAIN.getName())) {
+            entity.setCatalogType(AssetsCatalogType.DOMAIN);
+        }
+        if (assetsCatalogType.equalsIgnoreCase(AssetsCatalogType.TOPIC.getName())) {
+            entity.setCatalogType(AssetsCatalogType.TOPIC);
+        }
+        return assetsCatalogMapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean deleteAssetsCatalog(String assetsCatalogType, Long recordId, Long ownerId) {
-        return false;
+    public boolean deleteAssetsCatalog(Long recordId, Long ownerId) {
+        return assetsCatalogMapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     @Override
-    public AssetsCatalogEntity getAssetsCatalog(String assetsCatalogType, Long recordId) {
-        return null;
+    public AssetsCatalogEntity getAssetsCatalog(Long recordId) {
+        return assetsCatalogMapper.selectByPrimaryKey(recordId);
     }
 
     @Override
     public List<AssetsCatalogEntity> getAssetsCatalogs(Map<String, Object> parameter) {
-        return null;
+        return assetsCatalogMapper.selectByParameter(parameter);
     }
 
     @Override
     public List<AssetsCatalogEntity> getAssetsCatalogTree(Map<String, Object> parameter) {
+        //TODO
         return null;
     }
 
     @Override
     public boolean deleteDataRecycler(Long recordId, Long ownerId) {
-        return false;
+        return dataRecyclerMapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     @Override
     public DataRecyclerEntity getDataRecycler(Long recordId) {
-        return null;
+        return dataRecyclerMapper.selectByPrimaryKey(recordId);
     }
 
     @Override
     public List<DataRecyclerEntity> getDataRecyclers(Map<String, Object> parameter) {
-        return null;
+        return dataRecyclerMapper.selectByParameter(parameter);
     }
 
     @Override
     public Integer getDataRecyclerCount(Map<String, Object> parameter) {
-        return null;
+        return dataRecyclerMapper.selectTotalCount(parameter);
     }
 }

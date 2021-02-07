@@ -12,8 +12,8 @@ import com.stackstech.honeybee.server.assets.vo.AssetsModelQuery;
 import com.stackstech.honeybee.server.assets.vo.AssetsModelVo;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import io.swagger.annotations.Api;
@@ -106,18 +106,17 @@ public class DataAssetsController {
 
 
     @ApiOperation(value = "get data assets catalog")
-    @RequestMapping(value = "/data/assets/{catalogType}/get/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> getCatalog(@PathVariable("catalogType") String catalogType, @PathVariable("id") long id) {
-        return ResponseMap.success(assetsCatalogService.getAssetsCatalog(catalogType, id));
+    @RequestMapping(value = "/data/assets/get/{id}", method = RequestMethod.GET)
+    public ResponseMap<?> getCatalog(@PathVariable("id") long id) {
+        return ResponseMap.success(assetsCatalogService.getAssetsCatalog(id));
     }
 
     @ApiOperation(value = "delete data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
-    @RequestMapping(value = "/data/assets/{catalogType}/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteCatalog(@PathVariable("catalogType") String catalogType,
-                                        @PathVariable("id") long id,
+    @RequestMapping(value = "/data/assets/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseMap<?> deleteCatalog(@PathVariable("id") long id,
                                         @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(assetsCatalogService.deleteAssetsCatalog(catalogType, id, account.getId()));
+        return ResponseMap.success(assetsCatalogService.deleteAssetsCatalog(id, account.getId()));
     }
 
     @ApiOperation(value = "update data assets catalog")

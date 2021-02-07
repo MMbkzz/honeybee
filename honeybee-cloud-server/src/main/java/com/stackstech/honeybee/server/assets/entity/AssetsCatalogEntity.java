@@ -15,7 +15,7 @@ public class AssetsCatalogEntity extends AbstractDataEntity<AssetsCatalogEntity>
 
     private Long id;
 
-    private Integer isroot;
+    private Integer isroot = 0;
 
     private String catalogName;
 
@@ -33,6 +33,7 @@ public class AssetsCatalogEntity extends AbstractDataEntity<AssetsCatalogEntity>
     public AssetsCatalogEntity build(Long ownerId) {
         this.owner = ownerId;
         this.status = EntityStatusType.ENABLE;
+        this.catalogCode = CommonUtil.createNewCode();
         this.createtime = new Date();
         this.updatetime = new Date();
         return this;
