@@ -90,9 +90,5 @@
 <!--               selectByExampleQueryId="false" delimitAllColumns="true">-->
 <!--        </table>-->
 
-        <table tableName="hb_dict" domainObjectName="SysDict" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false" delimitAllColumns="true">
-        </table>
     </context>
 </generatorConfiguration>

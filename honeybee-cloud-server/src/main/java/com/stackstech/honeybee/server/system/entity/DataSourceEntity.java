@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,18 +19,16 @@ public class DataSourceEntity extends AbstractDataEntity<DataSourceEntity> {
 
     private String datasourceCode;
 
-    private String datasourceType;
+    private DataSourceType datasourceType;
 
     private JsonParameterMap datasourceConfig;
 
     private String desc;
 
-    private String datasourceTypeName;
-
     @Override
     public DataSourceEntity build(Long ownerId) {
         this.owner = ownerId;
-        this.status = EntityStatusType.ENABLE.getStatus();
+        this.status = EntityStatusType.ENABLE;
         this.createtime = new Date();
         this.updatetime = new Date();
         this.datasourceCode = CommonUtil.generateEntityCode();

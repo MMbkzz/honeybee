@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.common.entity;
 
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
@@ -17,7 +18,7 @@ public abstract class AbstractDataEntity<E> {
     /**
      * entity status
      */
-    protected Integer status;
+    protected EntityStatusType status;
 
     /**
      * entity owner id
@@ -33,11 +34,6 @@ public abstract class AbstractDataEntity<E> {
      * entity create time
      */
     protected Date createtime;
-
-    /**
-     * entity status name
-     */
-    protected String statusName;
 
     /**
      * build a entity object

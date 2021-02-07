@@ -4,8 +4,8 @@ package com.stackstech.honeybee.server.core.handler;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
-import com.stackstech.honeybee.server.core.enums.AuditOperationType;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import com.stackstech.honeybee.server.core.service.DataService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -78,12 +78,12 @@ public final class AuditOperationHandler {
             });
 
             AuditLogEntity auditLog = new AuditLogEntity();
-            auditLog.setLogTitle(operation.getDesc());
-            auditLog.setLogType(operation.getName());
-            auditLog.setLogAudit(type.getName());
+            auditLog.setLogTitle(operation.getName());
+            auditLog.setLogType(operation);
+            auditLog.setLogAudit(type);
             auditLog.setLogContent(builder.toString());
             auditLog.setOwner(1L);
-            auditLog.setStatus(EntityStatusType.ENABLE.getStatus());
+            auditLog.setStatus(EntityStatusType.ENABLE);
             auditLog.setCreatetime(new Date());
             auditLog.setUpdatetime(new Date());
             auditLog.setDesc(desc);

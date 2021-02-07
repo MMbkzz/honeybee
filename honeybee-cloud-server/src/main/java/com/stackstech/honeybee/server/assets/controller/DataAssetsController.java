@@ -12,7 +12,7 @@ import com.stackstech.honeybee.server.assets.vo.AssetsModelQuery;
 import com.stackstech.honeybee.server.assets.vo.AssetsModelVo;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.server.core.enums.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;

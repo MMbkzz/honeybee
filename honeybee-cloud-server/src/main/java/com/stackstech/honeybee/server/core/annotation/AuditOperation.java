@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.core.annotation;
 
 
-import com.stackstech.honeybee.server.core.enums.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 
 import java.lang.annotation.*;
 

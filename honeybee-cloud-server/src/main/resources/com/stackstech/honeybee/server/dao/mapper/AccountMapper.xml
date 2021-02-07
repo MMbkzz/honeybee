@@ -10,12 +10,11 @@
     <result column="account_gender" jdbcType="INTEGER" property="accountGender" />
     <result column="account_email" jdbcType="VARCHAR" property="accountEmail" />
     <result column="account_phone" jdbcType="VARCHAR" property="accountPhone" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="status" jdbcType="INTEGER" property="status"/>
     <result column="owner" jdbcType="BIGINT" property="owner" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
-    <result column="status_name" jdbcType="VARCHAR" property="statusName" />
   </resultMap>
   <sql id="Base_Column_List">
     `id`, `account_name`, `account_password`, `account_role`, `account_realname`, `account_gender`, 
@@ -27,10 +26,6 @@
     `id`, `account_name`, `account_role`, `status`, `owner`, `updatetime`, `desc`
   </sql>
 
-  <sql id="Include_status_column">
-   (select ifnull(`name`, "Unknown") from hb_dict d where `catalog_name` = 'STATUS' and `status` != -1 and code = hb_account.status) as `status_name`
-  </sql>
-
   <select id="selectByAccountAndPassowrd" resultMap="BaseResultMap" parameterType="java.util.Map">
     select <include refid="Base_Column_List" /> from hb_account
     where `status` != -1 and `account_name` = #{account} and `account_password` = #{password}
@@ -38,7 +33,7 @@
 
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
-    <include refid="Query_Column_List" />, <include refid="Include_status_column" />
+    <include refid="Query_Column_List" />
     from hb_account where `status` != -1
     <if test="status != null">
       and `status` = #{status}
@@ -72,7 +67,7 @@
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />, <include refid="Include_status_column" />
+    <include refid="Base_Column_List" />
     from hb_account
     where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>

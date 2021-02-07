@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
@@ -44,7 +44,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
     @Override
     public DataServiceEntity build(Long ownerId) {
         this.owner = ownerId;
-        this.status = EntityStatusType.ENABLE.getStatus();
+        this.status = EntityStatusType.ENABLE;
         this.createtime = new Date();
         this.updatetime = new Date();
         this.dataServiceCode = CommonUtil.generateEntityCode();

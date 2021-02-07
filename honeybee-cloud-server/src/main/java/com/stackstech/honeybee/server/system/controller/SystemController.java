@@ -7,14 +7,14 @@ import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
-import com.stackstech.honeybee.server.core.enums.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.Constant;
-import com.stackstech.honeybee.server.core.enums.DictCatalog;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
+import com.stackstech.honeybee.server.core.enums.types.*;
 import com.stackstech.honeybee.server.core.service.DataService;
-import com.stackstech.honeybee.server.system.entity.*;
+import com.stackstech.honeybee.server.system.entity.AccountEntity;
+import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
+import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.system.service.DataCacheService;
-import com.stackstech.honeybee.server.system.service.DictService;
 import com.stackstech.honeybee.server.system.service.SystemConfigService;
 import com.stackstech.honeybee.server.system.vo.DataCacheQuery;
 import com.stackstech.honeybee.server.system.vo.DataSourceQuery;
@@ -31,6 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +53,6 @@ public class SystemController {
     private DataService<DataSourceEntity> dataSourceService;
     @Autowired
     private DataCacheService dataCacheService;
-    @Autowired
-    private DictService dictService;
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
@@ -199,45 +198,33 @@ public class SystemController {
     @ApiOperation(value = "get global dict mapping")
     @RequestMapping(value = "/system/dict/get", method = RequestMethod.GET)
     public ResponseMap<?> getDict() {
-        List<DictEntity> dicts = dictService.getDictByCatalog(null);
-        Map<String, List<DictMapping>> maps = Maps.newHashMap();
-        List<DictMapping> mapping = null;
-        for (DictEntity entity : dicts) {
-            if (maps.get(entity.getCatalogName()) == null) {
-                mapping = Lists.newArrayList();
-            } else {
-                mapping = maps.get(entity.getCatalogName());
-            }
-            mapping.add(new DictMapping().build(entity.getCode(), entity.getName()));
-            maps.put(entity.getCatalogName(), mapping);
-        }
-        return ResponseMap.success(maps);
+        Map<String, List<EnumTypeMapping>> result = Maps.newConcurrentMap();
+
+        List<EnumTypeMapping> assetsEnumTypeMappings = Lists.newArrayList();
+        Arrays.stream(AssetsCatalogType.values()).forEach(e -> assetsEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        result.put("ASSETS_CATALOG_TYPE", assetsEnumTypeMappings);
+
+        List<EnumTypeMapping> auditEnumTypeMappings = Lists.newArrayList();
+        Arrays.stream(AuditOperationType.values()).forEach(e -> auditEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        result.put("LOG_TYPE", auditEnumTypeMappings);
+
+        List<EnumTypeMapping> dbEnumTypeMappings = Lists.newArrayList();
+        Arrays.stream(DataSourceType.values()).forEach(e -> dbEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        result.put("DATA_SOURCE_TYPE", dbEnumTypeMappings);
+
+        List<EnumTypeMapping> statusEnumTypeMappings = Lists.newArrayList();
+        Arrays.stream(EntityStatusType.values()).forEach(e -> statusEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        result.put("STATUS", statusEnumTypeMappings);
+
+        List<EnumTypeMapping> messageEnumTypeMappings = Lists.newArrayList();
+        Arrays.stream(MessageType.values()).forEach(e -> messageEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        result.put("MESSAGE_TYPE", messageEnumTypeMappings);
+
+        List<EnumTypeMapping> ruleEnumTypeMappings = Lists.newArrayList();
+        Arrays.stream(QualityRuleType.values()).forEach(e -> ruleEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        result.put("QUALITY_RULE_TYPE", ruleEnumTypeMappings);
+
+        return ResponseMap.success(result);
     }
-
-    @ApiAuthIgnore
-    @ApiOperation(value = "get global dict mapping by catalog")
-    @RequestMapping(value = "/system/dict/{catalog}", method = RequestMethod.GET)
-    public ResponseMap<?> getDict(@NotNull(message = "catalog cannot be null") @PathVariable("catalog") String catalog) {
-        DictCatalog dictCatalog = null;
-        try {
-            dictCatalog = DictCatalog.valueOf(catalog);
-            if (dictCatalog == null) {
-                throw new IllegalArgumentException("invalid catalog name [" + catalog + "]");
-            }
-        } catch (IllegalArgumentException e) {
-            return ResponseMap.failed("invalid catalog name");
-        }
-
-        List<DictEntity> dicts = dictService.getDictByCatalog(dictCatalog);
-        List<DictMapping> mapping = Lists.newArrayList();
-        for (DictEntity entity : dicts) {
-            mapping.add(new DictMapping().build(entity.getCode(), entity.getName()));
-        }
-        Map<String, List<DictMapping>> maps = Maps.newHashMap();
-        maps.put(catalog, mapping);
-
-        return ResponseMap.success(mapping);
-    }
-
 
 }

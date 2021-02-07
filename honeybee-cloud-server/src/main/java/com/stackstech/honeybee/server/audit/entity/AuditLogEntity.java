@@ -3,7 +3,8 @@ package com.stackstech.honeybee.server.audit.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,20 +16,18 @@ public class AuditLogEntity extends AbstractDataEntity<AuditLogEntity> {
 
     private String logTitle;
 
-    private String logAudit;
+    private AuditOperationType logAudit;
 
-    private String logType;
+    private AuditOperationType logType;
 
     private String logContent;
 
     private String desc;
 
-    private String logTypeName;
-
     @Override
     public AuditLogEntity build(Long ownerId) {
         this.owner = ownerId;
-        this.status = EntityStatusType.ENABLE.getStatus();
+        this.status = EntityStatusType.ENABLE;
         this.createtime = new Date();
         this.updatetime = new Date();
         return this;

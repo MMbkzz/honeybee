@@ -3,7 +3,8 @@ package com.stackstech.honeybee.server.assets.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.enums.types.AssetsCatalogType;
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public class AssetsCatalogEntity extends AbstractDataEntity<AssetsCatalogEntity>
 
     private Long catalogParentId;
 
-    private String catalogType;
+    private AssetsCatalogType catalogType;
 
     private Integer catalogOrder;
 
@@ -31,7 +32,7 @@ public class AssetsCatalogEntity extends AbstractDataEntity<AssetsCatalogEntity>
     @Override
     public AssetsCatalogEntity build(Long ownerId) {
         this.owner = ownerId;
-        this.status = EntityStatusType.ENABLE.getStatus();
+        this.status = EntityStatusType.ENABLE;
         this.createtime = new Date();
         this.updatetime = new Date();
         return this;

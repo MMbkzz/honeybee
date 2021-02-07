@@ -3,8 +3,8 @@ package com.stackstech.honeybee.server.system.service.impl;
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.common.utils.AuthTokenBuilder;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.service.AuthService;
@@ -84,7 +84,7 @@ public class AuthServiceImpl implements AuthService {
             map.put("account", account.getAccountName());
             map.put("password", account.getAccountPassword());
             account = mapper.selectByAccountAndPassowrd(map);
-            if (account == null || account.getStatus() != EntityStatusType.ENABLE.getStatus()) {
+            if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
                 return null;
             }
         }

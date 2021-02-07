@@ -6,7 +6,6 @@ import com.esotericsoftware.kryo.io.Output;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
-import org.springframework.util.Assert;
 
 import java.io.ByteArrayOutputStream;
 
@@ -23,19 +22,21 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
 
     private static final ThreadLocal<Kryo> kryoThreadLocal = ThreadLocal.withInitial(Kryo::new);
 
-    private Class<T> clazz;
+    private final Class<T> type;
 
     private Kryo getKryo() {
         Kryo kryo = kryoThreadLocal.get();
         kryo.setReferences(false);
-        kryo.register(clazz);
+        kryo.register(type);
         return kryo;
     }
 
-    public KryoRedisSerializer(Class<T> clazz) {
+    public KryoRedisSerializer(Class<T> type) {
         super();
-        Assert.notNull(clazz, "clazz must not be null!");
-        this.clazz = clazz;
+        if (type == null) {
+            throw new IllegalArgumentException("Type argument cannot be null");
+        }
+        this.type = type;
     }
 
     @Override

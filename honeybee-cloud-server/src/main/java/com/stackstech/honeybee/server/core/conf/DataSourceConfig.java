@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.core.conf;
 
-import com.stackstech.honeybee.server.core.handler.JsonTypeHandler;
+import com.stackstech.honeybee.server.core.enums.types.*;
+import com.stackstech.honeybee.server.core.handler.*;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -32,6 +33,37 @@ public class DataSourceConfig {
         return new JsonTypeHandler();
     }
 
+
+    @Bean
+    public AssetsEnumTypeHandler newAssetsEnumTypeHandler() {
+        return new AssetsEnumTypeHandler(AssetsCatalogType.class);
+    }
+
+    @Bean
+    public AuditEnumTypeHandler newAuditEnumTypeHandler() {
+        return new AuditEnumTypeHandler(AuditOperationType.class);
+    }
+
+    @Bean
+    public DBEnumTypeHandler newDBEnumTypeHandler() {
+        return new DBEnumTypeHandler(DataSourceType.class);
+    }
+
+    @Bean
+    public MessageEnumTypeHandler newMessageEnumTypeHandler() {
+        return new MessageEnumTypeHandler(MessageType.class);
+    }
+
+    @Bean
+    public RuleEnumTypeHandler newRuleEnumTypeHandler() {
+        return new RuleEnumTypeHandler(QualityRuleType.class);
+    }
+
+    @Bean
+    public StatusEnumTypeHandler newStatusEnumTypeHandler() {
+        return new StatusEnumTypeHandler(EntityStatusType.class);
+    }
+
     @Bean(name = "sqlSessionFactory")
     @Primary
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
@@ -39,7 +71,16 @@ public class DataSourceConfig {
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:com/stackstech/honeybee/server/dao/mapper/*.xml"));
         bean.setConfigLocation(new DefaultResourceLoader().getResource("classpath:mybatis-config.xml"));
-        bean.setTypeHandlers(newJsonTypeHandler());
+        bean.setDefaultEnumTypeHandler(BaseEnumTypeHandler.class);
+        bean.setTypeHandlers(
+                newJsonTypeHandler(),
+                newAssetsEnumTypeHandler(),
+                newAuditEnumTypeHandler(),
+                newDBEnumTypeHandler(),
+                newMessageEnumTypeHandler(),
+                newRuleEnumTypeHandler(),
+                newStatusEnumTypeHandler()
+        );
         bean.afterPropertiesSet();
         return bean.getObject();
     }

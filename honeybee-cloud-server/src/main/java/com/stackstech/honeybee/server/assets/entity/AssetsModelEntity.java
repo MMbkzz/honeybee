@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
-import com.stackstech.honeybee.server.core.enums.EntityStatusType;
+import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
 import java.util.Date;
@@ -37,7 +37,7 @@ public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity> {
     @Override
     public AssetsModelEntity build(Long ownerId) {
         this.owner = ownerId;
-        this.status = EntityStatusType.ENABLE.getStatus();
+        this.status = EntityStatusType.ENABLE;
         this.createtime = new Date();
         this.updatetime = new Date();
         this.assetsModelCode = CommonUtil.generateEntityCode();

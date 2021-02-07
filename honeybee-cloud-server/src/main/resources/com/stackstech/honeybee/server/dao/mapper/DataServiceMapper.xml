@@ -14,7 +14,6 @@
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
-    <result column="status_name" jdbcType="VARCHAR" property="statusName" />
     <result column="assets_model_name" jdbcType="VARCHAR" property="assetsModelName" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -27,17 +26,13 @@
     `id`, `data_service_name`, `data_service_code`, `assets_model_id`, `status`, `owner`, `updatetime`, `desc`
   </sql>
 
-  <sql id="Include_status_column">
-    (select ifnull(`name`, "Unknown") from hb_dict d where `catalog_name` = 'SERVICE_STATUS' and `status` != -1 and code = hb_data_service.status) as `status_name`
-  </sql>
-
   <sql id="Include_assets_column">
     (select ifnull(`assets_model_name`, "Unknown") from hb_assets_model where hb_assets_model.id = hb_data_service.assets_model_id) as `assets_model_name`
   </sql>
 
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
-    <include refid="Query_Column_List" />, <include refid="Include_status_column" />, <include refid="Include_assets_column" />
+    <include refid="Query_Column_List" />, <include refid="Include_assets_column" />
     from hb_data_service where `status` != -1
     <if test="status != null">
       and `status` = #{status}
@@ -65,7 +60,7 @@
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />, <include refid="Include_status_column" />, <include refid="Include_assets_column" />
+    <include refid="Base_Column_List" />, <include refid="Include_assets_column" />
     from hb_data_service
     where `id` = #{id,jdbcType=BIGINT} and `status` != -1
   </select>
