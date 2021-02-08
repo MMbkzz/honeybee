@@ -31,12 +31,12 @@ public enum DataSourceType implements BaseEnumTypeService {
      */
     POSTGRESQL("PostgreSQL", "POSTGRESQL");
 
-    @JsonValue
+
     private final String name;
-    @JsonValue
     private final String code;
 
     @Override
+    @JsonValue
     public String getName() {
         return name;
     }

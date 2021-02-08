@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
 
     @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "app.datasource.db")
+    @ConfigurationProperties(prefix = "db")
     public DataSource dbDataSource() {
         return DataSourceBuilder.create().build();
     }

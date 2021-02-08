@@ -30,7 +30,9 @@ public class DataServiceImpl implements DataService<DataServiceEntity> {
     public boolean add(DataServiceEntity entity) {
         //TODO
         JsonParameterMap parameterMap = new JsonParameterMap();
-        parameterMap.put("dataServiceMeta", entity.getDataServiceVo().getDataServiceMetas());
+        if (entity.getDataServiceVo().getDataServiceMetas() != null && entity.getDataServiceVo().getDataServiceMetas().size() > 0) {
+            parameterMap.put("dataServiceMeta", entity.getDataServiceVo().getDataServiceMetas());
+        }
         entity.setServiceMeta(parameterMap);
         entity.setExpression("expression test...");
 
@@ -41,7 +43,9 @@ public class DataServiceImpl implements DataService<DataServiceEntity> {
     public boolean update(DataServiceEntity entity) {
         //TODO
         JsonParameterMap parameterMap = new JsonParameterMap();
-        parameterMap.put("dataServiceMeta", entity.getDataServiceVo().getDataServiceMetas());
+        if (entity.getDataServiceVo().getDataServiceMetas() != null && entity.getDataServiceVo().getDataServiceMetas().size() > 0) {
+            parameterMap.put("dataServiceMeta", entity.getDataServiceVo().getDataServiceMetas());
+        }
         entity.setServiceMeta(parameterMap);
         entity.setExpression("expression test...");
         return mapper.updateByPrimaryKeySelective(entity) > 0;

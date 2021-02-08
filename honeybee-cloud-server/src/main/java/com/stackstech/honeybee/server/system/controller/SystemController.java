@@ -10,11 +10,11 @@ import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.enums.types.*;
-import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.system.service.DataCacheService;
+import com.stackstech.honeybee.server.system.service.DataSourceService;
 import com.stackstech.honeybee.server.system.service.SystemConfigService;
 import com.stackstech.honeybee.server.system.vo.DataCacheQuery;
 import com.stackstech.honeybee.server.system.vo.DataSourceQuery;
@@ -50,9 +50,22 @@ public class SystemController {
     @Autowired
     private SystemConfigService service;
     @Autowired
-    private DataService<DataSourceEntity> dataSourceService;
+    private DataSourceService dataSourceService;
     @Autowired
     private DataCacheService dataCacheService;
+
+
+    @ApiOperation(value = "get data source db config")
+    @RequestMapping(value = "/system/datasource/conf/{dataSourceType}", method = RequestMethod.GET)
+    public ResponseMap<?> getDataSourceConfig(@PathVariable("dataSourceType") String dataSourceType) {
+        DataSourceType type;
+        try {
+            type = DataSourceType.valueOf(dataSourceType.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseMap.failed("invalid data source type");
+        }
+        return ResponseMap.success(dataSourceService.getDataSourceConfig(type));
+    }
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
@@ -72,9 +85,6 @@ public class SystemController {
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
     public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().update(account.getId()).copy(vo);
-        JsonParameterMap conf = new JsonParameterMap();
-        conf.setParameter(vo.getDatasourceParameters());
-        entity.setDatasourceConfig(conf);
 
         if (!dataSourceService.update(entity)) {
             return ResponseMap.failed("update data source failed.");
@@ -87,9 +97,6 @@ public class SystemController {
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
     public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().build(account.getId()).copy(vo);
-        JsonParameterMap conf = new JsonParameterMap();
-        conf.setParameter(vo.getDatasourceParameters());
-        entity.setDatasourceConfig(conf);
 
         if (!dataSourceService.add(entity)) {
             return ResponseMap.failed("insert data source failed.");

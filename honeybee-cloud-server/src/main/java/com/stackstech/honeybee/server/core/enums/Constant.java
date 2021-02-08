@@ -23,17 +23,13 @@ public class Constant {
      */
     public static final String URL_SEPARATOR = "/";
     /**
-     * 数据目录
+     * 配置文件目录名称
      */
-    public static final String DATA_PATH = "data";
+    public static final String CONF_DIR = "conf";
     /**
-     * 日志目录
+     * 数据源配置目录名称
      */
-    public static final String LOG_PATH = "log";
-    /**
-     * 资源目录
-     */
-    public static final String RESOURCE_PATH = StringUtils.join(DATA_PATH, File.separatorChar, "resources");
+    public static final String DB_CONF_DIR = "db";
     /**
      * 默认时区 GMT+8
      */

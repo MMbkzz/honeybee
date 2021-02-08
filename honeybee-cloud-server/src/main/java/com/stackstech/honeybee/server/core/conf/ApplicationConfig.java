@@ -14,20 +14,23 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class ApplicationConfig {
 
-    @Value("${app.config.upload:/tmp}")
-    private String upload;
+    @Value("${server.path.upload:/tmp}")
+    private String uploadPath;
 
-    @Value("${app.config.api:null}")
+    @Value("${server.path.conf}")
+    private String configPath;
+
+    @Value("${server.api:null}")
     private String api;
 
-    @Value("${app.config.datacache.expires:300}")
+    @Value("${server.datacache.expires:300}")
     private Integer dataCacheExpires;
 
-    public String getUpload() {
-        if (StringUtils.isNotEmpty(upload) && !upload.endsWith(Constant.URL_SEPARATOR)) {
-            upload = upload + Constant.URL_SEPARATOR;
+    public String getUploadPath() {
+        if (StringUtils.isNotEmpty(uploadPath) && !uploadPath.endsWith(Constant.URL_SEPARATOR)) {
+            uploadPath = uploadPath + Constant.URL_SEPARATOR;
         }
-        return upload;
+        return uploadPath;
     }
 
 }

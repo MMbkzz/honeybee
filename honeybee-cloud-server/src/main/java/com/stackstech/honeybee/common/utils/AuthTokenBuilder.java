@@ -33,13 +33,13 @@ import java.util.UUID;
 @Component
 public class AuthTokenBuilder {
 
-    @Value("${app.security.token.issuer:honeybee}")
+    @Value("${security.token.issuer:honeybee}")
     private String issuer;
 
-    @Value("${app.security.token.secret:honeybee}")
+    @Value("${security.token.secret:honeybee}")
     private String secret;
 
-    @Value("${app.security.token.expires:180}")
+    @Value("${security.token.expires:180}")
     private int expires;
 
     @Autowired
