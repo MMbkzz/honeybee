@@ -1,0 +1,8 @@
+type: mssql
+version: 2018
+connector: com.stackstech.honeybee.connector.mssql.MsSQLConnector
+config:
+  driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jdbcUrl: "jdbc:sqlserver://localhost:1433;DatabaseName=test"
+  username: sa
+  password: sa123456

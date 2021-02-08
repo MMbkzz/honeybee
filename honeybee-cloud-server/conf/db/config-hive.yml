@@ -1,0 +1,12 @@
+type: hive
+version: 2.0
+connector: com.stackstech.honeybee.connector.hive.HiveConnector
+config:
+  driver-class-name: org.apache.hive.jdbc.HiveDriver
+  jdbcUrl: "jdbc:hive2://node1:10000/default"
+  username: hive
+  password: hive
+  hive-site: /etc/hadoop/hive-site/
+  hadoop-site: /etc/hadoop/hadoop-site/
+  authentication: kerberos
+  krb5: /etc/kerberos/krb5.ini

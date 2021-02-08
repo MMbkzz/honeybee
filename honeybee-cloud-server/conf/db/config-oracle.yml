@@ -1,0 +1,8 @@
+type: oracle
+version: 11g
+connector: com.stackstech.honeybee.connector.oracle.OracleConnector
+config:
+  driver-class-name: oracle.jdbc.oracleDriver
+  jdbcUrl: "jdbc:oracle:thin:@localhost:1521:DatabaseName"
+  username: sa
+  password: sa123456
