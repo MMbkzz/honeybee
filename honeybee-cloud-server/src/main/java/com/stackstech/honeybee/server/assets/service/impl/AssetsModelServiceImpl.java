@@ -1,11 +1,11 @@
 package com.stackstech.honeybee.server.assets.service.impl;
 
-import com.beust.jcommander.internal.Lists;
-import com.stackstech.honeybee.common.entity.JsonParameterMap;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.assets.entity.DataSourceMeta;
 import com.stackstech.honeybee.server.core.service.DataService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,33 +18,28 @@ public class AssetsModelServiceImpl implements DataService<AssetsModelEntity> {
     @Autowired
     private AssetsModelMapper mapper;
 
+    private void setDatasourceMeta(AssetsModelEntity entity) {
+        String expression = entity.getAssetsModelVo().getExpression();
+        if (StringUtils.isNotEmpty(expression)) {
+            //TODO SQL解析
+            JsonParameterList metas = new JsonParameterList();
+            metas.add(new DataSourceMeta("id", "number", "$id", "desc..."));
+            metas.add(new DataSourceMeta("name", "varchar", "$name", null));
+            metas.add(new DataSourceMeta("age", "number", "$age", null));
+            metas.add(new DataSourceMeta("gender", "number", "$gender", "a desc.."));
+            entity.setDatasourceMeta(metas);
+        }
+    }
+
     @Override
     public boolean add(AssetsModelEntity entity) {
-        //TODO
-        String expression = entity.getAssetsModelVo().getExpression();
-        JsonParameterMap meta = new JsonParameterMap();
-        List<DataSourceMeta> element = Lists.newArrayList();
-        element.add(new DataSourceMeta("id", "number", "$id", "desc..."));
-        element.add(new DataSourceMeta("name", "varchar", "$name", null));
-        element.add(new DataSourceMeta("age", "number", "$age", null));
-        element.add(new DataSourceMeta("gender", "number", "$gender", "a desc.."));
-        meta.put("dataSourceMeta", element);
-        entity.setDatasourceMeta(meta);
+        setDatasourceMeta(entity);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
     public boolean update(AssetsModelEntity entity) {
-        //TODO
-        String expression = entity.getAssetsModelVo().getExpression();
-        JsonParameterMap meta = new JsonParameterMap();
-        List<DataSourceMeta> element = Lists.newArrayList();
-        element.add(new DataSourceMeta("id", "number", "$id", "desc..."));
-        element.add(new DataSourceMeta("name", "varchar", "$name", null));
-        element.add(new DataSourceMeta("age", "number", "$age", null));
-        element.add(new DataSourceMeta("gender", "number", "$gender", "a desc.."));
-        meta.put("dataSourceMeta", element);
-        entity.setDatasourceMeta(meta);
+        setDatasourceMeta(entity);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 

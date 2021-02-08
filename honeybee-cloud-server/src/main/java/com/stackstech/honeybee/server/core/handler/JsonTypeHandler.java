@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.core.handler;
 
-import com.stackstech.honeybee.common.entity.JsonParameterMap;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,37 +21,37 @@ import java.sql.SQLException;
  * @since 1.0
  */
 @Slf4j
-@MappedTypes(JsonParameterMap.class)
+@MappedTypes(JsonParameterList.class)
 @MappedJdbcTypes(JdbcType.LONGVARCHAR)
-public class JsonTypeHandler extends BaseTypeHandler<JsonParameterMap> {
+public class JsonTypeHandler extends BaseTypeHandler<JsonParameterList> {
 
-    protected JsonParameterMap parse(String result) {
+    protected JsonParameterList parse(String result) {
         if (StringUtils.isNotBlank(result)) {
             log.debug("The result is not empty, parse the JSON data into object");
-            return CommonUtil.jsonToObject(result, JsonParameterMap.class);
+            return CommonUtil.jsonToObject(result, JsonParameterList.class);
         }
         log.debug("The result is empty, return null now");
         return null;
     }
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, JsonParameterMap parameter, JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, JsonParameterList parameter, JdbcType jdbcType) throws SQLException {
         log.debug("The result is not empty, parse the object as JSON data");
         ps.setString(i, CommonUtil.toJsonString(parameter));
     }
 
     @Override
-    public JsonParameterMap getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    public JsonParameterList getNullableResult(ResultSet rs, String columnName) throws SQLException {
         return parse(rs.getString(columnName));
     }
 
     @Override
-    public JsonParameterMap getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    public JsonParameterList getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         return parse(rs.getString(columnIndex));
     }
 
     @Override
-    public JsonParameterMap getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public JsonParameterList getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return parse(cs.getString(columnIndex));
     }
 

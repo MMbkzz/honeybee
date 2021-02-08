@@ -6,7 +6,7 @@
     <result column="datasource_name" jdbcType="VARCHAR" property="datasourceName" />
     <result column="datasource_code" jdbcType="VARCHAR" property="datasourceCode" />
     <result column="datasource_type" jdbcType="VARCHAR" property="datasourceType" />
-    <result column="datasource_config" property="datasourceConfig" typeHandler="com.stackstech.honeybee.server.core.handler.JsonTypeHandler"/>
+    <result column="datasource_config" jdbcType="LONGVARCHAR" property="datasourceConfig" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="owner" jdbcType="BIGINT" property="owner" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
@@ -113,7 +113,7 @@
         #{datasourceType,jdbcType=VARCHAR},
       </if>
       <if test="datasourceConfig != null">
-        #{datasourceConfig,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
+        #{datasourceConfig,jdbcType=LONGVARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -145,7 +145,7 @@
         `datasource_type` = #{datasourceType,jdbcType=VARCHAR},
       </if>
       <if test="datasourceConfig != null">
-        `datasource_config` = #{datasourceConfig,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
+        `datasource_config` = #{datasourceConfig,jdbcType=LONGVARCHAR},
       </if>
       <if test="status != null">
         `status` = #{status,jdbcType=INTEGER},

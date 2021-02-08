@@ -6,7 +6,7 @@
     <result column="data_service_name" jdbcType="VARCHAR" property="dataServiceName" />
     <result column="data_service_code" jdbcType="VARCHAR" property="dataServiceCode" />
     <result column="assets_model_id" jdbcType="BIGINT" property="assetsModelId" />
-    <result column="service_meta" property="serviceMeta" typeHandler="com.stackstech.honeybee.server.core.handler.JsonTypeHandler"/>
+    <result column="service_meta" jdbcType="LONGVARCHAR" property="serviceMeta" />
     <result column="cache_expire" jdbcType="INTEGER" property="cacheExpire" />
     <result column="expression" jdbcType="VARCHAR" property="expression" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -121,7 +121,7 @@
         #{assetsModelId,jdbcType=BIGINT},
       </if>
       <if test="serviceMeta != null">
-        #{serviceMeta,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
+        #{serviceMeta,jdbcType=LONGVARCHAR},
       </if>
       <if test="cacheExpire != null">
         #{cacheExpire,jdbcType=INTEGER},
@@ -159,7 +159,7 @@
         `assets_model_id` = #{assetsModelId,jdbcType=BIGINT},
       </if>
       <if test="serviceMeta != null">
-        `service_meta` = #{serviceMeta,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
+        `service_meta` = #{serviceMeta,jdbcType=LONGVARCHAR},
       </if>
       <if test="cacheExpire != null">
         `cache_expire` = #{cacheExpire,jdbcType=INTEGER},

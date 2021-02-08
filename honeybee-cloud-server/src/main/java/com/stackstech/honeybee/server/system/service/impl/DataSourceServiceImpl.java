@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.system.service.impl;
 
-import com.stackstech.honeybee.common.entity.JsonParameterMap;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.core.conf.ApplicationConfig;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
@@ -31,14 +31,14 @@ public class DataSourceServiceImpl implements DataSourceService {
 
     private void setDatasourceConfig(DataSourceEntity entity) {
         Map<String, Object> parameters = entity.getDataSourceVo().getDatasourceParameters();
-        DBConfig dbConfig = getDataSourceConfig(entity.getDatasourceType());
         // use custom parameter or default
         if (parameters != null && parameters.size() > 0) {
+            DBConfig dbConfig = getDataSourceConfig(entity.getDatasourceType());
             dbConfig.setConfig(parameters);
+            JsonParameterList conf = new JsonParameterList();
+            conf.add(dbConfig);
+            entity.setDatasourceConfig(conf);
         }
-        JsonParameterMap conf = new JsonParameterMap();
-        conf.put("config", dbConfig);
-        entity.setDatasourceConfig(conf);
     }
 
     @Override

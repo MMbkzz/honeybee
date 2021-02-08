@@ -3,7 +3,7 @@ package com.stackstech.honeybee.server.system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
-import com.stackstech.honeybee.common.entity.JsonParameterMap;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
@@ -23,7 +23,7 @@ public class DataSourceEntity extends AbstractDataEntity<DataSourceEntity> {
 
     private DataSourceType datasourceType;
 
-    private JsonParameterMap datasourceConfig;
+    private JsonParameterList datasourceConfig;
 
     private String desc;
 

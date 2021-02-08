@@ -8,7 +8,7 @@
     <result column="assets_catalog_domain" jdbcType="BIGINT" property="assetsCatalogDomain" />
     <result column="assets_catalog_topic" jdbcType="BIGINT" property="assetsCatalogTopic" />
     <result column="datasource_id" jdbcType="BIGINT" property="datasourceId" />
-    <result column="datasource_meta" property="datasourceMeta" typeHandler="com.stackstech.honeybee.server.core.handler.JsonTypeHandler"/>
+    <result column="datasource_meta" jdbcType="LONGVARCHAR" property="datasourceMeta" />
     <result column="expression" jdbcType="VARCHAR" property="expression" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="owner" jdbcType="BIGINT" property="owner" />
@@ -152,7 +152,7 @@
         #{datasourceId,jdbcType=BIGINT},
       </if>
       <if test="datasourceMeta != null">
-        #{datasourceMeta,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
+        #{datasourceMeta,jdbcType=LONGVARCHAR},
       </if>
       <if test="expression != null">
         #{expression,jdbcType=VARCHAR},
@@ -193,7 +193,7 @@
         `datasource_id` = #{datasourceId,jdbcType=BIGINT},
       </if>
       <if test="datasourceMeta != null">
-        `datasource_meta` = #{datasourceMeta,typeHandler=com.stackstech.honeybee.server.core.handler.JsonTypeHandler},
+        `datasource_meta` = #{datasourceMeta,jdbcType=LONGVARCHAR},
       </if>
       <if test="expression != null">
         `expression` = #{expression,jdbcType=VARCHAR},

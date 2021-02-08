@@ -1,8 +1,9 @@
 package com.stackstech.honeybee.server.api.service;
 
-import com.stackstech.honeybee.common.entity.JsonParameterMap;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.api.dao.DataServiceMapper;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
+import com.stackstech.honeybee.server.api.entity.DataServiceMeta;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.service.DataService;
@@ -26,28 +27,27 @@ public class DataServiceImpl implements DataService<DataServiceEntity> {
     @Autowired
     private AssetsModelMapper modelMapper;
 
+    private void setServiceMeta(DataServiceEntity entity) {
+        List<DataServiceMeta> metaList = entity.getDataServiceVo().getDataServiceMetas();
+
+        if (metaList != null && metaList.size() > 0) {
+            JsonParameterList parameterList = new JsonParameterList();
+            parameterList.addAll(metaList);
+            entity.setServiceMeta(parameterList);
+            //TODO 重新生成表达式SQL
+            entity.setExpression("expression test...");
+        }
+    }
+
     @Override
     public boolean add(DataServiceEntity entity) {
-        //TODO
-        JsonParameterMap parameterMap = new JsonParameterMap();
-        if (entity.getDataServiceVo().getDataServiceMetas() != null && entity.getDataServiceVo().getDataServiceMetas().size() > 0) {
-            parameterMap.put("dataServiceMeta", entity.getDataServiceVo().getDataServiceMetas());
-        }
-        entity.setServiceMeta(parameterMap);
-        entity.setExpression("expression test...");
-
+        setServiceMeta(entity);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
     public boolean update(DataServiceEntity entity) {
-        //TODO
-        JsonParameterMap parameterMap = new JsonParameterMap();
-        if (entity.getDataServiceVo().getDataServiceMetas() != null && entity.getDataServiceVo().getDataServiceMetas().size() > 0) {
-            parameterMap.put("dataServiceMeta", entity.getDataServiceVo().getDataServiceMetas());
-        }
-        entity.setServiceMeta(parameterMap);
-        entity.setExpression("expression test...");
+        setServiceMeta(entity);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 

@@ -3,7 +3,7 @@ package com.stackstech.honeybee.server.api.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
-import com.stackstech.honeybee.common.entity.JsonParameterMap;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.api.vo.DataServiceVo;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
@@ -23,7 +23,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
 
     private Long assetsModelId;
 
-    private JsonParameterMap serviceMeta;
+    private JsonParameterList serviceMeta;
 
     private Integer cacheExpire;
 
@@ -34,7 +34,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
 
     private String assetsModelName;
 
-    private JsonParameterMap datasourceMeta;
+    private JsonParameterList datasourceMeta;
 
     private Long assetsCatalogDomain;
 
