@@ -56,10 +56,6 @@ public class DataServiceController {
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
     public ResponseMap<?> update(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceEntity entity = new DataServiceEntity().update(account.getId()).copy(vo);
-        JsonParameterMap parameterMap = new JsonParameterMap();
-        parameterMap.put("dataServiceMeta", vo.getDataServiceMetas());
-        entity.setServiceMeta(parameterMap);
-        entity.setExpression("expression test...");
 
         if (!service.update(entity)) {
             return ResponseMap.failed("update data service failed.");
@@ -72,10 +68,6 @@ public class DataServiceController {
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
     public ResponseMap<?> add(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceEntity entity = new DataServiceEntity().build(account.getId()).copy(vo);
-        JsonParameterMap parameterMap = new JsonParameterMap();
-        parameterMap.put("dataServiceMeta", vo.getDataServiceMetas());
-        entity.setServiceMeta(parameterMap);
-        entity.setExpression("expression test...");
 
         if (!service.add(entity)) {
             return ResponseMap.failed("insert data service failed.");

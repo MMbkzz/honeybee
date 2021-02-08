@@ -1,9 +1,11 @@
 package com.stackstech.honeybee.server.assets.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
+import com.stackstech.honeybee.server.assets.vo.AssetsModelVo;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
@@ -34,6 +36,9 @@ public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity> {
 
     private String assetsCatalogTopicName;
 
+    @JsonIgnore
+    private AssetsModelVo assetsModelVo;
+
     @Override
     public AssetsModelEntity build(Long ownerId) {
         this.owner = ownerId;
@@ -54,6 +59,7 @@ public class AssetsModelEntity extends AbstractDataEntity<AssetsModelEntity> {
     @Override
     public AssetsModelEntity copy(Object vo) {
         CommonUtil.copyProperties(vo, this);
+        this.assetsModelVo = (AssetsModelVo) vo;
         return this;
     }
 

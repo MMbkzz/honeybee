@@ -1,9 +1,11 @@
 package com.stackstech.honeybee.server.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
 import com.stackstech.honeybee.common.entity.JsonParameterMap;
 import com.stackstech.honeybee.common.utils.CommonUtil;
+import com.stackstech.honeybee.server.api.vo.DataServiceVo;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
 
@@ -25,6 +27,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
 
     private Integer cacheExpire;
 
+    @JsonIgnore
     private String expression;
 
     private String desc;
@@ -40,6 +43,9 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
     private Long assetsCatalogTopic;
 
     private String assetsCatalogTopicName;
+
+    @JsonIgnore
+    private DataServiceVo dataServiceVo;
 
     @Override
     public DataServiceEntity build(Long ownerId) {
@@ -61,6 +67,7 @@ public class DataServiceEntity extends AbstractDataEntity<DataServiceEntity> {
     @Override
     public DataServiceEntity copy(Object vo) {
         CommonUtil.copyProperties(vo, this);
+        this.dataServiceVo = (DataServiceVo) vo;
         return this;
     }
 
