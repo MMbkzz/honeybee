@@ -1,6 +1,6 @@
 type: mysql
 version: 5.7
-connector: com.stackstech.honeybee.connector.mysql.MsSQLConnector
+connector: com.stackstech.honeybee.connector.mysql.MySQLConnector
 config:
   driver-class-name: com.mysql.jdbc.Driver
   jdbcUrl: "jdbc:mysql://127.0.0.1:3306/DatabaseName?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull"
