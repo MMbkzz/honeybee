@@ -21,7 +21,7 @@
   </sql>
 
   <sql id="Query_Column_List">
-    `id`, `tenant_id`, `data_service_id`, `authority_token`, `authority_expire`
+    `id`, `tenant_id`, `data_service_id`, `authority_token`, `authority_expire`, `status`
   </sql>
 
   <sql id="Include_service_column">
