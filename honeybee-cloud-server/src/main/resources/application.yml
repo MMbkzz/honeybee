@@ -1,19 +1,3 @@
-db:
-  driver-class-name: com.mysql.jdbc.Driver
-  jdbcUrl: jdbc:mysql://127.0.0.1:3306/honeybee?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
-  username: root
-  password: 123456
-  type: com.zaxxer.hikari.HikariDataSource
-  hikari:
-    minimum-idle: 10
-    maximum-pool-size: 200
-    auto-commit: true
-    idle-timeout: 30000
-    pool-name: DataPoolHikari
-    max-lifetime: 180000
-    connection-timeout: 30000
-    connection-test-query: SELECT 1
-
 spring:
   redis:
     host: 127.0.0.1
@@ -26,6 +10,19 @@ spring:
       max-wait: 10
       max-idle: 8
       min-idle: 0
+  datasource:
+    name: druidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/honeybee?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+    filters: stat
+    max-active: 100
+    initial-size: 10
+    max-wait: 60000
+    min-idle: 1
+    validation-query: SELECT 'x'
 
 server:
   path:

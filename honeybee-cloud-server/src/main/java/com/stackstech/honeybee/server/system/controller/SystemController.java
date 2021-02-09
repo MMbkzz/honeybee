@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.system.controller;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;

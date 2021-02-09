@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.server.core.conf;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.stackstech.honeybee.server.core.enums.types.*;
 import com.stackstech.honeybee.server.core.handler.*;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -8,7 +9,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -23,9 +23,9 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
 
     @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "db")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dbDataSource() {
-        return DataSourceBuilder.create().build();
+        return DruidDataSourceBuilder.create().build();
     }
 
     @Bean(name = "jsonTypeHandler")

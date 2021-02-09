@@ -1,9 +1,9 @@
 package com.stackstech.honeybee.common.utils;
 
-import com.beust.jcommander.internal.Lists;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.service.BaseEnumTypeService;
 import lombok.extern.slf4j.Slf4j;

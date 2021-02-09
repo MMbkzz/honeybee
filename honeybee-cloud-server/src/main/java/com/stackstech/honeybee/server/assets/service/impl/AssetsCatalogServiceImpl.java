@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.assets.service.impl;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.server.assets.dao.AssetsCatalogMapper;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
