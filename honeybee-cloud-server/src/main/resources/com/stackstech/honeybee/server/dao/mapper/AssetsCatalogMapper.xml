@@ -20,12 +20,20 @@
     `catalog_order`, `status`, `owner`, `updatetime`, `createtime`, `desc`
   </sql>
 
+  <select id="selectMaxOrder" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select max(`catalog_order`) + 1 from hb_assets_catalog
+    where `catalog_parent_id` = #{catalogParentId} and `catalog_type` = #{catalogType}
+  </select>
+
   <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
     <include refid="Base_Column_List" />
     from hb_assets_catalog where `status` != -1
     <if test="keywords != null">
       and (`catalog_name` like #{keywords} or `catalog_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="isroot != null">
+      and isroot = #{isroot}
     </if>
     <if test="catalogParentId != null">
       and `catalog_parent_id` = #{catalogParentId}
@@ -43,6 +51,9 @@
     select count(1) from hb_assets_catalog where `status` != -1
     <if test="keywords != null">
       and (`catalog_name` like #{keywords} or `catalog_code` like #{keywords} or `desc` like #{keywords})
+    </if>
+    <if test="isroot != null">
+      and isroot = #{isroot}
     </if>
     <if test="catalogParentId != null">
       and `catalog_parent_id` = #{catalogParentId}

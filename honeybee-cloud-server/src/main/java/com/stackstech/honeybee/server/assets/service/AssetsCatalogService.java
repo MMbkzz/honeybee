@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.server.assets.service;
 
+import com.stackstech.honeybee.server.assets.entity.AssetsCatalogElement;
 import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
 import com.stackstech.honeybee.server.assets.entity.DataRecyclerEntity;
 import com.stackstech.honeybee.server.assets.vo.AssetsCatalogVo;
@@ -9,9 +10,9 @@ import java.util.Map;
 
 public interface AssetsCatalogService {
 
-    boolean addAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId);
+    boolean addAssetsCatalog(AssetsCatalogVo vo, Long ownerId);
 
-    boolean updateAssetsCatalog(String assetsCatalogType, AssetsCatalogVo vo, Long ownerId);
+    boolean updateAssetsCatalog(AssetsCatalogVo vo, Long ownerId);
 
     boolean deleteAssetsCatalog(Long recordId, Long ownerId);
 
@@ -19,7 +20,7 @@ public interface AssetsCatalogService {
 
     List<AssetsCatalogEntity> getAssetsCatalogs(Map<String, Object> parameter);
 
-    List<AssetsCatalogEntity> getAssetsCatalogTree(Map<String, Object> parameter);
+    List<AssetsCatalogElement> getAssetsCatalogList();
 
     boolean deleteDataRecycler(Long recordId, Long ownerId);
 

@@ -23,6 +23,7 @@ public class AssetsCatalogQuery extends PageQuery {
     public Map<String, Object> getParameter() {
         Map<String, Object> map = Maps.newHashMap();
         map.put("catalogParentId", catalogParentId);
+        map.put("catalogType", catalogType);
         return map;
     }
 }

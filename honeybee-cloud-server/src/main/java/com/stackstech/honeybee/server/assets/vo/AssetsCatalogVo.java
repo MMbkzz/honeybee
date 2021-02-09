@@ -17,8 +17,10 @@ public class AssetsCatalogVo {
     @Min(value = 1L, message = "invalid assets catalog id")
     private Long catalogParentId;
 
-    @Min(value = 1L, message = "invalid catalog order number")
-    private Integer catalogOrder;
+    //    @Min(value = 1L, message = "invalid catalog order number")
+    //    private Integer catalogOrder;
+
+    private String catalogType;
 
     private Integer status;
 

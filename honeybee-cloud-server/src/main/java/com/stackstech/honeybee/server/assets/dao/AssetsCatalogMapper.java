@@ -22,4 +22,6 @@ public interface AssetsCatalogMapper {
 
     int selectTotalCount(Map<String, Object> parameter);
 
+    int selectMaxOrder(Map<String, Object> parameter);
+
 }
