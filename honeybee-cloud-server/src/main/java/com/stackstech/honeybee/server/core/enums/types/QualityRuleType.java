@@ -38,12 +38,12 @@ public enum QualityRuleType implements BaseEnumTypeService {
     private final String name;
     private final String code;
 
-    @JsonValue
     @Override
     public String getName() {
         return name;
     }
 
+    @JsonValue
     @Override
     public String getCode() {
         return code;

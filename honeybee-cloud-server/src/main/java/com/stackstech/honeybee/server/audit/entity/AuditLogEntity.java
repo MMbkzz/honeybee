@@ -18,11 +18,23 @@ public class AuditLogEntity extends AbstractDataEntity<AuditLogEntity> {
 
     private AuditOperationType logAudit;
 
+    private String logAuditName;
+
     private AuditOperationType logType;
+
+    private String logTypeName;
 
     private String logContent;
 
     private String desc;
+
+    public String getLogAuditName() {
+        return logAudit.getName();
+    }
+
+    public String getLogTypeName() {
+        return logType.getName();
+    }
 
     @Override
     public AuditLogEntity build(Long ownerId) {

@@ -25,9 +25,15 @@ public class AssetsCatalogEntity extends AbstractDataEntity<AssetsCatalogEntity>
 
     private AssetsCatalogType catalogType;
 
+    private String catalogTypeName;
+
     private Integer catalogOrder;
 
     private String desc;
+
+    public String getCatalogTypeName() {
+        return catalogType.getName();
+    }
 
     @Override
     public AssetsCatalogEntity build(Long ownerId) {

@@ -21,6 +21,11 @@ public abstract class AbstractDataEntity<E> {
     protected EntityStatusType status;
 
     /**
+     * entity status name
+     */
+    protected String statusName;
+
+    /**
      * entity owner id
      */
     protected Long owner;
@@ -34,6 +39,13 @@ public abstract class AbstractDataEntity<E> {
      * entity create time
      */
     protected Date createtime;
+
+    /**
+     * get entity status name
+     */
+    public String getStatusName() {
+        return status.getName();
+    }
 
     /**
      * build a entity object

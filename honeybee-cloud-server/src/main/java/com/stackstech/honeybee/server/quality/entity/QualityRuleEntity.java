@@ -22,6 +22,8 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
 
     private QualityRuleType ruleType;
 
+    private String ruleTypeName;
+
     @JsonIgnore
     private String ruleConfigYaml;
 
@@ -30,6 +32,10 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
     private String desc;
 
     private Map<String, Object> job;
+
+    public String getRuleTypeName() {
+        return ruleType.getName();
+    }
 
     @Override
     public QualityRuleEntity build(Long ownerId) {

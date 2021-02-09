@@ -23,12 +23,18 @@ public class DataSourceEntity extends AbstractDataEntity<DataSourceEntity> {
 
     private DataSourceType datasourceType;
 
+    private String datasourceTypeName;
+
     private JsonParameterList datasourceConfig;
 
     private String desc;
 
     @JsonIgnore
     private DataSourceVo dataSourceVo;
+
+    public String getDatasourceTypeName() {
+        return datasourceType.getName();
+    }
 
     @Override
     public DataSourceEntity build(Long ownerId) {

@@ -36,11 +36,11 @@ public enum DataSourceType implements BaseEnumTypeService {
     private final String code;
 
     @Override
-    @JsonValue
     public String getName() {
         return name;
     }
 
+    @JsonValue
     @Override
     public String getCode() {
         return code;

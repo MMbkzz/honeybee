@@ -18,11 +18,17 @@ public class SysMessageEntity extends AbstractDataEntity<SysMessageEntity> {
 
     private MessageType messageType;
 
+    private String messageTypeName;
+
     private String messageContent;
 
     private Long messageReceiver;
 
     private String desc;
+
+    public String getMessageTypeName() {
+        return messageType.getName();
+    }
 
     @Override
     public SysMessageEntity build(Long ownerId) {
