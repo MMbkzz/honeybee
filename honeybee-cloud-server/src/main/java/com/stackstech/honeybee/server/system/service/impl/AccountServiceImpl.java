@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.system.service.impl;
 
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AccountServiceImpl implements DataService<AccountEntity> {
+public class AccountServiceImpl implements BaseDataService<AccountEntity> {
 
     @Autowired
     private AccountMapper mapper;

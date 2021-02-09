@@ -7,17 +7,40 @@
     <result column="data_service_id" jdbcType="BIGINT" property="dataServiceId" />
     <result column="authority_token" jdbcType="VARCHAR" property="authorityToken" />
     <result column="authority_expire" jdbcType="BIGINT" property="authorityExpire" />
-    <result column="authority_data" jdbcType="VARCHAR" property="authorityData" />
+    <result column="authority_data" jdbcType="LONGVARCHAR" property="authorityData" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="owner" jdbcType="BIGINT" property="owner" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="data_service_name" jdbcType="VARCHAR" property="dataServiceName" />
   </resultMap>
   <sql id="Base_Column_List">
     `id`, `tenant_id`, `data_service_id`, `authority_token`, `authority_expire`, `authority_data`, 
     `status`, `owner`, `updatetime`, `createtime`, `desc`
   </sql>
+
+  <sql id="Query_Column_List">
+    `id`, `tenant_id`, `data_service_id`, `authority_token`, `authority_expire`
+  </sql>
+
+  <sql id="Include_service_column">
+    (select ifnull(`data_service_name`, "Unknown") from hb_data_service s where `status` != -1 and id = hb_data_service_authority.data_service_id) as `data_service_name`
+  </sql>
+
+  <select id="selectByParameter" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Query_Column_List" />, <include refid="Include_service_column" />
+    from hb_data_service_authority where `status` != -1
+    <if test="tenantId != null">
+      and `tenant_id` = #{tenantId}
+    </if>
+    <if test="dataServiceId != null">
+      and `data_service_id` = #{dataServiceId}
+    </if>
+    order by `createtime`
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -81,7 +104,7 @@
         #{authorityExpire,jdbcType=BIGINT},
       </if>
       <if test="authorityData != null">
-        #{authorityData,jdbcType=VARCHAR},
+        #{authorityData,jdbcType=LONGVARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -116,7 +139,7 @@
         `authority_expire` = #{authorityExpire,jdbcType=BIGINT},
       </if>
       <if test="authorityData != null">
-        `authority_data` = #{authorityData,jdbcType=VARCHAR},
+        `authority_data` = #{authorityData,jdbcType=LONGVARCHAR},
       </if>
       <if test="status != null">
         `status` = #{status,jdbcType=INTEGER},

@@ -6,7 +6,7 @@ import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
 import com.stackstech.honeybee.server.quality.vo.QualityJobVo;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
@@ -33,7 +33,7 @@ import java.util.List;
 public class JobController {
 
     @Autowired
-    private DataService<QualityJobEntity> service;
+    private BaseDataService<QualityJobEntity> service;
 
 
     @ApiOperation(value = "get quality job")

@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.audit.service;
 
 import com.stackstech.honeybee.server.audit.dao.AuditLogMapper;
 import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
+public class AuditLogServiceImpl implements BaseDataService<AuditLogEntity> {
 
     @Autowired
     private AuditLogMapper mapper;

@@ -4,7 +4,7 @@ import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.assets.entity.DataSourceMeta;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AssetsModelServiceImpl implements DataService<AssetsModelEntity> {
+public class AssetsModelServiceImpl implements BaseDataService<AssetsModelEntity> {
 
     @Autowired
     private AssetsModelMapper mapper;

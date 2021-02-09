@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataQualityJobServiceImpl implements DataService<QualityJobEntity> {
+public class DataQualityJobServiceImpl implements BaseDataService<QualityJobEntity> {
 
     @Autowired
     private QualityJobMapper mapper;

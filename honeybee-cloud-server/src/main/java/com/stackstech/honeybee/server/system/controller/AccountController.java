@@ -7,7 +7,7 @@ import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.vo.AccountVo;
 import io.swagger.annotations.Api;
@@ -33,7 +33,7 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    private DataService<AccountEntity> accountService;
+    private BaseDataService<AccountEntity> accountService;
 
     @ApiOperation(value = "get account")
     @RequestMapping(value = "/security/account/get/{id}", method = RequestMethod.GET)

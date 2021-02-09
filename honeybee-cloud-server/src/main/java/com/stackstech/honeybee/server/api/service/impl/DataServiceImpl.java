@@ -1,12 +1,14 @@
-package com.stackstech.honeybee.server.api.service;
+package com.stackstech.honeybee.server.api.service.impl;
 
+import com.google.common.collect.Lists;
 import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.api.dao.DataServiceMapper;
+import com.stackstech.honeybee.server.api.entity.DataServiceElement;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.api.entity.DataServiceMeta;
+import com.stackstech.honeybee.server.api.service.DataService;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
-import com.stackstech.honeybee.server.core.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -20,7 +22,7 @@ import java.util.Map;
  * @author william
  */
 @Service
-public class DataServiceImpl implements DataService<DataServiceEntity> {
+public class DataServiceImpl implements DataService {
 
     @Autowired
     private DataServiceMapper mapper;
@@ -82,4 +84,16 @@ public class DataServiceImpl implements DataService<DataServiceEntity> {
     }
 
 
+    @Override
+    public List<DataServiceElement> getDataServiceList() {
+        List<DataServiceEntity> entities = mapper.selectByParameter(null);
+        if (entities != null && entities.size() > 0) {
+            List<DataServiceElement> elements = Lists.newArrayList();
+            for (DataServiceEntity entity : entities) {
+                elements.add(new DataServiceElement(entity.getId(), entity.getDataServiceName()));
+            }
+            return elements;
+        }
+        return null;
+    }
 }

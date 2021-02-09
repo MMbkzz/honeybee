@@ -2,13 +2,14 @@ package com.stackstech.honeybee.server.api.controller;
 
 import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.common.vo.PageQuery;
+import com.stackstech.honeybee.server.api.entity.DataServiceElement;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
+import com.stackstech.honeybee.server.api.service.DataService;
 import com.stackstech.honeybee.server.api.vo.DataServiceVo;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
-import com.stackstech.honeybee.server.core.service.DataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +34,7 @@ import java.util.List;
 public class DataServiceController {
 
     @Autowired
-    private DataService<DataServiceEntity> service;
+    private DataService service;
 
     @ApiOperation(value = "get data service")
     @RequestMapping(value = "/data/service/get/{id}", method = RequestMethod.GET)
@@ -82,6 +83,17 @@ public class DataServiceController {
             int total = service.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
             return ResponseMap.setTotal(data, total);
+        }
+        return ResponseMap.failed("nothing found");
+    }
+
+    @ApiOperation(value = "query data service list")
+    @RequestMapping(value = "/data/service/list", method = RequestMethod.GET)
+    public ResponseMap<?> query() {
+        List<DataServiceElement> data = service.getDataServiceList();
+        if (data != null && data.size() > 0) {
+            log.debug("query data record size {}", data.size());
+            return ResponseMap.success(data);
         }
         return ResponseMap.failed("nothing found");
     }

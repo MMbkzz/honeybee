@@ -10,7 +10,7 @@ import java.util.Map;
  * @author William
  * @since 1.0
  */
-public interface DataService<E> {
+public interface BaseDataService<E> {
 
     /**
      * Add data record

@@ -6,7 +6,7 @@ import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,7 +33,7 @@ public final class AuditOperationHandler {
 
 
     @Autowired
-    private DataService<AuditLogEntity> service;
+    private BaseDataService<AuditLogEntity> service;
     @Autowired
     private HttpServletRequest request;
 

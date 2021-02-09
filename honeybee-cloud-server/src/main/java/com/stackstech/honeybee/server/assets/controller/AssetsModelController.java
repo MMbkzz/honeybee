@@ -8,7 +8,7 @@ import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
-import com.stackstech.honeybee.server.core.service.DataService;
+import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ import java.util.List;
 public class AssetsModelController {
 
     @Autowired
-    private DataService<AssetsModelEntity> assetsModelService;
+    private BaseDataService<AssetsModelEntity> assetsModelService;
 
     @ApiOperation(value = "get data assets model")
     @RequestMapping(value = "/data/assets/model/get/{id}", method = RequestMethod.GET)

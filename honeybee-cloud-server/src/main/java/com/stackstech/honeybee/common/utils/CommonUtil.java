@@ -9,6 +9,7 @@ import com.stackstech.honeybee.server.core.service.BaseEnumTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -92,6 +93,15 @@ public final class CommonUtil {
      */
     public static String createNewCode() {
         return Integer.toString(RandomUtils.nextInt(100000, 999999));
+    }
+
+    /**
+     * 创建新的授权码
+     *
+     * @return String
+     */
+    public static String createAuthorityCode() {
+        return RandomStringUtils.randomAlphanumeric(22);
     }
 
 

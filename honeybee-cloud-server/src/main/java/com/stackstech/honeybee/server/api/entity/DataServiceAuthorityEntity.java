@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import lombok.Data;
@@ -21,9 +22,11 @@ public class DataServiceAuthorityEntity extends AbstractDataEntity<DataServiceAu
 
     private Long authorityExpire;
 
-    private String authorityData;
+    private JsonParameterList authorityData;
 
     private String desc;
+
+    private String dataServiceName;
 
     @Override
     public DataServiceAuthorityEntity build(Long ownerId) {

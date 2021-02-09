@@ -86,7 +86,7 @@ public class AssetsCatalogController {
     }
 
     @ApiOperation(value = "query data assets catalog list")
-    @RequestMapping(value = "/data/assets/catalog/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/data/assets/catalog/list", method = RequestMethod.GET)
     public ResponseMap<?> queryCatalogList() {
         List<AssetsCatalogElement> data = assetsCatalogService.getAssetsCatalogList();
         if (data != null && data.size() > 0) {
