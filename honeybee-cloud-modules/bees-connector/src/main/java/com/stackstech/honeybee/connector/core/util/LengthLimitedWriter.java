@@ -20,8 +20,6 @@
 package com.stackstech.honeybee.connector.core.util;
 
 
-import com.stackstech.honeybee.connector.core.exception.LengthLimitExceededException;
-
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.StringWriter;

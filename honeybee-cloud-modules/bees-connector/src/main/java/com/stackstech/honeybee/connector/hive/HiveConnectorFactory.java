@@ -1,9 +1,6 @@
 package com.stackstech.honeybee.connector.hive;
 
 import com.google.common.collect.Maps;
-import com.stackstech.honeybee.connector.core.ResourceSession;
-import com.stackstech.honeybee.connector.core.ResourceSessionFactory;
-import com.stackstech.honeybee.connector.core.entity.PoolInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

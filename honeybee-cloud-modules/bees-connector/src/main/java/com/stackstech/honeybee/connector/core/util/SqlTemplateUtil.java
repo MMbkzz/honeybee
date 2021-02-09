@@ -1,6 +1,5 @@
 package com.stackstech.honeybee.connector.core.util;
 
-import com.stackstech.honeybee.connector.core.enums.DataTypeEnum;
 import freemarker.core.TemplateClassResolver;
 import freemarker.core.TemplateConfiguration;
 import freemarker.core.UndefinedOutputFormat;

@@ -1,7 +1,5 @@
 package com.stackstech.honeybee.connector.core.util;
 
-import com.stackstech.honeybee.connector.core.enums.DriverTypesEnum;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

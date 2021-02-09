@@ -1,10 +1,6 @@
 package com.stackstech.honeybee.connector.postgresql;
 
 
-import com.stackstech.honeybee.connector.core.ResourceSession;
-import com.stackstech.honeybee.connector.core.ResourceSessionFactory;
-import com.stackstech.honeybee.connector.core.entity.PoolInfo;
-
 import java.util.Map;
 
 public class PostgreSQLConnectorFactory implements ResourceSessionFactory {
