@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-//TODO
 @Service
 public class AuditLogServiceImpl implements DataService<AuditLogEntity> {
 
