@@ -80,8 +80,9 @@ public class PageQuery {
      * @return String
      */
     public String getKeywords() {
-        if (StringUtils.isNotEmpty(keywords)) {
-            return StringUtils.join("%", keywords.trim(), "%");
+        String str = StringUtils.trimToNull(keywords);
+        if (StringUtils.isNotEmpty(str)) {
+            return StringUtils.join("%", str, "%");
         }
         return null;
     }

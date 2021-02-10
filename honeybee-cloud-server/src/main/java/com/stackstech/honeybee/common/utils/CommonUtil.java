@@ -377,24 +377,4 @@ public final class CommonUtil {
         return JSON.parseObject(json, clazz, parserConfig);
     }
 
-//
-//    public static void main(String[] args) {
-//        JsonParameterList metas = new JsonParameterList();
-//        metas.add(new DataSourceMeta("id", "number", "$id", "desc..."));
-//        metas.add(new DataSourceMeta("name", "varchar", "$name", null));
-//        metas.add(new DataSourceMeta("age", "number", "$age", null));
-//        metas.add(new DataSourceMeta("gender", "number", "$gender", "a desc.."));
-//
-//        DataSourceMeta ss = new DataSourceMeta("id", "number", "$id", "desc...");
-//
-//        String json = "[{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"desc...\",\"paramName\":\"id\",\"paramType\":\"number\",\"paramVarName\":\"$id\"},{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"\",\"paramName\":\"name\",\"paramType\":\"varchar\",\"paramVarName\":\"$name\"},{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"\",\"paramName\":\"age\",\"paramType\":\"number\",\"paramVarName\":\"$age\"},{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"a desc..\",\"paramName\":\"gender\",\"paramType\":\"number\",\"paramVarName\":\"$gender\"}]";
-//
-//        String sss = "{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"desc...\",\"paramName\":\"id\",\"paramType\":\"number\",\"paramVarName\":\"$id\"}";
-//
-//
-//        System.out.println(CommonUtil.jsonToObject(json, JsonParameterList.class).toString());
-//
-//
-//    }
-
 }
