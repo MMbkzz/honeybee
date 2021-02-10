@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.assets.entity;
+package com.stackstech.honeybee.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

@@ -2,15 +2,14 @@ package com.stackstech.honeybee.common.entity;
 
 
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * Json parameter list
  *
- * @param <E> Object
  * @author william
  * @since 1.0
  */
-public class JsonParameterList<E> extends LinkedList<E> implements Serializable {
+public class JsonParameterList extends ArrayList<Object> implements Serializable {
 
 }

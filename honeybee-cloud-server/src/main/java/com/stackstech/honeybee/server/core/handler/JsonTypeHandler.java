@@ -37,7 +37,7 @@ public class JsonTypeHandler extends BaseTypeHandler<JsonParameterList> {
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, JsonParameterList parameter, JdbcType jdbcType) throws SQLException {
         log.debug("The result is not empty, parse the object as JSON data");
-        ps.setString(i, CommonUtil.toJsonString(parameter));
+        ps.setString(i, CommonUtil.toJsonString(parameter, true));
     }
 
     @Override

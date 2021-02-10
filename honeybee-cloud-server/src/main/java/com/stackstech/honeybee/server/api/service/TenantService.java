@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.api.service;
 
-import com.stackstech.honeybee.server.api.entity.DataAuthorityMeta;
+import com.stackstech.honeybee.common.entity.DataAuthorityMeta;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.api.entity.DataServiceAuthorityEntity;
 import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
@@ -11,7 +12,7 @@ public interface TenantService extends BaseDataService<DataServiceTenantEntity> 
 
     List<DataServiceAuthorityEntity> getAuthorityList(Long tenantId);
 
-    List<DataAuthorityMeta> getDataAuthorityMeta(Long authorityId, Long dataServiceId);
+    JsonParameterList getDataAuthorityMeta(Long authorityId, Long dataServiceId);
 
     boolean updateDataAuthorityMeta(Long authorityId, List<DataAuthorityMeta> dataAuthorityMete, Long ownerId);
 

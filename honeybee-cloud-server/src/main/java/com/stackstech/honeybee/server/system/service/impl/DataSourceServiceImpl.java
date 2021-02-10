@@ -5,7 +5,7 @@ import com.stackstech.honeybee.server.core.conf.ApplicationConfig;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
 import com.stackstech.honeybee.server.system.dao.DataSourceMapper;
-import com.stackstech.honeybee.server.system.entity.DBConfig;
+import com.stackstech.honeybee.common.entity.DBConfig;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.system.service.DataSourceService;
 import lombok.extern.slf4j.Slf4j;

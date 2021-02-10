@@ -1,13 +1,13 @@
 package com.stackstech.honeybee.server.api.service.impl;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stackstech.honeybee.common.entity.DataAuthorityMeta;
+import com.stackstech.honeybee.common.entity.DataSourceMeta;
 import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.api.dao.DataServiceAuthorityMapper;
 import com.stackstech.honeybee.server.api.dao.DataServiceMapper;
 import com.stackstech.honeybee.server.api.dao.DataServiceTenantMapper;
-import com.stackstech.honeybee.server.api.entity.DataAuthorityMeta;
 import com.stackstech.honeybee.server.api.entity.DataServiceAuthorityEntity;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +32,22 @@ public class TenantServiceImpl implements TenantService {
     private DataServiceMapper serviceMapper;
     @Autowired
     private AssetsModelMapper modelMapper;
+
+    private JsonParameterList getDataSourceMeta(Long dataServiceId) {
+        JsonParameterList parameterList = new JsonParameterList();
+
+        DataServiceEntity service = serviceMapper.selectByPrimaryKey(dataServiceId);
+        if (service != null) {
+            AssetsModelEntity model = modelMapper.selectByPrimaryKey(service.getAssetsModelId());
+            Assert.notNull(model, "Assets model not found");
+            JsonParameterList datasourceMetas = model.getDatasourceMeta();
+            for (Object meta : datasourceMetas) {
+                DataSourceMeta dsm = (DataSourceMeta) meta;
+                parameterList.add(new DataAuthorityMeta(dsm.getParamName(), true));
+            }
+        }
+        return parameterList;
+    }
 
     @Override
     public boolean add(DataServiceTenantEntity entity) {
@@ -72,32 +87,20 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public List<DataAuthorityMeta> getDataAuthorityMeta(Long authorityId, Long dataServiceId) {
-        List<DataAuthorityMeta> dataAuthorityMetaList = Lists.newArrayList();
-
+    public JsonParameterList getDataAuthorityMeta(Long authorityId, Long dataServiceId) {
         DataServiceAuthorityEntity entity = authorityMapper.selectByPrimaryKey(authorityId);
         if (entity.getAuthorityData() != null && entity.getAuthorityData().size() > 0) {
-            return (List<DataAuthorityMeta>) entity.getAuthorityData();
+            return entity.getAuthorityData();
         }
         //if authority data is empty then get data model meta
-        DataServiceEntity service = serviceMapper.selectByPrimaryKey(dataServiceId);
-        if (service != null) {
-            AssetsModelEntity model = modelMapper.selectByPrimaryKey(service.getAssetsModelId());
-            Assert.notNull(model, "Assets model not found");
-            JsonParameterList datasourceMetas = model.getDatasourceMeta();
-            for (Object meta : datasourceMetas) {
-                Map<String, Object> map = (LinkedHashMap) meta;
-                dataAuthorityMetaList.add(new DataAuthorityMeta(map.get("paramName").toString(), true));
-            }
-        }
-        return dataAuthorityMetaList;
+        return getDataSourceMeta(dataServiceId);
     }
 
     @Override
     public boolean updateDataAuthorityMeta(Long authorityId, List<DataAuthorityMeta> dataAuthorityMete, Long ownerId) {
         DataServiceAuthorityEntity entity = new DataServiceAuthorityEntity().update(ownerId);
         entity.setId(authorityId);
-        JsonParameterList metas = new JsonParameterList<>();
+        JsonParameterList metas = new JsonParameterList();
         metas.addAll(dataAuthorityMete);
         entity.setAuthorityData(metas);
         return authorityMapper.updateByPrimaryKeySelective(entity) > 0;
@@ -115,7 +118,8 @@ public class TenantServiceImpl implements TenantService {
         entity.setDataServiceId(dataServiceId);
         entity.setAuthorityToken(CommonUtil.createAuthorityCode());
         entity.setAuthorityExpire(7200L);
-        entity.setAuthorityData(new JsonParameterList());
+        entity.setAuthorityData(getDataSourceMeta(dataServiceId));
+
         if (authorityMapper.insertSelective(entity) > 0) {
             return entity;
         }

@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.server.api.controller;
 
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.common.vo.PageQuery;
-import com.stackstech.honeybee.server.api.entity.DataAuthorityMeta;
 import com.stackstech.honeybee.server.api.entity.DataServiceAuthorityEntity;
 import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.api.service.TenantService;
@@ -105,7 +105,7 @@ public class DataServiceTenantController {
     @ApiOperation(value = "query data authority meta")
     @RequestMapping(value = "/security/tenant/authority/meta", method = RequestMethod.POST)
     public ResponseMap<?> getAuthorityMeta(@Valid @RequestBody DataAuthorityVo vo) {
-        List<DataAuthorityMeta> metas = tenantService.getDataAuthorityMeta(vo.getId(), vo.getDataServiceId());
+        JsonParameterList metas = tenantService.getDataAuthorityMeta(vo.getId(), vo.getDataServiceId());
         return ResponseMap.success(metas);
     }
 

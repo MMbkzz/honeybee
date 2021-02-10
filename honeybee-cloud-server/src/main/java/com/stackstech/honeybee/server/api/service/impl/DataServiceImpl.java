@@ -5,7 +5,7 @@ import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.api.dao.DataServiceMapper;
 import com.stackstech.honeybee.server.api.entity.DataServiceElement;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
-import com.stackstech.honeybee.server.api.entity.DataServiceMeta;
+import com.stackstech.honeybee.common.entity.DataServiceMeta;
 import com.stackstech.honeybee.server.api.service.DataService;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;

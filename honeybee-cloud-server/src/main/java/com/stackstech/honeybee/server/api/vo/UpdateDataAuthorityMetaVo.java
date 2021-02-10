@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.api.vo;
 
-import com.stackstech.honeybee.server.api.entity.DataAuthorityMeta;
+import com.stackstech.honeybee.common.entity.DataAuthorityMeta;
 import lombok.Data;
 
 import javax.validation.constraints.Min;

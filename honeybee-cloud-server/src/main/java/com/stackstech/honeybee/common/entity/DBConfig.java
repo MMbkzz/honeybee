@@ -1,4 +1,4 @@
-package com.stackstech.honeybee.server.system.entity;
+package com.stackstech.honeybee.common.entity;
 
 import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
 import lombok.Data;

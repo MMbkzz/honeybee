@@ -1,8 +1,8 @@
 package com.stackstech.honeybee.common.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.ParserConfig;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.service.BaseEnumTypeService;
@@ -19,10 +19,10 @@ import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyDescriptor;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
@@ -46,10 +46,16 @@ public final class CommonUtil {
 
     private static final List<String> IGNORE_LIST = Lists.newArrayList("createtime", "updatetime", "owner");
 
-    /**
-     * Jackson Json mapper
-     */
-    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+    private static ParserConfig parserConfig = ParserConfig.getGlobalInstance();
+
+    static {
+        parserConfig.setAutoTypeSupport(true);
+    }
+
+//    /**
+//     * Jackson Json mapper
+//     */
+//    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
     private CommonUtil() {
     }
@@ -187,41 +193,41 @@ public final class CommonUtil {
         return stringWriter.toString();
     }
 
-    /**
-     * JSON转对象
-     *
-     * @param json             JSON string
-     * @param parametrized     Object class type
-     * @param parameterClasses Parameter class type
-     * @param <T>              Object class type
-     * @return if error return null else return Object
-     */
-    public static <T> T jsonToObject(String json, Class<?> parametrized, Class<?>... parameterClasses) {
-        try {
-            JavaType valueType = JSON_MAPPER.getTypeFactory().constructParametricType(parametrized, parameterClasses);
-            return JSON_MAPPER.readValue(json, valueType);
-        } catch (IOException e) {
-            log.error("", e);
-        }
-        return null;
-    }
+//    /**
+//     * JSON转对象
+//     *
+//     * @param json             JSON string
+//     * @param parametrized     Object class type
+//     * @param parameterClasses Parameter class type
+//     * @param <T>              Object class type
+//     * @return if error return null else return Object
+//     */
+//    public static <T> T jsonToObject(String json, Class<?> parametrized, Class<?>... parameterClasses) {
+//        try {
+//            JavaType valueType = JSON_MAPPER.getTypeFactory().constructParametricType(parametrized, parameterClasses);
+//            return JSON_MAPPER.readValue(json, valueType);
+//        } catch (IOException e) {
+//            log.error("", e);
+//        }
+//        return null;
+//    }
 
-    /**
-     * JSON转对象
-     *
-     * @param json      JSON string
-     * @param valueType Object class type
-     * @param <T>       Object class type
-     * @return if error return null else return Object
-     */
-    public static <T> T jsonToObject(String json, Class<T> valueType) {
-        try {
-            return JSON_MAPPER.readValue(json, valueType);
-        } catch (IOException e) {
-            log.error("", e);
-        }
-        return null;
-    }
+//    /**
+//     * JSON转对象
+//     *
+//     * @param json      JSON string
+//     * @param valueType Object class type
+//     * @param <T>       Object class type
+//     * @return if error return null else return Object
+//     */
+//    public static <T> T jsonToObject(String json, Class<T> valueType) {
+//        try {
+//            return JSON_MAPPER.readValue(json, valueType);
+//        } catch (IOException e) {
+//            log.error("", e);
+//        }
+//        return null;
+//    }
 
 
     /**
@@ -238,20 +244,20 @@ public final class CommonUtil {
         }
     }
 
-    /**
-     * 对象转JSON
-     *
-     * @param obj Object
-     * @return String
-     */
-    public static String toJsonString(Object obj) {
-        try {
-            return JSON_MAPPER.writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
-            log.error("", e);
-        }
-        return null;
-    }
+//    /**
+//     * 对象转JSON
+//     *
+//     * @param obj Object
+//     * @return String
+//     */
+//    public static String toJsonString(Object obj) {
+//        try {
+//            return JSON_MAPPER.writeValueAsString(obj);
+//        } catch (JsonProcessingException e) {
+//            log.error("", e);
+//        }
+//        return null;
+//    }
 
 
     /**
@@ -349,5 +355,46 @@ public final class CommonUtil {
             }
         }
     }
+
+    public static String toJsonString(Object object, @Nullable boolean useSerializerFeature) {
+        if (useSerializerFeature) {
+            return JSON.toJSONString(object, SerializerFeature.WriteClassName, SerializerFeature.WriteNullStringAsEmpty);
+        }
+        return JSON.toJSONString(object);
+    }
+
+    public static <T> List<T> jsonToArray(String json, @Nullable Class<T> clazz) {
+        if (clazz == null) {
+            JSON.parseArray(json, Object.class, parserConfig);
+        }
+        return JSON.parseArray(json, clazz, parserConfig);
+    }
+
+    public static <T> T jsonToObject(String json, @Nullable Class<T> clazz) {
+        if (clazz == null) {
+            JSON.parseObject(json, Object.class, parserConfig);
+        }
+        return JSON.parseObject(json, clazz, parserConfig);
+    }
+
+//
+//    public static void main(String[] args) {
+//        JsonParameterList metas = new JsonParameterList();
+//        metas.add(new DataSourceMeta("id", "number", "$id", "desc..."));
+//        metas.add(new DataSourceMeta("name", "varchar", "$name", null));
+//        metas.add(new DataSourceMeta("age", "number", "$age", null));
+//        metas.add(new DataSourceMeta("gender", "number", "$gender", "a desc.."));
+//
+//        DataSourceMeta ss = new DataSourceMeta("id", "number", "$id", "desc...");
+//
+//        String json = "[{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"desc...\",\"paramName\":\"id\",\"paramType\":\"number\",\"paramVarName\":\"$id\"},{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"\",\"paramName\":\"name\",\"paramType\":\"varchar\",\"paramVarName\":\"$name\"},{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"\",\"paramName\":\"age\",\"paramType\":\"number\",\"paramVarName\":\"$age\"},{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"a desc..\",\"paramName\":\"gender\",\"paramType\":\"number\",\"paramVarName\":\"$gender\"}]";
+//
+//        String sss = "{\"@type\":\"com.stackstech.honeybee.common.entity.DataSourceMeta\",\"desc\":\"desc...\",\"paramName\":\"id\",\"paramType\":\"number\",\"paramVarName\":\"$id\"}";
+//
+//
+//        System.out.println(CommonUtil.jsonToObject(json, JsonParameterList.class).toString());
+//
+//
+//    }
 
 }

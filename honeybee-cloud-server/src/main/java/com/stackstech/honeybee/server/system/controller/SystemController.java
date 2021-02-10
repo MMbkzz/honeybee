@@ -96,7 +96,9 @@ public class SystemController {
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
     public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().build(account.getId()).copy(vo);
-
+        if (vo.getDatasourceParameters() == null) {
+            return ResponseMap.failed("data source parameter cannot be null");
+        }
         if (!dataSourceService.add(entity)) {
             return ResponseMap.failed("insert data source failed.");
         }

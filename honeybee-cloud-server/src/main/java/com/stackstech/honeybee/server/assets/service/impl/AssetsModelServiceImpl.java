@@ -3,7 +3,7 @@ package com.stackstech.honeybee.server.assets.service.impl;
 import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
-import com.stackstech.honeybee.server.assets.entity.DataSourceMeta;
+import com.stackstech.honeybee.common.entity.DataSourceMeta;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
