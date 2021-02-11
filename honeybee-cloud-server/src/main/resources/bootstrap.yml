@@ -1,5 +1,9 @@
 server:
+  server-header: honeybee-server
   port: 18082
+  error:
+    include-message: always
+    include-binding-errors: always
 spring:
   application:
     name: honeybee-cloud-server
