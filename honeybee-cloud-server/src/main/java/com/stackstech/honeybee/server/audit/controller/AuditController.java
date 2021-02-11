@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,7 +39,7 @@ public class AuditController {
 
     @ApiOperation(value = "query audit log")
     @RequestMapping(value = "/audit/{auditType}/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@PathVariable("auditType") String auditType, @Valid @RequestBody AuditLogQuery parameters) {
+    public ResponseMap<?> query(@PathVariable("auditType") String auditType, @Validated @RequestBody AuditLogQuery parameters) {
         Map<String, Object> params = parameters.getParameter();
         params.put("auditType", auditType);
         List<AuditLogEntity> data = service.get(params);

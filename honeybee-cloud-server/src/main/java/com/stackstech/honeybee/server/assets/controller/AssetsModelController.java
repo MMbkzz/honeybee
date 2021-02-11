@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -62,7 +63,7 @@ public class AssetsModelController {
     @ApiOperation(value = "update data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> updateModel(@Validated @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AssetsModelEntity entity = new AssetsModelEntity().update(account.getId()).copy(vo);
 
         if (!assetsModelService.update(entity)) {
@@ -74,7 +75,7 @@ public class AssetsModelController {
     @ApiOperation(value = "add data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addModel(@Valid @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> addModel(@Validated @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AssetsModelEntity entity = new AssetsModelEntity().build(account.getId()).copy(vo);
 
         if (!assetsModelService.add(entity)) {
@@ -85,7 +86,7 @@ public class AssetsModelController {
 
     @ApiOperation(value = "query data assets model")
     @RequestMapping(value = "/data/assets/model/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryModel(@Valid @RequestBody AssetsModelQuery parameters) {
+    public ResponseMap<?> queryModel(@Validated @RequestBody AssetsModelQuery parameters) {
         List<AssetsModelEntity> data = assetsModelService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsModelService.getTotalCount(parameters.getParameter());

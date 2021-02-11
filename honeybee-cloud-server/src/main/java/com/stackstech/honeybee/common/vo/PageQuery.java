@@ -7,12 +7,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Map;
 
 @Data
 @ApiModel
-@NotNull(message = "query parameter cannot be null")
 public class PageQuery {
 
     public static final String PAGE_START = "pageStart";
@@ -23,11 +23,12 @@ public class PageQuery {
     public static final String ORDER_TYPE = "orderType";
     public static final String STATUS = "status";
 
-    @Min(value = 1, message = "invalid page start index, default value is 1")
+    @Max(value = 10000, message = "invalid page index, max value is 10000")
     @ApiModelProperty(required = true)
     private Integer pageStart;
 
-    @Size(min = 1, max = 100, message = "invalid page limit size, max limit size is 1~100")
+    @Min(value = 1, message = "invalid page limit size, min value is 1")
+    @Max(value = 100, message = "invalid page limit size, max value is 100")
     @ApiModelProperty(required = true)
     private Integer pageSize;
 
@@ -35,8 +36,9 @@ public class PageQuery {
 
     private String orderField;
 
-    @AssertFalse(message = "invalid order type, must be `true` or `false`")
-    @AssertTrue(message = "invalid order type, must be `true` or `false`")
+//    @AssertFalse(message = "invalid order type, must be `true` or `false`")
+//    @AssertTrue(message = "invalid order type, must be `true` or `false`")
+//    @Null
     private boolean orderType;
 
     private Integer status;

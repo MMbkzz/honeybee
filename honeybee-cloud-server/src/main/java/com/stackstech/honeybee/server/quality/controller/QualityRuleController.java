@@ -2,8 +2,10 @@ package com.stackstech.honeybee.server.quality.controller;
 
 import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.common.vo.PageQuery;
+import com.stackstech.honeybee.server.core.annotation.AddGroup;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.quality.entity.QualityRuleEntity;
@@ -15,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -51,7 +54,7 @@ public class QualityRuleController {
     @ApiOperation(value = "update quality rule")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/rule/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateQualityRule(@Valid @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> updateQualityRule(@Validated({UpdateGroup.class}) @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         if (!service.update(vo, account.getId())) {
             return ResponseMap.failed("update data quality rule failed.");
         }
@@ -61,7 +64,7 @@ public class QualityRuleController {
     @ApiOperation(value = "add quality rule")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/rule/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addQualityRule(@Valid @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> addQualityRule(@Validated({AddGroup.class}) @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         if (!service.add(vo, account.getId())) {
             return ResponseMap.failed("insert data quality rule failed.");
         }
@@ -70,7 +73,7 @@ public class QualityRuleController {
 
     @ApiOperation(value = "query quality rule")
     @RequestMapping(value = "/quality/rule/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryQualityRule(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> queryQualityRule(@Validated @RequestBody PageQuery parameters) {
         List<QualityRuleEntity> data = service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(parameters.getParameter());

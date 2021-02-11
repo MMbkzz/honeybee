@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,7 +32,7 @@ public class DataQualityReportController {
 
     @ApiOperation(value = "query quality report")
     @RequestMapping(value = "/quality/report/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> query(@Validated @RequestBody PageQuery parameters) {
         return null;
     }
 

@@ -8,8 +8,10 @@ import com.stackstech.honeybee.server.assets.entity.DataRecyclerEntity;
 import com.stackstech.honeybee.server.assets.service.AssetsCatalogService;
 import com.stackstech.honeybee.server.assets.vo.AssetsCatalogQuery;
 import com.stackstech.honeybee.server.assets.vo.AssetsCatalogVo;
+import com.stackstech.honeybee.server.core.annotation.AddGroup;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
@@ -18,10 +20,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -55,7 +57,7 @@ public class AssetsCatalogController {
     @ApiOperation(value = "update data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/catalog/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateCatalog(@Valid @RequestBody AssetsCatalogVo vo,
+    public ResponseMap<?> updateCatalog(@Validated({UpdateGroup.class})  @RequestBody AssetsCatalogVo vo,
                                         @ApiIgnore @RequestAccount AccountEntity account) {
         if (!assetsCatalogService.updateAssetsCatalog(vo, account.getId())) {
             return ResponseMap.failed("update data assets catalog failed.");
@@ -66,7 +68,7 @@ public class AssetsCatalogController {
     @ApiOperation(value = "add data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/catalog/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addCatalog(@Valid @RequestBody AssetsCatalogVo vo,
+    public ResponseMap<?> addCatalog(@Validated({AddGroup.class})  @RequestBody AssetsCatalogVo vo,
                                      @ApiIgnore @RequestAccount AccountEntity account) {
         if (!assetsCatalogService.addAssetsCatalog(vo, account.getId())) {
             return ResponseMap.failed("insert data assets catalog failed.");
@@ -76,7 +78,7 @@ public class AssetsCatalogController {
 
     @ApiOperation(value = "query data assets catalog")
     @RequestMapping(value = "/data/assets/catalog/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryCatalog(@Valid @RequestBody AssetsCatalogQuery parameters) {
+    public ResponseMap<?> queryCatalog(@Validated @RequestBody AssetsCatalogQuery parameters) {
         List<AssetsCatalogEntity> data = assetsCatalogService.getAssetsCatalogs(parameters.getParameter());
         if (data != null && data.size() > 0) {
             log.debug("query data record size {}", data.size());
@@ -111,7 +113,7 @@ public class AssetsCatalogController {
 
     @ApiOperation(value = "query recycler data")
     @RequestMapping(value = "/data/assets/recycler/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryRecycler(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> queryRecycler(@Validated @RequestBody PageQuery parameters) {
         List<DataRecyclerEntity> data = assetsCatalogService.getDataRecyclers(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsCatalogService.getDataRecyclerCount(parameters.getParameter());

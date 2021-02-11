@@ -10,7 +10,6 @@ import java.util.Map;
 
 @ApiModel
 @Data
-@NotNull(message = "query parameter cannot be null")
 public class DataSourceQuery extends PageQuery {
 
     private String datasourceType;

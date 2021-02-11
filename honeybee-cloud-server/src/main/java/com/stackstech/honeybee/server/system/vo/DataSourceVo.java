@@ -1,22 +1,26 @@
 package com.stackstech.honeybee.server.system.vo;
 
+import com.stackstech.honeybee.server.core.annotation.AddGroup;
+import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
-@NotNull(message = "data source parameter cannot be null")
 public class DataSourceVo {
 
+    @NotNull(message = "invalid data source id", groups = {UpdateGroup.class})
     private Long id;
 
-    @NotNull(message = "data source name cannot be null")
+    @NotBlank(message = "data source name cannot be null", groups = {AddGroup.class})
     private String datasourceName;
 
-    @NotNull(message = "data source type cannot be null")
+    @NotBlank(message = "data source type cannot be null", groups = {AddGroup.class})
     private String datasourceType;
 
+    @NotNull(message = "data source parameter be null", groups = {AddGroup.class})
     private Map<String, Object> datasourceParameters;
 
     private Integer status;

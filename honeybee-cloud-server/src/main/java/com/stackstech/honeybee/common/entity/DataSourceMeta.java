@@ -1,9 +1,13 @@
 package com.stackstech.honeybee.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataSourceMeta {
 
@@ -12,13 +16,4 @@ public class DataSourceMeta {
     private String paramVarName;
     private String desc;
 
-    public DataSourceMeta(String paramName, String paramType, String paramVarName, String desc) {
-        this.paramName = paramName;
-        this.paramType = paramType;
-        this.paramVarName = paramVarName;
-        this.desc = desc;
-    }
-
-    public DataSourceMeta() {
-    }
 }

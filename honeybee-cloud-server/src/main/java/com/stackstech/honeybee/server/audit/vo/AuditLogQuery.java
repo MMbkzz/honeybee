@@ -10,7 +10,6 @@ import java.util.Map;
 
 @ApiModel
 @Data
-@NotNull(message = "query parameter cannot be null")
 public class AuditLogQuery extends PageQuery {
 
     private String logType;

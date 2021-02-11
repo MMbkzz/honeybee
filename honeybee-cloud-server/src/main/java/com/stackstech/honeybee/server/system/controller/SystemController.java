@@ -3,9 +3,7 @@ package com.stackstech.honeybee.server.system.controller;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.common.entity.ResponseMap;
-import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
-import com.stackstech.honeybee.server.core.annotation.AuditOperation;
-import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.annotation.*;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.enums.types.*;
@@ -25,11 +23,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -82,7 +80,7 @@ public class SystemController {
     @ApiOperation(value = "update data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> updateDataSource(@Validated({UpdateGroup.class}) @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().update(account.getId()).copy(vo);
 
         if (!dataSourceService.update(entity)) {
@@ -94,7 +92,7 @@ public class SystemController {
     @ApiOperation(value = "add data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addDataSource(@Valid @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> addDataSource(@Validated({AddGroup.class}) @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().build(account.getId()).copy(vo);
         if (vo.getDatasourceParameters() == null) {
             return ResponseMap.failed("data source parameter cannot be null");
@@ -107,7 +105,7 @@ public class SystemController {
 
     @ApiOperation(value = "query data source")
     @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryDataSource(@Valid @RequestBody DataSourceQuery parameters) {
+    public ResponseMap<?> queryDataSource(@Validated @RequestBody DataSourceQuery parameters) {
         List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = dataSourceService.getTotalCount(parameters.getParameter());
@@ -150,7 +148,7 @@ public class SystemController {
 
     @ApiOperation(value = "query data cache")
     @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryDataCache(@Valid @RequestBody DataCacheQuery parameters) {
+    public ResponseMap<?> queryDataCache(@Validated @RequestBody DataCacheQuery parameters) {
         List<DataCacheEntity> data = dataCacheService.get(parameters.getKeywords(), parameters.getPageStart(), parameters.getPageSize());
         if (data != null && data.size() > 0) {
             int total = dataCacheService.getTotalCount(parameters.getKeywords());
@@ -175,7 +173,7 @@ public class SystemController {
     @ApiOperation(value = "update system config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateConfig(@NotNull(message = "config cannot be null") @RequestBody String config) {
+    public ResponseMap<?> updateConfig(@NotBlank(message = "config cannot be null") @RequestBody String config) {
         if (StringUtils.isNotEmpty(config)) {
             //TODO check config yaml code style
             boolean flag = service.updateSysConfig(config);
@@ -197,7 +195,7 @@ public class SystemController {
     @ApiOperation(value = "update system license")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @PostMapping(value = "/system/license/update")
-    public ResponseMap<?> updateLicense(@NotNull(message = "license cannot be null") @RequestBody String license) {
+    public ResponseMap<?> updateLicense(@NotBlank(message = "license cannot be null") @RequestBody String license) {
         //TODO
         return null;
     }
@@ -221,8 +219,14 @@ public class SystemController {
         result.put("DATA_SOURCE_TYPE", dbEnumTypeMappings);
 
         List<EnumTypeMapping> statusEnumTypeMappings = Lists.newArrayList();
-        Arrays.stream(EntityStatusType.values()).forEach(e -> statusEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.DELETE));
+        statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.ENABLE));
+        statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.DISABLE));
         result.put("STATUS", statusEnumTypeMappings);
+
+        List<EnumTypeMapping> serviceStatusEnumTypeMappings = Lists.newArrayList();
+        Arrays.stream(EntityStatusType.values()).forEach(e -> serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        result.put("SERVICE_STATUS", serviceStatusEnumTypeMappings);
 
         List<EnumTypeMapping> messageEnumTypeMappings = Lists.newArrayList();
         Arrays.stream(MessageType.values()).forEach(e -> messageEnumTypeMappings.add(new EnumTypeMapping().build(e)));

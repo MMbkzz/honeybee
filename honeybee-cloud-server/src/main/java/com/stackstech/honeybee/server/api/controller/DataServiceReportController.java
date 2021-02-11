@@ -6,6 +6,7 @@ import com.stackstech.honeybee.server.core.enums.Constant;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class DataServiceReportController {
     }
 
     @RequestMapping(value = "/data/service/report/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> query(@Validated @RequestBody PageQuery parameters) {
         return null;
     }
 

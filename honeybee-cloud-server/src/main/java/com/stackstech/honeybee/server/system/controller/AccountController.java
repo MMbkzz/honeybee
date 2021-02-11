@@ -3,8 +3,10 @@ package com.stackstech.honeybee.server.system.controller;
 import com.stackstech.honeybee.common.entity.ResponseMap;
 import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
+import com.stackstech.honeybee.server.core.annotation.AddGroup;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
@@ -15,10 +17,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class AccountController {
     @ApiOperation(value = "update account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/account/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAccount(@Valid @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> updateAccount(@Validated({UpdateGroup.class}) @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AccountEntity entity = new AccountEntity().update(account.getId()).copy(vo);
 
         if (!accountService.update(entity)) {
@@ -63,7 +65,7 @@ public class AccountController {
     @ApiOperation(value = "add account")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/account/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAccount(@Valid @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> addAccount(@Validated({AddGroup.class}) @RequestBody AccountVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AccountEntity entity = new AccountEntity().build(account.getId()).copy(vo);
 
         if (!accountService.add(entity)) {
@@ -74,7 +76,7 @@ public class AccountController {
 
     @ApiOperation(value = "query account")
     @RequestMapping(value = "/security/account/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryAccount(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> queryAccount(@Validated @RequestBody PageQuery parameters) {
         List<AccountEntity> data = accountService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = accountService.getTotalCount(parameters.getParameter());
@@ -102,7 +104,7 @@ public class AccountController {
     @ApiOperation(value = "update account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/role/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAcctRole(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> updateAcctRole(@Validated @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
         //TODO WJ
         return null;
     }
@@ -110,14 +112,14 @@ public class AccountController {
     @ApiOperation(value = "add account role")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/role/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAcctRole(@Valid @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> addAcctRole(@Validated @RequestBody DataServiceEntity entity, @ApiIgnore @RequestAccount AccountEntity account) {
         //TODO WJ
         return null;
     }
 
     @ApiOperation(value = "query account role")
     @RequestMapping(value = "/security/role/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryAcctRole(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> queryAcctRole(@Validated @RequestBody PageQuery parameters) {
         //TODO WJ
         return null;
     }

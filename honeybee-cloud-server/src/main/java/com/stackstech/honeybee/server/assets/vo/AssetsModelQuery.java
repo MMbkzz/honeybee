@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
-@NotNull(message = "query parameter cannot be null")
 public class AssetsModelQuery extends PageQuery {
 
     @Min(value = 1L, message = "Invalid domain id")

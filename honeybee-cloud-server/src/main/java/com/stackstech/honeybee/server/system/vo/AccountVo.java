@@ -1,32 +1,31 @@
 package com.stackstech.honeybee.server.system.vo;
 
+import com.stackstech.honeybee.server.core.annotation.AddGroup;
+import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NotNull(message = "account parameter cannot be null")
 public class AccountVo {
 
+    @NotNull(message = "invalid account id", groups = {UpdateGroup.class})
     private Long id;
 
-    @NotNull(message = "account name cannot be null")
+    @NotBlank(message = "account name cannot be null", groups = {AddGroup.class})
     private String accountName;
 
-    @NotNull(message = "account password cannot be null")
+    @NotBlank(message = "account password cannot be null", groups = {AddGroup.class})
     private String accountPassword;
 
-    @Min(value = 1L, message = "invalid account role id")
-    @NotNull(message = "account role id cannot be null")
-    private Long accountRole;
+    // TODO role id
+    private Long accountRole = -1L;
 
     private String accountRealname;
 
     private Integer accountGender;
 
-    @Email(message = "invalid account email format")
     private String accountEmail;
 
     private String accountPhone;

@@ -12,7 +12,6 @@ import java.util.Map;
 
 @ApiModel
 @Data
-@NotNull(message = "query parameter cannot be null")
 public class AssetsCatalogQuery extends PageQuery {
 
     @Min(value = 1L, message = "Invalid data id")

@@ -6,8 +6,10 @@ import com.stackstech.honeybee.server.api.entity.DataServiceElement;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.api.service.DataService;
 import com.stackstech.honeybee.server.api.vo.DataServiceVo;
+import com.stackstech.honeybee.server.core.annotation.AddGroup;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
@@ -16,10 +18,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -54,7 +56,7 @@ public class DataServiceController {
     @ApiOperation(value = "update data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/service/update", method = RequestMethod.PUT)
-    public ResponseMap<?> update(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> update(@Validated({UpdateGroup.class}) @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceEntity entity = new DataServiceEntity().update(account.getId()).copy(vo);
 
         if (!service.update(entity)) {
@@ -66,7 +68,7 @@ public class DataServiceController {
     @ApiOperation(value = "add data service config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/service/add", method = RequestMethod.PUT)
-    public ResponseMap<?> add(@Valid @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> add(@Validated({AddGroup.class}) @RequestBody DataServiceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceEntity entity = new DataServiceEntity().build(account.getId()).copy(vo);
 
         if (!service.add(entity)) {
@@ -77,7 +79,7 @@ public class DataServiceController {
 
     @ApiOperation(value = "query data service")
     @RequestMapping(value = "/data/service/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> query(@Validated @RequestBody PageQuery parameters) {
         List<DataServiceEntity> data = service.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(parameters.getParameter());

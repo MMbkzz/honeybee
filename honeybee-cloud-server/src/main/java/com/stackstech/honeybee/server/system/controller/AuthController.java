@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 /**
  * authentication service controller
@@ -43,7 +43,7 @@ public class AuthController {
     @ApiOperation(value = "account login")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.LOGIN)
     @RequestMapping(value = "/security/login", method = RequestMethod.POST)
-    public ResponseMap<?> login(@Valid @RequestBody AccountLoginVo vo) {
+    public ResponseMap<?> login(@Validated @RequestBody AccountLoginVo vo) {
         ResponseMap responseMap = ResponseMap.failed("login failed, please check your account and password");
 
         AccountEntity entity = authService.login(request, response,
@@ -65,7 +65,7 @@ public class AuthController {
     @ApiOperation(value = "reset account password")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/resetpwd", method = RequestMethod.POST)
-    public ResponseMap<?> resetPassword(@Valid @RequestBody RestPasswordVo vo) {
+    public ResponseMap<?> resetPassword(@Validated @RequestBody RestPasswordVo vo) {
 
         boolean flag = authService.resetPassword(request, response,
                 vo.getAccount(),

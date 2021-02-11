@@ -2,16 +2,16 @@ package com.stackstech.honeybee.server.system.vo;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NotNull(message = "account login parameter cannot be null")
 public class AccountLoginVo {
 
-    @NotNull(message = "account cannot be null")
+    @NotBlank(message = "{account.login.username}")
     private String account;
 
-    @NotNull(message = "password cannot be null")
+    @NotBlank(message = "password cannot be null")
     private String password;
 
 }

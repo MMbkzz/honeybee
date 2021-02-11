@@ -4,13 +4,13 @@ import lombok.Data;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NotNull(message = "data cache parameter cannot be null")
 public class DataCacheVo {
 
-    @NotNull(message = "data cache uuid cannot be null")
+    @NotBlank(message = "data cache uuid cannot be null")
     private String uuid;
 
     @Max(value = 72000, message = "invalid data cache expire number, max number is 72000")

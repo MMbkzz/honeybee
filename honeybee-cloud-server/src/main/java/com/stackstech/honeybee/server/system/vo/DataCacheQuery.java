@@ -3,22 +3,21 @@ package com.stackstech.honeybee.server.system.vo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
-@NotNull(message = "data cache parameter cannot be null")
 public class DataCacheQuery {
 
     private String keywords;
 
+    @Max(value = 10000, message = "invalid page index, max value is 10000")
     @ApiModelProperty(required = true)
-    @Min(value = 1, message = "invalid page start index, default value is 1")
     private Integer pageStart;
 
+    @Min(value = 1, message = "invalid page limit size, min value is 1")
+    @Max(value = 100, message = "invalid page limit size, max value is 100")
     @ApiModelProperty(required = true)
-    @Size(min = 1, max = 100, message = "invalid page limit size, max limit size is 1~100")
     private Integer pageSize;
 
     public int getPageStart() {

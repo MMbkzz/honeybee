@@ -6,7 +6,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
-@NotNull(message = "data authority parameter cannot be null")
 public class DataAuthorityVo {
 
     @Min(value = 1L, message = "invalid data id")

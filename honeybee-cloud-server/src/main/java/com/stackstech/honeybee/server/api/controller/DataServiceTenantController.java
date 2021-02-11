@@ -9,8 +9,10 @@ import com.stackstech.honeybee.server.api.service.TenantService;
 import com.stackstech.honeybee.server.api.vo.DataAuthorityVo;
 import com.stackstech.honeybee.server.api.vo.DataServiceTenantVo;
 import com.stackstech.honeybee.server.api.vo.UpdateDataAuthorityMetaVo;
+import com.stackstech.honeybee.server.core.annotation.AddGroup;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
+import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
@@ -21,10 +23,10 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -58,7 +60,7 @@ public class DataServiceTenantController {
     @ApiOperation(value = "update data tenant")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/tenant/update", method = RequestMethod.PUT)
-    public ResponseMap<?> update(@Valid @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> update(@Validated({UpdateGroup.class}) @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceTenantEntity entity = new DataServiceTenantEntity().update(account.getId()).copy(vo);
 
         if (!tenantService.update(entity)) {
@@ -70,7 +72,7 @@ public class DataServiceTenantController {
     @ApiOperation(value = "add data tenant")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/tenant/add", method = RequestMethod.PUT)
-    public ResponseMap<?> add(@Valid @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> add(@Validated({AddGroup.class}) @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceTenantEntity entity = new DataServiceTenantEntity().build(account.getId()).copy(vo);
 
         if (!tenantService.add(entity)) {
@@ -81,7 +83,7 @@ public class DataServiceTenantController {
 
     @ApiOperation(value = "query data tenant")
     @RequestMapping(value = "/security/tenant/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@Valid @RequestBody PageQuery parameters) {
+    public ResponseMap<?> query(@Validated @RequestBody PageQuery parameters) {
         List<DataServiceTenantEntity> data = tenantService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = tenantService.getTotalCount(parameters.getParameter());
@@ -104,14 +106,14 @@ public class DataServiceTenantController {
 
     @ApiOperation(value = "query data authority meta")
     @RequestMapping(value = "/security/tenant/authority/meta", method = RequestMethod.POST)
-    public ResponseMap<?> getAuthorityMeta(@Valid @RequestBody DataAuthorityVo vo) {
+    public ResponseMap<?> getAuthorityMeta(@Validated @RequestBody DataAuthorityVo vo) {
         JsonParameterList metas = tenantService.getDataAuthorityMeta(vo.getId(), vo.getDataServiceId());
         return ResponseMap.success(metas);
     }
 
     @ApiOperation(value = "update data authority meta")
     @RequestMapping(value = "/security/tenant/authority/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAuthorityMeta(@Valid @RequestBody UpdateDataAuthorityMetaVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> updateAuthorityMeta(@Validated @RequestBody UpdateDataAuthorityMetaVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         return ResponseMap.success(tenantService.updateDataAuthorityMeta(vo.getId(), vo.getDataAuthorityMeta(), account.getId()));
     }
 
@@ -124,7 +126,7 @@ public class DataServiceTenantController {
 
     @ApiOperation(value = "add data authority")
     @RequestMapping(value = "/security/tenant/authority/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAuthorityMeta(@Valid @RequestBody DataAuthorityVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseMap<?> addAuthorityMeta(@Validated @RequestBody DataAuthorityVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceAuthorityEntity entity = tenantService.addDataAuthority(vo.getId(), vo.getDataServiceId(), account.getId());
         if (entity != null) {
             return ResponseMap.success(entity);
