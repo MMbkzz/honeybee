@@ -162,9 +162,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.system.entity.AccountEntity">
     update hb_account
     <set>
-      <if test="accountName != null">
-        `account_name` = #{accountName,jdbcType=VARCHAR},
-      </if>
       <if test="accountPassword != null">
         `account_password` = #{accountPassword,jdbcType=VARCHAR},
       </if>

@@ -33,8 +33,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AccountEntity login(HttpServletRequest request, HttpServletResponse response, String account, String password) throws ServerException, DataNotFoundException {
         Map<String, Object> map = Maps.newHashMap();
-        map.put("account", Optional.ofNullable(account).orElse("default"));
-        map.put("password", Optional.ofNullable(password).orElse("default"));
+        map.put(AccountEntity.ACCOUNT_NAME, Optional.ofNullable(account).orElse("default"));
+        map.put(AccountEntity.ACCOUNT_PWD, Optional.ofNullable(password).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
         CommonUtil.isNull(entity, "login failed, please check your account and password");
@@ -56,8 +56,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword, AccountEntity owner) throws ServerException {
         Map<String, Object> map = Maps.newHashMap();
-        map.put("account", Optional.ofNullable(account).orElse("default"));
-        map.put("password", Optional.ofNullable(oldPassword).orElse("default"));
+        map.put(AccountEntity.ACCOUNT_NAME, Optional.ofNullable(account).orElse("default"));
+        map.put(AccountEntity.ACCOUNT_PWD, Optional.ofNullable(oldPassword).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
         CommonUtil.isNull(entity, "rest password failed, please check your account and password");
@@ -68,8 +68,8 @@ public class AuthServiceImpl implements AuthService {
         }
         AccountEntity update = new AccountEntity();
         update.setId(entity.getId());
-        update.setAccountName(account);
         update.setAccountPassword(newPassword);
+        update.setOwner(owner.getId());
         update.setUpdatetime(new Date());
         // update account password
         if (mapper.updateByPrimaryKeySelective(update) > 0) {
@@ -90,9 +90,10 @@ public class AuthServiceImpl implements AuthService {
         if (account == null) {
             throw new AuthenticationException("authentication failed, invalid account");
         }
+
         Map<String, Object> map = Maps.newHashMap();
-        map.put("account", account.getAccountName());
-        map.put("password", account.getAccountPassword());
+        map.put(AccountEntity.ACCOUNT_NAME, account.getAccountName());
+        map.put(AccountEntity.ACCOUNT_PWD, account.getAccountPassword());
         account = mapper.selectByAccountAndPassowrd(map);
         if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
             throw new AuthenticationException("authentication failed, please login");
