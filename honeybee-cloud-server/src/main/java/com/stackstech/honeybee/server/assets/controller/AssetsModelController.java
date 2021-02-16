@@ -45,11 +45,7 @@ public class AssetsModelController {
     @RequestMapping(value = "/data/assets/model/meta/{id}", method = RequestMethod.GET)
     public ResponseObject getModelMeta(@PathVariable("id") long id) {
         AssetsModelEntity model = assetsModelService.getSingle(id);
-        if (model == null) {
-            return ResponseObject.build().failed("assets model not found");
-        }
         return ResponseObject.build().success(model.getDatasourceMeta());
-
     }
 
     @ApiOperation(value = "delete data assets model")
@@ -87,12 +83,8 @@ public class AssetsModelController {
     @RequestMapping(value = "/data/assets/model/query", method = RequestMethod.POST)
     public ResponseObject queryModel(@Validated @RequestBody AssetsModelQuery parameters) {
         List<AssetsModelEntity> data = assetsModelService.get(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            int total = assetsModelService.getTotalCount(parameters.getParameter());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = assetsModelService.getTotalCount(parameters.getParameter());
+        return ResponseObject.build().success(data, total);
     }
 
 }

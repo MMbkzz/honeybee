@@ -4,7 +4,6 @@ import com.stackstech.honeybee.common.vo.PageQuery;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data

@@ -2,7 +2,6 @@ package com.stackstech.honeybee.server.api.controller;
 
 import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.common.vo.PageQuery;
-import com.stackstech.honeybee.server.api.entity.DataServiceElement;
 import com.stackstech.honeybee.server.api.entity.DataServiceEntity;
 import com.stackstech.honeybee.server.api.service.DataService;
 import com.stackstech.honeybee.server.api.vo.DataServiceVo;
@@ -81,23 +80,14 @@ public class DataServiceController {
     @RequestMapping(value = "/data/service/query", method = RequestMethod.POST)
     public ResponseObject query(@Validated @RequestBody PageQuery parameters) {
         List<DataServiceEntity> data = service.get(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            int total = service.getTotalCount(parameters.getParameter());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = service.getTotalCount(parameters.getParameter());
+        return ResponseObject.build().success(data, total);
     }
 
     @ApiOperation(value = "query data service list")
     @RequestMapping(value = "/data/service/list", method = RequestMethod.GET)
     public ResponseObject query() {
-        List<DataServiceElement> data = service.getDataServiceList();
-        if (data != null && data.size() > 0) {
-            log.debug("query data record size {}", data.size());
-            return ResponseObject.build().success(data);
-        }
-        return ResponseObject.build().failed("nothing found");
+        return ResponseObject.build().success(service.getDataServiceList());
     }
 
     @RequestMapping(value = "/data/service/online/{id}", method = RequestMethod.GET)

@@ -80,22 +80,14 @@ public class AssetsCatalogController {
     @RequestMapping(value = "/data/assets/catalog/query", method = RequestMethod.POST)
     public ResponseObject queryCatalog(@Validated @RequestBody AssetsCatalogQuery parameters) {
         List<AssetsCatalogEntity> data = assetsCatalogService.getAssetsCatalogs(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            log.debug("query data record size {}", data.size());
-            return ResponseObject.build().success(data, data.size());
-        }
-        return ResponseObject.build().failed("nothing found");
+        return ResponseObject.build().success(data, data.size());
     }
 
     @ApiOperation(value = "query data assets catalog list")
     @RequestMapping(value = "/data/assets/catalog/list", method = RequestMethod.GET)
     public ResponseObject queryCatalogList() {
         List<AssetsCatalogElement> data = assetsCatalogService.getAssetsCatalogList();
-        if (data != null && data.size() > 0) {
-            log.debug("query data record size {}", data.size());
-            return ResponseObject.build().success(data);
-        }
-        return ResponseObject.build().failed("nothing found");
+        return ResponseObject.build().success(data);
     }
 
     @ApiOperation(value = "get recycler data")
@@ -115,12 +107,8 @@ public class AssetsCatalogController {
     @RequestMapping(value = "/data/assets/recycler/query", method = RequestMethod.POST)
     public ResponseObject queryRecycler(@Validated @RequestBody PageQuery parameters) {
         List<DataRecyclerEntity> data = assetsCatalogService.getDataRecyclers(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            int total = assetsCatalogService.getDataRecyclerCount(parameters.getParameter());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = assetsCatalogService.getDataRecyclerCount(parameters.getParameter());
+        return ResponseObject.build().success(data, total);
     }
 
 }

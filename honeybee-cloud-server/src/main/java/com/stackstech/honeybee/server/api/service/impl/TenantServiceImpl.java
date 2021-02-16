@@ -14,9 +14,10 @@ import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
 import com.stackstech.honeybee.server.api.service.TenantService;
 import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -37,57 +38,61 @@ public class TenantServiceImpl implements TenantService {
         JsonParameterList parameterList = new JsonParameterList();
 
         DataServiceEntity service = serviceMapper.selectByPrimaryKey(dataServiceId);
-        if (service != null) {
-            AssetsModelEntity model = modelMapper.selectByPrimaryKey(service.getAssetsModelId());
-            Assert.notNull(model, "Assets model not found");
-            JsonParameterList datasourceMetas = model.getDatasourceMeta();
-            for (Object meta : datasourceMetas) {
-                DataSourceMeta dsm = (DataSourceMeta) meta;
-                parameterList.add(new DataAuthorityMeta(dsm.getParamName(), true));
-            }
+        CommonUtil.isNull(service, "data service not found");
+        AssetsModelEntity model = modelMapper.selectByPrimaryKey(service.getAssetsModelId());
+        CommonUtil.isNull(model, "assets model not found");
+        JsonParameterList datasourceMetas = model.getDatasourceMeta();
+        for (Object meta : datasourceMetas) {
+            DataSourceMeta dsm = (DataSourceMeta) meta;
+            parameterList.add(new DataAuthorityMeta(dsm.getParamName(), true));
         }
         return parameterList;
     }
 
     @Override
-    public boolean add(DataServiceTenantEntity entity) {
+    public boolean add(DataServiceTenantEntity entity) throws ServerException {
         return tenantMapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataServiceTenantEntity entity) {
+    public boolean update(DataServiceTenantEntity entity) throws ServerException {
         return tenantMapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId, Long ownerId) {
+    public boolean delete(Long recordId, Long ownerId) throws ServerException {
         return tenantMapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     @Override
-    public DataServiceTenantEntity getSingle(Long recordId) {
+    public DataServiceTenantEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         return tenantMapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public List<DataServiceTenantEntity> get(Map<String, Object> parameter) {
-        return tenantMapper.selectByParameter(parameter);
+    public List<DataServiceTenantEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
+        List<DataServiceTenantEntity> entities = tenantMapper.selectByParameter(parameter);
+        CommonUtil.isEmpty(entities);
+        return entities;
     }
 
     @Override
-    public Integer getTotalCount(Map<String, Object> parameter) {
+    public Integer getTotalCount(Map<String, Object> parameter) throws ServerException {
         return tenantMapper.selectTotalCount(parameter);
     }
 
     @Override
-    public List<DataServiceAuthorityEntity> getAuthorityList(Long tenantId) {
+    public List<DataServiceAuthorityEntity> getAuthorityList(Long tenantId) throws ServerException, DataNotFoundException {
         Map<String, Object> map = Maps.newHashMap();
         map.put("tenantId", tenantId);
-        return authorityMapper.selectByParameter(map);
+
+        List<DataServiceAuthorityEntity> entities = authorityMapper.selectByParameter(map);
+        CommonUtil.isEmpty(entities);
+        return entities;
     }
 
     @Override
-    public JsonParameterList getDataAuthorityMeta(Long authorityId, Long dataServiceId) {
+    public JsonParameterList getDataAuthorityMeta(Long authorityId, Long dataServiceId) throws ServerException, DataNotFoundException {
         DataServiceAuthorityEntity entity = authorityMapper.selectByPrimaryKey(authorityId);
         if (entity.getAuthorityData() != null && entity.getAuthorityData().size() > 0) {
             return entity.getAuthorityData();
@@ -97,7 +102,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public boolean updateDataAuthorityMeta(Long authorityId, List<DataAuthorityMeta> dataAuthorityMete, Long ownerId) {
+    public boolean updateDataAuthorityMeta(Long authorityId, List<DataAuthorityMeta> dataAuthorityMete, Long ownerId) throws ServerException {
         DataServiceAuthorityEntity entity = new DataServiceAuthorityEntity().update(ownerId);
         entity.setId(authorityId);
         JsonParameterList metas = new JsonParameterList();
@@ -107,12 +112,12 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public boolean deleteDataAuthority(Long authorityId, Long ownerId) {
+    public boolean deleteDataAuthority(Long authorityId, Long ownerId) throws ServerException {
         return authorityMapper.deleteByPrimaryKey(authorityId) > 0;
     }
 
     @Override
-    public DataServiceAuthorityEntity addDataAuthority(Long tenantId, Long dataServiceId, Long ownerId) {
+    public DataServiceAuthorityEntity addDataAuthority(Long tenantId, Long dataServiceId, Long ownerId) throws ServerException, DataNotFoundException {
         DataServiceAuthorityEntity entity = new DataServiceAuthorityEntity().build(ownerId);
         entity.setTenantId(tenantId);
         entity.setDataServiceId(dataServiceId);
@@ -120,9 +125,9 @@ public class TenantServiceImpl implements TenantService {
         entity.setAuthorityExpire(7200L);
         entity.setAuthorityData(getDataSourceMeta(dataServiceId));
 
-        if (authorityMapper.insertSelective(entity) > 0) {
-            return entity;
+        if (authorityMapper.insertSelective(entity) == 0) {
+            throw new ServerException("add data failed");
         }
-        return null;
+        return entity;
     }
 }

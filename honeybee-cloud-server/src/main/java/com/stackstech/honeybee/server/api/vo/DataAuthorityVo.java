@@ -3,7 +3,6 @@ package com.stackstech.honeybee.server.api.vo;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class DataAuthorityVo {

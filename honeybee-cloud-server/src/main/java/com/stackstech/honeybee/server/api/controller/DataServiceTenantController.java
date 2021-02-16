@@ -85,23 +85,14 @@ public class DataServiceTenantController {
     @RequestMapping(value = "/security/tenant/query", method = RequestMethod.POST)
     public ResponseObject query(@Validated @RequestBody PageQuery parameters) {
         List<DataServiceTenantEntity> data = tenantService.get(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            int total = tenantService.getTotalCount(parameters.getParameter());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = tenantService.getTotalCount(parameters.getParameter());
+        return ResponseObject.build().success(data, total);
     }
 
     @ApiOperation(value = "get data authority")
     @RequestMapping(value = "/security/tenant/authority/{id}", method = RequestMethod.GET)
     public ResponseObject authority(@PathVariable("id") long id) {
-        List<DataServiceAuthorityEntity> data = tenantService.getAuthorityList(id);
-        if (data != null && data.size() > 0) {
-            log.debug("query data record size {}", data.size());
-            return ResponseObject.build().success(data);
-        }
-        return ResponseObject.build().failed("nothing found");
+        return ResponseObject.build().success(tenantService.getAuthorityList(id));
     }
 
     @ApiOperation(value = "query data authority meta")
@@ -128,10 +119,7 @@ public class DataServiceTenantController {
     @RequestMapping(value = "/security/tenant/authority/add", method = RequestMethod.PUT)
     public ResponseObject addAuthorityMeta(@Validated @RequestBody DataAuthorityVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceAuthorityEntity entity = tenantService.addDataAuthority(vo.getId(), vo.getDataServiceId(), account.getId());
-        if (entity != null) {
-            return ResponseObject.build().success(entity);
-        }
-        return ResponseObject.build().failed("add data authority failed");
+        return ResponseObject.build().success(entity);
     }
 
 

@@ -41,13 +41,10 @@ public class AuditController {
     public ResponseObject query(@PathVariable("auditType") String auditType, @Validated @RequestBody AuditLogQuery parameters) {
         Map<String, Object> params = parameters.getParameter();
         params.put("auditType", auditType);
+
         List<AuditLogEntity> data = service.get(params);
-        if (data != null && data.size() > 0) {
-            int total = service.getTotalCount(params);
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = service.getTotalCount(params);
+        return ResponseObject.build().success(data, total);
     }
 
 }
