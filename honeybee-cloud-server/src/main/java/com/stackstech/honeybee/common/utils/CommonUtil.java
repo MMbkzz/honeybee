@@ -5,6 +5,7 @@ import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.stackstech.honeybee.server.core.enums.Constant;
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.service.BaseEnumTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
@@ -375,6 +376,18 @@ public final class CommonUtil {
             JSON.parseObject(json, Object.class, parserConfig);
         }
         return JSON.parseObject(json, clazz, parserConfig);
+    }
+
+    public static void isEmpty(@Nullable Collection<?> collection) throws DataNotFoundException {
+        if (collection == null || collection.isEmpty()) {
+            throw new DataNotFoundException("Data is empty");
+        }
+    }
+
+    public static void isNull(@Nullable Object object, String message) throws DataNotFoundException {
+        if (object == null) {
+            throw new DataNotFoundException(message);
+        }
     }
 
 }

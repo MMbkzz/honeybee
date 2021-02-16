@@ -18,17 +18,17 @@ public class AccountServiceImpl implements BaseDataService<AccountEntity> {
     private AccountMapper mapper;
 
     @Override
-    public boolean add(AccountEntity entity) throws ServerException, DataNotFoundException {
+    public boolean add(AccountEntity entity) throws ServerException {
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(AccountEntity entity) throws ServerException, DataNotFoundException {
+    public boolean update(AccountEntity entity) throws ServerException {
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId, Long ownerId) throws ServerException, DataNotFoundException {
+    public boolean delete(Long recordId, Long ownerId) throws ServerException {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 

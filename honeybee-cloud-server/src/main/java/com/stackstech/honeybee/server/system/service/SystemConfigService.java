@@ -1,8 +1,11 @@
 package com.stackstech.honeybee.server.system.service;
 
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
+
 public interface SystemConfigService {
 
-    String getSysConfig();
+    String getSysConfig() throws ServerException, DataNotFoundException;
 
-    Boolean updateSysConfig(String config);
+    boolean updateSysConfig(String config) throws ServerException;
 }

@@ -94,9 +94,7 @@ public class SystemController {
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
     public ResponseObject addDataSource(@Validated({AddGroup.class}) @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().build(account.getId()).copy(vo);
-        if (vo.getDatasourceParameters() == null) {
-            return ResponseObject.build().failed("data source parameter cannot be null");
-        }
+
         if (!dataSourceService.add(entity)) {
             return ResponseObject.build().failed("insert data source failed.");
         }
@@ -107,12 +105,8 @@ public class SystemController {
     @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
     public ResponseObject queryDataSource(@Validated @RequestBody DataSourceQuery parameters) {
         List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            int total = dataSourceService.getTotalCount(parameters.getParameter());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = dataSourceService.getTotalCount(parameters.getParameter());
+        return ResponseObject.build().success(data, total);
     }
 
     @Deprecated
@@ -150,12 +144,8 @@ public class SystemController {
     @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
     public ResponseObject queryDataCache(@Validated @RequestBody DataCacheQuery parameters) {
         List<DataCacheEntity> data = dataCacheService.get(parameters.getKeywords(), parameters.getPageStart(), parameters.getPageSize());
-        if (data != null && data.size() > 0) {
-            int total = dataCacheService.getTotalCount(parameters.getKeywords());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = dataCacheService.getTotalCount(parameters.getKeywords());
+        return ResponseObject.build().success(data, total);
     }
 
     @ApiOperation(value = "get system config")
@@ -173,7 +163,7 @@ public class SystemController {
     @ApiOperation(value = "update system config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
-    public ResponseObject updateConfig(@NotBlank(message = "config cannot be null") @RequestBody String config) {
+    public ResponseObject updateConfig(@Validated @NotBlank(message = "config cannot be null") @RequestBody String config) {
         if (StringUtils.isNotEmpty(config)) {
             //TODO check config yaml code style
             boolean flag = service.updateSysConfig(config);
@@ -195,7 +185,7 @@ public class SystemController {
     @ApiOperation(value = "update system license")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @PostMapping(value = "/system/license/update")
-    public ResponseObject updateLicense(@NotBlank(message = "license cannot be null") @RequestBody String license) {
+    public ResponseObject updateLicense(@Validated @NotBlank(message = "license cannot be null") @RequestBody String license) {
         //TODO
         return null;
     }

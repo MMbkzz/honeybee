@@ -20,16 +20,18 @@ public interface BaseDataService<E> {
      *
      * @param entity Data entity
      * @return boolean
+     * @throws ServerException
      */
-    boolean add(E entity) throws ServerException, DataNotFoundException;
+    boolean add(E entity) throws ServerException;
 
     /**
      * Update data record
      *
      * @param entity Data entity
      * @return boolean
+     * @throws ServerException
      */
-    boolean update(E entity) throws ServerException, DataNotFoundException;
+    boolean update(E entity) throws ServerException;
 
     /**
      * Delete data record
@@ -37,14 +39,17 @@ public interface BaseDataService<E> {
      * @param recordId Data record ID
      * @param ownerId  Owner ID
      * @return boolean
+     * @throws ServerException
      */
-    boolean delete(Long recordId, Long ownerId) throws ServerException, DataNotFoundException;
+    boolean delete(Long recordId, Long ownerId) throws ServerException;
 
     /**
      * Get a single data record
      *
      * @param recordId Data record ID
      * @return Data result
+     * @throws ServerException
+     * @throws DataNotFoundException
      */
     E getSingle(Long recordId) throws ServerException, DataNotFoundException;
 
@@ -54,6 +59,8 @@ public interface BaseDataService<E> {
      *
      * @param parameter Query parameters
      * @return List of data result
+     * @throws ServerException
+     * @throws DataNotFoundException
      */
     List<E> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException;
 
@@ -62,6 +69,7 @@ public interface BaseDataService<E> {
      *
      * @param parameter Query parameters
      * @return Integer
+     * @throws ServerException
      */
     Integer getTotalCount(Map<String, Object> parameter) throws ServerException;
 }

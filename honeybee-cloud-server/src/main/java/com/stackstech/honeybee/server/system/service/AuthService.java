@@ -50,7 +50,7 @@ public interface AuthService {
      * @throws ServerException
      * @throws DataNotFoundException
      */
-    boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException, DataNotFoundException;
+    boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException;
 
     /**
      * verify request account

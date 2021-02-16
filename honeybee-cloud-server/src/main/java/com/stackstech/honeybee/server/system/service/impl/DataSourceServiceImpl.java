@@ -1,11 +1,14 @@
 package com.stackstech.honeybee.server.system.service.impl;
 
+import com.stackstech.honeybee.common.entity.DBConfig;
 import com.stackstech.honeybee.common.entity.JsonParameterList;
+import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.conf.ApplicationConfig;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
 import com.stackstech.honeybee.server.system.dao.DataSourceMapper;
-import com.stackstech.honeybee.common.entity.DBConfig;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.system.service.DataSourceService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,39 +45,43 @@ public class DataSourceServiceImpl implements DataSourceService {
     }
 
     @Override
-    public boolean add(DataSourceEntity entity) {
+    public boolean add(DataSourceEntity entity) throws ServerException {
         setDatasourceConfig(entity);
         return mapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(DataSourceEntity entity) {
+    public boolean update(DataSourceEntity entity) throws ServerException {
         setDatasourceConfig(entity);
         return mapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
-    public boolean delete(Long recordId, Long ownerId) {
+    public boolean delete(Long recordId, Long ownerId) throws ServerException {
         return mapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     @Override
-    public DataSourceEntity getSingle(Long recordId) {
-        return mapper.selectByPrimaryKey(recordId);
+    public DataSourceEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
+        DataSourceEntity entity = mapper.selectByPrimaryKey(recordId);
+        CommonUtil.isNull(entity, "data source not found");
+        return entity;
     }
 
     @Override
-    public List<DataSourceEntity> get(Map<String, Object> parameter) {
-        return mapper.selectByParameter(parameter);
+    public List<DataSourceEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
+        List<DataSourceEntity> entities = mapper.selectByParameter(parameter);
+        CommonUtil.isEmpty(entities);
+        return entities;
     }
 
     @Override
-    public Integer getTotalCount(Map<String, Object> parameter) {
+    public Integer getTotalCount(Map<String, Object> parameter) throws ServerException {
         return mapper.selectTotalCount(parameter);
     }
 
     @Override
-    public DBConfig getDataSourceConfig(DataSourceType dataSourceType) {
+    public DBConfig getDataSourceConfig(DataSourceType dataSourceType) throws ServerException, DataNotFoundException {
         Assert.notNull(applicationConfig.getConfigPath(), "config path cannot be null");
 
         String fileName = StringUtils.join("config-", dataSourceType.getName().toLowerCase(), ".yml");
@@ -94,7 +101,7 @@ public class DataSourceServiceImpl implements DataSourceService {
                 config.setConfig(maps.get("config"));
             }
         } catch (Exception e) {
-            log.error("load db config yaml error", e);
+            throw new ServerException("load db config yaml error", e);
         }
         return config;
     }

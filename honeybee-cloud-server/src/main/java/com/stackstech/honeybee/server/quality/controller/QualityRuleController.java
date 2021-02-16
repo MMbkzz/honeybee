@@ -74,12 +74,8 @@ public class QualityRuleController {
     @RequestMapping(value = "/quality/rule/query", method = RequestMethod.POST)
     public ResponseObject queryQualityRule(@Validated @RequestBody PageQuery parameters) {
         List<QualityRuleEntity> data = service.get(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            int total = service.getTotalCount(parameters.getParameter());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = service.getTotalCount(parameters.getParameter());
+        return ResponseObject.build().success(data, total);
     }
 
 }

@@ -1,6 +1,9 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
 import com.google.common.collect.Maps;
+import com.stackstech.honeybee.common.utils.CommonUtil;
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
 import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.quality.dao.QualityRuleMapper;
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
@@ -43,7 +46,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     }
 
     @Override
-    public boolean add(QualityRuleVo vo, Long ownerId) {
+    public boolean add(QualityRuleVo vo, Long ownerId) throws ServerException {
         QualityJobEntity job = addJob(vo, ownerId);
         if (job == null) {
             return false;
@@ -60,7 +63,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     }
 
     @Override
-    public boolean update(QualityRuleVo vo, Long ownerId) {
+    public boolean update(QualityRuleVo vo, Long ownerId) throws ServerException {
         if (!updateJob(vo, ownerId)) {
             return false;
         }
@@ -75,33 +78,34 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     }
 
     @Override
-    public boolean delete(Long recordId, Long ownerId) {
+    public boolean delete(Long recordId, Long ownerId) throws ServerException {
         return ruleMapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     @Override
-    public QualityRuleEntity getSingle(Long recordId) {
+    public QualityRuleEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         QualityRuleEntity rule = ruleMapper.selectByPrimaryKey(recordId);
-        if (rule != null) {
-            QualityJobEntity job = jobMapper.selectByPrimaryKey(rule.getJobId());
-            Map<String, Object> maps = Maps.newLinkedHashMap();
-            maps.put("jobName", job.getJobName());
-            maps.put("jobCode", job.getJobCode());
-            maps.put("jobExpression", job.getJobExpression());
-            maps.put("jobOrder", job.getJobOrder());
-            maps.put("jobDesc", job.getDesc());
-            rule.setJob(maps);
-        }
+        CommonUtil.isNull(rule, "quality rule not found");
+        QualityJobEntity job = jobMapper.selectByPrimaryKey(rule.getJobId());
+        Map<String, Object> maps = Maps.newLinkedHashMap();
+        maps.put("jobName", job.getJobName());
+        maps.put("jobCode", job.getJobCode());
+        maps.put("jobExpression", job.getJobExpression());
+        maps.put("jobOrder", job.getJobOrder());
+        maps.put("jobDesc", job.getDesc());
+        rule.setJob(maps);
         return rule;
     }
 
     @Override
-    public List<QualityRuleEntity> get(Map<String, Object> parameter) {
-        return ruleMapper.selectByParameter(parameter);
+    public List<QualityRuleEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
+        List<QualityRuleEntity> entities = ruleMapper.selectByParameter(parameter);
+        CommonUtil.isEmpty(entities);
+        return entities;
     }
 
     @Override
-    public Integer getTotalCount(Map<String, Object> parameter) {
+    public Integer getTotalCount(Map<String, Object> parameter) throws ServerException {
         return ruleMapper.selectTotalCount(parameter);
     }
 }

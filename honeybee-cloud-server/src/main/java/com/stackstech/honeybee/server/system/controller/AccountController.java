@@ -78,12 +78,8 @@ public class AccountController {
     @RequestMapping(value = "/security/account/query", method = RequestMethod.POST)
     public ResponseObject queryAccount(@Validated @RequestBody PageQuery parameters) {
         List<AccountEntity> data = accountService.get(parameters.getParameter());
-        if (data != null && data.size() > 0) {
-            int total = accountService.getTotalCount(parameters.getParameter());
-            log.debug("query data record size {}", total);
-            return ResponseObject.build().success(data, total);
-        }
-        return ResponseObject.build().failed("nothing found");
+        int total = accountService.getTotalCount(parameters.getParameter());
+        return ResponseObject.build().success(data, total);
     }
 
     @ApiOperation(value = "get account role")

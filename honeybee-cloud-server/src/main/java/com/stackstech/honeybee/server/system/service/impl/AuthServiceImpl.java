@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException, DataNotFoundException {
+    public boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException {
         Map<String, Object> map = Maps.newHashMap();
         map.put("account", Optional.ofNullable(account).orElse("default"));
         map.put("password", Optional.ofNullable(oldPassword).orElse("default"));
