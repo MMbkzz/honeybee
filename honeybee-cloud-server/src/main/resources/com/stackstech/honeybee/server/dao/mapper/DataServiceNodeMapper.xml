@@ -99,9 +99,6 @@
       <if test="serviceNodeName != null">
         `service_node_name` = #{serviceNodeName,jdbcType=VARCHAR},
       </if>
-      <if test="serviceNodeCode != null">
-        `service_node_code` = #{serviceNodeCode,jdbcType=VARCHAR},
-      </if>
       <if test="serviceNodeIp != null">
         `service_node_ip` = #{serviceNodeIp,jdbcType=VARCHAR},
       </if>

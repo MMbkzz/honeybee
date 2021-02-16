@@ -31,6 +31,7 @@ public class DataServiceNodeEntity extends AbstractDataEntity<DataServiceNodeEnt
     public DataServiceNodeEntity build(Long ownerId) {
         this.owner = ownerId;
         this.status = EntityStatusType.ENABLE;
+        this.serviceNodeCode = CommonUtil.generateEntityCode();
         this.createtime = new Date();
         this.updatetime = new Date();
         return this;

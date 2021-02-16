@@ -118,9 +118,6 @@
       <if test="tenantName != null">
         `tenant_name` = #{tenantName,jdbcType=VARCHAR},
       </if>
-      <if test="tenantCode != null">
-        `tenant_code` = #{tenantCode,jdbcType=VARCHAR},
-      </if>
       <if test="status != null">
         `status` = #{status,jdbcType=INTEGER},
       </if>

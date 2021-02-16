@@ -96,9 +96,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.api.entity.DataServiceEndpointEntity">
     update hb_data_service_endpoint
     <set>
-      <if test="dataServiceEndpointCode != null">
-        `data_service_endpoint_code` = #{dataServiceEndpointCode,jdbcType=VARCHAR},
-      </if>
       <if test="serviceNodeId != null">
         `service_node_id` = #{serviceNodeId,jdbcType=BIGINT},
       </if>

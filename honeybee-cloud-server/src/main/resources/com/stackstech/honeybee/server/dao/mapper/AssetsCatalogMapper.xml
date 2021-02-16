@@ -154,9 +154,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity">
     update hb_assets_catalog
     <set>
-      <if test="isroot != null">
-        `isroot` = #{isroot,jdbcType=INTEGER},
-      </if>
       <if test="catalogName != null">
         `catalog_name` = #{catalogName,jdbcType=VARCHAR},
       </if>

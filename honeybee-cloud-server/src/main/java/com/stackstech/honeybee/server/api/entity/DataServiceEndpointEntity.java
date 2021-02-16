@@ -31,6 +31,7 @@ public class DataServiceEndpointEntity extends AbstractDataEntity<DataServiceEnd
     public DataServiceEndpointEntity build(Long ownerId) {
         this.owner = ownerId;
         this.status = EntityStatusType.ENABLE;
+        this.dataServiceEndpointCode = CommonUtil.generateEntityCode();
         this.createtime = new Date();
         this.updatetime = new Date();
         return this;
