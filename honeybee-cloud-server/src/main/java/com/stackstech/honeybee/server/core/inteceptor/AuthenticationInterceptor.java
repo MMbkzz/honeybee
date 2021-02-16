@@ -66,11 +66,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return false;
         }
         AccountEntity account = authService.verifyAccount(token);
-        if (account == null) {
-            response.setStatus(StatusCode.UNAUTHORIZED.getHttpCode());
-            response.getWriter().print(StatusCode.UNAUTHORIZED.getMessage());
-            return false;
-        }
         if (status == TokenStatus.EXPIRES) {
             log.debug("The authentication token expires, Reissue the authentication token to the client");
             authTokenBuilder.refreshAuthToken(token, response);
