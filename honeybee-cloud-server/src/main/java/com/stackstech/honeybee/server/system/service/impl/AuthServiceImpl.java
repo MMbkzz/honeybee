@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
         if (entity == null) {
-            throw new DataNotFoundException("login failed, account cannot be found");
+            throw new DataNotFoundException("login failed, please check your account and password");
         }
         String ip = CommonUtil.getRequestIpAddr(request);
         log.info("account login success, account id {}, login at {}", entity.getId(), ip);
@@ -62,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
         if (entity == null) {
-            throw new DataNotFoundException("rest password failed, account cannot be found");
+            throw new DataNotFoundException("rest password failed, please check your account and password");
         }
         AccountEntity update = new AccountEntity();
         update.setId(entity.getId());
@@ -84,14 +84,14 @@ public class AuthServiceImpl implements AuthService {
     public AccountEntity verifyAccount(String token) throws ServerException, AuthenticationException {
         AccountEntity account = authTokenBuilder.getAccount(token);
         if (account == null) {
-            throw new AuthenticationException("authentication failed");
+            throw new AuthenticationException("authentication failed, invalid account");
         }
         Map<String, Object> map = Maps.newHashMap();
         map.put("account", account.getAccountName());
         map.put("password", account.getAccountPassword());
         account = mapper.selectByAccountAndPassowrd(map);
         if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
-            throw new AuthenticationException("authentication failed");
+            throw new AuthenticationException("authentication failed, please login");
         }
         return account;
     }

@@ -1,5 +1,6 @@
 package com.stackstech.honeybee.server.system.service.impl;
 
+import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
@@ -34,12 +35,16 @@ public class AccountServiceImpl implements BaseDataService<AccountEntity> {
 
     @Override
     public AccountEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
-        return mapper.selectByPrimaryKey(recordId);
+        AccountEntity entity = mapper.selectByPrimaryKey(recordId);
+        CommonUtil.isNull(entity, "account not fount");
+        return entity;
     }
 
     @Override
     public List<AccountEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        return mapper.selectByParameter(parameter);
+        List<AccountEntity> entities = mapper.selectByParameter(parameter);
+        CommonUtil.isEmpty(entities);
+        return entities;
     }
 
     @Override

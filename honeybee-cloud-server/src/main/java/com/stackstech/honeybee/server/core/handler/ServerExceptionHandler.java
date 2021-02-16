@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.core.handler;
 import com.google.common.collect.Maps;
 import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
+import com.stackstech.honeybee.server.core.exception.AuthenticationException;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,15 @@ public class ServerExceptionHandler {
         log.warn(e.getMessage());
         return ResponseObject.build().failed(StatusCode.NOT_FOUND, e.getMessage());
     }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = AuthenticationException.class)
+    private ResponseObject onAuthenticationExceptionHandler(AuthenticationException e) {
+        log.warn(e.getMessage());
+        return ResponseObject.build().failed(StatusCode.UNAUTHORIZED, e.getMessage());
+    }
+
 
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
