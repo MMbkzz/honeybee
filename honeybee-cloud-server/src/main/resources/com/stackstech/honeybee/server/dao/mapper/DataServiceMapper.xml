@@ -152,9 +152,6 @@
       <if test="dataServiceName != null">
         `data_service_name` = #{dataServiceName,jdbcType=VARCHAR},
       </if>
-      <if test="dataServiceCode != null">
-        `data_service_code` = #{dataServiceCode,jdbcType=VARCHAR},
-      </if>
       <if test="assetsModelId != null">
         `assets_model_id` = #{assetsModelId,jdbcType=BIGINT},
       </if>
@@ -175,9 +172,6 @@
       </if>
       <if test="updatetime != null">
         `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createtime != null">
-        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
         `desc` = #{desc,jdbcType=VARCHAR},

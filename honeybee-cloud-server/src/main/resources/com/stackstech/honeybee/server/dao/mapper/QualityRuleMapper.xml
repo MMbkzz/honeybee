@@ -145,9 +145,6 @@
       <if test="ruleName != null">
         `rule_name` = #{ruleName,jdbcType=VARCHAR},
       </if>
-      <if test="ruleCode != null">
-        `rule_code` = #{ruleCode,jdbcType=VARCHAR},
-      </if>
       <if test="ruleType != null">
         `rule_type` = #{ruleType,jdbcType=VARCHAR},
       </if>
@@ -165,9 +162,6 @@
       </if>
       <if test="updatetime != null">
         `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createtime != null">
-        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
         `desc` = #{desc,jdbcType=VARCHAR},

@@ -138,9 +138,6 @@
       <if test="datasourceName != null">
         `datasource_name` = #{datasourceName,jdbcType=VARCHAR},
       </if>
-      <if test="datasourceCode != null">
-        `datasource_code` = #{datasourceCode,jdbcType=VARCHAR},
-      </if>
       <if test="datasourceType != null">
         `datasource_type` = #{datasourceType,jdbcType=VARCHAR},
       </if>
@@ -155,9 +152,6 @@
       </if>
       <if test="updatetime != null">
         `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createtime != null">
-        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
         `desc` = #{desc,jdbcType=VARCHAR},

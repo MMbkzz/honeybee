@@ -160,9 +160,6 @@
       <if test="catalogName != null">
         `catalog_name` = #{catalogName,jdbcType=VARCHAR},
       </if>
-      <if test="catalogCode != null">
-        `catalog_code` = #{catalogCode,jdbcType=VARCHAR},
-      </if>
       <if test="catalogParentId != null">
         `catalog_parent_id` = #{catalogParentId,jdbcType=BIGINT},
       </if>
@@ -180,9 +177,6 @@
       </if>
       <if test="updatetime != null">
         `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createtime != null">
-        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
         `desc` = #{desc,jdbcType=VARCHAR},

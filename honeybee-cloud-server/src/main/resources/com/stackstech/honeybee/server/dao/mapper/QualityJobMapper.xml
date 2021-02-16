@@ -132,9 +132,6 @@
       <if test="jobName != null">
         `job_name` = #{jobName,jdbcType=VARCHAR},
       </if>
-      <if test="jobCode != null">
-        `job_code` = #{jobCode,jdbcType=VARCHAR},
-      </if>
       <if test="jobExpression != null">
         `job_expression` = #{jobExpression,jdbcType=VARCHAR},
       </if>
@@ -149,9 +146,6 @@
       </if>
       <if test="updatetime != null">
         `updatetime` = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createtime != null">
-        `createtime` = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="desc != null">
         `desc` = #{desc,jdbcType=VARCHAR},
