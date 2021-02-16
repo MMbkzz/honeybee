@@ -19,6 +19,12 @@ import redis.clients.jedis.util.SafeEncoder;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Abstract cache service
+ *
+ * @author william
+ * @since 1.0
+ */
 @Slf4j
 public abstract class AbstractCacheService {
 
@@ -57,7 +63,7 @@ public abstract class AbstractCacheService {
                 return commands.set(key, id, SetParams.setParams().nx().ex(timeout));
             };
             String result = redisTemplate.execute(callback);
-            flag = Optional.ofNullable(result).orElse(StringUtils.EMPTY).equalsIgnoreCase("OK");
+            flag = "OK".equalsIgnoreCase(Optional.ofNullable(result).orElse(StringUtils.EMPTY));
         } catch (Exception e) {
             log.error("Setting Redis lock error", e);
         }

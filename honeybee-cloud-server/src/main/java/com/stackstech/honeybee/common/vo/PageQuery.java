@@ -11,6 +11,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 @Data
 @ApiModel
 public class PageQuery {
@@ -36,9 +37,6 @@ public class PageQuery {
 
     private String orderField;
 
-//    @AssertFalse(message = "invalid order type, must be `true` or `false`")
-//    @AssertTrue(message = "invalid order type, must be `true` or `false`")
-//    @Null
     private boolean orderType;
 
     private Integer status;

@@ -20,12 +20,12 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
 
     private static final byte[] EMPTY_ARRAY = new byte[0];
 
-    private static final ThreadLocal<Kryo> kryoThreadLocal = ThreadLocal.withInitial(Kryo::new);
+    private static final ThreadLocal<Kryo> KRYO_THREAD_LOCAL = ThreadLocal.withInitial(Kryo::new);
 
     private final Class<T> type;
 
     private Kryo getKryo() {
-        Kryo kryo = kryoThreadLocal.get();
+        Kryo kryo = KRYO_THREAD_LOCAL.get();
         kryo.setReferences(false);
         kryo.register(type);
         return kryo;

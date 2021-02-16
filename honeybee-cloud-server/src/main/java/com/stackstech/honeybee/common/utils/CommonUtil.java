@@ -53,16 +53,11 @@ public final class CommonUtil {
         parserConfig.setAutoTypeSupport(true);
     }
 
-//    /**
-//     * Jackson Json mapper
-//     */
-//    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
-
     private CommonUtil() {
     }
 
     /**
-     * 检查邮件格式
+     * Check the mail format
      *
      * @param email Email
      * @return boolean
@@ -78,7 +73,7 @@ public final class CommonUtil {
     }
 
     /**
-     * 检查手机号码格式
+     * Check the phone number format
      *
      * @param mobileNumber Mobile number
      * @return boolean
@@ -94,7 +89,7 @@ public final class CommonUtil {
     }
 
     /**
-     * 创建新的验证码
+     * Create a new verification code
      *
      * @return String
      */
@@ -103,7 +98,7 @@ public final class CommonUtil {
     }
 
     /**
-     * 创建新的授权码
+     * Create a new authorization code
      *
      * @return String
      */
@@ -113,7 +108,7 @@ public final class CommonUtil {
 
 
     /**
-     * Base64 解码
+     * Base64 decoding
      *
      * @param value Base64 text
      * @return String
@@ -123,7 +118,7 @@ public final class CommonUtil {
     }
 
     /**
-     * Base64 编码
+     * Base64 encoding
      *
      * @param value text
      * @return String
@@ -134,7 +129,7 @@ public final class CommonUtil {
 
 
     /**
-     * 获取格式化的请求信息
+     * Get formatted request information
      *
      * @param request HTTP Request
      * @return String
@@ -160,7 +155,7 @@ public final class CommonUtil {
     }
 
     /**
-     * 解析请求客户端IP
+     * Resolve request client IP
      *
      * @param request HTTP Request
      * @return String
@@ -179,7 +174,7 @@ public final class CommonUtil {
     }
 
     /**
-     * 获取格式化的异常堆栈信息
+     * Get formatted exception stack information
      *
      * @param throwable Throwable
      * @return String
@@ -194,45 +189,8 @@ public final class CommonUtil {
         return stringWriter.toString();
     }
 
-//    /**
-//     * JSON转对象
-//     *
-//     * @param json             JSON string
-//     * @param parametrized     Object class type
-//     * @param parameterClasses Parameter class type
-//     * @param <T>              Object class type
-//     * @return if error return null else return Object
-//     */
-//    public static <T> T jsonToObject(String json, Class<?> parametrized, Class<?>... parameterClasses) {
-//        try {
-//            JavaType valueType = JSON_MAPPER.getTypeFactory().constructParametricType(parametrized, parameterClasses);
-//            return JSON_MAPPER.readValue(json, valueType);
-//        } catch (IOException e) {
-//            log.error("", e);
-//        }
-//        return null;
-//    }
-
-//    /**
-//     * JSON转对象
-//     *
-//     * @param json      JSON string
-//     * @param valueType Object class type
-//     * @param <T>       Object class type
-//     * @return if error return null else return Object
-//     */
-//    public static <T> T jsonToObject(String json, Class<T> valueType) {
-//        try {
-//            return JSON_MAPPER.readValue(json, valueType);
-//        } catch (IOException e) {
-//            log.error("", e);
-//        }
-//        return null;
-//    }
-
-
     /**
-     * 输出异常堆栈信息到文件
+     * Output exception stack information to file
      *
      * @param filePath  File path
      * @param throwable Throwable
@@ -245,24 +203,8 @@ public final class CommonUtil {
         }
     }
 
-//    /**
-//     * 对象转JSON
-//     *
-//     * @param obj Object
-//     * @return String
-//     */
-//    public static String toJsonString(Object obj) {
-//        try {
-//            return JSON_MAPPER.writeValueAsString(obj);
-//        } catch (JsonProcessingException e) {
-//            log.error("", e);
-//        }
-//        return null;
-//    }
-
-
     /**
-     * 获取格式化的当前时间
+     * Get the formatted current time
      *
      * @return String
      */
@@ -271,7 +213,7 @@ public final class CommonUtil {
     }
 
     /**
-     * 获取格式化的当前时间
+     * Get the formatted current time
      *
      * @param pattern DateTime format
      * @return String
@@ -281,7 +223,7 @@ public final class CommonUtil {
     }
 
     /**
-     * 校验签名
+     * Verify signature
      *
      * @param signature Signature
      * @param timestamp Timestamp
