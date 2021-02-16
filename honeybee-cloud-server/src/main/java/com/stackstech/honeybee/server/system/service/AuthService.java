@@ -46,11 +46,12 @@ public interface AuthService {
      * @param account     account name
      * @param oldPassword account old password
      * @param newPassword account new password
+     * @param owner       owner
      * @return boolean
      * @throws ServerException
      * @throws DataNotFoundException
      */
-    boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException;
+    boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword, AccountEntity owner) throws ServerException;
 
     /**
      * verify request account

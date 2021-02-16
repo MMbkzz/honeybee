@@ -2,6 +2,7 @@ package com.stackstech.honeybee.server.system.controller;
 
 import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
+import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,11 +61,12 @@ public class AuthController {
     @ApiOperation(value = "reset account password")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/resetpwd", method = RequestMethod.POST)
-    public ResponseObject resetPassword(@Validated @RequestBody RestPasswordVo vo) {
+    public ResponseObject resetPassword(@Validated @RequestBody RestPasswordVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         boolean flag = authService.resetPassword(request, response,
                 vo.getAccount(),
                 vo.getOldPassword(),
-                vo.getNewPassword());
+                vo.getNewPassword(),
+                account);
         if (flag) {
             return ResponseObject.build().success("rest password success");
         }

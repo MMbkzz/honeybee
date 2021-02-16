@@ -37,9 +37,8 @@ public class AuthServiceImpl implements AuthService {
         map.put("password", Optional.ofNullable(password).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        if (entity == null) {
-            throw new DataNotFoundException("login failed, please check your account and password");
-        }
+        CommonUtil.isNull(entity, "login failed, please check your account and password");
+
         String ip = CommonUtil.getRequestIpAddr(request);
         log.info("account login success, account id {}, login at {}", entity.getId(), ip);
         // generate auth token
@@ -55,14 +54,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException {
+    public boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword, AccountEntity owner) throws ServerException {
         Map<String, Object> map = Maps.newHashMap();
         map.put("account", Optional.ofNullable(account).orElse("default"));
         map.put("password", Optional.ofNullable(oldPassword).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        if (entity == null) {
-            throw new DataNotFoundException("rest password failed, please check your account and password");
+        CommonUtil.isNull(entity, "rest password failed, please check your account and password");
+        //TODO config account role
+        boolean self = owner.getId().equals(entity.getId());
+        if (!self && owner.getAccountRole() != 1) {
+            throw new ServerException("account authority is not enough to modify the password");
         }
         AccountEntity update = new AccountEntity();
         update.setId(entity.getId());
@@ -72,9 +74,11 @@ public class AuthServiceImpl implements AuthService {
         // update account password
         if (mapper.updateByPrimaryKeySelective(update) > 0) {
             // reissue auth token
-            String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
-            authTokenBuilder.refreshAuthToken(currentToken, update, response);
-            log.info("account rest password success, reissue the authentication token to the client");
+            if (self) {
+                String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
+                authTokenBuilder.refreshAuthToken(currentToken, update, response);
+                log.info("account rest password success, reissue the authentication token to the client");
+            }
             return true;
         }
         return false;
