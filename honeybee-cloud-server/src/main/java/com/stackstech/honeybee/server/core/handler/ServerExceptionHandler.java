@@ -13,11 +13,16 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Server exception handler
+ *
+ * @author william
+ * @since 1.0
+ */
 @Slf4j
 @ControllerAdvice(annotations = RestController.class)
 public class ServerExceptionHandler {
@@ -25,7 +30,7 @@ public class ServerExceptionHandler {
     @ResponseBody
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    private ResponseObject onDefaultExceptionHandler(HttpServletRequest request, Exception e) {
+    private ResponseObject onDefaultExceptionHandler(Exception e) {
         log.error("server error", e);
         return ResponseObject.build().failed(StatusCode.INTERNAL_ERROR, e.getMessage());
     }
@@ -33,7 +38,7 @@ public class ServerExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = ServerException.class)
-    private ResponseObject onServerExceptionHandler(HttpServletRequest request, ServerException e) {
+    private ResponseObject onServerExceptionHandler(ServerException e) {
         log.error(e.getMessage());
         return ResponseObject.build().failed(e.getMessage());
     }
@@ -41,7 +46,7 @@ public class ServerExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = DataNotFoundException.class)
-    private ResponseObject onDataNotFoundExceptionHandler(HttpServletRequest request, DataNotFoundException e) {
+    private ResponseObject onDataNotFoundExceptionHandler(DataNotFoundException e) {
         log.warn(e.getMessage());
         return ResponseObject.build().failed(StatusCode.NOT_FOUND, e.getMessage());
     }
@@ -49,7 +54,7 @@ public class ServerExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    private ResponseObject onMethodArgumentNotValidExceptionHandler(HttpServletRequest request, MethodArgumentNotValidException e) {
+    private ResponseObject onMethodArgNotValidExceptionHandler(MethodArgumentNotValidException e) {
         log.warn(e.getMessage());
         BindingResult bindingResult = e.getBindingResult();
 
