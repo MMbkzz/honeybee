@@ -14,7 +14,7 @@ public class SystemCacheHelper extends AbstractCacheService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    public long addBlacklist(String tokenId) {
+    public Long addBlacklist(String tokenId) {
         Long length = redisTemplate.opsForSet().add(CacheKey.TOKEN_BLACKLIST.name(), tokenId);
         if (redisTemplate.getExpire(CacheKey.TOKEN_BLACKLIST.name()) == -1) {
             redisTemplate.expireAt(CacheKey.TOKEN_BLACKLIST.name(), DateTime.now().plusDays(1).toDate());
@@ -22,7 +22,7 @@ public class SystemCacheHelper extends AbstractCacheService {
         return length;
     }
 
-    public boolean hasBlacklist(String tokenId) {
+    public Boolean hasBlacklist(String tokenId) {
         return redisTemplate.opsForSet().isMember(CacheKey.TOKEN_BLACKLIST.name(), tokenId);
     }
 }
