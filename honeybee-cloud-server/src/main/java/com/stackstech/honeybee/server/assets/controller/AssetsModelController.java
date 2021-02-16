@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.assets.controller;
 
-import com.stackstech.honeybee.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.assets.vo.AssetsModelQuery;
 import com.stackstech.honeybee.server.assets.vo.AssetsModelVo;
@@ -19,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -38,62 +37,62 @@ public class AssetsModelController {
 
     @ApiOperation(value = "get data assets model")
     @RequestMapping(value = "/data/assets/model/get/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> getModel(@PathVariable("id") long id) {
-        return ResponseMap.success(assetsModelService.getSingle(id));
+    public ResponseObject getModel(@PathVariable("id") long id) {
+        return ResponseObject.build().success(assetsModelService.getSingle(id));
     }
 
     @ApiOperation(value = "get data assets model meta")
     @RequestMapping(value = "/data/assets/model/meta/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> getModelMeta(@PathVariable("id") long id) {
+    public ResponseObject getModelMeta(@PathVariable("id") long id) {
         AssetsModelEntity model = assetsModelService.getSingle(id);
         if (model == null) {
-            return ResponseMap.failed("assets model not found");
+            return ResponseObject.build().failed("assets model not found");
         }
-        return ResponseMap.success(model.getDatasourceMeta());
+        return ResponseObject.build().success(model.getDatasourceMeta());
 
     }
 
     @ApiOperation(value = "delete data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/model/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteModel(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(assetsModelService.delete(id, account.getId()));
+    public ResponseObject deleteModel(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseObject.build().success(assetsModelService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/model/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateModel(@Validated @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseObject updateModel(@Validated @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AssetsModelEntity entity = new AssetsModelEntity().update(account.getId()).copy(vo);
 
         if (!assetsModelService.update(entity)) {
-            return ResponseMap.failed("update data service failed.");
+            return ResponseObject.build().failed("update data service failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "add data assets model")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/model/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addModel(@Validated @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseObject addModel(@Validated @RequestBody AssetsModelVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         AssetsModelEntity entity = new AssetsModelEntity().build(account.getId()).copy(vo);
 
         if (!assetsModelService.add(entity)) {
-            return ResponseMap.failed("insert data service failed.");
+            return ResponseObject.build().failed("insert data service failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "query data assets model")
     @RequestMapping(value = "/data/assets/model/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryModel(@Validated @RequestBody AssetsModelQuery parameters) {
+    public ResponseObject queryModel(@Validated @RequestBody AssetsModelQuery parameters) {
         List<AssetsModelEntity> data = assetsModelService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsModelService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
-            return ResponseMap.setTotal(data, total);
+            return ResponseObject.build().success(data, total);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
 }

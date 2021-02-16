@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.system.controller;
 
-import com.stackstech.honeybee.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
@@ -43,38 +43,31 @@ public class AuthController {
     @ApiOperation(value = "account login")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.LOGIN)
     @RequestMapping(value = "/security/login", method = RequestMethod.POST)
-    public ResponseMap<?> login(@Validated @RequestBody AccountLoginVo vo) {
-        ResponseMap responseMap = ResponseMap.failed("login failed, please check your account and password");
-
-        AccountEntity entity = authService.login(request, response,
-                vo.getAccount(), vo.getPassword());
-        if (entity != null) {
-            responseMap = ResponseMap.success(entity);
-        }
-        return responseMap;
+    public ResponseObject login(@Validated @RequestBody AccountLoginVo vo) {
+        AccountEntity entity = authService.login(request, response, vo.getAccount(), vo.getPassword());
+        return ResponseObject.build().success(entity);
     }
 
     @ApiOperation(value = "account logout")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.LOGOUT)
     @RequestMapping(value = "/security/logout", method = RequestMethod.GET)
-    public ResponseMap<?> logout() {
+    public ResponseObject logout() {
         authService.logout(request, response);
-        return ResponseMap.success("logout success");
+        return ResponseObject.build().success("logout success");
     }
 
     @ApiOperation(value = "reset account password")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/resetpwd", method = RequestMethod.POST)
-    public ResponseMap<?> resetPassword(@Validated @RequestBody RestPasswordVo vo) {
-
+    public ResponseObject resetPassword(@Validated @RequestBody RestPasswordVo vo) {
         boolean flag = authService.resetPassword(request, response,
                 vo.getAccount(),
                 vo.getOldPassword(),
                 vo.getNewPassword());
         if (flag) {
-            return ResponseMap.success("rest password success");
+            return ResponseObject.build().success("rest password success");
         }
-        return ResponseMap.failed("rest password failed");
+        return ResponseObject.build().failed("rest password failed");
     }
 
 }

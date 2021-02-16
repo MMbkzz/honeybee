@@ -1,5 +1,7 @@
 package com.stackstech.honeybee.server.core.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * 服务接口响应状态码
  *
@@ -42,6 +44,7 @@ public enum StatusCode {
      */
     BAD_REQUEST(5003, 400, "Bad Request");
 
+    @JsonValue
     private final int status;
     private final int httpCode;
     private final String message;

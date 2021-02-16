@@ -1,5 +1,8 @@
 package com.stackstech.honeybee.server.core.service;
 
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +21,7 @@ public interface BaseDataService<E> {
      * @param entity Data entity
      * @return boolean
      */
-    boolean add(E entity);
+    boolean add(E entity) throws ServerException, DataNotFoundException;
 
     /**
      * Update data record
@@ -26,7 +29,7 @@ public interface BaseDataService<E> {
      * @param entity Data entity
      * @return boolean
      */
-    boolean update(E entity);
+    boolean update(E entity) throws ServerException, DataNotFoundException;
 
     /**
      * Delete data record
@@ -35,7 +38,7 @@ public interface BaseDataService<E> {
      * @param ownerId  Owner ID
      * @return boolean
      */
-    boolean delete(Long recordId, Long ownerId);
+    boolean delete(Long recordId, Long ownerId) throws ServerException, DataNotFoundException;
 
     /**
      * Get a single data record
@@ -43,7 +46,7 @@ public interface BaseDataService<E> {
      * @param recordId Data record ID
      * @return Data result
      */
-    E getSingle(Long recordId);
+    E getSingle(Long recordId) throws ServerException, DataNotFoundException;
 
 
     /**
@@ -52,7 +55,7 @@ public interface BaseDataService<E> {
      * @param parameter Query parameters
      * @return List of data result
      */
-    List<E> get(Map<String, Object> parameter);
+    List<E> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException;
 
     /**
      * Get the number of multiple data records
@@ -60,5 +63,5 @@ public interface BaseDataService<E> {
      * @param parameter Query parameters
      * @return Integer
      */
-    Integer getTotalCount(Map<String, Object> parameter);
+    Integer getTotalCount(Map<String, Object> parameter) throws ServerException;
 }

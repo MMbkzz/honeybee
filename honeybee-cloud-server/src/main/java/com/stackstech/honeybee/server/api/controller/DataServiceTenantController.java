@@ -1,7 +1,7 @@
 package com.stackstech.honeybee.server.api.controller;
 
 import com.stackstech.honeybee.common.entity.JsonParameterList;
-import com.stackstech.honeybee.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.api.entity.DataServiceAuthorityEntity;
 import com.stackstech.honeybee.server.api.entity.DataServiceTenantEntity;
@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Api(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@ApiResponses(@ApiResponse(code = 404, message = "data not found", response = ResponseMap.class))
+@ApiResponses(@ApiResponse(code = 404, message = "data not found", response = ResponseObject.class))
 @RestController
 @RequestMapping(value = Constant.API_ENDPOINT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DataServiceTenantController {
@@ -46,92 +46,92 @@ public class DataServiceTenantController {
 
     @ApiOperation(value = "get data tenant")
     @RequestMapping(value = "/security/tenant/get/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> get(@PathVariable("id") long id) {
-        return ResponseMap.success(tenantService.getSingle(id));
+    public ResponseObject get(@PathVariable("id") long id) {
+        return ResponseObject.build().success(tenantService.getSingle(id));
     }
 
     @ApiOperation(value = "delete data tenant")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/tenant/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> delete(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(tenantService.delete(id, account.getId()));
+    public ResponseObject delete(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseObject.build().success(tenantService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update data tenant")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/security/tenant/update", method = RequestMethod.PUT)
-    public ResponseMap<?> update(@Validated({UpdateGroup.class}) @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseObject update(@Validated({UpdateGroup.class}) @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceTenantEntity entity = new DataServiceTenantEntity().update(account.getId()).copy(vo);
 
         if (!tenantService.update(entity)) {
-            return ResponseMap.failed("update tenant failed.");
+            return ResponseObject.build().failed("update tenant failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "add data tenant")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/security/tenant/add", method = RequestMethod.PUT)
-    public ResponseMap<?> add(@Validated({AddGroup.class}) @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseObject add(@Validated({AddGroup.class}) @RequestBody DataServiceTenantVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceTenantEntity entity = new DataServiceTenantEntity().build(account.getId()).copy(vo);
 
         if (!tenantService.add(entity)) {
-            return ResponseMap.failed("insert tenant failed.");
+            return ResponseObject.build().failed("insert tenant failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "query data tenant")
     @RequestMapping(value = "/security/tenant/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@Validated @RequestBody PageQuery parameters) {
+    public ResponseObject query(@Validated @RequestBody PageQuery parameters) {
         List<DataServiceTenantEntity> data = tenantService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = tenantService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
-            return ResponseMap.setTotal(data, total);
+            return ResponseObject.build().success(data, total);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
     @ApiOperation(value = "get data authority")
     @RequestMapping(value = "/security/tenant/authority/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> authority(@PathVariable("id") long id) {
+    public ResponseObject authority(@PathVariable("id") long id) {
         List<DataServiceAuthorityEntity> data = tenantService.getAuthorityList(id);
         if (data != null && data.size() > 0) {
             log.debug("query data record size {}", data.size());
-            return ResponseMap.success(data);
+            return ResponseObject.build().success(data);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
     @ApiOperation(value = "query data authority meta")
     @RequestMapping(value = "/security/tenant/authority/meta", method = RequestMethod.POST)
-    public ResponseMap<?> getAuthorityMeta(@Validated @RequestBody DataAuthorityVo vo) {
+    public ResponseObject getAuthorityMeta(@Validated @RequestBody DataAuthorityVo vo) {
         JsonParameterList metas = tenantService.getDataAuthorityMeta(vo.getId(), vo.getDataServiceId());
-        return ResponseMap.success(metas);
+        return ResponseObject.build().success(metas);
     }
 
     @ApiOperation(value = "update data authority meta")
     @RequestMapping(value = "/security/tenant/authority/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateAuthorityMeta(@Validated @RequestBody UpdateDataAuthorityMetaVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(tenantService.updateDataAuthorityMeta(vo.getId(), vo.getDataAuthorityMeta(), account.getId()));
+    public ResponseObject updateAuthorityMeta(@Validated @RequestBody UpdateDataAuthorityMetaVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseObject.build().success(tenantService.updateDataAuthorityMeta(vo.getId(), vo.getDataAuthorityMeta(), account.getId()));
     }
 
     @ApiOperation(value = "delete data authority")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/security/tenant/authority/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteAuthority(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(tenantService.deleteDataAuthority(id, account.getId()));
+    public ResponseObject deleteAuthority(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseObject.build().success(tenantService.deleteDataAuthority(id, account.getId()));
     }
 
     @ApiOperation(value = "add data authority")
     @RequestMapping(value = "/security/tenant/authority/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addAuthorityMeta(@Validated @RequestBody DataAuthorityVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseObject addAuthorityMeta(@Validated @RequestBody DataAuthorityVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataServiceAuthorityEntity entity = tenantService.addDataAuthority(vo.getId(), vo.getDataServiceId(), account.getId());
         if (entity != null) {
-            return ResponseMap.success(entity);
+            return ResponseObject.build().success(entity);
         }
-        return ResponseMap.failed("add data authority failed");
+        return ResponseObject.build().failed("add data authority failed");
     }
 
 

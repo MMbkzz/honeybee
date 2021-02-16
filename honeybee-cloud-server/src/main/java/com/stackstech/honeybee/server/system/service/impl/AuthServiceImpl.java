@@ -5,6 +5,9 @@ import com.stackstech.honeybee.common.utils.AuthTokenBuilder;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
+import com.stackstech.honeybee.server.core.exception.AuthenticationException;
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
 import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.service.AuthService;
@@ -28,66 +31,69 @@ public class AuthServiceImpl implements AuthService {
     private AuthTokenBuilder authTokenBuilder;
 
     @Override
-    public AccountEntity login(HttpServletRequest request, HttpServletResponse response, String account, String password) {
+    public AccountEntity login(HttpServletRequest request, HttpServletResponse response, String account, String password) throws ServerException, DataNotFoundException {
         Map<String, Object> map = Maps.newHashMap();
         map.put("account", Optional.ofNullable(account).orElse("default"));
         map.put("password", Optional.ofNullable(password).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        if (entity != null) {
-            String ip = CommonUtil.getRequestIpAddr(request);
-            log.info("account login success, account id {}, login at {}", entity.getId(), ip);
-            // generate auth token
-            String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
-            authTokenBuilder.refreshAuthToken(currentToken, entity, response);
+        if (entity == null) {
+            throw new DataNotFoundException("login failed, account cannot be found");
         }
+        String ip = CommonUtil.getRequestIpAddr(request);
+        log.info("account login success, account id {}, login at {}", entity.getId(), ip);
+        // generate auth token
+        String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
+        authTokenBuilder.refreshAuthToken(currentToken, entity, response);
         return entity;
     }
 
     @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServerException {
         authTokenBuilder.destroyToken(request.getHeader(HttpHeader.AUTHORIZATION));
         log.info("account logout success");
     }
 
     @Override
-    public boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) {
+    public boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException, DataNotFoundException {
         Map<String, Object> map = Maps.newHashMap();
         map.put("account", Optional.ofNullable(account).orElse("default"));
         map.put("password", Optional.ofNullable(oldPassword).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        if (entity != null) {
-            AccountEntity update = new AccountEntity();
-            update.setId(entity.getId());
-            update.setAccountName(account);
-            update.setAccountPassword(newPassword);
-            update.setUpdatetime(new Date());
-            // update account password
-            if (mapper.updateByPrimaryKeySelective(update) > 0) {
-                // reissue auth token
-                String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
-                authTokenBuilder.refreshAuthToken(currentToken, update, response);
-                log.info("account rest password success, reissue the authentication token to the client");
-
-                return true;
-            }
+        if (entity == null) {
+            throw new DataNotFoundException("rest password failed, account cannot be found");
+        }
+        AccountEntity update = new AccountEntity();
+        update.setId(entity.getId());
+        update.setAccountName(account);
+        update.setAccountPassword(newPassword);
+        update.setUpdatetime(new Date());
+        // update account password
+        if (mapper.updateByPrimaryKeySelective(update) > 0) {
+            // reissue auth token
+            String currentToken = Optional.ofNullable(request.getHeader(HttpHeader.AUTHORIZATION)).orElse(null);
+            authTokenBuilder.refreshAuthToken(currentToken, update, response);
+            log.info("account rest password success, reissue the authentication token to the client");
+            return true;
         }
         return false;
     }
 
     @Override
-    public AccountEntity verifyAccount(String token) {
+    public AccountEntity verifyAccount(String token) throws ServerException, AuthenticationException {
         AccountEntity account = authTokenBuilder.getAccount(token);
-        if (account != null) {
-            Map<String, Object> map = Maps.newHashMap();
-            map.put("account", account.getAccountName());
-            map.put("password", account.getAccountPassword());
-            account = mapper.selectByAccountAndPassowrd(map);
-            if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
-                return null;
-            }
+        if (account == null) {
+            throw new AuthenticationException("authentication failed");
+        }
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("account", account.getAccountName());
+        map.put("password", account.getAccountPassword());
+        account = mapper.selectByAccountAndPassowrd(map);
+        if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
+            throw new AuthenticationException("authentication failed");
         }
         return account;
     }
+
 }

@@ -11,6 +11,7 @@ import com.stackstech.honeybee.common.cache.SystemCacheHelper;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
+import com.stackstech.honeybee.server.core.exception.ServerException;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -123,17 +124,17 @@ public class AuthTokenBuilder {
         return TokenStatus.VALID;
     }
 
-    public void destroyToken(String token) {
+    public void destroyToken(String token) throws ServerException {
         try {
             DecodedJWT jwt = decodeToken(token);
             // record token id to blacklist
             systemCacheHelper.addBlacklist(jwt.getId());
         } catch (Exception e) {
-            log.error("", e);
+            throw new ServerException("destroy auth token error", e);
         }
     }
 
-    public void refreshAuthToken(String currentToken, HttpServletResponse response) {
+    public void refreshAuthToken(String currentToken, HttpServletResponse response) throws ServerException {
         try {
             // decode current token
             DecodedJWT jwt = decodeToken(currentToken);
@@ -144,11 +145,11 @@ public class AuthTokenBuilder {
             // generate new token
             this.refreshAuthToken(currentToken, account, response);
         } catch (Exception e) {
-            log.error("", e);
+            throw new ServerException("refresh auth token error", e);
         }
     }
 
-    public void refreshAuthToken(String currentToken, AccountEntity account, HttpServletResponse response) {
+    public void refreshAuthToken(String currentToken, AccountEntity account, HttpServletResponse response) throws ServerException {
         String token = this.generateToken(account);
         this.refreshResponseHeader(token, response);
         if (StringUtils.isNotEmpty(currentToken)) {
@@ -156,8 +157,8 @@ public class AuthTokenBuilder {
         }
     }
 
-    public AccountEntity getAccount(String token) {
-        AccountEntity account = null;
+    public AccountEntity getAccount(String token) throws ServerException {
+        AccountEntity account;
         try {
             // decode token
             DecodedJWT jwt = decodeToken(token);
@@ -166,7 +167,7 @@ public class AuthTokenBuilder {
             account.setAccountName(jwt.getClaim(AccountEntity.ACCOUNT_NAME).asString());
             account.setAccountPassword(jwt.getClaim(AccountEntity.ACCOUNT_PWD).asString());
         } catch (Exception e) {
-            log.error("", e);
+            throw new ServerException("parse auth token error", e);
         }
         return account;
     }

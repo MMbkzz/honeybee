@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.audit.controller;
 
-import com.stackstech.honeybee.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.audit.vo.AuditLogQuery;
 import com.stackstech.honeybee.server.core.enums.Constant;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -33,22 +32,22 @@ public class AuditController {
 
     @ApiOperation(value = "get audit log")
     @RequestMapping(value = "/audit/get/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> get(@PathVariable("id") long id) {
-        return ResponseMap.success(service.getSingle(id));
+    public ResponseObject get(@PathVariable("id") long id) {
+        return ResponseObject.build().success(service.getSingle(id));
     }
 
     @ApiOperation(value = "query audit log")
     @RequestMapping(value = "/audit/{auditType}/query", method = RequestMethod.POST)
-    public ResponseMap<?> query(@PathVariable("auditType") String auditType, @Validated @RequestBody AuditLogQuery parameters) {
+    public ResponseObject query(@PathVariable("auditType") String auditType, @Validated @RequestBody AuditLogQuery parameters) {
         Map<String, Object> params = parameters.getParameter();
         params.put("auditType", auditType);
         List<AuditLogEntity> data = service.get(params);
         if (data != null && data.size() > 0) {
             int total = service.getTotalCount(params);
             log.debug("query data record size {}", total);
-            return ResponseMap.setTotal(data, total);
+            return ResponseObject.build().success(data, total);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
 }

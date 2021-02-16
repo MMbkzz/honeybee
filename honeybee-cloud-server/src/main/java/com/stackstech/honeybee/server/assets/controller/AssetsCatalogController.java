@@ -1,6 +1,6 @@
 package com.stackstech.honeybee.server.assets.controller;
 
-import com.stackstech.honeybee.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.common.vo.PageQuery;
 import com.stackstech.honeybee.server.assets.entity.AssetsCatalogElement;
 import com.stackstech.honeybee.server.assets.entity.AssetsCatalogEntity;
@@ -42,86 +42,85 @@ public class AssetsCatalogController {
 
     @ApiOperation(value = "get data assets catalog")
     @RequestMapping(value = "/data/assets/catalog/get/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> getCatalog(@PathVariable("id") long id) {
-        return ResponseMap.success(assetsCatalogService.getAssetsCatalog(id));
+    public ResponseObject getCatalog(@PathVariable("id") long id) {
+        return ResponseObject.build().success(assetsCatalogService.getAssetsCatalog(id));
     }
 
     @ApiOperation(value = "delete data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/catalog/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteCatalog(@PathVariable("id") long id,
+    public ResponseObject deleteCatalog(@PathVariable("id") long id,
                                         @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(assetsCatalogService.deleteAssetsCatalog(id, account.getId()));
+        return ResponseObject.build().success(assetsCatalogService.deleteAssetsCatalog(id, account.getId()));
     }
 
     @ApiOperation(value = "update data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/data/assets/catalog/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateCatalog(@Validated({UpdateGroup.class})  @RequestBody AssetsCatalogVo vo,
+    public ResponseObject updateCatalog(@Validated({UpdateGroup.class}) @RequestBody AssetsCatalogVo vo,
                                         @ApiIgnore @RequestAccount AccountEntity account) {
         if (!assetsCatalogService.updateAssetsCatalog(vo, account.getId())) {
-            return ResponseMap.failed("update data assets catalog failed.");
+            return ResponseObject.build().failed("update data assets catalog failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "add data assets catalog")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/data/assets/catalog/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addCatalog(@Validated({AddGroup.class})  @RequestBody AssetsCatalogVo vo,
+    public ResponseObject addCatalog(@Validated({AddGroup.class}) @RequestBody AssetsCatalogVo vo,
                                      @ApiIgnore @RequestAccount AccountEntity account) {
         if (!assetsCatalogService.addAssetsCatalog(vo, account.getId())) {
-            return ResponseMap.failed("insert data assets catalog failed.");
+            return ResponseObject.build().failed("insert data assets catalog failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "query data assets catalog")
     @RequestMapping(value = "/data/assets/catalog/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryCatalog(@Validated @RequestBody AssetsCatalogQuery parameters) {
+    public ResponseObject queryCatalog(@Validated @RequestBody AssetsCatalogQuery parameters) {
         List<AssetsCatalogEntity> data = assetsCatalogService.getAssetsCatalogs(parameters.getParameter());
         if (data != null && data.size() > 0) {
             log.debug("query data record size {}", data.size());
-            return ResponseMap.setTotal(data, data.size());
+            return ResponseObject.build().success(data, data.size());
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
     @ApiOperation(value = "query data assets catalog list")
     @RequestMapping(value = "/data/assets/catalog/list", method = RequestMethod.GET)
-    public ResponseMap<?> queryCatalogList() {
+    public ResponseObject queryCatalogList() {
         List<AssetsCatalogElement> data = assetsCatalogService.getAssetsCatalogList();
         if (data != null && data.size() > 0) {
             log.debug("query data record size {}", data.size());
-            return ResponseMap.success(data);
+            return ResponseObject.build().success(data);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
     @ApiOperation(value = "get recycler data")
     @RequestMapping(value = "/data/assets/recycler/get/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> getRecycler(@PathVariable("id") long id) {
-        return ResponseMap.success(assetsCatalogService.getDataRecycler(id));
+    public ResponseObject getRecycler(@PathVariable("id") long id) {
+        return ResponseObject.build().success(assetsCatalogService.getDataRecycler(id));
     }
 
     @ApiOperation(value = "delete recycler data")
     @AuditOperation(type = AuditOperationType.ASSETS, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/data/assets/recycler/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteRecycler(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(assetsCatalogService.deleteDataRecycler(id, account.getId()));
+    public ResponseObject deleteRecycler(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseObject.build().success(assetsCatalogService.deleteDataRecycler(id, account.getId()));
     }
 
     @ApiOperation(value = "query recycler data")
     @RequestMapping(value = "/data/assets/recycler/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryRecycler(@Validated @RequestBody PageQuery parameters) {
+    public ResponseObject queryRecycler(@Validated @RequestBody PageQuery parameters) {
         List<DataRecyclerEntity> data = assetsCatalogService.getDataRecyclers(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = assetsCatalogService.getDataRecyclerCount(parameters.getParameter());
             log.debug("query data record size {}", total);
-            return ResponseMap.setTotal(data, total);
+            return ResponseObject.build().success(data, total);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
-
 
 }

@@ -2,7 +2,7 @@ package com.stackstech.honeybee.server.system.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.stackstech.honeybee.common.entity.ResponseMap;
+import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.server.core.annotation.*;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
@@ -54,71 +54,71 @@ public class SystemController {
 
     @ApiOperation(value = "get data source db config")
     @RequestMapping(value = "/system/datasource/conf/{dataSourceType}", method = RequestMethod.GET)
-    public ResponseMap<?> getDataSourceConfig(@PathVariable("dataSourceType") String dataSourceType) {
+    public ResponseObject getDataSourceConfig(@PathVariable("dataSourceType") String dataSourceType) {
         DataSourceType type;
         try {
             type = DataSourceType.valueOf(dataSourceType.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return ResponseMap.failed("invalid data source type");
+            return ResponseObject.build().failed("invalid data source type");
         }
-        return ResponseMap.success(dataSourceService.getDataSourceConfig(type));
+        return ResponseObject.build().success(dataSourceService.getDataSourceConfig(type));
     }
 
     @ApiOperation(value = "get data source")
     @RequestMapping(value = "/system/datasource/get/{id}", method = RequestMethod.GET)
-    public ResponseMap<?> getDataSource(@PathVariable("id") long id) {
-        return ResponseMap.success(dataSourceService.getSingle(id));
+    public ResponseObject getDataSource(@PathVariable("id") long id) {
+        return ResponseObject.build().success(dataSourceService.getSingle(id));
     }
 
     @ApiOperation(value = "delete data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/system/datasource/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteDataSource(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(dataSourceService.delete(id, account.getId()));
+    public ResponseObject deleteDataSource(@PathVariable("id") long id, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseObject.build().success(dataSourceService.delete(id, account.getId()));
     }
 
     @ApiOperation(value = "update data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/datasource/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateDataSource(@Validated({UpdateGroup.class}) @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseObject updateDataSource(@Validated({UpdateGroup.class}) @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().update(account.getId()).copy(vo);
 
         if (!dataSourceService.update(entity)) {
-            return ResponseMap.failed("update data source failed.");
+            return ResponseObject.build().failed("update data source failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "add data source")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/system/datasource/add", method = RequestMethod.PUT)
-    public ResponseMap<?> addDataSource(@Validated({AddGroup.class}) @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
+    public ResponseObject addDataSource(@Validated({AddGroup.class}) @RequestBody DataSourceVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         DataSourceEntity entity = new DataSourceEntity().build(account.getId()).copy(vo);
         if (vo.getDatasourceParameters() == null) {
-            return ResponseMap.failed("data source parameter cannot be null");
+            return ResponseObject.build().failed("data source parameter cannot be null");
         }
         if (!dataSourceService.add(entity)) {
-            return ResponseMap.failed("insert data source failed.");
+            return ResponseObject.build().failed("insert data source failed.");
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "query data source")
     @RequestMapping(value = "/system/datasource/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryDataSource(@Validated @RequestBody DataSourceQuery parameters) {
+    public ResponseObject queryDataSource(@Validated @RequestBody DataSourceQuery parameters) {
         List<DataSourceEntity> data = dataSourceService.get(parameters.getParameter());
         if (data != null && data.size() > 0) {
             int total = dataSourceService.getTotalCount(parameters.getParameter());
             log.debug("query data record size {}", total);
-            return ResponseMap.setTotal(data, total);
+            return ResponseObject.build().success(data, total);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
     @Deprecated
     @ApiOperation(value = "testing api for data cache")
     @RequestMapping(value = "/system/datacache/add", method = RequestMethod.GET)
-    public ResponseMap<?> test() {
+    public ResponseObject test() {
         List<String> result = Lists.newArrayList();
         result.add(RandomStringUtils.randomAlphanumeric(22));
 
@@ -130,64 +130,64 @@ public class SystemController {
             entity.setUpdatetime(new Date());
             dataCacheService.addDataCache(entity);
         }
-        return ResponseMap.success(true);
+        return ResponseObject.build().success(true);
     }
 
     @ApiOperation(value = "get data cache")
     @RequestMapping(value = "/system/datacache/get/{uuid}", method = RequestMethod.GET)
-    public ResponseMap<?> getDataCache(@PathVariable("uuid") String uuid) {
-        return ResponseMap.success(dataCacheService.getDataCache(uuid));
+    public ResponseObject getDataCache(@PathVariable("uuid") String uuid) {
+        return ResponseObject.build().success(dataCacheService.getDataCache(uuid));
     }
 
     @ApiOperation(value = "delete data cache")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.DELETE)
     @RequestMapping(value = "/system/datacache/delete/{uuid}", method = RequestMethod.DELETE)
-    public ResponseMap<?> deleteDataCache(@PathVariable("uuid") String uuid, @ApiIgnore @RequestAccount AccountEntity account) {
-        return ResponseMap.success(dataCacheService.delete(uuid));
+    public ResponseObject deleteDataCache(@PathVariable("uuid") String uuid, @ApiIgnore @RequestAccount AccountEntity account) {
+        return ResponseObject.build().success(dataCacheService.delete(uuid));
     }
 
     @ApiOperation(value = "query data cache")
     @RequestMapping(value = "/system/datacache/query", method = RequestMethod.POST)
-    public ResponseMap<?> queryDataCache(@Validated @RequestBody DataCacheQuery parameters) {
+    public ResponseObject queryDataCache(@Validated @RequestBody DataCacheQuery parameters) {
         List<DataCacheEntity> data = dataCacheService.get(parameters.getKeywords(), parameters.getPageStart(), parameters.getPageSize());
         if (data != null && data.size() > 0) {
             int total = dataCacheService.getTotalCount(parameters.getKeywords());
             log.debug("query data record size {}", total);
-            return ResponseMap.setTotal(data, total);
+            return ResponseObject.build().success(data, total);
         }
-        return ResponseMap.failed("nothing found");
+        return ResponseObject.build().failed("nothing found");
     }
 
     @ApiOperation(value = "get system config")
     @RequestMapping(value = "/system/config/get", method = RequestMethod.GET)
-    public ResponseMap<?> getConfig() {
+    public ResponseObject getConfig() {
         String configValue = service.getSysConfig();
         if (StringUtils.isNotEmpty(configValue)) {
             Map<String, String> map = Maps.newHashMap();
             map.put(SysConfigMap.APP_HONEYBEE_SERVER_CONFIG, configValue);
-            return ResponseMap.success(map);
+            return ResponseObject.build().success(map);
         }
-        return ResponseMap.failed("config value is empty.");
+        return ResponseObject.build().failed("config value is empty.");
     }
 
     @ApiOperation(value = "update system config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
-    public ResponseMap<?> updateConfig(@NotBlank(message = "config cannot be null") @RequestBody String config) {
+    public ResponseObject updateConfig(@NotBlank(message = "config cannot be null") @RequestBody String config) {
         if (StringUtils.isNotEmpty(config)) {
             //TODO check config yaml code style
             boolean flag = service.updateSysConfig(config);
             if (flag) {
                 //TODO flush nacos global config
-                return ResponseMap.success(flag);
+                return ResponseObject.build().success(flag);
             }
         }
-        return ResponseMap.failed("update system config failed.");
+        return ResponseObject.build().failed("update system config failed.");
     }
 
     @ApiOperation(value = "get system license")
     @PostMapping(value = "/system/license/get")
-    public ResponseMap<?> getLicense() {
+    public ResponseObject getLicense() {
         //TODO
         return null;
     }
@@ -195,7 +195,7 @@ public class SystemController {
     @ApiOperation(value = "update system license")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @PostMapping(value = "/system/license/update")
-    public ResponseMap<?> updateLicense(@NotBlank(message = "license cannot be null") @RequestBody String license) {
+    public ResponseObject updateLicense(@NotBlank(message = "license cannot be null") @RequestBody String license) {
         //TODO
         return null;
     }
@@ -203,7 +203,7 @@ public class SystemController {
     @ApiAuthIgnore
     @ApiOperation(value = "get global dict mapping")
     @RequestMapping(value = "/system/dict/get", method = RequestMethod.GET)
-    public ResponseMap<?> getDict() {
+    public ResponseObject getDict() {
         Map<String, List<EnumTypeMapping>> result = Maps.newConcurrentMap();
 
         List<EnumTypeMapping> assetsEnumTypeMappings = Lists.newArrayList();
@@ -219,13 +219,15 @@ public class SystemController {
         result.put("DATA_SOURCE_TYPE", dbEnumTypeMappings);
 
         List<EnumTypeMapping> statusEnumTypeMappings = Lists.newArrayList();
-        statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.DELETE));
         statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.ENABLE));
         statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.DISABLE));
         result.put("STATUS", statusEnumTypeMappings);
 
         List<EnumTypeMapping> serviceStatusEnumTypeMappings = Lists.newArrayList();
-        Arrays.stream(EntityStatusType.values()).forEach(e -> serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(e)));
+        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.ENABLE));
+        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.DISABLE));
+        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.ONLINE));
+        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.OFFLINE));
         result.put("SERVICE_STATUS", serviceStatusEnumTypeMappings);
 
         List<EnumTypeMapping> messageEnumTypeMappings = Lists.newArrayList();
@@ -236,7 +238,7 @@ public class SystemController {
         Arrays.stream(QualityRuleType.values()).forEach(e -> ruleEnumTypeMappings.add(new EnumTypeMapping().build(e)));
         result.put("QUALITY_RULE_TYPE", ruleEnumTypeMappings);
 
-        return ResponseMap.success(result);
+        return ResponseObject.build().success(result);
     }
 
 }

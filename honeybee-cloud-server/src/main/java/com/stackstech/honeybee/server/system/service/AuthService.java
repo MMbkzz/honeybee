@@ -1,5 +1,8 @@
 package com.stackstech.honeybee.server.system.service;
 
+import com.stackstech.honeybee.server.core.exception.AuthenticationException;
+import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,16 +24,19 @@ public interface AuthService {
      * @param account  account name
      * @param password account password
      * @return AccountEntity
+     * @throws ServerException
+     * @throws DataNotFoundException
      */
-    AccountEntity login(HttpServletRequest request, HttpServletResponse response, String account, String password);
+    AccountEntity login(HttpServletRequest request, HttpServletResponse response, String account, String password) throws ServerException, DataNotFoundException;
 
     /**
      * Account logout
      *
      * @param request  HttpServlet request
      * @param response HttpServlet response
+     * @throws ServerException
      */
-    void logout(HttpServletRequest request, HttpServletResponse response);
+    void logout(HttpServletRequest request, HttpServletResponse response) throws ServerException;
 
     /**
      * Rest account password
@@ -41,15 +47,19 @@ public interface AuthService {
      * @param oldPassword account old password
      * @param newPassword account new password
      * @return boolean
+     * @throws ServerException
+     * @throws DataNotFoundException
      */
-    boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword);
+    boolean resetPassword(HttpServletRequest request, HttpServletResponse response, String account, String oldPassword, String newPassword) throws ServerException, DataNotFoundException;
 
     /**
      * verify request account
      *
      * @param token Authentication token
      * @return AccountEntity
+     * @throws ServerException
+     * @throws AuthenticationException
      */
-    AccountEntity verifyAccount(String token);
+    AccountEntity verifyAccount(String token) throws ServerException, AuthenticationException;
 
 }
