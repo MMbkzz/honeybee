@@ -62,7 +62,7 @@ public class AssetsModelController {
         AssetsModelEntity entity = new AssetsModelEntity().update(account.getId()).copy(vo);
 
         if (!assetsModelService.update(entity)) {
-            return ResponseObject.build().failed("update data service failed.");
+            return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -74,7 +74,7 @@ public class AssetsModelController {
         AssetsModelEntity entity = new AssetsModelEntity().build(account.getId()).copy(vo);
 
         if (!assetsModelService.add(entity)) {
-            return ResponseObject.build().failed("insert data service failed.");
+            return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);
     }

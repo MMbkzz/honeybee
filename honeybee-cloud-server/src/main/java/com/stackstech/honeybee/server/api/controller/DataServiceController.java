@@ -59,7 +59,7 @@ public class DataServiceController {
         DataServiceEntity entity = new DataServiceEntity().update(account.getId()).copy(vo);
 
         if (!service.update(entity)) {
-            return ResponseObject.build().failed("update data service failed.");
+            return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -71,7 +71,7 @@ public class DataServiceController {
         DataServiceEntity entity = new DataServiceEntity().build(account.getId()).copy(vo);
 
         if (!service.add(entity)) {
-            return ResponseObject.build().failed("insert data service failed.");
+            return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);
     }

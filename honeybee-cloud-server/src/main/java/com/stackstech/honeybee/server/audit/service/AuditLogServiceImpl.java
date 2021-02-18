@@ -5,6 +5,7 @@ import com.stackstech.honeybee.server.audit.dao.AuditLogMapper;
 import com.stackstech.honeybee.server.audit.entity.AuditLogEntity;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class AuditLogServiceImpl implements BaseDataService<AuditLogEntity> {
     @Override
     public AuditLogEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         AuditLogEntity entity = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, "audit log not found");
+        CommonUtil.isNull(entity, MessageHandler.of().message("data.not.found"));
         return entity;
     }
 

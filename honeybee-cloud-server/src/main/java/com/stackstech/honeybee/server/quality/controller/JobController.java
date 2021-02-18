@@ -58,7 +58,7 @@ public class JobController {
         QualityJobEntity entity = new QualityJobEntity().update(account.getId()).copy(vo);
 
         if (!service.update(entity)) {
-            return ResponseObject.build().failed("update data quality job failed.");
+            return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -70,7 +70,7 @@ public class JobController {
         QualityJobEntity entity = new QualityJobEntity().build(account.getId()).copy(vo);
 
         if (!service.add(entity)) {
-            return ResponseObject.build().failed("insert data quality job failed.");
+            return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);
     }

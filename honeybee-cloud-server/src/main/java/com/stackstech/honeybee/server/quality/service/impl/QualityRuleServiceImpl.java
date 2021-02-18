@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.quality.dao.QualityRuleMapper;
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
@@ -85,7 +86,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     @Override
     public QualityRuleEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         QualityRuleEntity rule = ruleMapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(rule, "quality rule not found");
+        CommonUtil.isNull(rule, MessageHandler.of().message("data.not.found"));
         QualityJobEntity job = jobMapper.selectByPrimaryKey(rule.getJobId());
         Map<String, Object> maps = Maps.newLinkedHashMap();
         maps.put("jobName", job.getJobName());

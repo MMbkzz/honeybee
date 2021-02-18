@@ -64,7 +64,7 @@ public class DataServiceTenantController {
         DataServiceTenantEntity entity = new DataServiceTenantEntity().update(account.getId()).copy(vo);
 
         if (!tenantService.update(entity)) {
-            return ResponseObject.build().failed("update tenant failed.");
+            return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -76,7 +76,7 @@ public class DataServiceTenantController {
         DataServiceTenantEntity entity = new DataServiceTenantEntity().build(account.getId()).copy(vo);
 
         if (!tenantService.add(entity)) {
-            return ResponseObject.build().failed("insert tenant failed.");
+            return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);
     }

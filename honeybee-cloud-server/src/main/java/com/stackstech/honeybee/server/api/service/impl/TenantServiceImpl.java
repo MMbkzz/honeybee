@@ -16,6 +16,7 @@ import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,9 @@ public class TenantServiceImpl implements TenantService {
         JsonParameterList parameterList = new JsonParameterList();
 
         DataServiceEntity service = serviceMapper.selectByPrimaryKey(dataServiceId);
-        CommonUtil.isNull(service, "data service not found");
+        CommonUtil.isNull(service, MessageHandler.of().message("data.not.found"));
         AssetsModelEntity model = modelMapper.selectByPrimaryKey(service.getAssetsModelId());
-        CommonUtil.isNull(model, "assets model not found");
+        CommonUtil.isNull(model, MessageHandler.of().message("data.not.found"));
         JsonParameterList datasourceMetas = model.getDatasourceMeta();
         for (Object meta : datasourceMetas) {
             DataSourceMeta dsm = (DataSourceMeta) meta;
@@ -121,7 +122,7 @@ public class TenantServiceImpl implements TenantService {
         entity.setAuthorityData(getDataSourceMeta(dataServiceId));
 
         if (authorityMapper.insertSelective(entity) == 0) {
-            throw new ServerException("add data failed");
+            throw new ServerException(MessageHandler.of().message("data.insert.failed"));
         }
         return entity;
     }

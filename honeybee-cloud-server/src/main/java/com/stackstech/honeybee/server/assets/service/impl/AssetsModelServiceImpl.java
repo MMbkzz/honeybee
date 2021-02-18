@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class AssetsModelServiceImpl implements BaseDataService<AssetsModelEntity
     @Override
     public AssetsModelEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         AssetsModelEntity entity = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, "assets model not found");
+        CommonUtil.isNull(entity, MessageHandler.of().message("data.not.found"));
         return entity;
     }
 

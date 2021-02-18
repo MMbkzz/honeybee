@@ -12,6 +12,7 @@ import com.stackstech.honeybee.server.assets.dao.AssetsModelMapper;
 import com.stackstech.honeybee.server.assets.entity.AssetsModelEntity;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -64,9 +65,9 @@ public class DataServiceImpl implements DataService {
     @Override
     public DataServiceEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         DataServiceEntity service = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(service, "data service not found");
+        CommonUtil.isNull(service, MessageHandler.of().message("data.not.found"));
         AssetsModelEntity model = modelMapper.selectByPrimaryKey(service.getAssetsModelId());
-        CommonUtil.isNull(model, "assets model not found");
+        CommonUtil.isNull(model, MessageHandler.of().message("data.not.found"));
         service.setAssetsCatalogDomain(model.getAssetsCatalogDomain());
         service.setAssetsCatalogDomainName(model.getAssetsCatalogDomainName());
         service.setAssetsCatalogTopic(model.getAssetsCatalogTopic());

@@ -15,6 +15,7 @@ import com.stackstech.honeybee.server.assets.vo.AssetsCatalogVo;
 import com.stackstech.honeybee.server.core.enums.types.AssetsCatalogType;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,7 @@ public class AssetsCatalogServiceImpl implements AssetsCatalogService {
     @Override
     public AssetsCatalogEntity getAssetsCatalog(Long recordId) throws ServerException, DataNotFoundException {
         AssetsCatalogEntity entity = catalogMapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, "assets catalog not found");
+        CommonUtil.isNull(entity, MessageHandler.of().message("data.not.found"));
         return entity;
     }
 
@@ -127,7 +128,7 @@ public class AssetsCatalogServiceImpl implements AssetsCatalogService {
     @Override
     public DataRecyclerEntity getDataRecycler(Long recordId) throws ServerException, DataNotFoundException {
         DataRecyclerEntity entity = dataRecyclerMapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, "recycler not found");
+        CommonUtil.isNull(entity, MessageHandler.of().message("data.not.found"));
         return entity;
     }
 

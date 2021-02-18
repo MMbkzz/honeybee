@@ -55,7 +55,7 @@ public class QualityRuleController {
     @RequestMapping(value = "/quality/rule/update", method = RequestMethod.PUT)
     public ResponseObject updateQualityRule(@Validated({UpdateGroup.class}) @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         if (!service.update(vo, account.getId())) {
-            return ResponseObject.build().failed("update data quality rule failed.");
+            return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -65,7 +65,7 @@ public class QualityRuleController {
     @RequestMapping(value = "/quality/rule/add", method = RequestMethod.PUT)
     public ResponseObject addQualityRule(@Validated({AddGroup.class}) @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
         if (!service.add(vo, account.getId())) {
-            return ResponseObject.build().failed("insert data quality rule failed.");
+            return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);
     }

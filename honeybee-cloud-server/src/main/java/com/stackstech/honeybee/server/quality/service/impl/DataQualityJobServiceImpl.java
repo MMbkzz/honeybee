@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.quality.service.impl;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.quality.dao.QualityJobMapper;
 import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
@@ -36,7 +37,7 @@ public class DataQualityJobServiceImpl implements BaseDataService<QualityJobEnti
     @Override
     public QualityJobEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         QualityJobEntity entity = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, "quality job not found");
+        CommonUtil.isNull(entity, MessageHandler.of().message("data.not.found"));
         return entity;
     }
 

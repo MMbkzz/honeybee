@@ -60,7 +60,7 @@ public class AssetsCatalogController {
     public ResponseObject updateCatalog(@Validated({UpdateGroup.class}) @RequestBody AssetsCatalogVo vo,
                                         @ApiIgnore @RequestAccount AccountEntity account) {
         if (!assetsCatalogService.updateAssetsCatalog(vo, account.getId())) {
-            return ResponseObject.build().failed("update data assets catalog failed.");
+            return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -71,7 +71,7 @@ public class AssetsCatalogController {
     public ResponseObject addCatalog(@Validated({AddGroup.class}) @RequestBody AssetsCatalogVo vo,
                                      @ApiIgnore @RequestAccount AccountEntity account) {
         if (!assetsCatalogService.addAssetsCatalog(vo, account.getId())) {
-            return ResponseObject.build().failed("insert data assets catalog failed.");
+            return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);
     }
