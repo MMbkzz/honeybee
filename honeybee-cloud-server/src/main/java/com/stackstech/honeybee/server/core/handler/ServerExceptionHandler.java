@@ -37,7 +37,7 @@ public class ServerExceptionHandler {
     }
 
     @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = ServerException.class)
     private ResponseObject onServerExceptionHandler(ServerException e) {
         log.error(e.getMessage());
@@ -45,15 +45,15 @@ public class ServerExceptionHandler {
     }
 
     @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = DataNotFoundException.class)
     private ResponseObject onDataNotFoundExceptionHandler(DataNotFoundException e) {
         log.warn(e.getMessage());
-        return ResponseObject.build().failed(StatusCode.NOT_FOUND, e.getMessage());
+        return ResponseObject.build().failed(e.getMessage());
     }
 
     @ResponseBody
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = AuthenticationException.class)
     private ResponseObject onAuthenticationExceptionHandler(AuthenticationException e) {
         log.warn(e.getMessage());
@@ -62,7 +62,7 @@ public class ServerExceptionHandler {
 
 
     @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     private ResponseObject onMethodArgNotValidExceptionHandler(MethodArgumentNotValidException e) {
         log.warn(e.getMessage());

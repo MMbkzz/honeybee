@@ -320,11 +320,11 @@ public final class CommonUtil {
         return JSON.parseObject(json, clazz, parserConfig);
     }
 
-    public static void isEmpty(@Nullable Collection<?> collection) throws DataNotFoundException {
-        if (collection == null || collection.isEmpty()) {
-            throw new DataNotFoundException("Data is empty");
-        }
-    }
+//    public static void isEmpty(@Nullable Collection<?> collection) throws DataNotFoundException {
+//        if (collection == null || collection.isEmpty()) {
+//            throw new DataNotFoundException("Data is empty");
+//        }
+//    }
 
     public static void isNull(@Nullable Object object, String message) throws DataNotFoundException {
         if (object == null) {

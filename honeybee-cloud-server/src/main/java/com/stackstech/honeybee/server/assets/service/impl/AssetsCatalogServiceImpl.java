@@ -81,9 +81,7 @@ public class AssetsCatalogServiceImpl implements AssetsCatalogService {
 
     @Override
     public List<AssetsCatalogEntity> getAssetsCatalogs(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<AssetsCatalogEntity> entities = catalogMapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return catalogMapper.selectByParameter(parameter);
     }
 
     @Override
@@ -135,9 +133,7 @@ public class AssetsCatalogServiceImpl implements AssetsCatalogService {
 
     @Override
     public List<DataRecyclerEntity> getDataRecyclers(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<DataRecyclerEntity> entities = dataRecyclerMapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return dataRecyclerMapper.selectByParameter(parameter);
     }
 
     @Override

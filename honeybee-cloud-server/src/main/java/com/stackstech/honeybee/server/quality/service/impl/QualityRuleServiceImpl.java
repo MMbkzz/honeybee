@@ -99,9 +99,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
 
     @Override
     public List<QualityRuleEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<QualityRuleEntity> entities = ruleMapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return ruleMapper.selectByParameter(parameter);
     }
 
     @Override

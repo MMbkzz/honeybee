@@ -42,9 +42,7 @@ public class AccountServiceImpl implements BaseDataService<AccountEntity> {
 
     @Override
     public List<AccountEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<AccountEntity> entities = mapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return mapper.selectByParameter(parameter);
     }
 
     @Override

@@ -42,9 +42,7 @@ public class AuditLogServiceImpl implements BaseDataService<AuditLogEntity> {
 
     @Override
     public List<AuditLogEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<AuditLogEntity> entities = mapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return mapper.selectByParameter(parameter);
     }
 
     @Override

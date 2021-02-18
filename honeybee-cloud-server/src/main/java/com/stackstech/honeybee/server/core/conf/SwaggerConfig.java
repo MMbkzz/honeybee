@@ -2,11 +2,11 @@ package com.stackstech.honeybee.server.core.conf;
 
 import com.google.common.collect.Lists;
 import com.stackstech.honeybee.server.core.enums.Constant;
-import com.stackstech.honeybee.server.core.enums.StatusCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -30,12 +30,9 @@ public class SwaggerConfig {
     @Bean
     public Docket createSwaggerDocket() {
         List<Response> responseMessageList = Lists.newArrayList();
-        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.SUCCESS.getHttpCode())).description(StatusCode.SUCCESS.getMessage()).build());
-        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.NOT_FOUND.getHttpCode())).description(StatusCode.NOT_FOUND.getMessage()).build());
-        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.UNAUTHORIZED.getHttpCode())).description(StatusCode.UNAUTHORIZED.getMessage()).build());
-        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.INTERNAL_ERROR.getHttpCode())).description(StatusCode.INTERNAL_ERROR.getMessage()).build());
-        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.FORBIDDEN.getHttpCode())).description(StatusCode.FORBIDDEN.getMessage()).build());
-        responseMessageList.add(new ResponseBuilder().code(String.valueOf(StatusCode.BAD_REQUEST.getHttpCode())).description(StatusCode.BAD_REQUEST.getMessage()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(HttpStatus.OK.value())).description(HttpStatus.OK.getReasonPhrase()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value())).description(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()).build());
+        responseMessageList.add(new ResponseBuilder().code(String.valueOf(HttpStatus.FORBIDDEN.value())).description(HttpStatus.FORBIDDEN.getReasonPhrase()).build());
 
         return new Docket(DocumentationType.OAS_30)
                 .globalResponses(HttpMethod.GET, responseMessageList)

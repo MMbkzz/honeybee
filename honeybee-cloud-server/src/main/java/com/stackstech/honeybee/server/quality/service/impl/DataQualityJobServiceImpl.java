@@ -42,9 +42,7 @@ public class DataQualityJobServiceImpl implements BaseDataService<QualityJobEnti
 
     @Override
     public List<QualityJobEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<QualityJobEntity> entities = mapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return mapper.selectByParameter(parameter);
     }
 
     @Override

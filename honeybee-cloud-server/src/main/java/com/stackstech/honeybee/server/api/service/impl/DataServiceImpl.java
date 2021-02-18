@@ -14,6 +14,7 @@ import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -76,9 +77,7 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public List<DataServiceEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<DataServiceEntity> entities = mapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return mapper.selectByParameter(parameter);
     }
 
     @Override
@@ -89,10 +88,11 @@ public class DataServiceImpl implements DataService {
     @Override
     public List<DataServiceElement> getDataServiceList() throws ServerException, DataNotFoundException {
         List<DataServiceEntity> entities = mapper.selectByParameter(null);
-        CommonUtil.isEmpty(entities);
         List<DataServiceElement> elements = Lists.newArrayList();
-        for (DataServiceEntity entity : entities) {
-            elements.add(new DataServiceElement(entity.getId(), entity.getDataServiceName()));
+        if (!CollectionUtils.isEmpty(entities)) {
+            for (DataServiceEntity entity : entities) {
+                elements.add(new DataServiceElement(entity.getId(), entity.getDataServiceName()));
+            }
         }
         return elements;
     }

@@ -71,9 +71,7 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     public List<DataServiceTenantEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<DataServiceTenantEntity> entities = tenantMapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return tenantMapper.selectByParameter(parameter);
     }
 
     @Override
@@ -85,10 +83,7 @@ public class TenantServiceImpl implements TenantService {
     public List<DataServiceAuthorityEntity> getAuthorityList(Long tenantId) throws ServerException, DataNotFoundException {
         Map<String, Object> map = Maps.newHashMap();
         map.put("tenantId", tenantId);
-
-        List<DataServiceAuthorityEntity> entities = authorityMapper.selectByParameter(map);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return authorityMapper.selectByParameter(map);
     }
 
     @Override

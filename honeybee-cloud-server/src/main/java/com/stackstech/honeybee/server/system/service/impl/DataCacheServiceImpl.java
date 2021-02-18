@@ -1,7 +1,6 @@
 package com.stackstech.honeybee.server.system.service.impl;
 
 import com.stackstech.honeybee.common.cache.DataCacheHelper;
-import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
 import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
@@ -41,7 +40,6 @@ public class DataCacheServiceImpl implements DataCacheService {
         } else {
             entities = dataCacheHelper.get(pageStart, pageSize);
         }
-        CommonUtil.isEmpty(entities);
         return entities;
     }
 

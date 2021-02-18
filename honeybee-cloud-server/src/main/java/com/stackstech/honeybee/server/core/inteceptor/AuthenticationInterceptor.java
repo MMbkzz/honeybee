@@ -3,7 +3,6 @@ package com.stackstech.honeybee.server.core.inteceptor;
 import com.stackstech.honeybee.common.utils.AuthTokenBuilder;
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
-import com.stackstech.honeybee.server.core.enums.StatusCode;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.service.AuthService;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,17 +33,17 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HandlerMethod handlerMethod = null;
+        HandlerMethod handlerMethod;
         try {
             if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
-                response.setStatus(StatusCode.SUCCESS.getHttpCode());
+                response.setStatus(HttpStatus.OK.value());
                 return true;
             }
             handlerMethod = (HandlerMethod) handler;
         } catch (Exception e) {
             log.error("request method not exist, return 404.", e);
-            response.setStatus(StatusCode.NOT_FOUND.getHttpCode());
-            response.getWriter().print(StatusCode.NOT_FOUND.getMessage());
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            response.getWriter().print(HttpStatus.NOT_FOUND.getReasonPhrase());
             return false;
         }
         Method method = handlerMethod.getMethod();
@@ -55,14 +55,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         // verify the token exists
         String token = request.getHeader(HttpHeader.AUTHORIZATION);
         if (StringUtils.isEmpty(token)) {
-            response.setStatus(StatusCode.UNAUTHORIZED.getHttpCode());
-            response.getWriter().print(StatusCode.UNAUTHORIZED.getMessage());
+            response.setStatus(HttpStatus.OK.value());
+            response.getWriter().print(HttpStatus.OK.getReasonPhrase());
             return false;
         }
         TokenStatus status = authTokenBuilder.verifyToken(token);
         if (status == TokenStatus.INVALID) {
-            response.setStatus(StatusCode.UNAUTHORIZED.getHttpCode());
-            response.getWriter().print(StatusCode.UNAUTHORIZED.getMessage());
+            response.setStatus(HttpStatus.OK.value());
+            response.getWriter().print(HttpStatus.OK.getReasonPhrase());
             return false;
         }
         AccountEntity account = authService.verifyAccount(token);

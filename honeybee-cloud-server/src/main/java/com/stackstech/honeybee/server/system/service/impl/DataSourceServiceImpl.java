@@ -70,9 +70,7 @@ public class DataSourceServiceImpl implements DataSourceService {
 
     @Override
     public List<DataSourceEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<DataSourceEntity> entities = mapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return mapper.selectByParameter(parameter);
     }
 
     @Override

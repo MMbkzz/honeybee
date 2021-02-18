@@ -61,9 +61,7 @@ public class AssetsModelServiceImpl implements BaseDataService<AssetsModelEntity
 
     @Override
     public List<AssetsModelEntity> get(Map<String, Object> parameter) throws ServerException, DataNotFoundException {
-        List<AssetsModelEntity> entities = mapper.selectByParameter(parameter);
-        CommonUtil.isEmpty(entities);
-        return entities;
+        return mapper.selectByParameter(parameter);
     }
 
     @Override
