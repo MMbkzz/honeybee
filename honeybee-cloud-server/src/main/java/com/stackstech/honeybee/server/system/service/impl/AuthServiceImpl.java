@@ -8,6 +8,7 @@ import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import com.stackstech.honeybee.server.core.exception.AuthenticationException;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.service.AuthService;
@@ -37,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
         map.put(AccountEntity.ACCOUNT_PWD, Optional.ofNullable(password).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        CommonUtil.isNull(entity, "login failed, please check your account and password");
+        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.AUTH_LOGIN_FAILED));
 
         String ip = CommonUtil.getRequestIpAddr(request);
         log.info("account login success, account id {}, login at {}", entity.getId(), ip);
@@ -60,11 +61,11 @@ public class AuthServiceImpl implements AuthService {
         map.put(AccountEntity.ACCOUNT_PWD, Optional.ofNullable(oldPassword).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        CommonUtil.isNull(entity, "rest password failed, please check your account and password");
+        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.AUTH_RESET_INFO_FAILED));
         //TODO config account role
         boolean self = owner.getId().equals(entity.getId());
         if (!self && owner.getAccountRole() != 1) {
-            throw new ServerException("account authority is not enough to modify the password");
+            throw new ServerException(MessageHandler.of().message(MessageHandler.AUTH_RESET_AUTHORITY_FAILED));
         }
         AccountEntity update = new AccountEntity();
         update.setId(entity.getId());
@@ -88,7 +89,7 @@ public class AuthServiceImpl implements AuthService {
     public AccountEntity verifyAccount(String token) throws ServerException, AuthenticationException {
         AccountEntity account = authTokenBuilder.getAccount(token);
         if (account == null) {
-            throw new AuthenticationException("authentication failed, invalid account");
+            throw new AuthenticationException(MessageHandler.of().message(MessageHandler.AUTH_TOKEN_ACCOUNT_INVALID));
         }
 
         Map<String, Object> map = Maps.newHashMap();
@@ -96,7 +97,7 @@ public class AuthServiceImpl implements AuthService {
         map.put(AccountEntity.ACCOUNT_PWD, account.getAccountPassword());
         account = mapper.selectByAccountAndPassowrd(map);
         if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
-            throw new AuthenticationException("authentication failed, please login");
+            throw new AuthenticationException(MessageHandler.of().message(MessageHandler.AUTH_TOKEN_ACCOUNT_FAILED));
         }
         return account;
     }

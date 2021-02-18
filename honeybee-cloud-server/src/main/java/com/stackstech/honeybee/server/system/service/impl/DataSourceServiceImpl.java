@@ -8,6 +8,7 @@ import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.system.dao.DataSourceMapper;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
 import com.stackstech.honeybee.server.system.service.DataSourceService;
@@ -64,7 +65,7 @@ public class DataSourceServiceImpl implements DataSourceService {
     @Override
     public DataSourceEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         DataSourceEntity entity = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, "data source not found");
+        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.DATASOURCE_NOT_FOUND));
         return entity;
     }
 

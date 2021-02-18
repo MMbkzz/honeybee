@@ -9,6 +9,7 @@ import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.annotation.UpdateGroup;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.vo.AccountVo;
@@ -57,7 +58,7 @@ public class AccountController {
         AccountEntity entity = new AccountEntity().update(account.getId()).copy(vo);
 
         if (!accountService.update(entity)) {
-            return ResponseObject.build().failed("update account failed.");
+            return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.ACCOUNT_UPDATE_FAILED));
         }
         return ResponseObject.build().success(true);
     }
@@ -69,7 +70,7 @@ public class AccountController {
         AccountEntity entity = new AccountEntity().build(account.getId()).copy(vo);
 
         if (!accountService.add(entity)) {
-            return ResponseObject.build().failed("insert account failed.");
+            return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.ACCOUNT_INSERT_FAILED));
         }
         return ResponseObject.build().success(true);
     }

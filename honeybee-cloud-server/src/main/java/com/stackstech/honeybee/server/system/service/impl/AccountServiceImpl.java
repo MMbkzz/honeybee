@@ -3,6 +3,7 @@ package com.stackstech.honeybee.server.system.service.impl;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
 import com.stackstech.honeybee.server.system.dao.AccountMapper;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
@@ -36,7 +37,7 @@ public class AccountServiceImpl implements BaseDataService<AccountEntity> {
     @Override
     public AccountEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         AccountEntity entity = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, "account not fount");
+        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.ACCOUNT_NOT_FOUND));
         return entity;
     }
 

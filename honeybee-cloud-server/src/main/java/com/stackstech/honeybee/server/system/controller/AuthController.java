@@ -5,6 +5,7 @@ import com.stackstech.honeybee.server.core.annotation.AuditOperation;
 import com.stackstech.honeybee.server.core.annotation.RequestAccount;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.service.AuthService;
 import com.stackstech.honeybee.server.system.vo.AccountLoginVo;
@@ -55,7 +56,7 @@ public class AuthController {
     @RequestMapping(value = "/security/logout", method = RequestMethod.GET)
     public ResponseObject logout() {
         authService.logout(request, response);
-        return ResponseObject.build().success("logout success");
+        return ResponseObject.build().success(MessageHandler.of().message(MessageHandler.ACCOUNT_LOGOUT_SUCCESS));
     }
 
     @ApiOperation(value = "reset account password")
@@ -68,9 +69,9 @@ public class AuthController {
                 vo.getNewPassword(),
                 account);
         if (flag) {
-            return ResponseObject.build().success("rest password success");
+            return ResponseObject.build().success(MessageHandler.of().message(MessageHandler.ACCOUNT_RESET_SUCCESS));
         }
-        return ResponseObject.build().failed("rest password failed");
+        return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.ACCOUNT_RESET_FAILED));
     }
 
 }
