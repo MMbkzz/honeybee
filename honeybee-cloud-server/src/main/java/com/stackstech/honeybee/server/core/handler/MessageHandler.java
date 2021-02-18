@@ -5,6 +5,7 @@
  */
 package com.stackstech.honeybee.server.core.handler;
 
+import lombok.Data;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.nio.charset.StandardCharsets;
@@ -16,6 +17,7 @@ import java.util.Locale;
  * @author William
  * @since 1.0
  */
+@Data
 public final class MessageHandler {
 
     public static final String AUTH_LOGIN_FAILED = "auth.login.failed";

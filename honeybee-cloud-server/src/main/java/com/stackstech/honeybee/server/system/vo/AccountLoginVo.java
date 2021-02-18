@@ -7,10 +7,10 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class AccountLoginVo {
 
-    @NotBlank(message = "{account.login.username}")
+    @NotBlank(message = "{account.login.username.valid}")
     private String account;
 
-    @NotBlank(message = "password cannot be null")
+    @NotBlank(message = "{account.login.password.valid}")
     private String password;
 
 }
