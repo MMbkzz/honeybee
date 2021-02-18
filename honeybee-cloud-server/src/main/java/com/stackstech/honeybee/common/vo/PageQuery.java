@@ -11,7 +11,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Map;
 
-@SuppressWarnings("ALL")
 @Data
 @ApiModel
 public class PageQuery {
@@ -24,12 +23,12 @@ public class PageQuery {
     public static final String ORDER_TYPE = "orderType";
     public static final String STATUS = "status";
 
-    @Max(value = 10000, message = "invalid page index, max value is 10000")
+    @Max(value = 10000, message = "{query.pagestart.valid}")
     @ApiModelProperty(required = true)
     private Integer pageStart;
 
-    @Min(value = 1, message = "invalid page limit size, min value is 1")
-    @Max(value = 100, message = "invalid page limit size, max value is 100")
+    @Min(value = 1, message = "{query.pagesize.min.valid}")
+    @Max(value = 100, message = "{query.pagesize.max.valid}")
     @ApiModelProperty(required = true)
     private Integer pageSize;
 
