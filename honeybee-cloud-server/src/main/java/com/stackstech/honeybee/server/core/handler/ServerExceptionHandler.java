@@ -7,6 +7,7 @@ import com.stackstech.honeybee.server.core.exception.AuthenticationException;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -32,8 +34,9 @@ public class ServerExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     private ResponseObject onDefaultExceptionHandler(Exception e) {
-        log.error("server error", e);
-        return ResponseObject.build().failed(StatusCode.INTERNAL_ERROR, MessageHandler.of().message("server.internal.error"));
+        String code = UUID.randomUUID().toString().toLowerCase();
+        log.error(StringUtils.join("Error code [", code, "]: "), e);
+        return ResponseObject.build().failed(StatusCode.INTERNAL_ERROR, MessageHandler.of().message("server.internal.error", new Object[]{code}));
     }
 
     @ResponseBody
