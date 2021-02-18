@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
         map.put(AccountEntity.ACCOUNT_PWD, Optional.ofNullable(password).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.AUTH_LOGIN_FAILED));
+        CommonUtil.isNull(entity, MessageHandler.of().message("auth.login.failed"));
 
         String ip = CommonUtil.getRequestIpAddr(request);
         log.info("account login success, account id {}, login at {}", entity.getId(), ip);
@@ -61,11 +61,11 @@ public class AuthServiceImpl implements AuthService {
         map.put(AccountEntity.ACCOUNT_PWD, Optional.ofNullable(oldPassword).orElse("default"));
 
         AccountEntity entity = mapper.selectByAccountAndPassowrd(map);
-        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.AUTH_RESET_INFO_FAILED));
+        CommonUtil.isNull(entity, MessageHandler.of().message("auth.reset.info.failed"));
         //TODO config account role
         boolean self = owner.getId().equals(entity.getId());
         if (!self && owner.getAccountRole() != 1) {
-            throw new ServerException(MessageHandler.of().message(MessageHandler.AUTH_RESET_AUTHORITY_FAILED));
+            throw new ServerException(MessageHandler.of().message("auth.reset.authority.failed"));
         }
         AccountEntity update = new AccountEntity();
         update.setId(entity.getId());
@@ -89,7 +89,7 @@ public class AuthServiceImpl implements AuthService {
     public AccountEntity verifyAccount(String token) throws ServerException, AuthenticationException {
         AccountEntity account = authTokenBuilder.getAccount(token);
         if (account == null) {
-            throw new AuthenticationException(MessageHandler.of().message(MessageHandler.AUTH_TOKEN_ACCOUNT_INVALID));
+            throw new AuthenticationException(MessageHandler.of().message("auth.token.account.invalid"));
         }
 
         Map<String, Object> map = Maps.newHashMap();
@@ -97,7 +97,7 @@ public class AuthServiceImpl implements AuthService {
         map.put(AccountEntity.ACCOUNT_PWD, account.getAccountPassword());
         account = mapper.selectByAccountAndPassowrd(map);
         if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
-            throw new AuthenticationException(MessageHandler.of().message(MessageHandler.AUTH_TOKEN_ACCOUNT_FAILED));
+            throw new AuthenticationException(MessageHandler.of().message("auth.token.account.failed"));
         }
         return account;
     }

@@ -2,6 +2,7 @@ package com.stackstech.honeybee.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.server.core.enums.StatusCode;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -34,7 +35,7 @@ public class ResponseObject {
      * @param total   data size
      * @return ResponseObject
      */
-    public ResponseObject success(@Nullable String message, @Nullable Object result, @Nullable Integer total) {
+    protected ResponseObject success(@Nullable String message, @Nullable Object result, @Nullable Integer total) {
         this.status = StatusCode.SUCCESS;
         this.message = message;
         this.result = result;
@@ -81,7 +82,7 @@ public class ResponseObject {
      * @return ResponseObject
      */
     public ResponseObject success(Object result) {
-        return success(StatusCode.SUCCESS.getMessage(), result);
+        return success(StatusCode.SUCCESS.getMessage(), result, null);
     }
 
     /**
@@ -122,6 +123,16 @@ public class ResponseObject {
      */
     public ResponseObject failed(String message) {
         return failed(StatusCode.FAILED, message);
+    }
+
+    /**
+     * message i18n
+     *
+     * @return ResponseObject
+     */
+    public ResponseObject of() {
+        this.message = MessageHandler.of().message(message);
+        return this;
     }
 
     /**

@@ -7,7 +7,6 @@ import com.stackstech.honeybee.server.core.annotation.*;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
 import com.stackstech.honeybee.server.core.enums.types.*;
-import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
@@ -60,7 +59,7 @@ public class SystemController {
         try {
             type = DataSourceType.valueOf(dataSourceType.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.DATASOURCE_TYPE_INVALID));
+            return ResponseObject.build().failed("datasource.type.invalid").of();
         }
         return ResponseObject.build().success(dataSourceService.getDataSourceConfig(type));
     }
@@ -85,7 +84,7 @@ public class SystemController {
         DataSourceEntity entity = new DataSourceEntity().update(account.getId()).copy(vo);
 
         if (!dataSourceService.update(entity)) {
-            return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.DATASOURCE_UPDATE_FAILED));
+            return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -97,7 +96,7 @@ public class SystemController {
         DataSourceEntity entity = new DataSourceEntity().build(account.getId()).copy(vo);
 
         if (!dataSourceService.add(entity)) {
-            return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.DATASOURCE_INSERT_FAILED));
+            return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);
     }
@@ -158,7 +157,7 @@ public class SystemController {
             map.put(SysConfigMap.APP_HONEYBEE_SERVER_CONFIG, configValue);
             return ResponseObject.build().success(map);
         }
-        return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.CONFIG_VALUE_EMPTY));
+        return ResponseObject.build().failed("config.value.empty").of();
     }
 
     @ApiOperation(value = "update system config")
@@ -173,7 +172,7 @@ public class SystemController {
                 return ResponseObject.build().success(true);
             }
         }
-        return ResponseObject.build().failed(MessageHandler.of().message(MessageHandler.CONFIG_UPDATE_FAILED));
+        return ResponseObject.build().failed("data.update.failed").of();
     }
 
     @ApiOperation(value = "get system license")

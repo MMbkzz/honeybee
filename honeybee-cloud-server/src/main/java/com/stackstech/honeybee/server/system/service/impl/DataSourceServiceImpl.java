@@ -65,7 +65,7 @@ public class DataSourceServiceImpl implements DataSourceService {
     @Override
     public DataSourceEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         DataSourceEntity entity = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.DATASOURCE_NOT_FOUND));
+        CommonUtil.isNull(entity, MessageHandler.of().message("data.not.found"));
         return entity;
     }
 

@@ -33,7 +33,7 @@ public class ServerExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     private ResponseObject onDefaultExceptionHandler(Exception e) {
         log.error("server error", e);
-        return ResponseObject.build().failed(StatusCode.INTERNAL_ERROR, e.getMessage());
+        return ResponseObject.build().failed(StatusCode.INTERNAL_ERROR, MessageHandler.of().message("server.internal.error"));
     }
 
     @ResponseBody

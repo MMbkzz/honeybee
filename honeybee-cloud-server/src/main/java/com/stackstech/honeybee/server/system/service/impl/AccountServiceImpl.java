@@ -37,7 +37,7 @@ public class AccountServiceImpl implements BaseDataService<AccountEntity> {
     @Override
     public AccountEntity getSingle(Long recordId) throws ServerException, DataNotFoundException {
         AccountEntity entity = mapper.selectByPrimaryKey(recordId);
-        CommonUtil.isNull(entity, MessageHandler.of().message(MessageHandler.ACCOUNT_NOT_FOUND));
+        CommonUtil.isNull(entity, MessageHandler.of().message("data.not.found"));
         return entity;
     }
 
