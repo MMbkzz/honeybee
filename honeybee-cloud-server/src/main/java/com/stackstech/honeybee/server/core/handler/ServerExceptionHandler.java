@@ -63,7 +63,6 @@ public class ServerExceptionHandler {
         return ResponseObject.build().failed(StatusCode.UNAUTHORIZED, e.getMessage());
     }
 
-
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

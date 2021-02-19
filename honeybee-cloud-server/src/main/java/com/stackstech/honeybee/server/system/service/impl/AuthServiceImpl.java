@@ -97,7 +97,7 @@ public class AuthServiceImpl implements AuthService {
         map.put(AccountEntity.ACCOUNT_PWD, account.getAccountPassword());
         account = mapper.selectByAccountAndPassowrd(map);
         if (account == null || account.getStatus() != EntityStatusType.ENABLE) {
-            throw new AuthenticationException(MessageHandler.of().message("auth.token.account.failed"));
+            throw new AuthenticationException(MessageHandler.of().message("auth.token.failed"));
         }
         return account;
     }

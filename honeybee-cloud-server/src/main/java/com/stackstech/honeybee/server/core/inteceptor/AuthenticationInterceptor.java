@@ -4,6 +4,8 @@ import com.stackstech.honeybee.common.utils.AuthTokenBuilder;
 import com.stackstech.honeybee.server.core.annotation.ApiAuthIgnore;
 import com.stackstech.honeybee.server.core.enums.HttpHeader;
 import com.stackstech.honeybee.server.core.enums.TokenStatus;
+import com.stackstech.honeybee.server.core.exception.AuthenticationException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
@@ -48,22 +50,18 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
         Method method = handlerMethod.getMethod();
         ApiAuthIgnore authIgnore = method.getAnnotation(ApiAuthIgnore.class);
-        if (handler instanceof HandlerMethod && null != authIgnore) {
+        if (null != authIgnore) {
             log.info("API authentication ignore {}", request.getRequestURI());
             return true;
         }
         // verify the token exists
         String token = request.getHeader(HttpHeader.AUTHORIZATION);
         if (StringUtils.isEmpty(token)) {
-            response.setStatus(HttpStatus.OK.value());
-            response.getWriter().print(HttpStatus.OK.getReasonPhrase());
-            return false;
+            throw new AuthenticationException(MessageHandler.of().message("auth.token.empty"));
         }
         TokenStatus status = authTokenBuilder.verifyToken(token);
         if (status == TokenStatus.INVALID) {
-            response.setStatus(HttpStatus.OK.value());
-            response.getWriter().print(HttpStatus.OK.getReasonPhrase());
-            return false;
+            throw new AuthenticationException(MessageHandler.of().message("auth.token.invalid"));
         }
         AccountEntity account = authService.verifyAccount(token);
         if (status == TokenStatus.EXPIRES) {
