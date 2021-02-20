@@ -15,6 +15,7 @@ import com.stackstech.honeybee.server.system.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
+@Transactional(rollbackFor = Exception.class)
 @Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {

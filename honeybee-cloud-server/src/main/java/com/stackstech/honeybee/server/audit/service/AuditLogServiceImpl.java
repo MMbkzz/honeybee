@@ -9,10 +9,12 @@ import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.core.service.BaseDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class AuditLogServiceImpl implements BaseDataService<AuditLogEntity> {
 

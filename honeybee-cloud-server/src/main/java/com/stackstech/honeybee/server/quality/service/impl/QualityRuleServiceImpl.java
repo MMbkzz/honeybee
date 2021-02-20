@@ -11,13 +11,14 @@ import com.stackstech.honeybee.server.quality.entity.QualityJobEntity;
 import com.stackstech.honeybee.server.quality.entity.QualityRuleEntity;
 import com.stackstech.honeybee.server.quality.service.QualityRuleService;
 import com.stackstech.honeybee.server.quality.vo.QualityRuleVo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class QualityRuleServiceImpl implements QualityRuleService {
 
@@ -28,7 +29,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
 
     private QualityJobEntity addJob(QualityRuleVo vo, Long ownerId) {
         QualityJobEntity job = new QualityJobEntity().build(ownerId);
-        BeanUtils.copyProperties(vo, job);
+        CommonUtil.copyProperties(vo, job);
         job.setDesc(vo.getJobDesc());
 
         if (jobMapper.insertSelective(job) > 0) {
@@ -39,7 +40,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
 
     private boolean updateJob(QualityRuleVo vo, Long ownerId) {
         QualityJobEntity job = new QualityJobEntity().update(ownerId);
-        BeanUtils.copyProperties(vo, job);
+        CommonUtil.copyProperties(vo, job);
         job.setId(vo.getJobId());
         job.setDesc(vo.getJobDesc());
 
@@ -54,7 +55,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
         }
 
         QualityRuleEntity rule = new QualityRuleEntity().build(ownerId);
-        BeanUtils.copyProperties(vo, rule);
+        CommonUtil.copyProperties(vo, rule);
         // TODO rule config yaml
         rule.setRuleConfigYaml("123");
         rule.setDesc(vo.getRuleDesc());
@@ -69,7 +70,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
             return false;
         }
         QualityRuleEntity rule = new QualityRuleEntity().update(ownerId);
-        BeanUtils.copyProperties(vo, rule);
+        CommonUtil.copyProperties(vo, rule);
         rule.setId(vo.getRuleId());
         // TODO rule config yaml
         rule.setRuleConfigYaml("123");

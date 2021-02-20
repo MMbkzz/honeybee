@@ -8,9 +8,11 @@ import com.stackstech.honeybee.server.system.service.DataCacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class DataCacheServiceImpl implements DataCacheService {
 

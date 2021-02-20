@@ -6,6 +6,8 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
+import com.stackstech.honeybee.server.core.exception.ServerException;
+import com.stackstech.honeybee.server.core.handler.MessageHandler;
 import com.stackstech.honeybee.server.core.service.BaseEnumTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
@@ -15,8 +17,6 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
@@ -249,7 +249,7 @@ public final class CommonUtil {
         ).findFirst().orElse(null);
     }
 
-    private static void cloneValue(Object source, Object target, PropertyDescriptor targetPd, Method writeMethod, Method readMethod, boolean isEnum) {
+    private static void cloneValue(Object source, Object target, PropertyDescriptor targetPd, Method writeMethod, Method readMethod, boolean isEnum) throws ServerException {
         try {
             if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
                 readMethod.setAccessible(true);
@@ -261,18 +261,21 @@ public final class CommonUtil {
                 }
                 if (isEnum) {
                     BaseEnumTypeService type = getEnum((BaseEnumTypeService[]) writeMethod.getParameterTypes()[0].getEnumConstants(), value.toString());
+                    if (type == null) {
+                        throw new ServerException(MessageHandler.of().message("enum.types.invalid", new Object[]{targetPd.getName(), value}));
+                    }
                     writeMethod.invoke(target, type);
                 } else {
                     writeMethod.invoke(target, value);
                 }
             }
-        } catch (Throwable ex) {
-            throw new FatalBeanException(
-                    "Could not copy property '" + targetPd.getName() + "' from source to target", ex);
+        } catch (Exception e) {
+            log.error("Could not copy property '" + targetPd.getName() + "' from source to target", e);
+            throw new ServerException(e.getMessage(), e);
         }
     }
 
-    public static void copyProperties(Object source, Object target) throws BeansException {
+    public static void copyProperties(Object source, Object target) throws ServerException {
         Assert.notNull(source, "Source must not be null");
         Assert.notNull(target, "Target must not be null");
 

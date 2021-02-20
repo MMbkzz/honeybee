@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.yaml.snakeyaml.Yaml;
 
@@ -24,6 +25,7 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map;
 
+@Transactional(rollbackFor = Exception.class)
 @Slf4j
 @Service
 public class DataSourceServiceImpl implements DataSourceService {
