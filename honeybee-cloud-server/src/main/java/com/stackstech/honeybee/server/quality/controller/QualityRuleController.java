@@ -54,7 +54,8 @@ public class QualityRuleController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/quality/rule/update", method = RequestMethod.PUT)
     public ResponseObject updateQualityRule(@Validated({UpdateGroup.class}) @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!service.update(vo, account.getId())) {
+        QualityRuleEntity entity = new QualityRuleEntity().update(account.getId()).copy(vo);
+        if (!service.update(entity)) {
             return ResponseObject.build().failed("data.update.failed").of();
         }
         return ResponseObject.build().success(true);
@@ -64,7 +65,8 @@ public class QualityRuleController {
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.INSERT)
     @RequestMapping(value = "/quality/rule/add", method = RequestMethod.PUT)
     public ResponseObject addQualityRule(@Validated({AddGroup.class}) @RequestBody QualityRuleVo vo, @ApiIgnore @RequestAccount AccountEntity account) {
-        if (!service.add(vo, account.getId())) {
+        QualityRuleEntity entity = new QualityRuleEntity().build(account.getId()).copy(vo);
+        if (!service.add(entity)) {
             return ResponseObject.build().failed("data.insert.failed").of();
         }
         return ResponseObject.build().success(true);

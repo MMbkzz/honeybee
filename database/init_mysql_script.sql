@@ -224,6 +224,8 @@ CREATE TABLE `hb_quality_rule` (
   `rule_name` varchar(50) NOT NULL COMMENT '规则名称',
   `rule_code` varchar(50) NOT NULL COMMENT '规则编号',
   `rule_type` varchar(50) NOT NULL COMMENT '规则类型',
+  `rule_expression_type` varchar(50) NOT NULL COMMENT '表达式类型',
+  `rule_expression` text NOT NULL COMMENT '表达式',
   `rule_config_yaml` text NOT NULL COMMENT '完整配置（JSON）',
   `job_id` bigint(20) NOT NULL COMMENT '任务调度ID',
   `status` int(2) NOT NULL COMMENT '状态',

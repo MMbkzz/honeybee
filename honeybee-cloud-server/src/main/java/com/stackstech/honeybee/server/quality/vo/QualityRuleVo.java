@@ -33,7 +33,7 @@ public class QualityRuleVo {
 
     @NotNull(message = "quality rule expression cannot be null", groups = {AddGroup.class})
     @Size(min = 1, max = 10, message = "invalid quality rule expression", groups = {AddGroup.class})
-    private List<String> ruleExpression;
+    private List<String> ruleExpressions;
 
     private String ruleDesc;
 

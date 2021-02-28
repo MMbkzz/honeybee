@@ -177,7 +177,7 @@ public class SystemController {
     }
 
     @ApiOperation(value = "get system license")
-    @PostMapping(value = "/system/license/get")
+    @RequestMapping(value = "/system/license/get", method = RequestMethod.GET)
     public ResponseObject getLicense() {
         //TODO
         return null;
@@ -185,7 +185,7 @@ public class SystemController {
 
     @ApiOperation(value = "update system license")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
-    @PostMapping(value = "/system/license/update")
+    @RequestMapping(value = "/system/license/update", method = RequestMethod.PUT)
     public ResponseObject updateLicense(@Validated @NotBlank(message = "license cannot be null") @RequestBody String license) {
         //TODO
         return null;

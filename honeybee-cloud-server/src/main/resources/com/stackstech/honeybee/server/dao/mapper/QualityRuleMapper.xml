@@ -6,7 +6,9 @@
     <result column="rule_name" jdbcType="VARCHAR" property="ruleName" />
     <result column="rule_code" jdbcType="VARCHAR" property="ruleCode" />
     <result column="rule_type" jdbcType="VARCHAR" property="ruleType" />
-    <result column="rule_config_yaml" jdbcType="VARCHAR" property="ruleConfigYaml" />
+    <result column="rule_expression_type" jdbcType="VARCHAR" property="ruleExpressionType" />
+    <result column="rule_expression" jdbcType="LONGVARCHAR" property="ruleExpression" />
+    <result column="rule_config_yaml" jdbcType="LONGVARCHAR" property="ruleConfigYaml" />
     <result column="job_id" jdbcType="BIGINT" property="jobId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="owner" jdbcType="BIGINT" property="owner" />
@@ -15,7 +17,7 @@
     <result column="desc" jdbcType="VARCHAR" property="desc" />
   </resultMap>
   <sql id="Base_Column_List">
-    `id`, `rule_name`, `rule_code`, `rule_type`, `rule_config_yaml`, `job_id`, `status`, 
+    `id`, `rule_name`, `rule_code`, `rule_type`, `rule_expression_type`, `rule_expression`, `rule_config_yaml`, `job_id`, `status`,
     `owner`, `updatetime`, `createtime`, `desc`
   </sql>
 
@@ -81,6 +83,12 @@
       <if test="ruleType != null">
         `rule_type`,
       </if>
+      <if test="ruleExpressionType != null">
+        `rule_expression_type`,
+      </if>
+      <if test="ruleExpression != null">
+        `rule_expression`,
+      </if>
       <if test="ruleConfigYaml != null">
         `rule_config_yaml`,
       </if>
@@ -116,8 +124,14 @@
       <if test="ruleType != null">
         #{ruleType,jdbcType=VARCHAR},
       </if>
+      <if test="ruleExpressionType != null">
+        #{ruleExpressionType,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleExpression != null">
+        #{ruleExpression,jdbcType=LONGVARCHAR},
+      </if>
       <if test="ruleConfigYaml != null">
-        #{ruleConfigYaml,jdbcType=VARCHAR},
+        #{ruleConfigYaml,jdbcType=LONGVARCHAR},
       </if>
       <if test="jobId != null">
         #{jobId,jdbcType=BIGINT},
@@ -148,8 +162,14 @@
       <if test="ruleType != null">
         `rule_type` = #{ruleType,jdbcType=VARCHAR},
       </if>
+      <if test="ruleExpressionType != null">
+        `rule_expression_type` = #{ruleExpressionType,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleExpression != null">
+        `rule_expression` = #{ruleExpression,jdbcType=LONGVARCHAR},
+      </if>
       <if test="ruleConfigYaml != null">
-        `rule_config_yaml` = #{ruleConfigYaml,jdbcType=VARCHAR},
+        `rule_config_yaml` = #{ruleConfigYaml,jdbcType=LONGVARCHAR},
       </if>
       <if test="jobId != null">
         `job_id` = #{jobId,jdbcType=BIGINT},

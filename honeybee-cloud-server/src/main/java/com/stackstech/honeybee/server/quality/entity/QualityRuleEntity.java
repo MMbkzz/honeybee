@@ -3,9 +3,11 @@ package com.stackstech.honeybee.server.quality.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.stackstech.honeybee.common.entity.AbstractDataEntity;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.enums.types.EntityStatusType;
 import com.stackstech.honeybee.server.core.enums.types.QualityRuleType;
+import com.stackstech.honeybee.server.quality.vo.QualityRuleVo;
 import lombok.Data;
 
 import java.util.Date;
@@ -24,6 +26,10 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
 
     private String ruleTypeName;
 
+    private String ruleExpressionType;
+
+    private JsonParameterList ruleExpression;
+
     @JsonIgnore
     private String ruleConfigYaml;
 
@@ -32,6 +38,9 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
     private String desc;
 
     private Map<String, Object> job;
+
+    @JsonIgnore
+    private QualityRuleVo qualityRuleVo;
 
     public String getRuleTypeName() {
         return ruleType.getName();
@@ -57,6 +66,7 @@ public class QualityRuleEntity extends AbstractDataEntity<QualityRuleEntity> {
     @Override
     public QualityRuleEntity copy(Object vo) {
         CommonUtil.copyProperties(vo, this);
+        this.qualityRuleVo = (QualityRuleVo) vo;
         return this;
     }
 

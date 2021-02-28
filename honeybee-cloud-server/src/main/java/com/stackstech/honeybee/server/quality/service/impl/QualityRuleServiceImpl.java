@@ -1,6 +1,7 @@
 package com.stackstech.honeybee.server.quality.service.impl;
 
 import com.google.common.collect.Maps;
+import com.stackstech.honeybee.common.entity.JsonParameterList;
 import com.stackstech.honeybee.common.utils.CommonUtil;
 import com.stackstech.honeybee.server.core.exception.DataNotFoundException;
 import com.stackstech.honeybee.server.core.exception.ServerException;
@@ -28,8 +29,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     private QualityJobMapper jobMapper;
 
     private QualityJobEntity addJob(QualityRuleVo vo, Long ownerId) {
-        QualityJobEntity job = new QualityJobEntity().build(ownerId);
-        CommonUtil.copyProperties(vo, job);
+        QualityJobEntity job = new QualityJobEntity().build(ownerId).copy(vo);
         job.setDesc(vo.getJobDesc());
 
         if (jobMapper.insertSelective(job) > 0) {
@@ -39,8 +39,7 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     }
 
     private boolean updateJob(QualityRuleVo vo, Long ownerId) {
-        QualityJobEntity job = new QualityJobEntity().update(ownerId);
-        CommonUtil.copyProperties(vo, job);
+        QualityJobEntity job = new QualityJobEntity().update(ownerId).copy(vo);
         job.setId(vo.getJobId());
         job.setDesc(vo.getJobDesc());
 
@@ -48,35 +47,44 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     }
 
     @Override
-    public boolean add(QualityRuleVo vo, Long ownerId) throws ServerException {
-        QualityJobEntity job = addJob(vo, ownerId);
+    public boolean add(QualityRuleEntity entity) throws ServerException {
+        QualityRuleVo ruleVo = entity.getQualityRuleVo();
+        QualityJobEntity job = addJob(ruleVo, entity.getOwner());
         if (job == null) {
             return false;
         }
-
-        QualityRuleEntity rule = new QualityRuleEntity().build(ownerId);
-        CommonUtil.copyProperties(vo, rule);
+        entity.setJobId(job.getId());
+        entity.setDesc(ruleVo.getRuleDesc());
+        List<String> expressions = ruleVo.getRuleExpressions();
+        if (expressions == null || expressions.isEmpty()) {
+            throw new ServerException(MessageHandler.of().message("quality.rule.empty"));
+        }
+        JsonParameterList parameterList = new JsonParameterList();
+        parameterList.addAll(expressions);
+        entity.setRuleExpression(parameterList);
         // TODO rule config yaml
-        rule.setRuleConfigYaml("123");
-        rule.setDesc(vo.getRuleDesc());
-        rule.setJobId(job.getId());
-
-        return ruleMapper.insertSelective(rule) > 0;
+        entity.setRuleConfigYaml("123");
+        return ruleMapper.insertSelective(entity) > 0;
     }
 
     @Override
-    public boolean update(QualityRuleVo vo, Long ownerId) throws ServerException {
-        if (!updateJob(vo, ownerId)) {
+    public boolean update(QualityRuleEntity entity) throws ServerException {
+        QualityRuleVo ruleVo = entity.getQualityRuleVo();
+        if (!updateJob(ruleVo, entity.getOwner())) {
             return false;
         }
-        QualityRuleEntity rule = new QualityRuleEntity().update(ownerId);
-        CommonUtil.copyProperties(vo, rule);
-        rule.setId(vo.getRuleId());
-        // TODO rule config yaml
-        rule.setRuleConfigYaml("123");
-        rule.setDesc(vo.getRuleDesc());
-        rule.setJobId(vo.getJobId());
-        return ruleMapper.updateByPrimaryKeySelective(rule) > 0;
+        entity.setId(ruleVo.getRuleId());
+        entity.setJobId(ruleVo.getJobId());
+        entity.setDesc(ruleVo.getRuleDesc());
+        List<String> expressions = ruleVo.getRuleExpressions();
+        if (expressions != null && expressions.size() > 0) {
+            JsonParameterList parameterList = new JsonParameterList();
+            parameterList.addAll(expressions);
+            entity.setRuleExpression(parameterList);
+            // TODO rule config yaml
+            entity.setRuleConfigYaml("123");
+        }
+        return ruleMapper.updateByPrimaryKeySelective(entity) > 0;
     }
 
     @Override
@@ -108,4 +116,5 @@ public class QualityRuleServiceImpl implements QualityRuleService {
     public Integer getTotalCount(Map<String, Object> parameter) throws ServerException {
         return ruleMapper.selectTotalCount(parameter);
     }
+
 }
