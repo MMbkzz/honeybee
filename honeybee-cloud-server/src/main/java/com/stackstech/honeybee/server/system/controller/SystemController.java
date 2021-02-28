@@ -18,6 +18,7 @@ import com.stackstech.honeybee.server.system.service.SystemConfigService;
 import com.stackstech.honeybee.server.system.vo.DataCacheQuery;
 import com.stackstech.honeybee.server.system.vo.DataSourceQuery;
 import com.stackstech.honeybee.server.system.vo.DataSourceVo;
+import com.stackstech.honeybee.server.system.vo.SysConfigVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -164,14 +165,12 @@ public class SystemController {
     @ApiOperation(value = "update system config")
     @AuditOperation(type = AuditOperationType.SYSTEM, operation = AuditOperationType.UPDATE)
     @RequestMapping(value = "/system/config/update", method = RequestMethod.PUT)
-    public ResponseObject updateConfig(@Validated @NotBlank(message = "config cannot be null") @RequestBody String config) {
-        if (StringUtils.isNotEmpty(config)) {
-            //TODO check config yaml code style
-            boolean flag = service.updateSysConfig(config);
-            if (flag) {
-                //TODO flush nacos global config
-                return ResponseObject.build().success(true);
-            }
+    public ResponseObject updateConfig(@Validated({UpdateGroup.class}) @RequestBody SysConfigVo vo) {
+        //TODO check config yaml code style
+        boolean flag = service.updateSysConfig(vo.getConfig());
+        if (flag) {
+            //TODO flush nacos global config
+            return ResponseObject.build().success(true);
         }
         return ResponseObject.build().failed("data.update.failed").of();
     }

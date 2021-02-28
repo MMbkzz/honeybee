@@ -36,7 +36,8 @@ cors:
   urls:
     - http://localhost:9527
     - http://127.0.0.1:9527
-    - http://127.0.0.1:18082
+    - http://localhost:8080
+    - http://127.0.0.1:8080
 
 security:
   token:

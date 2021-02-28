@@ -21,7 +21,6 @@ import java.util.List;
 
 @Data
 @Component
-@RefreshScope
 @ConfigurationProperties(prefix = "cors")
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
