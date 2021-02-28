@@ -6,7 +6,9 @@ import com.stackstech.honeybee.common.entity.ResponseObject;
 import com.stackstech.honeybee.server.core.annotation.*;
 import com.stackstech.honeybee.server.core.enums.Constant;
 import com.stackstech.honeybee.server.core.enums.SysConfigMap;
-import com.stackstech.honeybee.server.core.enums.types.*;
+import com.stackstech.honeybee.server.core.enums.types.AuditOperationType;
+import com.stackstech.honeybee.server.core.enums.types.DataSourceType;
+import com.stackstech.honeybee.server.core.enums.types.EnumTypeMapping;
 import com.stackstech.honeybee.server.system.entity.AccountEntity;
 import com.stackstech.honeybee.server.system.entity.DataCacheEntity;
 import com.stackstech.honeybee.server.system.entity.DataSourceEntity;
@@ -28,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -194,41 +195,7 @@ public class SystemController {
     @ApiOperation(value = "get global dict mapping")
     @RequestMapping(value = "/system/dict/get", method = RequestMethod.GET)
     public ResponseObject getDict() {
-        Map<String, List<EnumTypeMapping>> result = Maps.newConcurrentMap();
-
-        List<EnumTypeMapping> assetsEnumTypeMappings = Lists.newArrayList();
-        Arrays.stream(AssetsCatalogType.values()).forEach(e -> assetsEnumTypeMappings.add(new EnumTypeMapping().build(e)));
-        result.put("ASSETS_CATALOG_TYPE", assetsEnumTypeMappings);
-
-        List<EnumTypeMapping> auditEnumTypeMappings = Lists.newArrayList();
-        Arrays.stream(AuditOperationType.values()).forEach(e -> auditEnumTypeMappings.add(new EnumTypeMapping().build(e)));
-        result.put("LOG_TYPE", auditEnumTypeMappings);
-
-        List<EnumTypeMapping> dbEnumTypeMappings = Lists.newArrayList();
-        Arrays.stream(DataSourceType.values()).forEach(e -> dbEnumTypeMappings.add(new EnumTypeMapping().build(e)));
-        result.put("DATA_SOURCE_TYPE", dbEnumTypeMappings);
-
-        List<EnumTypeMapping> statusEnumTypeMappings = Lists.newArrayList();
-        statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.ENABLE));
-        statusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.DISABLE));
-        result.put("STATUS", statusEnumTypeMappings);
-
-        List<EnumTypeMapping> serviceStatusEnumTypeMappings = Lists.newArrayList();
-        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.ENABLE));
-        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.DISABLE));
-        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.ONLINE));
-        serviceStatusEnumTypeMappings.add(new EnumTypeMapping().build(EntityStatusType.OFFLINE));
-        result.put("SERVICE_STATUS", serviceStatusEnumTypeMappings);
-
-        List<EnumTypeMapping> messageEnumTypeMappings = Lists.newArrayList();
-        Arrays.stream(MessageType.values()).forEach(e -> messageEnumTypeMappings.add(new EnumTypeMapping().build(e)));
-        result.put("MESSAGE_TYPE", messageEnumTypeMappings);
-
-        List<EnumTypeMapping> ruleEnumTypeMappings = Lists.newArrayList();
-        Arrays.stream(QualityRuleType.values()).forEach(e -> ruleEnumTypeMappings.add(new EnumTypeMapping().build(e)));
-        result.put("QUALITY_RULE_TYPE", ruleEnumTypeMappings);
-
-        return ResponseObject.build().success(result);
+        return ResponseObject.build().success(EnumTypeMapping.getMapping());
     }
 
 }

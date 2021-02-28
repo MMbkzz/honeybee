@@ -27,6 +27,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
     private Kryo getKryo() {
         Kryo kryo = KRYO_THREAD_LOCAL.get();
         kryo.setReferences(false);
+        kryo.setRegistrationRequired(false);
         kryo.register(type);
         return kryo;
     }
@@ -40,7 +41,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
     }
 
     @Override
-    public byte[] serialize(Object t) throws SerializationException {
+    public byte[] serialize(T t) throws SerializationException {
         if (t == null) {
             return EMPTY_ARRAY;
         }
