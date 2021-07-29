@@ -9,7 +9,7 @@
 #### 技术栈
 
 - Java 1.8
-- VUE 2.x
+- VUE 2.x 
 - Spring boot 2.3.2.RELEASE
 - Spring cloud alibaba 2.2.4.RELEASE
 - Nacos

@@ -11,13 +11,18 @@ spring:
     nacos:
       discovery:
         service: ${spring.application.name}
-        server-addr: 127.0.0.1:8848
+        server-addr: 192.168.188.129:8848
         weight: 1
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yaml
         prefix: honeybee
         group: DEFAULT_GROUP
+  mail:
+    password: UKELQGPXJPIIFFWH
+    username: limmbk@163.com
+    default-encoding: utf-8
+    host: smtp.163.com
 management:
   endpoints:
     web:

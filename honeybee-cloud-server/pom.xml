@@ -6,6 +6,7 @@
         <artifactId>honeybee</artifactId>
         <groupId>com.stackstech.honeybee</groupId>
         <version>1.0</version>
+<!--    ![CDATA[  表示忽略解析    -->
         <relativePath><![CDATA[../pom.xml]]></relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -112,6 +113,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+<!--       后加： swagger核心依赖包-->
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-swagger2</artifactId>-->
+<!--            <version>2.10.5</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--        <groupId>io.springfox</groupId>-->
+<!--        <artifactId>springfox-swagger-ui</artifactId>-->
+<!--        <version>2.10.5</version>-->
+<!--        </dependency>-->
 
         <!-- Common dependencies -->
         <dependency>
@@ -390,6 +404,20 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <!--后加测试-->
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/java/resources</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.properties</include>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
+
+
     </build>
 
 </project>

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Slf4j
 @Component
 public final class CacheUtil {
@@ -16,7 +18,8 @@ public final class CacheUtil {
 
     public static Joiner joiner = Joiner.on(Constant.SEPARATOR).skipNulls();
 
-    @Autowired
+//    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
 

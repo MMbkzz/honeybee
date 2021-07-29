@@ -1,6 +1,6 @@
 spring:
   redis:
-    host: 127.0.0.1
+    host: 192.168.188.129
     port: 6379
     password:
     database: 0
@@ -16,7 +16,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/honeybee?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
     username: root
-    password: 123456
+    password: root
     filters: stat
     max-active: 100
     initial-size: 10
@@ -44,3 +44,4 @@ security:
     issuer: honeybee
     secret: honeybee
     expires: 180
+debug: true

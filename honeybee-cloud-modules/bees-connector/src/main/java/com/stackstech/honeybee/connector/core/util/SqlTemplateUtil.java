@@ -8,15 +8,19 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
+import javax.management.openmbean.SimpleType;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
 
+
 /**
  * 解析sql表达式模板
  */
 public class SqlTemplateUtil {
+
+//    private static SimpleType DataTypeEnum;
 
     /**
      * sql表达式解析成sql

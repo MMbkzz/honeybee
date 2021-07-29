@@ -50,7 +50,7 @@ public class OracleConnector extends AbstractBasicDataSourceConnector implements
     }
 
     @Override
-    public DriverMetaData get(DriverModel driverModel) {
+    public DriverMetaData get(DriverModel dr*iverModel) {
         DriverDataModel model = (DriverDataModel) driverModel;
         Map<String, Object> nameValueMap = (Map<String, Object>) model.getRequestData();
 

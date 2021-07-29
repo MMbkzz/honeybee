@@ -17,11 +17,11 @@ public interface AssetsCatalogMapper {
     AssetsCatalogEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(AssetsCatalogEntity record);
-
+    //根据某个参数查询
     List<AssetsCatalogEntity> selectByParameter(Map<String, Object> parameter);
-
+    //数量
     int selectTotalCount(Map<String, Object> parameter);
-
+    //查询最大的
     int selectMaxOrder(Map<String, Object> parameter);
 
 }
